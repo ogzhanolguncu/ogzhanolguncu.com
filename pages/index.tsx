@@ -78,3 +78,7 @@ export default function Home() {
     </Layout>
   );
 }
+
+// TODO Buttonlar eklenecek
+// TODO Bu sayfa component yapılacak
+// TODO Footer yapılacak
