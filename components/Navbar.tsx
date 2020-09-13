@@ -28,7 +28,7 @@ const Navbar = () => {
         maxWidth="1150px"
       >
         <Box>
-          <NextLink href="/dashboard" passHref>
+          <NextLink href="/" passHref>
             <Button
               fontSize="lg"
               as="a"
@@ -46,7 +46,7 @@ const Navbar = () => {
         </Box>
 
         <Box>
-          <NextLink href="/dashboard" passHref>
+          <NextLink href="/about" passHref>
             <Button
               fontSize="lg"
               as="a"
@@ -70,7 +70,7 @@ const Navbar = () => {
               Blog
             </Button>
           </NextLink>
-          <NextLink href="/about" passHref>
+          <NextLink href="/guides" passHref>
             <Button
               fontSize="lg"
               as="a"
