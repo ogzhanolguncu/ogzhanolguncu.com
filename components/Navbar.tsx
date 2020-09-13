@@ -1,6 +1,7 @@
+import NextLink from 'next/link';
+
 import { useColorMode, Button, Flex, Box, IconButton, Text } from '@chakra-ui/core';
 import styled from '@emotion/styled';
-import NextLink from 'next/link';
 
 const StickyNav = styled(Flex)`
   position: sticky;

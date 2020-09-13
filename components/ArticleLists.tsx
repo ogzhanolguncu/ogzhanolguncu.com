@@ -1,22 +1,24 @@
-import { Box, Text, Flex, Heading, Link as StyledLink, Tag } from '@chakra-ui/core';
 import Link from 'next/link';
-import styled from '@emotion/styled';
-import { Ipopular, Blog } from 'interfaces/index';
 
-const Article = styled.div`
+import { Box, Text, Flex, Heading, Link as StyledLink, Tag } from '@chakra-ui/core';
+import styled from '@emotion/styled';
+
+import { Popular, Blog } from 'global';
+
+const Article = styled(Box)`
   display: flex;
   justify-content: space-between;
-  &:hover {
-    background-color: #f6f8fb;
-  }
 
   border-radius: 20px;
   box-sizing: border-box;
-  padding: 0.8rem 0.8rem;
-  width: 100%;
+  padding: 0.8rem 1rem;
+  margin: 0 -1rem;
 
   @media screen and (min-width: 1100px) {
     width: 1070px;
+    &:hover {
+      background-color: #f6f8fb;
+    }
   }
 
   @media screen and (max-width: 800px) {
@@ -27,7 +29,7 @@ const Article = styled.div`
   }
 `;
 
-const ArticleTitle = styled.div`
+const ArticleTitle = styled(Box)`
   display: flex;
   @media screen and (max-width: 800px) {
     flex-direction: column;
@@ -36,7 +38,7 @@ const ArticleTitle = styled.div`
 `;
 
 type Props = {
-  popular?: Ipopular;
+  popular?: Popular;
   blogs: Blog[];
 };
 

@@ -1,6 +1,7 @@
-export type Ipopular = {
+export type Popular = {
   popular?: boolean;
 };
+
 export type Blog = {
   id: number;
   title: string;

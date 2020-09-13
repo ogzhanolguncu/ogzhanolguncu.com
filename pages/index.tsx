@@ -1,16 +1,20 @@
 import Head from 'next/head';
-import Layout from '@components/Layout';
 import Link from 'next/link';
-import { Flex, Box, Heading, Text, Image, Link as StyledLink, Button } from '@chakra-ui/core';
-import personalImage from '../public/350.jpg';
-import React from 'react';
-import ArticleLists from '@components/ArticleLists';
 import { GetStaticProps } from 'next';
-import { Ipopular, Blog } from 'interfaces/index';
+
+import Layout from '@components/Layout';
+import ArticleLists from '@components/ArticleLists';
+import Project from '@components/Project';
+
+import { Flex, Box, Heading, Text, Image, Link as StyledLink, Button } from '@chakra-ui/core';
+
+import personalImage from '../public/350.jpg';
 import data from 'data.json';
 
+import { Blog, Popular } from 'global';
+
 type Props = {
-  popular?: Ipopular;
+  popular?: Popular;
   blogs: Blog[];
 };
 
@@ -85,7 +89,7 @@ const Home = ({ popular, blogs }: Props) => {
             </Link>
             .
           </Text>
-          <Box>
+          <Box flexDirection={['column', 'column', 'row', 'row']} d="flex">
             <Button
               backgroundColor="#5c7cfa"
               color="white"
@@ -93,6 +97,8 @@ const Home = ({ popular, blogs }: Props) => {
               _hover={{ backgroundColor: '#3b5bdb' }}
               fontWeight="600"
               fontSize="18px"
+              mb={['10px', '10px', '0px', '0px']}
+              mr={['0px', '0', '10px', '10px']}
             >
               <Text mr="8px">&#9889;</Text>
               Join Newsletter
@@ -100,7 +106,6 @@ const Home = ({ popular, blogs }: Props) => {
             <Button
               backgroundColor="#edf2ff"
               color="#3b5bdb"
-              ml="10px"
               padding="30px 30px"
               fontWeight="600"
               fontSize="18px"
@@ -121,6 +126,7 @@ const Home = ({ popular, blogs }: Props) => {
       </Flex>
       <ArticleLists blogs={blogs} />
       <ArticleLists popular={popular} blogs={blogs} />
+      <Project />
     </Layout>
   );
 };
@@ -134,7 +140,3 @@ export const getStaticProps: GetStaticProps = async () => {
     props: { popular, blogs },
   };
 };
-
-// TODO Buttonlar eklenecek
-// TODO Bu sayfa component yapılacak
-// TODO Footer yapılacak
