@@ -1,0 +1,46 @@
+{
+  "Blogs": [
+    {
+      "id": 1,
+      "title": "Understanding the Event Loop, Callbacks, Promises, and Async/Await in JavaScript",
+      "date": "Semptember 10, 2020",
+      "description": "Since JavaScript is a single-threaded programming language with a synchronous execution model that proccesses one operation after another, it can only process one statement at a time. However, an action like requesting data from an API can take an indeterminate amount of time, depending on the size of data being requested, the speed of the network connection, and other factors. If API calls were performed in a synchronous manner, the browser would not be able to handle any user input, like scrolling or clicking a button, until that operation completes. This is known as blocking.",
+      "tags": ["javascript", "fundamentals", "database"]
+    },
+    {
+      "id": 2,
+      "title": "REST API: Sorting, Filtering, and Pagination",
+      "date": "Semptember 10, 2020",
+      "description": "Since JavaScript is a single-threaded programming language with a synchronous execution model that proccesses one operation after another, it can only process one statement at a time. However, an action like requesting data from an API can take an indeterminate amount of time, depending on the size of data being requested, the speed of the network connection, and other factors. If API calls were performed in a synchronous manner, the browser would not be able to handle any user input, like scrolling or clicking a button, until that operation completes. This is known as blocking.",
+      "tags": ["javascript", "fundamentals", "database"]
+    },
+    {
+      "id": 3,
+      "title": "Adding Comments to My Blog (via Utterances)",
+      "date": "Semptember 10, 2020",
+      "description": "Since JavaScript is a single-threaded programming language with a synchronous execution model that proccesses one operation after another, it can only process one statement at a time. However, an action like requesting data from an API can take an indeterminate amount of time, depending on the size of data being requested, the speed of the network connection, and other factors. If API calls were performed in a synchronous manner, the browser would not be able to handle any user input, like scrolling or clicking a button, until that operation completes. This is known as blocking.",
+      "tags": ["javascript", "fundamentals", "database"]
+    },
+    {
+      "id": 4,
+      "title": "Understanding Arrow Functions in JavaScript",
+      "date": "Semptember 10, 2020",
+      "description": "Since JavaScript is a single-threaded programming language with a synchronous execution model that proccesses one operation after another, it can only process one statement at a time. However, an action like requesting data from an API can take an indeterminate amount of time, depending on the size of data being requested, the speed of the network connection, and other factors. If API calls were performed in a synchronous manner, the browser would not be able to handle any user input, like scrolling or clicking a button, until that operation completes. This is known as blocking.",
+      "tags": ["javascript", "fundamentals", "database"]
+    },
+    {
+      "id": 5,
+      "title": "Wildnerness Backpacking Gear List",
+      "date": "Semptember 10, 2020",
+      "description": "Since JavaScript is a single-threaded programming language with a synchronous execution model that proccesses one operation after another, it can only process one statement at a time. However, an action like requesting data from an API can take an indeterminate amount of time, depending on the size of data being requested, the speed of the network connection, and other factors. If API calls were performed in a synchronous manner, the browser would not be able to handle any user input, like scrolling or clicking a button, until that operation completes. This is known as blocking.",
+      "tags": ["javascript", "fundamentals", "database"]
+    },
+    {
+      "id": 6,
+      "title": "Redux Tutorial: An Overview and Walkthrough",
+      "date": "Semptember 10, 2020",
+      "description": "Since JavaScript is a single-threaded programming language with a synchronous execution model that proccesses one operation after another, it can only process one statement at a time. However, an action like requesting data from an API can take an indeterminate amount of time, depending on the size of data being requested, the speed of the network connection, and other factors. If API calls were performed in a synchronous manner, the browser would not be able to handle any user input, like scrolling or clicking a button, until that operation completes. This is known as blocking.",
+      "tags": ["javascript", "fundamentals", "database"]
+    }
+  ]
+}
