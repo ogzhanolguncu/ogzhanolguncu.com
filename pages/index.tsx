@@ -2,9 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { GetStaticProps } from 'next';
 
-import Layout from '@components/Layout';
-import ArticleLists from '@components/ArticleLists';
-import Project from '@components/Project';
+import { Layout, Project, Newsletter, ArticleLists } from '@components/index';
 
 import { Flex, Box, Heading, Text, Image, Link as StyledLink, Button } from '@chakra-ui/core';
 
@@ -12,6 +10,7 @@ import personalImage from '../public/350.jpg';
 import data from 'data.json';
 
 import { Blog, Popular } from 'global';
+import React from 'react';
 
 type Props = {
   popular?: Popular;
@@ -133,6 +132,7 @@ const Home = ({ popular, blogs }: Props) => {
       <ArticleLists blogs={blogs} />
       <ArticleLists popular={popular} blogs={blogs} />
       <Project />
+      <Newsletter />
     </Layout>
   );
 };

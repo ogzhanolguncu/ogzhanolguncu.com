@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/core';
+import { Box, Flex, Heading, Text } from '@chakra-ui/core';
 import React from 'react';
 
 const Project = () => {
@@ -12,17 +12,47 @@ const Project = () => {
       >
         <Heading color="#343A40">Projects</Heading>
       </Flex>
-      <Grid templateColumns="50px 1fr 4fr" gap={6} alignItems="stretch" mt="1.5rem">
-        <Box w="100%" h="10">
-          📝
-        </Box>
-        <Text w="100%" h="10" ml="-2rem">
-          Take Note
-        </Text>
-        <Text w="100%" h="10">
-          A free, open source notes app for the web.
-        </Text>
-      </Grid>
+      <Flex mt="1.5rem" width="100%" flexDirection="column">
+        <Flex padding=".5rem 0" flexDirection={['column', 'column', 'row', 'row']}>
+          <Flex flex="1">
+            <Box h="10" mr="0.8rem" fontSize="1.15rem">
+              📝
+            </Box>
+            <Text h="10" fontSize="1.15rem" fontWeight="bold">
+              Take Note
+            </Text>
+          </Flex>
+          <Text h="10" flex="3" fontSize="1.1rem" fontWeight="400" color="#787f87">
+            A free, open source notes app for the web.
+          </Text>
+        </Flex>
+        <Flex padding=".5rem 0" flexDirection={['column', 'column', 'row', 'row']}>
+          <Flex flex="1">
+            <Box h="10" mr="0.8rem" fontSize="1.15rem">
+              🌙
+            </Box>
+            <Text h="10" fontSize="1.15rem" fontWeight="bold">
+              New Moon
+            </Text>
+          </Flex>
+          <Text h="10" flex="3" fontSize="1.1rem" fontWeight="400" color="#787f87">
+            The optimized dark theme for web development. Your new favorite theme.
+          </Text>
+        </Flex>
+        <Flex padding=".5rem 0" flexDirection={['column', 'column', 'row', 'row']}>
+          <Flex flex="1">
+            <Box h="10" mr="0.8rem" fontSize="1.15rem">
+              🔱
+            </Box>
+            <Text h="10" fontSize="1.15rem" fontWeight="bold">
+              MVC.js
+            </Text>
+          </Flex>
+          <Text h="10" flex="3" fontSize="1.1rem" fontWeight="400" color="#787f87">
+            A simple Todo MVC application in JavaScript.
+          </Text>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };
