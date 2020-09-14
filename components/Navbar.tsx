@@ -31,14 +31,14 @@ const Navbar = () => {
         <Box>
           <NextLink href="/" passHref>
             <Button
-              fontSize="lg"
+              fontSize={['xs', 'sm', 'lg', 'xl']}
               as="a"
               variant="ghost"
               _hover={{ bg: 'rgba(0,0,0,.2)' }}
               p={[1, 4]}
               color="white"
             >
-              <Text fontSize="2xl" mr={2}>
+              <Text fontSize={['xl', '2xl', '2xl', '2xl']} mr={2}>
                 🦉
               </Text>
               Oğuzhan Olguncu
@@ -49,7 +49,7 @@ const Navbar = () => {
         <Box>
           <NextLink href="/about" passHref>
             <Button
-              fontSize="lg"
+              fontSize={['xs', 'sm', 'lg', 'xl']}
               as="a"
               variant="ghost"
               _hover={{ bg: 'rgba(0,0,0,.2)' }}
@@ -61,7 +61,7 @@ const Navbar = () => {
           </NextLink>
           <NextLink href="/blog" passHref>
             <Button
-              fontSize="lg"
+              fontSize={['xs', 'sm', 'lg', 'xl']}
               as="a"
               variant="ghost"
               _hover={{ bg: 'rgba(0,0,0,.2)' }}
@@ -73,7 +73,7 @@ const Navbar = () => {
           </NextLink>
           <NextLink href="/guides" passHref>
             <Button
-              fontSize="lg"
+              fontSize={['xs', 'sm', 'lg', 'xl']}
               as="a"
               variant="ghost"
               _hover={{ bg: 'rgba(0,0,0,.2)' }}
@@ -84,7 +84,7 @@ const Navbar = () => {
             </Button>
           </NextLink>
           <IconButton
-            fontSize="xl"
+            fontSize={['xs', 'sm', 'lg', 'xl']}
             variant="ghost"
             _hover={{ bg: 'rgba(0,0,0,.2)' }}
             aria-label="Toggle dark mode"

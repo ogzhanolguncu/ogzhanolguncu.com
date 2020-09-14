@@ -13,15 +13,15 @@ const Article = styled(Box)`
   box-sizing: border-box;
   padding: 0.8rem 1rem;
   margin: 0 -1rem;
-
+  width: 100%;
   @media screen and (min-width: 1100px) {
-    width: 1070px;
+    width: 1080px;
     &:hover {
       background-color: #f6f8fb;
     }
   }
 
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 768px) {
     flex-direction: column;
     border-bottom: 1px solid #d6d9de;
     border-radius: 0;
@@ -31,7 +31,7 @@ const Article = styled(Box)`
 
 const ArticleTitle = styled(Box)`
   display: flex;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 768px) {
     flex-direction: column;
     margin-bottom: 10px;
   }
@@ -53,7 +53,9 @@ const ArticleLists = ({ popular, blogs }: Props) => {
         alignItems="center"
         paddingBottom=".5rem"
       >
-        <Heading color="#343A40">{popular ? 'Popular Articles' : 'Latest Articles'}</Heading>
+        <Heading fontSize={['1.7rem', '1.7rem', '2rem', '2rem']} color="#343A40">
+          {popular ? 'Popular Articles' : 'Latest Articles'}
+        </Heading>
         <Link href="www.google.com">
           <StyledLink
             ml="3rem"
@@ -63,87 +65,13 @@ const ArticleLists = ({ popular, blogs }: Props) => {
             backgroundColor="#f6f8fb"
             borderRadius="3rem"
             _hover={{ textDecoration: 'none', backgroundColor: '#868E96', color: 'white' }}
-            fontSize=".8rem"
+            fontSize={['.7rem', '.7rem', '.8rem', '.8rem']}
           >
             View All
           </StyledLink>
         </Link>
       </Flex>
       <Flex mt="1.5rem" alignItems="flex-start" justifyContent="center" flexDirection="column">
-        <Article>
-          <Link href="www.google.com">
-            <StyledLink _hover={{ textDecoration: 'none' }}>
-              <ArticleTitle>
-                {!popular ? (
-                  <Tag
-                    fontSize=".9rem"
-                    p=".5rem"
-                    borderRadius=".3rem"
-                    m={['1rem 1rem 10px 0', 'auto 1rem auto 0']} //for responsive
-                    height="15px"
-                    backgroundColor="#d3f9d8"
-                    fontWeight="700"
-                    w="max-content"
-                  >
-                    New!
-                  </Tag>
-                ) : null}
-                <Text>
-                  <span style={{ fontSize: '.8rem', color: '#787f87', fontWeight: 'revert' }}>
-                    Semptember 10, 2020
-                  </span>
-                  <Heading fontSize="1.15rem">
-                    Understanding the Event Loop, Callbacks, Promises, and Async/Await in JavaScript
-                  </Heading>
-                </Text>
-              </ArticleTitle>
-            </StyledLink>
-          </Link>
-          <Box
-            d="flex"
-            justifyContent={['space-evenly', 'space-between']}
-            alignItems="center"
-            w="350px"
-            flexWrap="wrap"
-          >
-            <Tag
-              width="max-content"
-              height="20px"
-              p=".4rem .6rem"
-              fontSize=".8rem"
-              borderRadius="16px"
-              marginBottom="7px"
-              backgroundColor="#fff3bf"
-              _hover={{ cursor: 'pointer' }}
-            >
-              javascript
-            </Tag>
-            <Tag
-              width="max-content"
-              height="20px"
-              p=".4rem .6rem"
-              fontSize=".8rem"
-              borderRadius="16px"
-              marginBottom="7px"
-              backgroundColor="#d3f9d8"
-              _hover={{ cursor: 'pointer' }}
-            >
-              fundamentals
-            </Tag>
-            <Tag
-              width="max-content"
-              height="20px"
-              p=".4rem .6rem"
-              fontSize=".8rem"
-              borderRadius="16px"
-              marginBottom="7px"
-              backgroundColor="rgba(0,0,0,.1)"
-              _hover={{ cursor: 'pointer' }}
-            >
-              asynchronous
-            </Tag>
-          </Box>
-        </Article>
         {blogs.map((blog) => (
           <Article key={blog.id}>
             <Link href="www.google.com">
@@ -151,7 +79,7 @@ const ArticleLists = ({ popular, blogs }: Props) => {
                 <ArticleTitle>
                   {!popular ? (
                     <Tag
-                      fontSize=".9rem"
+                      fontSize={['.8rem', '.8rem', '.9rem', '.9rem']}
                       p=".5rem"
                       borderRadius=".3rem"
                       m={['1rem 1rem 10px 0', 'auto 1rem auto 0']} //for responsive
@@ -167,15 +95,18 @@ const ArticleLists = ({ popular, blogs }: Props) => {
                     <span style={{ fontSize: '.8rem', color: '#787f87', fontWeight: 'revert' }}>
                       {blog.date}
                     </span>
-                    <Heading fontSize="1.15rem">{blog.title}</Heading>
+                    <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}>
+                      {blog.title}
+                    </Heading>
                   </Text>
                 </ArticleTitle>
               </StyledLink>
             </Link>
             <Box
               d="flex"
-              justifyContent={['space-evenly', 'space-between']}
-              alignItems="center"
+              flexDirection={['column', 'row', 'row', 'row']}
+              justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-end']}
+              alignItems={['flex-start', 'center', 'center', 'center']}
               w="350px"
               flexWrap="wrap"
             >
@@ -184,10 +115,12 @@ const ArticleLists = ({ popular, blogs }: Props) => {
                   key={index}
                   width="max-content"
                   height="20px"
-                  p=".4rem .6rem"
+                  p=".3rem .5rem"
                   fontSize=".8rem"
                   borderRadius="16px"
                   marginBottom="7px"
+                  // marginLeft={['0', '0', '.5rem', '.5rem']}
+                  marginRight=".5rem"
                   backgroundColor={`${
                     backgroundColor[Math.floor(Math.random() * backgroundColor.length)]
                   }`}
