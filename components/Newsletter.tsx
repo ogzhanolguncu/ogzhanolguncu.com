@@ -16,7 +16,7 @@ const Newsletter = () => {
           I send out an email when I create something new. Subscribe to get updates!
         </Text>
         <Button
-          width="25%"
+          width={['200px', '200px', '200px', '200px']}
           backgroundColor="#5c7cfa"
           color="white"
           padding="30px 30px"
