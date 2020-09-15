@@ -8,14 +8,14 @@ import { Popular, Blog } from 'global';
 const Article = styled(Box)`
   display: flex;
   justify-content: space-between;
-
   border-radius: 20px;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   padding: 0.8rem 1rem;
   margin: 0 -1rem;
   width: 100%;
+
   @media screen and (min-width: 1100px) {
-    width: 1080px;
+    /* width: 1080px; */
     &:hover {
       background-color: #f6f8fb;
     }
@@ -79,14 +79,20 @@ const ArticleLists = ({ popular, blogs }: Props) => {
                 <ArticleTitle>
                   {!popular ? (
                     <Tag
-                      fontSize={['.8rem', '.8rem', '.9rem', '.9rem']}
+                      fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
                       p=".5rem"
                       borderRadius=".3rem"
-                      m={['1rem 1rem 10px 0', 'auto 1rem auto 0']} //for responsive
+                      m={[
+                        'auto .4rem auto 0',
+                        'auto .4rem auto 0',
+                        'auto .4rem auto 0',
+                        '1rem 1rem 10px 0',
+                      ]} //for responsive
                       height="15px"
                       backgroundColor="#d3f9d8"
                       fontWeight="700"
-                      w="max-content"
+                      width={['2.7rem', '2.7rem', '', '']}
+                      minW=""
                     >
                       New!
                     </Tag>
@@ -107,7 +113,7 @@ const ArticleLists = ({ popular, blogs }: Props) => {
               flexDirection={['column', 'row', 'row', 'row']}
               justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-end']}
               alignItems={['flex-start', 'center', 'center', 'center']}
-              w="350px"
+              w="100%"
               flexWrap="wrap"
             >
               {blog.tags.map((tag, index) => (
