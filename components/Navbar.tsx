@@ -1,4 +1,6 @@
-import NextLink from 'next/link';
+import Link from 'next/link';
+
+import NavbarButton from './NavbarButton';
 
 import { useColorMode, Button, Flex, Box, IconButton, Text } from '@chakra-ui/core';
 import styled from '@emotion/styled';
@@ -9,29 +11,31 @@ const StickyNav = styled(Flex)`
   top: 0;
   backdrop-filter: saturate(180%) blur(20px);
   transition: background-color 0.1 ease-in-out;
-  box-shadow: 0 3px 13px rgba(100, 110, 140, 0.1), 0 2px 4px rgba(100, 110, 140, 0.15);
 `;
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
+  const bgColor = { light: 'rgb(76, 110, 245, 0.8)', dark: 'rgb(26, 32, 44, 0.5)' };
+  const color = { light: 'white', dark: 'gray.800' };
+
   return (
-    <StickyNav bg="blue.500">
+    <StickyNav bg={bgColor[colorMode]} color={color[colorMode]}>
       <Flex
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
         width="100%"
-        bg="blue.500"
+        bg={bgColor[colorMode]}
         as="nav"
         p={4}
         mx="auto"
         maxWidth="1150px"
       >
         <Box>
-          <NextLink href="/" passHref>
+          <Link href="/" passHref>
             <Button
-              fontWeight={['normal', 'medium', 'bold']}
+              fontWeight={['normal', 'medium', 'medium']}
               fontSize={['xs', 'sm', 'lg', 'xl']}
               as="a"
               variant="ghost"
@@ -44,49 +48,13 @@ const Navbar = () => {
               </Text>
               Oğuzhan Milfhunter
             </Button>
-          </NextLink>
+          </Link>
         </Box>
 
         <Box>
-          <NextLink href="/about" passHref>
-            <Button
-              fontWeight={['normal', 'medium', 'bold']}
-              fontSize={['xs', 'sm', 'lg', 'xl']}
-              as="a"
-              variant="ghost"
-              _hover={{ bg: 'rgba(0,0,0,.2)' }}
-              p={[1, 4]}
-              color="white"
-            >
-              About
-            </Button>
-          </NextLink>
-          <NextLink href="/blog" passHref>
-            <Button
-              fontWeight={['normal', 'medium', 'bold']}
-              fontSize={['xs', 'sm', 'lg', 'xl']}
-              as="a"
-              variant="ghost"
-              _hover={{ bg: 'rgba(0,0,0,.2)' }}
-              p={[1, 4]}
-              color="white"
-            >
-              Blog
-            </Button>
-          </NextLink>
-          <NextLink href="/guides" passHref>
-            <Button
-              fontWeight={['normal', 'medium', 'bold']}
-              fontSize={['xs', 'sm', 'lg', 'xl']}
-              as="a"
-              variant="ghost"
-              _hover={{ bg: 'rgba(0,0,0,.2)' }}
-              p={[1, 4]}
-              color="white"
-            >
-              Guides
-            </Button>
-          </NextLink>
+          <NavbarButton LinkComponent={Link} href="/about" text="About" />
+          <NavbarButton LinkComponent={Link} href="/blog" text="Blog" />
+          <NavbarButton LinkComponent={Link} href="/guides" text="Guides" />
           <IconButton
             fontWeight={['normal', 'medium', 'bold']}
             fontSize={['xs', 'sm', 'lg', 'xl']}

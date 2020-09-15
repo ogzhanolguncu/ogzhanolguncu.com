@@ -4,7 +4,16 @@ import { GetStaticProps } from 'next';
 
 import { Layout, Project, Newsletter, ArticleLists } from '@components/index';
 
-import { Flex, Box, Heading, Text, Image, Link as StyledLink, Button } from '@chakra-ui/core';
+import {
+  Flex,
+  Box,
+  Heading,
+  Text,
+  Image,
+  Link as StyledLink,
+  Button,
+  useColorMode,
+} from '@chakra-ui/core';
 
 import personalImage from '../public/350.jpg';
 import data from 'data.json';
@@ -18,6 +27,17 @@ type Props = {
 };
 
 const Home = ({ popular, blogs }: Props) => {
+  const { colorMode } = useColorMode();
+
+  const colorModeObj = {
+    titleColor: { light: '#343a40', dark: 'white' },
+    linkColor: { light: 'blue.500', dark: 'white' },
+    linkHoverColor: { light: '#1b1d25', dark: 'orange.300' },
+    buttonColor: { light: '#5c7cfa', dark: 'orange.500' },
+    buttonHoverColor: { light: '#3b5bdb', dark: 'orange.600' },
+    feedBackButtonColor: { light: '#3b5bdb', dark: '#787f87' },
+  };
+
   return (
     <Layout>
       <Head>
@@ -37,7 +57,7 @@ const Home = ({ popular, blogs }: Props) => {
             marginBottom="2rem"
             marginTop={['0.6rem', '0', '0', '0']}
             fontWeight="bold"
-            color="#343a40"
+            color={colorModeObj.titleColor[colorMode]}
           >
             Hey! I'm Tania Rascia. I'm a software engineer and open-source creator.
           </Heading>
@@ -51,12 +71,20 @@ const Home = ({ popular, blogs }: Props) => {
             created over the years, and anything else I want to write about. You can read my{' '}
             <Link href="www.google.com">
               <StyledLink
-                color="blue.500"
+                color={colorModeObj.linkColor[colorMode]}
                 href="#"
                 fontWeight="700"
                 _hover={{
-                  textDecoration: '#dbe4ffde',
-                  color: '#1b1d25',
+                  textDecoration: 'none',
+                  borderBottom: '0.3rem solid #dbe4ffde',
+                  borderBottomColor:
+                    colorMode === 'light'
+                      ? colorModeObj.linkHoverColor.light
+                      : colorModeObj.linkHoverColor.dark,
+                  color:
+                    colorMode === 'light'
+                      ? colorModeObj.linkHoverColor.light
+                      : colorModeObj.linkHoverColor.dark,
                 }}
               >
                 blog
@@ -65,13 +93,21 @@ const Home = ({ popular, blogs }: Props) => {
             , view my
             <Link href="www.google.com">
               <StyledLink
-                color="blue.500"
+                color={colorModeObj.linkColor[colorMode]}
                 href="#"
                 fontWeight="700"
                 ml={2}
                 _hover={{
-                  textDecoration: '#dbe4ffde',
-                  color: '#1b1d25',
+                  textDecoration: 'none',
+                  borderBottom: '0.3rem solid #dbe4ffde',
+                  borderBottomColor:
+                    colorMode === 'light'
+                      ? colorModeObj.linkHoverColor.light
+                      : colorModeObj.linkHoverColor.dark,
+                  color:
+                    colorMode === 'light'
+                      ? colorModeObj.linkHoverColor.light
+                      : colorModeObj.linkHoverColor.dark,
                 }}
               >
                 guides & blog
@@ -80,13 +116,21 @@ const Home = ({ popular, blogs }: Props) => {
             , or learn more
             <Link href="www.google.com">
               <StyledLink
-                color="blue.500"
+                color={colorModeObj.linkColor[colorMode]}
                 href="#"
                 fontWeight="700"
                 ml={2}
                 _hover={{
-                  textDecoration: '#dbe4ffde',
-                  color: '#1b1d25',
+                  textDecoration: 'none',
+                  borderBottom: '0.3rem solid',
+                  borderBottomColor:
+                    colorMode === 'light'
+                      ? colorModeObj.linkHoverColor.light
+                      : colorModeObj.linkHoverColor.dark,
+                  color:
+                    colorMode === 'light'
+                      ? colorModeObj.linkHoverColor.light
+                      : colorModeObj.linkHoverColor.dark,
                 }}
               >
                 about me
@@ -96,10 +140,15 @@ const Home = ({ popular, blogs }: Props) => {
           </Text>
           <Box flexDirection={['column', 'column', 'row', 'row']} d="flex">
             <Button
-              backgroundColor="#5c7cfa"
+              backgroundColor={colorModeObj.buttonColor[colorMode]}
               color="white"
               padding="30px 30px"
-              _hover={{ backgroundColor: '#3b5bdb' }}
+              _hover={{
+                backgroundColor:
+                  colorMode === 'light'
+                    ? colorModeObj.buttonHoverColor.light
+                    : colorModeObj.buttonHoverColor.dark,
+              }}
               fontWeight="600"
               fontSize={['15px', '16px', '16px', '18px']}
               mb={['10px', '10px', '0px', '0px']}
@@ -110,11 +159,15 @@ const Home = ({ popular, blogs }: Props) => {
             </Button>
             <Button
               backgroundColor="#edf2ff"
-              color="#3b5bdb"
+              color={colorModeObj.feedBackButtonColor[colorMode]}
               padding="30px 30px"
               fontWeight="600"
               fontSize={['15px', '16px', '16px', '18px']}
-              _hover={{ backgroundColor: '#3b5bdb', color: 'white' }}
+              _hover={{
+                backgroundColor:
+                  colorMode === 'light' ? colorModeObj.buttonHoverColor.light : 'orange.500',
+                color: 'white',
+              }}
             >
               <Text mr="8px">&#128239;</Text> Give Feedback
             </Button>

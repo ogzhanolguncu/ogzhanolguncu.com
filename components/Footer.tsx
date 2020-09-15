@@ -82,27 +82,27 @@ const Newsletter = () => {
         p={['1rem', '1rem', '2rem', '3rem']}
       >
         <Link href="www.google.com">
-          <StyledLink w={['30px', '40px', '40px', '50px']}>
+          <StyledLink w="30px">
             <Image src={typescriptImg} />
           </StyledLink>
         </Link>
         <Link href="www.google.com">
-          <StyledLink w={['30px', '40px', '40px', '50px']}>
+          <StyledLink w="30px">
             <Image src={nextImg} />
           </StyledLink>
         </Link>
         <Link href="www.google.com">
-          <StyledLink w={['30px', '40px', '40px', '50px']}>
+          <StyledLink w="30px">
             <Image src={nestImg} />
           </StyledLink>
         </Link>
         <Link href="www.google.com">
-          <StyledLink w={['30px', '40px', '40px', '50px']}>
+          <StyledLink w="30px">
             <Image src={awsImg} />
           </StyledLink>
         </Link>
         <Link href="www.google.com">
-          <StyledLink w={['30px', '40px', '40px', '50px']}>
+          <StyledLink w="30px">
             <Image src={githubImg} />
           </StyledLink>
         </Link>
