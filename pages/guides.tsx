@@ -1,7 +1,5 @@
 import { Heading, Text, Box } from '@chakra-ui/core';
-import Layout from '@components/Layout';
-import Card from '@components/Card';
-
+import { Layout, Card } from '@components/index';
 //images
 import ExampleImg from 'images/typescript.png';
 

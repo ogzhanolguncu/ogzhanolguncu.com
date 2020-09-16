@@ -1,9 +1,8 @@
 import Link from 'next/link';
 
-import { Box, Text, Flex, Heading, Link as StyledLink, Tag } from '@chakra-ui/core';
+import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from '@chakra-ui/core';
 import styled from '@emotion/styled';
-
-import { Popular, Blog } from 'global';
+import { colorModeObj } from 'styles/colorModes';
 
 const Article = styled(Box)`
   display: flex;
@@ -38,11 +37,14 @@ const ArticleTitle = styled(Box)`
 `;
 
 type Props = {
-  popular?: Popular;
+  // eslint-disable-next-line no-undef
+  isPopular?: IsPopular;
+  // eslint-disable-next-line no-undef
   blogs: Blog[];
 };
 
-const ArticleLists = ({ popular, blogs }: Props) => {
+const ArticleLists = ({ isPopular, blogs }: Props) => {
+  const { colorMode } = useColorMode();
   const backgroundColor = ['#fff3bf', '#d3f9d8', 'rgba(0,0,0,.1)', '#fff0f6', '#f3f0ff', '#e3fafc'];
 
   return (
@@ -53,8 +55,11 @@ const ArticleLists = ({ popular, blogs }: Props) => {
         alignItems="center"
         paddingBottom=".5rem"
       >
-        <Heading fontSize={['1.7rem', '1.7rem', '2rem', '2rem']} color="#343A40">
-          {popular ? 'Popular Articles' : 'Latest Articles'}
+        <Heading
+          fontSize={['1.7rem', '1.7rem', '2rem', '2rem']}
+          color={colorModeObj.titleColor[colorMode]}
+        >
+          {isPopular ? 'Popular Articles' : 'Latest Articles'}
         </Heading>
         <Link href="www.google.com">
           <StyledLink
@@ -77,7 +82,7 @@ const ArticleLists = ({ popular, blogs }: Props) => {
             <Link href="www.google.com">
               <StyledLink _hover={{ textDecoration: 'none' }}>
                 <ArticleTitle>
-                  {!popular ? (
+                  {!isPopular ? (
                     <Tag
                       fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
                       p=".5rem"
