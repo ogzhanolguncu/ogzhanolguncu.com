@@ -26,7 +26,6 @@ const Navbar = () => {
         justifyContent="space-between"
         alignItems="center"
         width="100%"
-        bg={bgColor[colorMode]}
         as="nav"
         p={4}
         mx="auto"
