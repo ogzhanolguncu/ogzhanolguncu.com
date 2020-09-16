@@ -7,7 +7,7 @@ import typescriptImg from '/images/typescript.png';
 import awsImg from '/images/aws.png';
 import githubImg from '/images/github.png';
 
-const Newsletter = () => {
+const Footer = () => {
   return (
     <Flex
       flexDirection="column"
@@ -76,8 +76,8 @@ const Newsletter = () => {
         </Link>
       </Flex>
       <Flex
-        justifyContent="space-around"
-        w={['100%', '70%', '60%', '60%']}
+        justifyContent="space-evenly"
+        w="100%"
         alignItems="center"
         p={['1rem', '1rem', '2rem', '3rem']}
       >
@@ -111,4 +111,4 @@ const Newsletter = () => {
   );
 };
 
-export default Newsletter;
+export default Footer;
