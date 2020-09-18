@@ -4,8 +4,6 @@ import { GetStaticProps } from 'next';
 import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/index';
 import data from 'data.json';
 
-import React from 'react';
-
 type Props = {
   // eslint-disable-next-line no-undef
   isPopular?: IsPopular;

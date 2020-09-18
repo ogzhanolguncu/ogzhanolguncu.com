@@ -13,18 +13,12 @@ import {
 
 import personalImage from '../public/350.jpg';
 import React from 'react';
+import { useContext } from 'react';
+import { ColorModeContext } from 'contexts/CustomColorContext';
 
 const Summary = () => {
   const { colorMode } = useColorMode();
-
-  const colorModeObj = {
-    titleColor: { light: '#343a40', dark: 'white' },
-    linkColor: { light: 'blue.500', dark: 'white' },
-    linkHoverColor: { light: '#1b1d25', dark: 'orange.300' },
-    buttonColor: { light: '#5c7cfa', dark: 'orange.500' },
-    buttonHoverColor: { light: '#3b5bdb', dark: 'orange.600' },
-    feedBackButtonColor: { light: '#3b5bdb', dark: '#787f87' },
-  };
+  const colorModeObj = useContext(ColorModeContext);
 
   return (
     <Flex
@@ -48,7 +42,7 @@ const Summary = () => {
           fontSize={['1rem', '1rem', '1.2rem', '1.3rem']}
           marginBottom="2.5rem"
           fontWeight="400"
-          color="#787f87"
+          color={colorModeObj.feedBackButtonColor.dark}
         >
           This website is my 🌱 digital garden—a compendium of the things I have learned and created
           over the years, and anything else I want to write about. You can read my{' '}
@@ -141,7 +135,7 @@ const Summary = () => {
             Join Newsletter
           </Button>
           <Button
-            backgroundColor="#edf2ff"
+            background={colorModeObj.feedBackButtonBackgroundColor[colorMode]}
             color={colorModeObj.feedBackButtonColor[colorMode]}
             padding="30px 30px"
             fontWeight="600"

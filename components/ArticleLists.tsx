@@ -1,8 +1,8 @@
 import Link from 'next/link';
-
 import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from '@chakra-ui/core';
 import styled from '@emotion/styled';
-import { colorModeObj } from 'styles/colorModes';
+import { useContext } from 'react';
+import { ColorModeContext } from 'contexts/CustomColorContext';
 
 const Article = styled(Box)`
   display: flex;
@@ -16,7 +16,7 @@ const Article = styled(Box)`
   @media screen and (min-width: 1100px) {
     /* width: 1080px; */
     &:hover {
-      background-color: #f6f8fb;
+      background-color: ${(props) => (props.color === 'light' ? '#f6f8fb' : '#10151fbf')};
     }
   }
 
@@ -44,6 +44,8 @@ type Props = {
 };
 
 const ArticleLists = ({ isPopular, blogs }: Props) => {
+  const colorModeObj = useContext(ColorModeContext);
+
   const { colorMode } = useColorMode();
   const backgroundColor = ['#fff3bf', '#d3f9d8', 'rgba(0,0,0,.1)', '#fff0f6', '#f3f0ff', '#e3fafc'];
 
@@ -67,9 +69,16 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
             mt=".5rem"
             fontWeight="500"
             padding=".3rem .5rem"
-            backgroundColor="#f6f8fb"
+            backgroundColor={
+              colorMode === 'light' ? colorModeObj.articleTagColor : colorModeObj.buttonColor.dark
+            }
             borderRadius="3rem"
-            _hover={{ textDecoration: 'none', backgroundColor: '#868E96', color: 'white' }}
+            _hover={{
+              textDecoration: 'none',
+              backgroundColor:
+                colorMode === 'light' ? '#868E96' : colorModeObj.buttonHoverColor.dark,
+              color: colorMode === 'light' ? colorModeObj.white : colorModeObj.white,
+            }}
             fontSize={['.7rem', '.7rem', '.8rem', '.8rem']}
           >
             View All
@@ -78,7 +87,7 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
       </Flex>
       <Flex mt="1.5rem" alignItems="flex-start" justifyContent="center" flexDirection="column">
         {blogs.map((blog) => (
-          <Article key={blog.id}>
+          <Article key={blog.id} color={colorMode === 'light' ? 'light' : 'dark'}>
             <Link href="www.google.com">
               <StyledLink _hover={{ textDecoration: 'none' }}>
                 <ArticleTitle>
@@ -98,14 +107,16 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
                       fontWeight="700"
                       width={['2.7rem', '2.7rem', '', '']}
                       minW=""
+                      color={colorModeObj.articleNewTagTextColor[colorMode]}
+                      background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
                     >
                       New!
                     </Tag>
                   ) : null}
                   <Text>
-                    <span style={{ fontSize: '.8rem', color: '#787f87', fontWeight: 'revert' }}>
+                    <Text color="#787f87" fontSize=".8rem" fontWeight="600">
                       {blog.date}
-                    </span>
+                    </Text>
                     <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}>
                       {blog.title}
                     </Heading>
