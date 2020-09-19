@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from '@chakra-ui/core';
 import styled from '@emotion/styled';
 import { useContext } from 'react';
-import { ColorModeContext } from 'contexts/CustomColorContext';
+import { ColorModeContext } from '@contexts/CustomColorContext';
 
 const Article = styled(Box)`
   display: flex;
@@ -17,6 +17,7 @@ const Article = styled(Box)`
     /* width: 1080px; */
     &:hover {
       background-color: ${(props) => (props.color === 'light' ? '#f6f8fb' : '#10151fbf')};
+      transition: all 0.1s ease-in;
     }
   }
 

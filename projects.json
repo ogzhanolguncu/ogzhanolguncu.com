@@ -1,0 +1,20 @@
+[
+  {
+    "redirectUrl": "www.google.com",
+    "unicodeIcon": "📝",
+    "leftSide": "Take Note",
+    "rightSide": "A free, open source notes app for the web."
+  },
+  {
+    "redirectUrl": "www.google.com",
+    "unicodeIcon": "🌙",
+    "leftSide": "New Moon",
+    "rightSide": "The optimized dark theme for web development. Your new favorite theme."
+  },
+  {
+    "redirectUrl": "www.google.com",
+    "unicodeIcon": "🔱",
+    "leftSide": "MVC.js",
+    "rightSide": "A simple Todo MVC application in JavaScript."
+  }
+]

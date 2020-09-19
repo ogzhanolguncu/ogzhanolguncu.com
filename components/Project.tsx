@@ -1,21 +1,24 @@
-import { Box, Flex, Heading, Text, Link as StyledLink } from '@chakra-ui/core';
-import Link from 'next/link';
-// import styled from '@emotion/styled';
+import { Flex, Heading, useColorMode } from '@chakra-ui/core';
 
-// const StyledLink = styled(LinkComponent)`
-//   padding: '.5rem 1rem';
-//   border-radius: '20px';
-//   &:hover {
-//     text-decoration: none;
-//   }
-//   @media screen and (min-width: 968px) {
-//     &:hover {
-//       background-color: '#f6f8fb';
-//     }
-//   }
-// `;
+import { useContext } from 'react';
+import { ColorModeContext } from '@contexts/CustomColorContext';
+import ProjectItems from './ProjectItem';
+
+import projectsData from 'projects.json';
+
+type projectProps = {
+  redirectUrl: string;
+  unicodeIcon: string;
+  leftSide: string;
+  rightSide: string;
+};
 
 const Project = () => {
+  const colorModeObj = useContext(ColorModeContext);
+  const { colorMode } = useColorMode();
+
+  const projects: projectProps[] = projectsData;
+
   return (
     <Flex flexDirection="column" m="3rem 0">
       <Flex
@@ -24,77 +27,24 @@ const Project = () => {
         alignItems="center"
         paddingBottom=".5rem"
       >
-        <Heading color="#343A40">Projects</Heading>
+        <Heading
+          fontSize={['1.7rem', '1.7rem', '2rem', '2rem']}
+          color={colorModeObj.titleColor[colorMode]}
+        >
+          Projects
+        </Heading>
       </Flex>
       <Flex mt="1.5rem" width="100%" flexDirection="column">
-        <Link href="www.google.com">
-          <StyledLink
-            href="www.google.com"
-            target="_blank"
-            _hover={{ textDecoration: 'none', bg: '#f6f8fb' }}
-            m="auto -1rem"
-            borderRadius="20px"
-            padding=".5rem 1rem"
-          >
-            <Flex flexDirection={['column', 'column', 'row', 'row']}>
-              <Flex flex="1">
-                <Box h="10" mr="0.8rem" fontSize="1.15rem">
-                  📝
-                </Box>
-                <Text h="10" fontSize="1.15rem" fontWeight="bold">
-                  Take Note
-                </Text>
-              </Flex>
-              <Text h="10" flex="3" fontSize="1.1rem" fontWeight="400" color="#787f87">
-                A free, open source notes app for the web.
-              </Text>
-            </Flex>
-          </StyledLink>
-        </Link>
-        <Link href="www.google.com">
-          <StyledLink
-            _hover={{ textDecoration: 'none', bg: '#f6f8fb' }}
-            m="auto -1rem"
-            borderRadius="20px"
-            padding=".5rem 1rem"
-          >
-            <Flex flexDirection={['column', 'column', 'row', 'row']}>
-              <Flex flex="1">
-                <Box h="10" mr="0.8rem" fontSize="1.15rem">
-                  🌙
-                </Box>
-                <Text h="10" fontSize="1.15rem" fontWeight="bold">
-                  New Moon
-                </Text>
-              </Flex>
-              <Text h="10" flex="3" fontSize="1.1rem" fontWeight="400" color="#787f87">
-                The optimized dark theme for web development. Your new favorite theme.
-              </Text>
-            </Flex>
-          </StyledLink>
-        </Link>
-        <Link href="www.google.com">
-          <StyledLink
-            _hover={{ textDecoration: 'none', bg: '#f6f8fb' }}
-            m="auto -1rem"
-            borderRadius="20px"
-            padding=".5rem 1rem"
-          >
-            <Flex flexDirection={['column', 'column', 'row', 'row']}>
-              <Flex flex="1">
-                <Box h="10" mr="0.8rem" fontSize="1.15rem">
-                  🔱
-                </Box>
-                <Text h="10" fontSize="1.15rem" fontWeight="bold">
-                  MVC.js
-                </Text>
-              </Flex>
-              <Text h="10" flex="3" fontSize="1.1rem" fontWeight="400" color="#787f87">
-                A simple Todo MVC application in JavaScript.
-              </Text>
-            </Flex>
-          </StyledLink>
-        </Link>
+        {projects.map((project, index) => (
+          <ProjectItems
+            key={index}
+            colorMode={colorMode}
+            redirectUrl={project.redirectUrl}
+            unicodeIcon={project.unicodeIcon}
+            leftSide={project.leftSide}
+            rightSide={project.rightSide}
+          />
+        ))}
       </Flex>
     </Flex>
   );
