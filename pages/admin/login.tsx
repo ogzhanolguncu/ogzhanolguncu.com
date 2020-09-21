@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FormLabel,
   FormControl,
@@ -10,41 +10,46 @@ import {
   Icon,
   InputGroup,
   InputRightElement,
+  Alert,
+  AlertIcon,
+  AlertDescription,
+  AlertTitle,
 } from '@chakra-ui/core';
 
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import useAuth from '@contexts/AuthContext';
 
 type LoginForm = {
   userName: string;
   password: string;
 };
 
-type ResponseType = {
-  jwtToken: string;
-  userName: string;
-};
-
 const Login = () => {
+  const { login, errorMessage, setErrorMessage } = useAuth();
   const { handleSubmit, register } = useForm<LoginForm>();
   const [showPassword, setShowPassword] = useState(false);
   const [pending, setPending] = useState(false);
+  const [alertVisibility, setAlertVisibility] = useState(false);
 
   const onSubmit = handleSubmit(async ({ userName, password }) => {
     setPending(true);
-    const { data } = await axios.post<ResponseType>('http://localhost:3001/auth/login', {
-      userName,
-      password,
-    });
-    Cookies.set('token', data.jwtToken, { expires: 60 });
-    //SET COOKIE KISMINDA KALINDI
-    //https://www.mikealche.com/software-development/how-to-implement-authentication-in-next-js-without-third-party-libraries
-
+    login(userName, password);
     setPending(false);
   });
 
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const handleTimeoutDependencies = () => {
+    setErrorMessage(undefined);
+    setAlertVisibility(!alertVisibility);
+  };
+
+  useEffect(() => {
+    setAlertVisibility(true);
+    const timeOut = setTimeout(() => handleTimeoutDependencies(), 2000);
+
+    return () => clearTimeout(timeOut);
+  }, [errorMessage]);
 
   return (
     <Flex height="full" align="center" justifyContent="center" m="10rem 0">
@@ -79,6 +84,14 @@ const Login = () => {
               </InputRightElement>
             </InputGroup>
           </FormControl>
+          {!!errorMessage && alertVisibility && (
+            <Alert status="error" mt="20px" variant="solid">
+              <AlertIcon />
+              <AlertTitle mr={5}>404</AlertTitle>
+              <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
+          )}
+
           <Button
             variantColor="teal"
             variant="outline"

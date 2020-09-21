@@ -14,6 +14,8 @@ export const initialState = {
   white: 'white',
   black: 'black',
 };
+
+//If initial value is a const we specify as  ||| as typeof initialState ||
 const ColorModeContext = createContext({} as typeof initialState);
 
 type Props = {
