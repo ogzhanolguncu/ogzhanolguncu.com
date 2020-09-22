@@ -73,7 +73,7 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
             backgroundColor={
               colorMode === 'light' ? colorModeObj.articleTagColor : colorModeObj.buttonColor.dark
             }
-            borderRadius="3rem"
+            borderRadius={['50%', '3rem', '3rem', '3rem']}
             _hover={{
               textDecoration: 'none',
               backgroundColor:
@@ -81,6 +81,7 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
               color: colorMode === 'light' ? colorModeObj.white : colorModeObj.white,
             }}
             fontSize={['.7rem', '.7rem', '.8rem', '.8rem']}
+            textAlign="center"
           >
             View All
           </StyledLink>
