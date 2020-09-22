@@ -1,6 +1,12 @@
-About sayfası yapılacak resimlere kadar.
-Colormode
-Article taglerinin renkleri en son yapılacak.
+401 error component
+404 error component yapılacak
+_error.tsx
+withPrivateRoute'un tipleri düzeltilecek
+withPrivateRoute refactor edilecek
+
+
+Colormode ---> Sadece tagler kaldı
+
 Snarkdown kullanılacak.
 footer iconları optimize edilecek.
 footerdaki external linkler düzeltilecek.

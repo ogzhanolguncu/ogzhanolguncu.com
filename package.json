@@ -30,6 +30,7 @@
     "emotion-theming": "^10.0.27",
     "js.cookie": "^0.0.4",
     "next": "9.5.3",
+    "next-cookies": "^2.0.3",
     "next-images": "^1.4.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",

@@ -1,13 +1,10 @@
 import useAuth from '@contexts/AuthContext';
 import { ComponentType } from 'react';
-import Cookies from 'js-cookie';
 
 export function ProtectRoute(Component: ComponentType) {
   return () => {
-    const { isAuthenticated, setIsAuthenticated } = useAuth();
-    if (Cookies.get('token')) {
-      setIsAuthenticated(true);
-    }
+    const { isAuthenticated } = useAuth();
+
     if (isAuthenticated) return <Component />;
     return 'Unauthorized';
   };
