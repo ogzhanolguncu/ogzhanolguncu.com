@@ -48,7 +48,7 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
 
   const { colorMode } = useColorMode();
-  const backgroundColor = ['#fff3bf', '#d3f9d8', 'rgba(0,0,0,.1)', '#fff0f6', '#f3f0ff', '#e3fafc'];
+  // const backgroundColor = ['#fff3bf', '#d3f9d8', 'rgba(0,0,0,.1)', '#fff0f6', '#f3f0ff', '#e3fafc'];
 
   return (
     <Flex flexDirection="column" m="3rem 0">
@@ -143,11 +143,11 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
                   fontSize=".8rem"
                   borderRadius="16px"
                   marginBottom="7px"
-                  // marginLeft={['0', '0', '.5rem', '.5rem']}
                   marginRight=".5rem"
-                  backgroundColor={`${
-                    backgroundColor[Math.floor(Math.random() * backgroundColor.length)]
-                  }`}
+                  // backgroundColor={`${
+                  //   backgroundColor[Math.floor(Math.random() * backgroundColor.length)] It doesn't allow the js code.
+                  // }`}
+                  backgroundColor="#32ffcd"
                   _hover={{ cursor: 'pointer' }}
                 >
                   {tag}
