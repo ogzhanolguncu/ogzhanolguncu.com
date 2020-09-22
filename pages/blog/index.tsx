@@ -4,7 +4,8 @@ import Layout from '@components/Layout';
 const Blog = () => {
   return (
     <Layout>
-      <div>Blog page</div>
+      {/* <div>Blog page</div> */}
+      Blog page
     </Layout>
   );
 };

@@ -28,6 +28,7 @@
     "@emotion/styled": "^10.0.27",
     "axios": "^0.20.0",
     "emotion-theming": "^10.0.27",
+    "js.cookie": "^0.0.4",
     "next": "9.5.3",
     "next-images": "^1.4.1",
     "react": "16.13.1",
