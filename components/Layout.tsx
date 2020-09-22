@@ -2,6 +2,7 @@ import Navbar from './Navbar';
 import { ReactNode } from 'react';
 import { Flex } from '@chakra-ui/core';
 import Footer from './Footer';
+
 type Props = {
   children?: ReactNode;
   title?: string;

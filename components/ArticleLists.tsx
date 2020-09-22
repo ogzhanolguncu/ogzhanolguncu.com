@@ -115,14 +115,14 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
                       New!
                     </Tag>
                   ) : null}
-                  <Text>
+                  <Box>
                     <Text color="#787f87" fontSize=".8rem" fontWeight="600">
                       {blog.date}
                     </Text>
                     <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}>
                       {blog.title}
                     </Heading>
-                  </Text>
+                  </Box>
                 </ArticleTitle>
               </StyledLink>
             </Link>
