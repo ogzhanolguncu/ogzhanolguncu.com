@@ -6,12 +6,8 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link
-            rel="preload"
-            href="/fonts/noto-sans-v9-latin-regular.woff2"
-            as="font"
-            crossOrigin=""
-          />
+          {/* <link rel="preload" href="/fonts/noto-sans-v9-latin-regular.woff2" as="font" crossOrigin="" /> */}
+          {/* updated href and deleted "/fonts/noto-sans-v9-latin-regular.woff2" */}
         </Head>
         <body>
           <Main />

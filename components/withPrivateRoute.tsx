@@ -2,13 +2,13 @@ import React from 'react';
 import Router from 'next/router';
 import api from 'api';
 import cookies from 'next-cookies';
-import Deneme from './deneme';
+import Error401 from './Error401';
 
 const login = '/login'; // Define your login route address.
 
 const withPrivateRoute = (WrappedComponent: any) => {
   const hocComponent = ({ ...props }) => {
-    if (props.error) return <Deneme />;
+    if (props.error) return <Error401 />;
     return <WrappedComponent {...props} />;
   };
 
@@ -37,7 +37,7 @@ const withPrivateRoute = (WrappedComponent: any) => {
 
       return { userAuth };
     } catch (error) {
-      return { error: true, denemeSikis: error.response.status };
+      return { error: true };
     }
   };
 
