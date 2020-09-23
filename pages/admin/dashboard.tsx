@@ -1,5 +1,5 @@
 import { Box, Button, ButtonGroup } from '@chakra-ui/core';
-import withPrivateRoute from '@components/withPrivateRoute';
+import { withLoginRedirect } from '@components/withAuth';
 import useAuth from '@contexts/AuthContext';
 import React from 'react';
 
@@ -17,4 +17,4 @@ function Dashboard() {
   );
 }
 
-export default withPrivateRoute(Dashboard);
+export default withLoginRedirect(Dashboard);

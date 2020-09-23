@@ -9,3 +9,8 @@ type Blog = {
   decription: string;
   tags: string[];
 };
+
+type ErrorProps = {
+  statusCode: number;
+  message: string;
+};
