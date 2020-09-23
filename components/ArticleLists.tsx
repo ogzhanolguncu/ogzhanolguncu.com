@@ -50,6 +50,18 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
   const { colorMode } = useColorMode();
   // const backgroundColor = ['#fff3bf', '#d3f9d8', 'rgba(0,0,0,.1)', '#fff0f6', '#f3f0ff', '#e3fafc'];
 
+  // eslint-disable-next-line no-undef
+  const colorMap = new Map<TagNames, { color: string; hover: string }>([
+    ['nextjs', { color: 'blue.500', hover: 'blue.700' }],
+    ['javascript', { color: 'yellow.500', hover: 'yellow.700' }],
+    ['api', { color: 'purple.500', hover: 'purple.700' }],
+    ['asynchronous', { color: 'pink.500', hover: 'pink.700' }],
+    ['redux', { color: 'orange.500', hover: 'orange.700' }],
+    ['tutorial', { color: 'red.500', hover: 'red.700' }],
+    ['css', { color: 'green.500', hover: 'green.700' }],
+    ['react', { color: 'black', hover: 'tomato' }],
+  ]);
+
   return (
     <Flex flexDirection="column" m="3rem 0">
       <Flex
@@ -134,25 +146,26 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
               w="100%"
               flexWrap="wrap"
             >
-              {blog.tags.map((tag, index) => (
-                <Tag
-                  key={index}
-                  width="max-content"
-                  height="20px"
-                  p=".3rem .5rem"
-                  fontSize=".8rem"
-                  borderRadius="16px"
-                  marginBottom="7px"
-                  marginRight=".5rem"
-                  // backgroundColor={`${
-                  //   backgroundColor[Math.floor(Math.random() * backgroundColor.length)] It doesn't allow the js code.
-                  // }`}
-                  backgroundColor="#32ffcd"
-                  _hover={{ cursor: 'pointer' }}
-                >
-                  {tag}
-                </Tag>
-              ))}
+              {blog.tags.map((tag, index) => {
+                // eslint-disable-next-line no-undef
+                const color = colorMap.get((tag as unknown) as TagNames);
+                return (
+                  <Tag
+                    key={index}
+                    width="max-content"
+                    height="20px"
+                    p=".3rem .5rem"
+                    fontSize=".8rem"
+                    borderRadius="16px"
+                    marginBottom="7px"
+                    marginRight=".5rem"
+                    backgroundColor={color?.color}
+                    _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
+                  >
+                    {tag}
+                  </Tag>
+                );
+              })}
             </Box>
           </Article>
         ))}

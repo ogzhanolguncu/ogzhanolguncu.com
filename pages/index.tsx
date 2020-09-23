@@ -32,6 +32,7 @@ export default Home;
 export const getStaticProps: GetStaticProps = async () => {
   const popular = true;
   const blogs = data.Blogs;
+
   return {
     props: { popular, blogs },
   };

@@ -14,3 +14,13 @@ type ErrorProps = {
   statusCode: number;
   message: string;
 };
+
+type TagNames =
+  | 'javascript'
+  | 'css'
+  | 'nextjs'
+  | 'asynchronous'
+  | 'api'
+  | 'react'
+  | 'tutorial'
+  | 'redux';

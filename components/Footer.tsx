@@ -1,11 +1,6 @@
-import { Flex, Link as StyledLink, Image } from '@chakra-ui/core';
+import { Flex, Link as StyledLink, Button, Icon } from '@chakra-ui/core';
 import Link from 'next/link';
 import React from 'react';
-import nextImg from '/images/next2.svg';
-import nestImg from '/images/nestjs.svg';
-import typescriptImg from '/images/typescript.png';
-import awsImg from '/images/aws.png';
-import githubImg from '/images/github.png';
 
 const Footer = () => {
   return (
@@ -76,36 +71,31 @@ const Footer = () => {
         </Link>
       </Flex>
       <Flex
-        justifyContent="space-evenly"
+        justifyContent="center"
         w="100%"
         alignItems="center"
         p={['1rem', '1rem', '2rem', '3rem']}
       >
-        <Link href="www.google.com">
-          <StyledLink w="30px">
-            <Image src={typescriptImg} />
-          </StyledLink>
-        </Link>
-        <Link href="www.google.com">
-          <StyledLink w="30px">
-            <Image src={nextImg} />
-          </StyledLink>
-        </Link>
-        <Link href="www.google.com">
-          <StyledLink w="30px">
-            <Image src={nestImg} />
-          </StyledLink>
-        </Link>
-        <Link href="www.google.com">
-          <StyledLink w="30px">
-            <Image src={awsImg} />
-          </StyledLink>
-        </Link>
-        <Link href="www.google.com">
-          <StyledLink w="30px">
-            <Image src={githubImg} />
-          </StyledLink>
-        </Link>
+        <StyledLink href="https://github.com/ogzhanolguncu" title="GitHub" isExternal>
+          <Button color="gray.500" variant="ghost">
+            <Icon aria-label="Twitter" name="github" size="1.5rem" />
+          </Button>
+        </StyledLink>
+        <StyledLink href="https://github.com/ogzhanolguncu" title="LinkedIn" isExternal>
+          <Button color="gray.500" variant="ghost">
+            <Icon aria-label="LinkedIn" name="linkedin" size="1.5rem" />
+          </Button>
+        </StyledLink>
+        <StyledLink href="https://github.com/ogzhanolguncu" title="Email" isExternal>
+          <Button color="gray.500" variant="ghost">
+            <Icon aria-label="Email" name="mail" size="1.5rem" />
+          </Button>
+        </StyledLink>
+        <StyledLink href="https://github.com/ogzhanolguncu" title="Email" isExternal>
+          <Button color="gray.500" variant="ghost">
+            <Icon aria-label="Email" name="codewars" size="1.5rem" />
+          </Button>
+        </StyledLink>
       </Flex>
     </Flex>
   );

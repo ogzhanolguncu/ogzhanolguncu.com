@@ -9,7 +9,7 @@ const redirectBasedOnLogin = async (
   ctx: NextPageContext,
   route: string,
   redirectIfAuthed: boolean,
-): Promise<boolean> => {
+) => {
   const { token } = cookies(ctx);
   api.defaults.headers.Authorization = `Bearer ${token}`;
   const isLoggedIn = await api.get('auth/profile');
@@ -31,7 +31,7 @@ const redirectBasedOnLogin = async (
 
 const withAuthRedirect = (route: string, redirectIfAuthed: boolean) => (
   // eslint-disable-next-line no-undef
-  Page: NextComponentType<NextPageContext, Record<string, unknown>, ErrorProps>,
+  Page: NextComponentType<NextPageContext, ErrorProps>,
 ) => {
   // eslint-disable-next-line no-undef
   return class extends React.Component<ErrorProps> {

@@ -19,6 +19,9 @@ const theme: typeof chakraTheme = {
       '500': '#4C6EF5',
     },
   },
+  icons: {
+    ...chakraTheme.icons,
+  },
 };
 
 export default theme;

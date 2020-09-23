@@ -17,7 +17,7 @@ const Newsletter = () => {
           fontSize={['1.7rem', '1.7rem', '2rem', '2rem']}
           color={colorModeObj.titleColor[colorMode]}
         >
-          Projects
+          Newsletter
         </Heading>
       </Flex>
       <Flex mt="1.5rem" flexDirection="column">

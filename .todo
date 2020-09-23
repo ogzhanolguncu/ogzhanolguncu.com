@@ -1,12 +1,9 @@
-401 error component
-404 error component yapılacak
-_error.tsx
-withPrivateRoute'un tipleri düzeltilecek
-withPrivateRoute refactor edilecek
-
+About renkler düzeltilecek.
+ColorMap performans ölçülecek.
 
 Colormode ---> Sadece tagler kaldı
 
 Snarkdown kullanılacak.
 footer iconları optimize edilecek.
 footerdaki external linkler düzeltilecek.
+app.tsx deki iconlar refactor edilecek. 
