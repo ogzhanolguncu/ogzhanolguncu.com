@@ -42,13 +42,13 @@ const withAuthRedirect = (route: string, redirectIfAuthed: boolean) => (
         if (Page.getInitialProps) return Page.getInitialProps(ctx);
         return { shouldContinue };
       } catch (error) {
-        return { statusCode: error.response.data.statusCode, message: 'Oopsie Whoopsiee' };
+        return { statusCode: 401, message: 'Oopsie Whoopsiee' };
       }
     }
 
     render() {
-      const { message, statusCode } = this.props;
-      if (statusCode) return <Error statusCode={statusCode} message={message} />;
+      const { statusCode } = this.props;
+      if (statusCode) return <Error />;
       return <Page {...this.props} />;
     }
   };

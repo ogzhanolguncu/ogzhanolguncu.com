@@ -1,19 +1,11 @@
-import { Box, Button, ButtonGroup } from '@chakra-ui/core';
 import { withLoginRedirect } from '@components/withAuth';
-import useAuth from '@contexts/AuthContext';
-import React from 'react';
+import { AdminLayout } from '@components/Admin';
 
 function Dashboard() {
-  const { logout } = useAuth();
-
   return (
-    <Box justifyContent="center" alignItems="center" d="flex" height="100vh">
-      <ButtonGroup spacing={4}>
-        <Button leftIcon={'moon'} variantColor="pink" variant="solid" onClick={logout}>
-          Logout
-        </Button>
-      </ButtonGroup>
-    </Box>
+    <AdminLayout>
+      <div>Dashboard</div>
+    </AdminLayout>
   );
 }
 

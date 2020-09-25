@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
-
 import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/index';
 import data from 'data.json';
 
