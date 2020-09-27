@@ -2,7 +2,6 @@ import { Box, Button, ButtonGroup, Flex, Heading, Text, useDisclosure } from '@c
 import React, { useState } from 'react';
 import ArticleDetailsModal from './ArticleDetailsModal';
 import Link from 'next/link';
-import Blog from 'pages/blog';
 
 type Props = {
   // eslint-disable-next-line no-undef
