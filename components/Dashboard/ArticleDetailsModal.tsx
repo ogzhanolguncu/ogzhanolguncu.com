@@ -17,22 +17,22 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-undef
-  blog: Blog;
+  blog?: Blog;
 };
 
 const ArticleDetailsModal = ({ isOpen, onClose, blog }: Props) => {
   return (
     <Modal onClose={onClose} isOpen={isOpen} isCentered size="lg">
-      <ModalOverlay opacity="0.2" />
+      <ModalOverlay color="#ffffff33" />
       <ModalContent>
-        <ModalHeader>{blog.title}</ModalHeader>
+        <ModalHeader>{blog?.title}</ModalHeader>
         <Text textAlign="left" marginLeft="24px" fontWeight="bold">
-          {blog.date}
+          {blog?.date}
         </Text>
         <ModalCloseButton />
-        <ModalBody>{blog.description}</ModalBody>
+        <ModalBody>{blog?.description}</ModalBody>
         <Flex marginLeft="24px">
-          {blog.tags.map((tag, index) => (
+          {blog?.tags.map((tag, index) => (
             <Tag mr="5px" key={index}>
               {tag}
             </Tag>

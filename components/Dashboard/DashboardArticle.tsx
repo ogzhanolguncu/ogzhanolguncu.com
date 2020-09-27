@@ -2,6 +2,7 @@ import { Box, Button, ButtonGroup, Flex, Heading, Text, useDisclosure } from '@c
 import React, { useState } from 'react';
 import ArticleDetailsModal from './ArticleDetailsModal';
 import Link from 'next/link';
+import Blog from 'pages/blog';
 
 type Props = {
   // eslint-disable-next-line no-undef
@@ -21,7 +22,7 @@ const DashboardArticle = ({ blogs }: Props) => {
     setBlogDetail(blog);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     const newBlogs = originalBlogs.filter((item) => {
       return item.id !== id;
     });
