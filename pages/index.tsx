@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/index';
-import data from 'data.json';
+import { blogData } from 'sample-data';
 
 type Props = {
   // eslint-disable-next-line no-undef
@@ -30,7 +30,7 @@ export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
   const popular = true;
-  const blogs = data.Blogs;
+  const blogs = blogData;
 
   return {
     props: { popular, blogs },

@@ -6,7 +6,7 @@ type Blog = {
   id: number;
   title: string;
   date: string;
-  decription: string;
+  description: string;
   tags: string[];
 };
 
