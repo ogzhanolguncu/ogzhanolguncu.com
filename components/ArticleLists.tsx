@@ -3,6 +3,8 @@ import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from 
 import styled from '@emotion/styled';
 import { useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
+import { Blog, IsPopular } from 'global';
+import colorMap from 'styles/colorMap';
 
 const Article = styled(Box)`
   display: flex;
@@ -38,25 +40,13 @@ const ArticleTitle = styled(Box)`
 `;
 
 type Props = {
-  // eslint-disable-next-line no-undef
   isPopular?: IsPopular;
-  // eslint-disable-next-line no-undef
   blogs: Blog[];
 };
 
 const ArticleLists = ({ isPopular, blogs }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
-
-  const colorMap: Record<string, { color: string; hover: string }> = {
-    nextjs: { color: 'blue.500', hover: 'blue.700' },
-    javascript: { color: 'yellow.500', hover: 'yellow.700' },
-    api: { color: 'purple.500', hover: 'purple.700' },
-    asynchronous: { color: 'pink.500', hover: 'pink.700' },
-    redux: { color: 'orange.500', hover: 'orange.700' },
-    tutorial: { color: 'red.500', hover: 'red.700' },
-    react: { color: 'black', hover: 'tomato' },
-  };
 
   return (
     <Flex flexDirection="column" m="3rem 0">

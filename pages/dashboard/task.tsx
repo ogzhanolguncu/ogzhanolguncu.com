@@ -1,4 +1,4 @@
-import DashboardLayout from '@components/Dashboard/DashboardLayout';
+import { DashboardLayout } from '@components/index';
 import React from 'react';
 
 const task = () => {

@@ -22,6 +22,144 @@ const theme: typeof chakraTheme = {
   },
   icons: {
     ...chakraTheme.icons,
+    dashboard: {
+      path: (
+        <svg
+          id="Group"
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="26"
+          viewBox="0 0 26 26"
+        >
+          <path id="Path" d="M0,0H26V26H0Z" fill="none" />
+          <path
+            id="Path-2"
+            data-name="Path"
+            d="M19.5,8.667H15.167l-3.25,8.667L7.583,0,4.333,8.667H0"
+            transform="translate(3.25 4.333)"
+            fill="none"
+            stroke="#202842"
+          />
+        </svg>
+      ),
+    },
+    article: {
+      path: (
+        <svg
+          id="Group"
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="26"
+          viewBox="0 0 26 26"
+        >
+          <path id="Path" d="M0,0H26V26H0Z" fill="none" />
+          <rect
+            id="Rectangle"
+            width="13"
+            height="13"
+            rx="2.167"
+            strokeWidth="1.625"
+            transform="translate(8.667 8.667)"
+            stroke="#202842"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            fill="none"
+          />
+          <path
+            id="Path-2"
+            data-name="Path"
+            d="M13,4.333V2.167A2.167,2.167,0,0,0,10.833,0H2.167A2.167,2.167,0,0,0,0,2.167v8.667A2.167,2.167,0,0,0,2.167,13H4.333"
+            transform="translate(4.333 4.333)"
+            fill="none"
+            stroke="#202842"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            strokeWidth="1.625"
+          />
+        </svg>
+      ),
+    },
+    task: {
+      path: (
+        <svg
+          id="Group"
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="26"
+          viewBox="0 0 26 26"
+        >
+          <path id="Path" d="M0,0H26V26H0Z" fill="none" />
+          <path
+            id="Path-2"
+            data-name="Path"
+            d="M4.333,0H2.167A2.167,2.167,0,0,0,0,2.167v13a2.167,2.167,0,0,0,2.167,2.167H13a2.167,2.167,0,0,0,2.167-2.167v-13A2.167,2.167,0,0,0,13,0H10.833"
+            transform="translate(5.417 5.417)"
+            fill="none"
+            stroke="#202842"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            strokeWidth="1.625"
+          />
+          <rect
+            id="Rectangle"
+            width="6.5"
+            height="4.333"
+            rx="2.167"
+            strokeWidth="1.625"
+            transform="translate(9.75 3.25)"
+            stroke="#202842"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            fill="none"
+          />
+          <path
+            id="Path-3"
+            data-name="Path"
+            d="M0,2.167,2.167,4.333,6.5,0"
+            transform="translate(9.75 13)"
+            fill="none"
+            stroke="#202842"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            strokeWidth="1.625"
+          />
+        </svg>
+      ),
+    },
+    rightIcon: {
+      path: (
+        <svg
+          id="Group_16"
+          data-name="Group 16"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 28 28"
+        >
+          <circle id="Oval" cx="14" cy="14" r="14" fill="#f1f5fa" />
+          <g id="Group" transform="translate(4 4)">
+            <path id="Path" d="M0,0H20V20H0Z" fill="none" />
+            <path
+              id="Path-2"
+              data-name="Path"
+              d="M0,0,5,5,0,10"
+              transform="translate(7.5 5)"
+              fill="none"
+              stroke="#5d86f4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeMiterlimit="10"
+              strokeWidth="1.25"
+            />
+          </g>
+        </svg>
+      ),
+    },
     twitter: {
       path: (
         <g

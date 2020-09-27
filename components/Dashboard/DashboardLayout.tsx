@@ -40,7 +40,7 @@ const DashboardLayout = ({ children }: Props) => {
         w="100%"
         maxW="1328px"
         height="650px"
-        boxShadow="0 27px 78px #709EFD"
+        boxShadow="0 27px 78px #4c566a"
         borderRadius="20px"
       >
         <Flex
@@ -51,9 +51,9 @@ const DashboardLayout = ({ children }: Props) => {
         >
           <Flex flexDirection="column" justifyContent="space-evenly" height="250px" m="5px 15px">
             <Heading mb="10px" p="10px 12px">
-              S
+              🦉🦉🦉
             </Heading>
-            <Link href="/admin/dashboard">
+            <Link href="dashboard">
               <StyledLink
                 d="flex"
                 alignItems="center"
@@ -65,7 +65,7 @@ const DashboardLayout = ({ children }: Props) => {
                 Dashboard
               </StyledLink>
             </Link>
-            <Link href="/admin/dashboard/article">
+            <Link href="/dashboard/article">
               <StyledLink
                 d="flex"
                 justifyContent="flex-start"
@@ -78,7 +78,7 @@ const DashboardLayout = ({ children }: Props) => {
                 Articles
               </StyledLink>
             </Link>
-            <Link href="/admin/dashboard/task">
+            <Link href="/dashboard/task">
               <StyledLink
                 d="flex"
                 alignItems="center"

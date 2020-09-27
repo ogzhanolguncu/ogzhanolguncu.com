@@ -1,8 +1,8 @@
-type IsPopular = {
+export type IsPopular = {
   popular?: boolean;
 };
 
-type Blog = {
+export type Blog = {
   id: number;
   title: string;
   date: string;
@@ -10,12 +10,12 @@ type Blog = {
   tags: string[];
 };
 
-type ErrorProps = {
+export type ErrorProps = {
   statusCode: number;
   message: string;
 };
 
-type TagNames =
+export type TagNames =
   | 'javascript'
   | 'css'
   | 'nextjs'
