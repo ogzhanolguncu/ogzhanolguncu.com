@@ -42,7 +42,8 @@ const withAuthRedirect = (route: string, redirectIfAuthed: boolean) => (
         if (Page.getInitialProps) return Page.getInitialProps(ctx);
         return { shouldContinue };
       } catch (error) {
-        return { statusCode: error.response.data.statusCode, message: 'Oopsie Whoopsiee' };
+        // return { statusCode: error.response.data.statusCode, message: 'Oopsie Whoopsiee' };
+        return {};
       }
     }
 
