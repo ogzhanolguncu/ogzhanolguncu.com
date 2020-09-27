@@ -1,5 +1,5 @@
-/* eslint-disable no-undef */
-/** Dummy user data. */
+import { Blog } from 'global';
+
 export const blogData: Blog[] = [
   {
     id: 1,
