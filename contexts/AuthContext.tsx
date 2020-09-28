@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { useRouter } from 'next/router';
 
 import Cookies from 'js-cookie';
@@ -21,7 +21,6 @@ type ProviderType = {
   isAuthenticated: boolean;
   user: UserType;
   login: (email: string, password: string) => Promise<void>;
-  loading: boolean;
   logout: () => void;
   errorMessage?: string;
   setErrorMessage: React.Dispatch<React.SetStateAction<undefined>>;
@@ -33,20 +32,8 @@ const AuthContext = createContext({} as ProviderType);
 export const AuthProvider = ({ children }: Props) => {
   const router = useRouter();
   const [user, setUser] = useState({} as UserType); // If we supply inital value as types we specify as  ||| {} as Type |||
-  const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    async function loadUserFromCookies() {
-      const token = Cookies.get('token');
-      if (token) {
-        api.defaults.headers.Authorization = `Bearer ${token}`;
-      }
-      setLoading(false);
-    }
-    loadUserFromCookies();
-  }, []);
 
   const login = async (userName: string, password: string) => {
     try {
@@ -60,7 +47,7 @@ export const AuthProvider = ({ children }: Props) => {
         setIsAuthenticated(true);
         setUser({ user });
 
-        router.push('dashboard');
+        router.push('/dashboard');
       }
     } catch (error) {
       if (error.response?.data) {
@@ -75,7 +62,7 @@ export const AuthProvider = ({ children }: Props) => {
     setUser({});
     setIsAuthenticated(false);
 
-    window.location.pathname = '/admin/login';
+    window.location.pathname = '/dashboard/login';
   };
 
   return (
@@ -84,7 +71,6 @@ export const AuthProvider = ({ children }: Props) => {
         isAuthenticated,
         user,
         login,
-        loading,
         logout,
         errorMessage,
         setErrorMessage,
