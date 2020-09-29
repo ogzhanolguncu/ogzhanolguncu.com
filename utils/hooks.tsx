@@ -18,23 +18,23 @@ const fetcher = (url: string) =>
       return data;
     });
 
-export function useUser({ redirectTo = '', redirectIfFound = false } = {}) {
-  const { data } = useSWR('http://localhost:3001/auth/profile', fetcher);
-  const user = data?.success;
-  const finished = Boolean(data);
-  const hasUser = Boolean(user);
+export default function useUser({ redirectTo = '' } = {}) {
+  const { data: user, error } = useSWR('http://localhost:3001/auth/profile', fetcher);
+  const loading = user === undefined;
 
+  // handle redirections
   useEffect(() => {
-    if (!redirectTo || !finished) return;
-    if (
-      // If redirectTo is set, redirect if the user was not found.
-      (redirectTo && !redirectIfFound && !hasUser) ||
-      // If redirectIfFound is also set, redirect if the user was found.
-      (redirectIfFound && hasUser)
-    ) {
+    if (!redirectTo || loading) return;
+
+    if (redirectTo && !user) {
+      localStorage.setItem('_bRedirectTo', Router.route);
       Router.push(redirectTo);
     }
-  }, [redirectTo, redirectIfFound, finished, hasUser]);
+  }, [redirectTo, user, loading]);
 
-  return data?.statusCode === 401 ? null : user;
+  return {
+    user,
+    loading,
+    error,
+  };
 }

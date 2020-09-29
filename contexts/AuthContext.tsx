@@ -8,73 +8,51 @@ type Props = {
   children?: ReactNode;
 };
 
-type UserType = {
-  user?: string;
-};
-
 type ResponseType = {
   jwtToken: string;
   userName: string;
 };
 
 type ProviderType = {
-  isAuthenticated: boolean;
-  user: UserType;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   errorMessage?: string;
   setErrorMessage: React.Dispatch<React.SetStateAction<undefined>>;
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const AuthContext = createContext({} as ProviderType);
 
 export const AuthProvider = ({ children }: Props) => {
   const router = useRouter();
-  const [user, setUser] = useState({} as UserType); // If we supply inital value as types we specify as  ||| {} as Type |||
   const [errorMessage, setErrorMessage] = useState(undefined);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const login = async (userName: string, password: string) => {
     try {
       const {
-        data: { jwtToken: token, userName: user },
+        data: { jwtToken: token },
       } = await api.post<ResponseType>('auth/login', { userName, password });
+
       if (token) {
         Cookies.set('token', token, { expires: 60 });
         api.defaults.headers.Authorization = `Bearer ${token}`;
-
-        setIsAuthenticated(true);
-        setUser({ user });
-
         router.push('/dashboard');
       }
     } catch (error) {
-      if (error.response?.data) {
-        setErrorMessage(error.response?.data?.message);
-      }
+      console.error('Error =>', error);
     }
   };
 
   const logout = () => {
     Cookies.remove('token');
-
-    setUser({});
-    setIsAuthenticated(false);
-
-    window.location.pathname = '/dashboard/login';
+    router.push('/dashboard');
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
-        user,
         login,
         logout,
         errorMessage,
         setErrorMessage,
-        setIsAuthenticated,
       }}
     >
       {children}

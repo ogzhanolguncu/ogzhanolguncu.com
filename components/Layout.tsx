@@ -1,5 +1,5 @@
 import Navbar from './Navbar';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { Flex } from '@chakra-ui/core';
 import Footer from './Footer';
 

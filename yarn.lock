@@ -2832,6 +2832,11 @@ define-property@^2.0.2:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
 
+dequal@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/dequal/-/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
+  integrity sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==
+
 des.js@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/des.js/-/des.js-1.0.1.tgz#5382142e1bdc53f85d86d53e5f4aa7deb91e0843"
@@ -6343,6 +6348,13 @@ supports-color@^7.1.0:
   integrity sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==
   dependencies:
     has-flag "^4.0.0"
+
+swr@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-0.3.5.tgz#848a80e7b23b96d7221468555d8688d3efdecbc7"
+  integrity sha512-sZNed7JBEnFC42+XFWJ+aYGGVg5D3qNyISZOke3oL/gM1UNm0tsj9mbhTPT99SV9DzbKbT1NFTTRandPdhvpUA==
+  dependencies:
+    dequal "2.0.2"
 
 table@^5.2.3:
   version "5.4.6"
