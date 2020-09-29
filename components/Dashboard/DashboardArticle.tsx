@@ -10,11 +10,12 @@ type Props = {
 
 const DashboardArticle = ({ blogs }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [blogDetail, setBlogDetail] = useState<Blog>();
-  const [originalBlogs, setOriginalBlogs] = useState<Blog[]>(blogs);
+  const [blogDetail, setBlogDetail] = useState(undefined);
+  const [originalBlogs, setOriginalBlogs] = useState(blogs);
 
-  const handleDetailClick = (id: number) => {
-    const blog = blogs.find((item) => {
+  const handleClick = (id: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const blog: any = blogs.find((item) => {
       return id === item.id;
     });
 
@@ -50,7 +51,7 @@ const DashboardArticle = ({ blogs }: Props) => {
               <ButtonGroup>
                 <Button
                   onClick={() => {
-                    onOpen(), handleDetailClick(blog.id);
+                    onOpen(), handleClick(blog.id);
                   }}
                   leftIcon={'link'}
                   variantColor="pink"

@@ -13,6 +13,7 @@ export const initialState = {
   articleTagColor: '#f6f8fb',
   white: 'white',
   black: 'black',
+  aboutTextColor: { light: '#495057', dark: '#B3B0B1' },
 };
 
 //If initial value is a const we specify as  ||| as typeof initialState ||

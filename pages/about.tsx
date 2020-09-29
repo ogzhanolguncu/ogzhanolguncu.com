@@ -1,7 +1,18 @@
-import { Heading, Text, Link as StyledLink, Flex, List, ListItem } from '@chakra-ui/core';
+import {
+  Heading,
+  Text,
+  Link as StyledLink,
+  Flex,
+  List,
+  ListItem,
+  useColorMode,
+} from '@chakra-ui/core';
 import styled from '@emotion/styled';
 
 import { Layout } from '@components/index';
+import TextLink from '@components/TextLink';
+import { useContext } from 'react';
+import { ColorModeContext } from '@contexts/CustomColorContext';
 
 const Blockquote = styled.blockquote`
   margin: 2.5rem 0;
@@ -10,6 +21,9 @@ const Blockquote = styled.blockquote`
 `;
 
 const About = () => {
+  const colorModeObj = useContext(ColorModeContext);
+  const { colorMode } = useColorMode();
+
   return (
     <Layout>
       <Flex
@@ -24,137 +38,134 @@ const About = () => {
         <Heading
           textAlign="center"
           fontSize={['2rem', '2rem', '3rem', '3rem']}
-          color="#343a40"
+          color={
+            colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
+          }
           margin="1.5rem auto"
         >
           About me
         </Heading>
-        <Text fontSize="1.05rem" mb="1.5rem" fontWeight="400" color="#495057">
+        <Text
+          fontSize="1.05rem"
+          mb="1.5rem"
+          fontWeight="400"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
+        >
           Hi! I'm Tania Rascia. I currently work full-time as a Senior Software Engineer, and I
-          build{' '}
-          <StyledLink
-            _hover={{ textDecoration: 'none' }}
-            href="#"
-            borderBottom="4px solid #dbe4ff"
-            color="#000"
-          >
-            <strong>open-source projects </strong>
-          </StyledLink>{' '}
+          build {''}
+          <TextLink text="open-source projects" />
           for fun. I went through a successful career change in 2014. This is my personal website
           where I share everything I know
         </Text>
-        <Text fontSize="1.05rem" mb="1.5rem" fontWeight="400" color="#495057">
+        <Text
+          fontSize="1.05rem"
+          mb="1.5rem"
+          fontWeight="400"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
+        >
           I taught myself how to make websites first as a hobby and later as a professional
           programmer. I've been documenting everything I learn since I began, and the site grown to
           the point that it helps millions of people every year. I've been featured in{' '}
-          <StyledLink
-            _hover={{ textDecoration: 'none' }}
-            href="#"
-            borderBottom="4px solid #dbe4ff"
-            color="#000"
-          >
-            <strong>the official React docs</strong>
-          </StyledLink>
-          , won 3rd in{' '}
-          <StyledLink
-            _hover={{ textDecoration: 'none' }}
-            href="#"
-            borderBottom="4px solid #dbe4ff"
-            color="#000"
-          >
-            <strong> Personal Dev Blog of the Year</strong>
-          </StyledLink>{' '}
-          , and written dozens of articles for other publications.
+          <TextLink text="the official React docs" />, won 3rd in {''}
+          <TextLink text="Personal Dev Blog of the Year" />, and written dozens of articles for
+          other publications.
         </Text>
-        <Text fontSize="1.05rem" mb="1.5rem" fontWeight="400" color="#495057">
+        <Text
+          fontSize="1.05rem"
+          mb="1.5rem"
+          fontWeight="400"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
+        >
           I believe in keeping a site with no ads, affiliates, sponsors, tracking, analytics, and
           social media. It's just you and me.
         </Text>
-        <Text fontSize="1.05rem" mb="1.5rem" fontWeight="400" color="#495057">
+        <Text
+          fontSize="1.05rem"
+          mb="1.5rem"
+          fontWeight="400"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
+        >
           I also like to make open source projects, all of which can be found on{' '}
-          <StyledLink
-            _hover={{ textDecoration: 'none' }}
-            href="#"
-            borderBottom="4px solid #dbe4ff"
-            color="#000"
-          >
-            <strong>Github</strong>
-          </StyledLink>
-          . A few I'm proud of are:
+          <TextLink text="Github" />. A few I'm proud of are:
         </Text>
         <List
           styleType="disc"
           fontSize="1.05rem"
           mb="1.5rem"
           p={['0 0', '0 0', '0 2rem', '0 2rem']}
-          color="#495057"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
         >
           <ListItem>
-            A{' '}
-            <StyledLink
-              _hover={{ textDecoration: 'none' }}
-              href="#"
-              borderBottom="4px solid #dbe4ff"
-              color="#000"
-            >
-              <strong>Chip-8 emulator</strong>
-            </StyledLink>{' '}
-            in JavaScript, which I{' '}
-            <StyledLink
-              _hover={{ textDecoration: 'none' }}
-              href="#"
-              borderBottom="4px solid #dbe4ff"
-              color="#000"
-            >
-              <strong>wrote about here</strong>
-            </StyledLink>
+            A <TextLink text="Chip-8 emulator" /> in JavaScript, which I {''}
+            <TextLink text="wrote about here" />
           </ListItem>
           <ListItem>
             Laconia, an app I built to learn how to write secure authentication from scratch using
             model-view-controller architecture (Source)
           </ListItem>
           <ListItem>
-            <StyledLink
-              _hover={{ textDecoration: 'none' }}
-              href="#"
-              borderBottom="4px solid #dbe4ff"
-              color="#000"
-            >
-              <strong>Take note</strong>
-            </StyledLink>
-            , an in-progress notes app for the web (Source)
+            <TextLink text="Take note" />, an in-progress notes app for the web (Source)
           </ListItem>
           <ListItem>
-            <StyledLink
-              _hover={{ textDecoration: 'none' }}
-              href="#"
-              borderBottom="4px solid #dbe4ff"
-              color="#000"
-            >
-              <strong>Primitive</strong>
-            </StyledLink>
-            , a simple CSS framework built on Sass (Source)
+            <TextLink text="Primitive" />, a simple CSS framework built on Sass (Source)
           </ListItem>
           <ListItem>
-            <StyledLink
-              _hover={{ textDecoration: 'none' }}
-              href="#"
-              borderBottom="4px solid #dbe4ff"
-              color="#000"
-            >
-              <strong>New Moon</strong>
-            </StyledLink>
-            , the world's greatest web development code theme (for VS Code) (Source)
+            <TextLink text="New Moon" />, the world's greatest web development code theme (for VS
+            Code) (Source)
           </ListItem>
         </List>
-        <Text fontSize="1.05rem" mb="1.5rem" fontWeight="400" color="#495057">
+        <Text
+          fontSize="1.05rem"
+          mb="1.5rem"
+          fontWeight="400"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
+        >
           I also like hiking and biking, I've done a lot of solo travel (around Europe and America)
           and I can speak Spanish. My favorite instrument is the accordion.
         </Text>
-        <Heading fontSize="1.6rem" color="#343a40" mb="1rem">
+        <Heading
+          fontSize="1.6rem"
+          color={
+            colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
+          }
+          mb="1rem"
+        >
           Get in touch
         </Heading>
-        <Text fontSize="1.05rem" mb="1.5rem" fontWeight="400" color="#495057">
+        <Text
+          fontSize="1.05rem"
+          mb="1.5rem"
+          fontWeight="400"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
+        >
           I hope you love the site, and if there's anything you want to talk about with me feel free
           to drop me a line by email. I'm happy to hear your comments, feedback, suggestions, or
           just say hi!{' '}
@@ -164,10 +175,11 @@ const About = () => {
           <StyledLink
             _hover={{ textDecoration: 'none', borderBottomColor: '#BAC8FF' }}
             href="#"
-            borderBottom="7px solid #dbe4ff"
-            color="#000"
-            fontSize="1.8rem"
+            borderBottom={colorMode === 'light' ? '7px solid #dbe4ff' : null}
+            color={colorMode === 'light' ? '#000' : '#6ab0f3'}
+            fontSize={['1.2rem', '1.6rem', '1.8rem', '1.8rem']}
             fontWeight="bold"
+            wordBreak="break-word"
           >
             oguzhan_olguncu@gmail.com
           </StyledLink>
@@ -177,34 +189,26 @@ const About = () => {
           fontSize="1.05rem"
           mb="3rem"
           p={['0 0', '0 0', '0 2rem', '0 2rem']}
-          color="#495057"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
         >
           <ListItem>
-            🐦 &nbsp; <strong>Twitter:</strong>{' '}
-            <StyledLink
-              _hover={{ textDecoration: 'none' }}
-              href="#"
-              borderBottom="4px solid #dbe4ff"
-              color="#000"
-            >
-              <strong>@oguzhanolguncu</strong>
-            </StyledLink>
+            🐦 &nbsp; <strong>Twitter:</strong> {''}
+            <TextLink text="@oguzhanolguncu" />
           </ListItem>
           <ListItem>
-            🐙 &nbsp; <strong>Github:</strong>{' '}
-            <StyledLink
-              _hover={{ textDecoration: 'none' }}
-              href="#"
-              borderBottom="4px solid #dbe4ff"
-              color="#000"
-            >
-              <strong>@oguzhanolguncu</strong>
-            </StyledLink>
+            🐙 &nbsp; <strong>Github:</strong> {''}
+            <TextLink text="@oguzhanolguncu" />
           </ListItem>
         </List>
         <Heading
           fontSize="1.6rem"
-          color="#343a40"
+          color={
+            colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
+          }
           mb="1.5rem"
           pb="1rem"
           borderBottom="1px solid #d6d9de"
@@ -217,7 +221,11 @@ const About = () => {
           fontSize="1.05rem"
           mb="3rem"
           p={['0 0', '0 0', '0 2rem', '0 2rem']}
-          color="#495057"
+          color={
+            colorMode === 'light'
+              ? colorModeObj.aboutTextColor.light
+              : colorModeObj.aboutTextColor.dark
+          }
         >
           <ListItem>
             <strong>1989:</strong> Born in Chicago, the youngest of four and the only girl.
@@ -255,7 +263,9 @@ const About = () => {
         </List>
         <Heading
           fontSize="1.6rem"
-          color="#343a40"
+          color={
+            colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
+          }
           mb="1.5rem"
           pb="1rem"
           borderBottom="1px solid #d6d9de"
@@ -264,11 +274,14 @@ const About = () => {
           Some quotes
         </Heading>
         <Blockquote>
-          <Text>
+          <Text ml="20px" fontSize="1.5rem">
             Tania writes extremely clear, concise tutorials. It's no exaggeration to say that I
             wouldn't currently have a job in development without this site. So thanks for ruining my
             life, Tania
           </Text>
+          <i style={{ color: 'darkslateblue', fontSize: '2rem', float: 'right' }}>
+            Micheal Scofield
+          </i>
         </Blockquote>
       </Flex>
     </Layout>

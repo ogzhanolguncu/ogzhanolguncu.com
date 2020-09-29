@@ -1,4 +1,4 @@
-import { Flex, Heading, Input, Stack, Tag } from '@chakra-ui/core';
+import { Flex, Heading, Input, Stack, Tag, TagCloseButton, TagLabel } from '@chakra-ui/core';
 import { DashboardLayout } from '@components/index';
 import React, { useEffect, useState } from 'react';
 import colorMap from 'styles/colorMap';
@@ -8,9 +8,28 @@ const Add = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
+  const handleDeleteTag = (tag: string) => {
+    const newSelectedTags = selectedTags.filter((item) => {
+      return tag !== item;
+    });
+    setSelectedTags(newSelectedTags);
+  };
+
   useEffect(() => {
     if (suggest?.length >= 1) {
-      setTags(Object.keys(colorMap).filter((colors) => colors.startsWith(suggest)));
+      let searched = Object.keys(colorMap).filter((colors) => colors.startsWith(suggest));
+      searched = searched.filter((item) => {
+        let condition = false;
+        for (let i = 0; i < selectedTags.length; i++) {
+          item === selectedTags[i] ? (condition = true) : null;
+        }
+        if (condition) {
+          return null;
+        } else {
+          return item;
+        }
+      });
+      setTags(searched);
     }
     return () => {
       setTags([]);
@@ -27,12 +46,9 @@ const Add = () => {
           {selectedTags?.length > 0 && (
             <Stack isInline>
               {selectedTags.map((tag, index) => (
-                <Tag
-                  key={index}
-                  _hover={{ cursor: 'pointer' }}
-                  onClick={() => setSelectedTags([...selectedTags, tag])}
-                >
-                  {tag}
+                <Tag key={index} _hover={{ cursor: 'pointer' }}>
+                  <TagLabel>{tag}</TagLabel>
+                  <TagCloseButton onClick={() => handleDeleteTag(tag)} />
                 </Tag>
               ))}
             </Stack>

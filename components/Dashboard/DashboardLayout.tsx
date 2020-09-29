@@ -40,7 +40,7 @@ const DashboardLayout = ({ children }: Props) => {
         w="100%"
         maxW="1328px"
         height="650px"
-        boxShadow="0 27px 78px #4c566a"
+        boxShadow="0 27px 78px #709EFD"
         borderRadius="20px"
       >
         <Flex
@@ -51,9 +51,9 @@ const DashboardLayout = ({ children }: Props) => {
         >
           <Flex flexDirection="column" justifyContent="space-evenly" height="250px" m="5px 15px">
             <Heading mb="10px" p="10px 12px">
-              🦉🦉🦉
+              S
             </Heading>
-            <Link href="dashboard">
+            <Link href="/dashboard">
               <StyledLink
                 d="flex"
                 alignItems="center"
