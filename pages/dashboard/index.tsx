@@ -1,14 +1,12 @@
 import { Flex, Heading } from '@chakra-ui/core';
 
-import DashboardLayout from '@components/Dashboard/DashboardLayout';
-import DashboardLatestArticleLists from '@components/Dashboard/DashboardLatestArticleLists';
-
-// import data from 'data.json';
 import { blogData } from 'sample-data';
 import { GetStaticProps } from 'next';
+import { Blog } from 'global';
+import React from 'react';
+import { DashboardLatestArticleLists, DashboardLayout } from '@components/index';
 
 type Props = {
-  // eslint-disable-next-line no-undef
   blogs: Blog[];
 };
 

@@ -2,9 +2,9 @@ import { Box, Button, ButtonGroup, Flex, Heading, Text, useDisclosure } from '@c
 import React, { useState } from 'react';
 import ArticleDetailsModal from './ArticleDetailsModal';
 import Link from 'next/link';
+import { Blog } from 'global';
 
 type Props = {
-  // eslint-disable-next-line no-undef
   blogs: Blog[];
 };
 
@@ -14,6 +14,7 @@ const DashboardArticle = ({ blogs }: Props) => {
   const [originalBlogs, setOriginalBlogs] = useState(blogs);
 
   const handleClick = (id: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const blog: any = blogs.find((item) => {
       return id === item.id;
     });
@@ -60,10 +61,7 @@ const DashboardArticle = ({ blogs }: Props) => {
                   Details
                 </Button>
                 <Button leftIcon={'edit'} variantColor="blue" variant="solid">
-                  <Link
-                    href="/admin/dashboard/article/[id]"
-                    as={`/admin/dashboard/article/${blog.id}`}
-                  >
+                  <Link href="/dashboard/article/[id]" as={`/dashboard/article/${blog.id}`}>
                     Update
                   </Link>
                 </Button>

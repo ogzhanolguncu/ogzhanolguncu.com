@@ -4,6 +4,7 @@ import Router from 'next/router';
 import React from 'react';
 import api from 'api';
 import Error from 'pages/_error';
+import { ErrorProps } from 'global';
 
 const redirectBasedOnLogin = async (
   ctx: NextPageContext,
@@ -30,10 +31,8 @@ const redirectBasedOnLogin = async (
 };
 
 const withAuthRedirect = (route: string, redirectIfAuthed: boolean) => (
-  // eslint-disable-next-line no-undef
   Page: NextComponentType<NextPageContext, ErrorProps>,
 ) => {
-  // eslint-disable-next-line no-undef
   return class extends React.Component<ErrorProps> {
     static async getInitialProps(ctx: NextPageContext) {
       try {
@@ -48,8 +47,8 @@ const withAuthRedirect = (route: string, redirectIfAuthed: boolean) => (
     }
 
     render() {
-      const { message, statusCode } = this.props;
-      if (statusCode) return <Error statusCode={statusCode} message={message} />;
+      const { statusCode } = this.props;
+      if (statusCode) return <Error />;
       return <Page {...this.props} />;
     }
   };

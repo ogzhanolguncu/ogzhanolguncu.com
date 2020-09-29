@@ -1,8 +1,8 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/core';
+import { Blog } from 'global';
 import React from 'react';
 
 type Props = {
-  // eslint-disable-next-line no-undef
   blogs: Blog[];
 };
 

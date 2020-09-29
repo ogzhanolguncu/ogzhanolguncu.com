@@ -6,8 +6,14 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* <link rel="preload" href="/fonts/noto-sans-v9-latin-regular.woff2" as="font" crossOrigin="" /> */}
-          {/* updated href and deleted "/fonts/noto-sans-v9-latin-regular.woff2" */}
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          <link
+            rel="preload"
+            href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
         </Head>
         <body>
           <Main />

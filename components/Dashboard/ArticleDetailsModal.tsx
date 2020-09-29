@@ -11,12 +11,12 @@ import {
   Tag,
   Text,
 } from '@chakra-ui/core';
+import { Blog } from 'global';
 import React from 'react';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  // eslint-disable-next-line no-undef
   blog?: Blog;
 };
 

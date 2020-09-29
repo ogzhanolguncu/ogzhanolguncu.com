@@ -1,11 +1,11 @@
-import { Box, Heading, Stack, Tag, Text } from '@chakra-ui/core';
-import DashboardLayout from '@components/Dashboard/DashboardLayout';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import React from 'react';
+import { Box, Heading, Stack, Tag, Text } from '@chakra-ui/core';
+import { DashboardLayout } from '@components/index';
+import { Blog } from 'global';
 import { blogData } from 'sample-data';
 
 type Props = {
-  // eslint-disable-next-line no-undef
   blog: Blog;
   errors?: string;
 };

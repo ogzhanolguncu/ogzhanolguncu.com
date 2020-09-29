@@ -53,7 +53,7 @@ const DashboardLayout = ({ children }: Props) => {
             <Heading mb="10px" p="10px 12px">
               S
             </Heading>
-            <Link href="/admin/dashboard">
+            <Link href="/dashboard">
               <StyledLink
                 d="flex"
                 alignItems="center"
@@ -65,7 +65,7 @@ const DashboardLayout = ({ children }: Props) => {
                 Dashboard
               </StyledLink>
             </Link>
-            <Link href="/admin/dashboard/article">
+            <Link href="/dashboard/article">
               <StyledLink
                 d="flex"
                 justifyContent="flex-start"
@@ -78,7 +78,7 @@ const DashboardLayout = ({ children }: Props) => {
                 Articles
               </StyledLink>
             </Link>
-            <Link href="/admin/dashboard/task">
+            <Link href="/dashboard/task">
               <StyledLink
                 d="flex"
                 alignItems="center"

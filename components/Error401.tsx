@@ -5,7 +5,7 @@ import error401 from 'images/401.png';
 
 const Error401 = () => {
   const redirectToLogin = () => {
-    Router.push('/admin/login');
+    Router.push('/dashboard/login');
   };
   return (
     <Layout>

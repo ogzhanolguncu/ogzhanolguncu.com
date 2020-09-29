@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: Props) => {
     setUser({});
     setIsAuthenticated(false);
 
-    window.location.pathname = '/admin/login';
+    window.location.pathname = '/dashboard/login';
   };
 
   return (

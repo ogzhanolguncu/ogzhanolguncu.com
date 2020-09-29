@@ -1,13 +1,11 @@
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
-
 import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/index';
 import { blogData } from 'sample-data';
+import { Blog, IsPopular } from 'global';
 
 type Props = {
-  // eslint-disable-next-line no-undef
   isPopular?: IsPopular;
-  // eslint-disable-next-line no-undef
   blogs: Blog[];
 };
 
