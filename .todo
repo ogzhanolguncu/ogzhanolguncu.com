@@ -1,9 +1,8 @@
-About renkler düzeltilecek.
-ColorMap performans ölçülecek.
-
-Colormode ---> Sadece tagler kaldı
-
-Snarkdown kullanılacak.
-footer iconları optimize edilecek.
-footerdaki external linkler düzeltilecek.
-app.tsx deki iconlar refactor edilecek. 
+Mdx içindeki anchor tage bakılacak
+code highlight color özelleştirmesi
+Index sayfasında blog mdxler listelenecek
+front matter'a language tagler eklenecek
+mdx içinde language tagler renderlanacak
+Reading timelar eklenecek
+seo component yapılacak
+search component yapılacak --- fuze.js kullanılabilir

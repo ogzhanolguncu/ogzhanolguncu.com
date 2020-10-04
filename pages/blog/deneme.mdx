@@ -1,108 +1,225 @@
 ---
-title: '2019 Year in Review'
-publishedAt: '2019-12-26'
-summary: 'Highlights and reflections on 2019 and a look forward to 2020.'
-image: '/static/images/2019/banner.jpg'
+title: 'Configuring Sentry for Next.js Apps'
+publishedAt: '2019-04-23'
+summary: 'Learn how to set up Sentry to capture client-side and server-side exceptions for Next.js applications.'
+image: '/static/images/configuring-sentry-for-nextjs-apps/banner.png'
+languageTags: ['javascript', 'react', 'next.js']
 ---
 
-![2019 Year in Review](/static/images/2019/banner.jpg)
+> **Update (2020):** This guide has been updated with the latest Sentry example.
 
-2019 was arguably my best year to date, both professionally and personally.
-This was the second year I set detailed yearly goals and held myself accountable for reaching them. Overall, **I met 90% of my goals**.
+For many teams using Next.js, setting up exception monitoring is a critical requirement before going to production.
+This guide will show you how to use [Sentry](https://sentry.io) to catch & report errors on both client and server-side.
 
-## Highlights
+## Brief Next.js Overview
 
-- 💍Got engaged!
-- 🏡Bought a townhome with my fiancée
-- 🚀Promoted to Software Engineer III
-- 📈Gained >100 newsletter subscribers
-- 📚Wrote 24 articles which amassed over 150,000 views
-- 🎤Spoke in front of >100 people at a conference in Seattle
+Next.js gives you a [hybrid approach](https://vercel.com/blog/nextjs-server-side-rendering-vs-static-generation) for rendering your application.
+You can choose on a per-page basis whether you want client-side rendering, server-side rendering, or static-site generation.
 
-## Personal
+Next.js uses [file system based routing](https://nextjs.org/docs/routing/introduction).
+All files inside the `/pages` directory will be routed based on their filename (e.g. `/pages/home.js` routes to `your-domain.com/home`).
 
-Hands down, my biggest life event this year was getting engaged to my now fiancée, Allie.
-I planned a surprise party so her family and friends could all be there to celebrate the moment. It was unforgettable.
+There are a few Next-specific files you should understand:
 
-Shortly after, I sold my condo and purchased a new townhome with Allie. This was not a simple process.
-Part of the complexity came from listing "for sale by owner" instead of with a realtor.
-I could write an entire article on the pros & cons of owning vs. renting, but let's just say it was a long three-month process.
+- `_app.js` is used to initialize pages and renders on both the client and the server.
+- `_error.js` is rendered by Next.js while handling exceptions.
+- `next.config.js` allows you to override the default configuration.
 
-I had the opportunity to travel a lot this year. Denver (x2), Kansas City (x2), Milwaukee, Exuma, and last but not least [Italy](/blog/italy) 🇮🇹
-I attended lots of concerts, including my two current favorite bands [LANY](https://thisislany.com) and [The Band CAMINO](https://www.thebandcamino.com/).
+## Implementing Sentry
 
-## Professional
+**Note:** You can view the completed example [here](https://github.com/vercel/next.js/tree/canary/examples/with-sentry).
 
-At the start of 2019, I was finally getting settled into my [new role at Hy-Vee.](/blog/joining-hy-vee)
-It's been a year of **exponential growth** 📈
+1. Set up an account with [Sentry](https://sentry.io) and retrieve your DSN from your project settings.
+2. Add the required environment variables.
 
-While I learned a great deal in my 3 years at Workiva, the bulk of the learning came in the first year.
-After that, there was less exploration of new tools & technologies and more specialized work on our product.
+```bash:.env.local
+NEXT_PUBLIC_SENTRY_DSN=
 
-The problem was that a good portion of the tech we used was either not widely used across the industry, or only relevant to Workiva.
-This did not translate well when it was time to switch companies.
+# Only required to upload sourcemaps
+SENTRY_ORG=
+SENTRY_PROJECT=
+SENTRY_AUTH_TOKEN=
+```
 
-Luckily, I've always enjoyed learning and was hungry for a new challenge.
-Thanks to some great teammates and peers, **I've learned more in 2019** than I did in the prior 3 years.
-This is not an all-encompassing list, but I gained significant experience with the following:
+3. Add the required dependencies. Here's an example `package.json`. Ensure you have `v0.0.4-canary.1` of `@zeit/next-source-maps` until a [new version is published](https://github.com/vercel/next-plugins/issues/634).
 
-- [Next.js](/blog/things-ive-learned-building-nextjs-apps)
-- [GraphQL](/blog/graphql-at-hy-vee)
-- [Apollo Client](/blog/graphql-at-hy-vee)
-- [Vercel](/blog/nextjs-firebase-serverless)
-- [PostgreSQL](https://www.postgresql.org/)
-- [React Hooks](/blog/real-time-post-views)
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- [Design Systems](/blog/style-guides-component-libraries-design-systems)
-- [Component Libraries](/blog/monorepo-lerna-yarn-workspaces)
-- [CSS-in-JS](/blog/ui-component-library-with-styled-components)
+```json:package.json
+{
+  "name": "with-sentry",
+  "version": "1.0.0",
+  "license": "ISC",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@sentry/browser": "^5.15.5",
+    "@sentry/node": "^5.15.5",
+    "@sentry/webpack-plugin": "^1.11.1",
+    "@zeit/next-source-maps": "0.0.4-canary.1",
+    "next": "latest",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
+```
 
-This knowledge and experience led to other endeavors.
+4. Override `_app.js` to initialize Sentry. Note that it's only enabled when building for production.
 
-- I landed my largest freelance client, **[BeyondHQ](https://beyondhq.co/)**, and built an [entire web application](/blog/nextjs-firebase-serverless) using Next.js, React, Firebase, and styled-components.
-- Launched **[Mastering Next.js](https://masteringnextjs.com/)**, a 50+ lesson video course for building applications with Next.js and React.
-- Started **[dsmtech.io](https://dsmtech.io/)** to promote tech companies in the DSM area and help engineers find job opportunities (featured in [Innovation Iowa](https://innovationia.com/2019/01/03/dsmtech-io-launches-for-tech-job-seekers-scouting-des-moines/) 🚀).
+```jsx:pages/_app.js
+import * as Sentry from '@sentry/node';
 
-There were a few other notable parts of 2019 worth mentioning.
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  Sentry.init({
+    enabled: process.env.NODE_ENV === 'production',
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  });
+}
 
-- I was promoted to Software Engineer III at Hy-Vee 🎉 I'm leading the design system architecture for our organization of ~150 engineers. New components are built with React, Storybook, and styled-components.
-- I've been apart of the [Diversity & Inclusion Committee](https://www.technologyiowa.org/Priorities/ShowPriority?id=4) for the Technology Association of Iowa.
+export default function App({ Component, pageProps, err }) {
+  // Workaround for https://github.com/vercel/next.js/issues/8592
+  return <Component {...pageProps} err={err} />;
+}
+```
 
-## Conference Talks
+5. Override `_error.js` to handle uncaught exceptions.
 
-In February, I posted an article called [_Technical Recruiting is Broken_](/blog/technical-recruiting-is-broken).
-I was frustrated with being incorrectly targeted by recruiters and wanted to share my perspective on what was broken with the process.
+```jsx:pages/_error.js
+import NextErrorComponent from 'next/error';
+import * as Sentry from '@sentry/node';
 
-The response I received was overwhelming.
+const Error = ({ statusCode, hasGetInitialPropsRun, err }) => {
+  if (!hasGetInitialPropsRun && err) {
+    // getInitialProps is not called in case of
+    // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
+    // err via _app.js so it can be captured
+    Sentry.captureException(err);
+  }
 
-Over **10,000 page views** and **200 comments** from engineers sharing their stories about why technical recruiting was broken and their experiences.
-One person who was particularly moved was [Angie Verros](https://www.linkedin.com/in/averros), the organizer behind [Talent42](https://www.talent42.com/home).
+  return <NextErrorComponent statusCode={statusCode} />;
+};
 
-> Talent42 is the national conference focused 100% on helping recruiters hire top technology talent. We bring you keynotes from engineering leaders, tech recruiting leader presentations and panels, hands-on roundtables, and training. Companies like Apple, Facebook, Amazon, Google, Target, Costco, Uber, Disney, Nike, NBC, Etsy, and many search firms send their tech recruiting teams to participate in this practical, how-to conference that’s all about sourcing, interviewing, and closing the best tech talent on earth.
+Error.getInitialProps = async ({ res, err, asPath }) => {
+  const errorInitialProps = await NextErrorComponent.getInitialProps({
+    res,
+    err,
+  });
 
-Angie wanted me to come out to Seattle and speak at Talent42 to share an engineer's perspective on technical recruiting.
-Coincidentally, one of my goals for 2019 was to speak at a national conference. _Challenge accepted!_
+  // Workaround for https://github.com/vercel/next.js/issues/8592, mark when
+  // getInitialProps has run
+  errorInitialProps.hasGetInitialPropsRun = true;
 
-![Talent42 Recruiting Conference](/static/images/2019/talent42.png)
+  // Running on the server, the response object (`res`) is available.
+  //
+  // Next.js will pass an err on the server if a page's data fetching methods
+  // threw or returned a Promise that rejected
+  //
+  // Running on the client (browser), Next.js will provide an err if:
+  //
+  //  - a page's `getInitialProps` threw or returned a Promise that rejected
+  //  - an exception was thrown somewhere in the React lifecycle (render,
+  //    componentDidMount, etc) that was caught by Next.js's React Error
+  //    Boundary. Read more about what types of exceptions are caught by Error
+  //    Boundaries: https://reactjs.org/docs/error-boundaries.html
 
-This talk was one of my favorite moments of the year. I walked on that stage with more confidence than I've ever felt.
-It was an incredible feeling. This inspired me to speak at four other events in 2019.
+  if (res?.statusCode === 404) {
+    // Opinionated: do not record an exception in Sentry for 404
+    return { statusCode: 404 };
+  }
+  if (err) {
+    Sentry.captureException(err);
+    await Sentry.flush(2000);
+    return errorInitialProps;
+  }
 
-## Writing
+  // If this point is reached, getInitialProps was called without any
+  // information about what the error might be. This is unexpected and may
+  // indicate a bug introduced in Next.js, so record it in Sentry
+  Sentry.captureException(new Error(`_error.js getInitialProps missing data at path: ${asPath}`));
+  await Sentry.flush(2000);
 
-I wrote **24 articles** in 2019 and amassed over **150,000 views!** 😱Here are some of my most popular.
+  return errorInitialProps;
+};
 
-- [Everything I Know About Style Guides, Design Systems, and Component Libraries](/blog/style-guides-component-libraries-design-systems)
-- [Technical Recruiting is Broken](/blog/technical-recruiting-is-broken)
-- [Creating a Monorepo with Lerna & Yarn Workspaces](/blog/monorepo-lerna-yarn-workspaces)
-- [Things I've Learned Building Next.js Apps](/blog/things-ive-learned-building-nextjs-apps)
+export default Error;
+```
 
-## Looking Ahead To 2020
+6. Override `next.config.js` to produce source maps. This enables source maps in production for Sentry and swaps out `@sentry/node` for `@sentry/browser` when building the client side.
 
-I've started outlining some goals for 2020. I'd love to hear what others are striving to achieve. [Shoot me an email](mailto:me@leerob.io) if you want to share yours!
+```js:next.config.js
+// Use the hidden-source-map option when you don't want the source maps to be
+// publicly available on the servers, only to the error reporting
+const withSourceMaps = require('@zeit/next-source-maps')();
 
-- 💍 Get married
-- 🎤 Speak at a conference internationally
-- 🎶 Record a cover and post it on Spotify
-- ⚛️ Increase proficiency in JavaScript and full-stack development
-- 🍇 Be more intentional about meal prepping and focus on my diet
+// Use the SentryWebpack plugin to upload the source maps during build step
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
+const {
+  NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
+  SENTRY_ORG,
+  SENTRY_PROJECT,
+  SENTRY_AUTH_TOKEN,
+  NODE_ENV,
+  VERCEL_GITHUB_COMMIT_SHA,
+  VERCEL_GITLAB_COMMIT_SHA,
+  VERCEL_BITBUCKET_COMMIT_SHA,
+} = process.env;
+
+const COMMIT_SHA =
+  VERCEL_GITHUB_COMMIT_SHA || VERCEL_GITLAB_COMMIT_SHA || VERCEL_BITBUCKET_COMMIT_SHA;
+
+process.env.SENTRY_DSN = SENTRY_DSN;
+
+module.exports = withSourceMaps({
+  webpack: (config, options) => {
+    // In `pages/_app.js`, Sentry is imported from @sentry/browser. While
+    // @sentry/node will run in a Node.js environment. @sentry/node will use
+    // Node.js-only APIs to catch even more unhandled exceptions.
+    //
+    // This works well when Next.js is SSRing your page on a server with
+    // Node.js, but it is not what we want when your client-side bundle is being
+    // executed by a browser.
+    //
+    // Luckily, Next.js will call this webpack function twice, once for the
+    // server and once for the client. Read more:
+    // https://nextjs.org/docs/api-reference/next.config.js/custom-webpack-config
+    //
+    // So ask Webpack to replace @sentry/node imports with @sentry/browser when
+    // building the browser's bundle
+    if (!options.isServer) {
+      config.resolve.alias['@sentry/node'] = '@sentry/browser';
+    }
+
+    // When all the Sentry configuration env variables are available/configured
+    // The Sentry webpack plugin gets pushed to the webpack plugins to build
+    // and upload the source maps to sentry.
+    // This is an alternative to manually uploading the source maps
+    // Note: This is disabled in development mode.
+    if (
+      SENTRY_DSN &&
+      SENTRY_ORG &&
+      SENTRY_PROJECT &&
+      SENTRY_AUTH_TOKEN &&
+      COMMIT_SHA &&
+      NODE_ENV === 'production'
+    ) {
+      config.plugins.push(
+        new SentryWebpackPlugin({
+          include: '.next',
+          ignore: ['node_modules'],
+          urlPrefix: '~/_next',
+          release: COMMIT_SHA,
+        }),
+      );
+    }
+
+    return config;
+  },
+});
+```
+
+## Other Notes
+
+- You'll want to upload source maps for the most helpful errors. If you use Vercel, you can add the [Sentry Integration](https://docs.sentry.io/workflow/integrations/vercel). Otherwise, follow [these steps](https://github.com/vercel/next.js/tree/canary/examples/with-sentry#without-using-vercel).
+- Source maps and error tracking are **not enabled** in development mode.
+- Both `@zeit/next-source-maps` and `@sentry/webpack-plugin` are added to `dependencies` (rather than `devDependencies`) because if used with SSR, these plugins are used during production for generating the source-maps and sending them to Sentry.
