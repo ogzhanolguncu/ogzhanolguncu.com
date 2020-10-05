@@ -47,7 +47,6 @@ type Props = {
 const ArticleLists = ({ isPopular, blogs }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
-
   return (
     <Flex flexDirection="column" m="3rem 0">
       <Flex
@@ -144,6 +143,7 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
                     borderRadius="16px"
                     marginBottom="7px"
                     marginRight=".5rem"
+                    color="#fff"
                     backgroundColor={color?.color}
                     _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
                   >

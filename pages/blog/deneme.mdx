@@ -4,6 +4,7 @@ publishedAt: '2019-04-23'
 summary: 'Learn how to set up Sentry to capture client-side and server-side exceptions for Next.js applications.'
 image: '/static/images/configuring-sentry-for-nextjs-apps/banner.png'
 languageTags: ['javascript', 'react', 'next.js']
+date: '2020-01-01'
 ---
 
 > **Update (2020):** This guide has been updated with the latest Sentry example.
@@ -216,6 +217,27 @@ module.exports = withSourceMaps({
     return config;
   },
 });
+```
+
+7. Javascript Methods
+
+```js:Dashboard.js
+function Dashboard({ blogs }: Props) {
+  useUser();
+  return (
+    <>
+      // When all the Sentry configuration env variables are available/configured
+      <DashboardLayout>
+        <Flex flexDirection="column" w="60%">
+          <Heading fontSize="20px" fontWeight="700" textTransform="uppercase">
+            Latest added articles
+          </Heading>
+          <DashboardLatestArticleLists blogs={blogs} />
+        </Flex>
+      </DashboardLayout>
+    </>
+  );
+}
 ```
 
 ## Other Notes
