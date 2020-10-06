@@ -4,14 +4,13 @@ import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/
 // import { frontMatter as blogPosts } from './blog/**/*.mdx';
 import { getSortedPostsData } from 'lib/posts';
 
-import { Blog, IsPopular } from 'global';
+import { StaticBlog } from 'global';
 
 type Props = {
-  isPopular?: IsPopular;
-  blogPosts: Blog[];
+  blogPosts: StaticBlog[];
 };
 
-const Home = ({ isPopular, blogPosts }: Props) => {
+const Home = ({ blogPosts }: Props) => {
   return (
     <Layout>
       <Head>
@@ -20,7 +19,7 @@ const Home = ({ isPopular, blogPosts }: Props) => {
       </Head>
       <Summary />
       <ArticleLists blogs={blogPosts} />
-      <ArticleLists isPopular={isPopular} blogs={blogPosts} />
+      <ArticleLists blogs={blogPosts} />
       <Project />
       <Newsletter />
     </Layout>
@@ -30,9 +29,9 @@ const Home = ({ isPopular, blogPosts }: Props) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const popular = true;
-  const blogs = getSortedPostsData();
+  const isPopular = true;
+  const blogPosts = getSortedPostsData();
   return {
-    props: { popular, blogs },
+    props: { isPopular, blogPosts },
   };
 };

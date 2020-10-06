@@ -1,5 +1,14 @@
-Index sayfasında blog mdxler listelenecek
-front matter'a language tagler eklenecek
+Latest ve popular olma durumu düzeltilecek
 mdx içinde language tagler renderlanacak
-Reading timelar eklenecek
+Latest article son 5 article listelenecek
+Popular articleda 10 tane article listelenecek
+meta taglere guide olma durumu eklenecek
+blog mdx listelenecek
+guide sayfası card listeleme yapılacak
+Guide sayfası color mode düzenlenecek
 search component yapılacak --- fuze.js kullanılabilir
+https://disqus.com/ eklenecek.
+PWA yapılacak
+AMP yapılacak
+Newsletter
+

@@ -3,7 +3,7 @@ import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from 
 import styled from '@emotion/styled';
 import { useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
-import { Blog, IsPopular } from 'global';
+import { StaticBlog } from 'global';
 import colorMap from 'styles/colorMap';
 
 const Article = styled(Box)`
@@ -40,11 +40,10 @@ const ArticleTitle = styled(Box)`
 `;
 
 type Props = {
-  isPopular?: IsPopular;
-  blogs: Blog[];
+  blogs: StaticBlog[];
 };
 
-const ArticleLists = ({ isPopular, blogs }: Props) => {
+const ArticleLists = ({ blogs }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
   return (
@@ -59,9 +58,9 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
           fontSize={['1.7rem', '1.7rem', '2rem', '2rem']}
           color={colorModeObj.titleColor[colorMode]}
         >
-          {isPopular ? 'Popular Articles' : 'Latest Articles'}
+          {blogs.some((x) => x.isPopular) ? 'Popular Articles' : 'Latest Articles'}
         </Heading>
-        <Link href="www.google.com">
+        <Link href="/blog">
           <StyledLink
             ml="3rem"
             mt=".5rem"
@@ -85,12 +84,12 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
         </Link>
       </Flex>
       <Flex mt="1.5rem" alignItems="flex-start" justifyContent="center" flexDirection="column">
-        {blogs.map((blog) => (
+        {blogs?.map((blog) => (
           <Article key={blog.id} color={colorMode === 'light' ? 'light' : 'dark'}>
-            <Link href="www.google.com">
+            <Link href={`/blog/${blog.id}`}>
               <StyledLink _hover={{ textDecoration: 'none' }}>
                 <ArticleTitle>
-                  {!isPopular ? (
+                  {!blog.isPopular ? (
                     <Tag
                       fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
                       p=".5rem"
@@ -114,7 +113,7 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
                   ) : null}
                   <Box>
                     <Text color="#787f87" fontSize=".8rem" fontWeight="600">
-                      {blog.date}
+                      {blog.publishedAt}
                     </Text>
                     <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}>
                       {blog.title}
@@ -131,7 +130,7 @@ const ArticleLists = ({ isPopular, blogs }: Props) => {
               w="100%"
               flexWrap="wrap"
             >
-              {blog.tags.map((tag, index) => {
+              {blog?.languageTags?.map((tag, index) => {
                 const color = colorMap[tag];
                 return (
                   <Tag
