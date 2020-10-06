@@ -1,15 +1,17 @@
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/index';
-import { blogData } from 'sample-data';
+// import { frontMatter as blogPosts } from './blog/**/*.mdx';
+import { getSortedPostsData } from 'lib/posts';
+
 import { Blog, IsPopular } from 'global';
 
 type Props = {
   isPopular?: IsPopular;
-  blogs: Blog[];
+  blogPosts: Blog[];
 };
 
-const Home = ({ isPopular, blogs }: Props) => {
+const Home = ({ isPopular, blogPosts }: Props) => {
   return (
     <Layout>
       <Head>
@@ -17,8 +19,8 @@ const Home = ({ isPopular, blogs }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Summary />
-      <ArticleLists blogs={blogs} />
-      <ArticleLists isPopular={isPopular} blogs={blogs} />
+      <ArticleLists blogs={blogPosts} />
+      <ArticleLists isPopular={isPopular} blogs={blogPosts} />
       <Project />
       <Newsletter />
     </Layout>
@@ -29,8 +31,7 @@ export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
   const popular = true;
-  const blogs = blogData;
-
+  const blogs = getSortedPostsData();
   return {
     props: { popular, blogs },
   };

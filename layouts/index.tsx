@@ -1,4 +1,5 @@
 import { Avatar, Box, Flex, Heading, Link, Stack, Text, useColorMode } from '@chakra-ui/core';
+import BlogSeo from '@components/BlogSeo';
 import { Layout } from '@components/index';
 import { parseISO, format } from 'date-fns';
 import React from 'react';
@@ -25,7 +26,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
 
   return (
     <Layout>
-      {/* <BlogSeo url={`https://leerob.io/blog/${slug}`} {...frontMatter} /> */}
+      <BlogSeo url={`https://ogzolguncu.io/blog/${slug}`} {...frontMatter} />
       <Stack
         as="article"
         spacing={8}
@@ -54,10 +55,15 @@ export default function BlogLayout({ children, frontMatter }: any) {
             mb={4}
           >
             <Flex align="center">
-              <Avatar size="xs" name="Lee Robinson" src="https://bit.ly/33vEjhB" mr={2} />
+              <Avatar
+                size="xs"
+                name="Oğuzhan Olguncu"
+                src="https://media-exp1.licdn.com/dms/image/C4E03AQHv_LowbjEUOw/profile-displayphoto-shrink_100_100/0?e=1606953600&v=beta&t=-tVK2oYnkpwrtm9xKgcCyz4jJCiREvlQWjmizKocuYY"
+                mr={2}
+              />
               <Text fontSize="sm" color={textColor[colorMode]}>
                 {frontMatter.by}
-                {'Lee Robinson / '}
+                {'Oğuzhan Olguncu / '}
                 {format(parseISO(frontMatter.publishedAt), 'MMMM dd, yyyy')}
               </Text>
             </Flex>

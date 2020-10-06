@@ -175,7 +175,7 @@ export const prismDarkTheme = css`
     color: rgb(214, 222, 235);
   }
   .token.number {
-    color: rgb(247, 140, 108);
+    color: rgb(247, 140, 15);
   }
   .token.builtin,
   .token.char,

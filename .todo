@@ -1,8 +1,5 @@
-Mdx içindeki anchor tage bakılacak
-code highlight color özelleştirmesi
 Index sayfasında blog mdxler listelenecek
 front matter'a language tagler eklenecek
 mdx içinde language tagler renderlanacak
 Reading timelar eklenecek
-seo component yapılacak
 search component yapılacak --- fuze.js kullanılabilir

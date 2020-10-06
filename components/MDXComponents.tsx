@@ -113,20 +113,22 @@ const DocsHeading = (props: any) => (
     <Box pointerEvents="auto">
       {props.children}
       {props.id && (
-        <PseudoBox
-          aria-label="anchor"
-          as="a"
-          color="blue.500"
-          fontWeight="normal"
-          outline="none"
-          _focus={{
-            opacity: 1,
-            boxShadow: 'outline',
-          }}
-          ml="0.375rem"
-        >
-          #
-        </PseudoBox>
+        <NextLink href={`#${props.id}`}>
+          <PseudoBox
+            aria-label="anchor"
+            as="a"
+            color="transparent"
+            fontWeight="normal"
+            outline="none"
+            _hover={{ cursor: 'pointer', color: 'blue.500' }}
+            _focus={{
+              boxShadow: 'outline',
+            }}
+            ml="0.375rem"
+          >
+            #
+          </PseudoBox>
+        </NextLink>
       )}
     </Box>
   </Heading>
