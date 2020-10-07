@@ -9,4 +9,4 @@ export { default as Error404 } from './Error404';
 export { default as Redirect } from './Redirect';
 
 //Dashboard
-export * from './Dashboard/index';
+export * from './StyledComponents';

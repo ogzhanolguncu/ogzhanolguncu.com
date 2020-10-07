@@ -1,51 +1,22 @@
 import Link from 'next/link';
 import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from '@chakra-ui/core';
-import styled from '@emotion/styled';
 import { useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';
 import colorMap from 'styles/colorMap';
-
-const Article = styled(Box)`
-  display: flex;
-  justify-content: space-between;
-  border-radius: 20px;
-  /* box-sizing: border-box; */
-  padding: 0.8rem 1rem;
-  margin: 0 -1rem;
-  width: 100%;
-
-  @media screen and (min-width: 1100px) {
-    /* width: 1080px; */
-    &:hover {
-      background-color: ${(props) => (props.color === 'light' ? '#f6f8fb' : '#10151fbf')};
-      transition: all 0.1s ease-in;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    border-bottom: 1px solid #d6d9de;
-    border-radius: 0;
-    justify-content: center;
-  }
-`;
-
-const ArticleTitle = styled(Box)`
-  display: flex;
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    margin-bottom: 10px;
-  }
-`;
+import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
+import React from 'react';
+import { Article, ArticleTitle } from '.';
 
 type Props = {
   blogs: StaticBlog[];
+  isPopular?: boolean;
 };
 
-const ArticleLists = ({ blogs }: Props) => {
+const ArticleLists = ({ blogs, isPopular = false }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
+
   return (
     <Flex flexDirection="column" m="3rem 0">
       <Flex
@@ -58,7 +29,7 @@ const ArticleLists = ({ blogs }: Props) => {
           fontSize={['1.7rem', '1.7rem', '2rem', '2rem']}
           color={colorModeObj.titleColor[colorMode]}
         >
-          {blogs.some((x) => x.isPopular) ? 'Popular Articles' : 'Latest Articles'}
+          {isPopular ? 'Popular Articles' : 'Latest Articles'}
         </Heading>
         <Link href="/blog">
           <StyledLink
@@ -84,75 +55,78 @@ const ArticleLists = ({ blogs }: Props) => {
         </Link>
       </Flex>
       <Flex mt="1.5rem" alignItems="flex-start" justifyContent="center" flexDirection="column">
-        {blogs?.map((blog) => (
-          <Article key={blog.id} color={colorMode === 'light' ? 'light' : 'dark'}>
-            <Link href={`/blog/${blog.id}`}>
-              <StyledLink _hover={{ textDecoration: 'none' }}>
-                <ArticleTitle>
-                  {!blog.isPopular ? (
+        {blogs
+          .filter((blog) => (isPopular ? blog.isPopular : !blog.isPopular))
+          .slice(0, 10)
+          .map((blog) => (
+            <Article key={blog.id} color={colorMode === 'light' ? 'light' : 'dark'}>
+              <Link href={`/blog/${blog.id}`}>
+                <StyledLink _hover={{ textDecoration: 'none' }}>
+                  <ArticleTitle>
+                    {compareDateWithTodaysDate(addTwoMonthToPublishedDate(blog.publishedAt)) ? (
+                      <Tag
+                        fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
+                        p=".5rem"
+                        borderRadius=".3rem"
+                        m={[
+                          'auto .4rem auto 0',
+                          'auto .4rem auto 0',
+                          'auto .4rem auto 0',
+                          '1rem 1rem 10px 0',
+                        ]} //for responsive
+                        height="15px"
+                        backgroundColor="#d3f9d8"
+                        fontWeight="700"
+                        width={['2.7rem', '2.7rem', '', '']}
+                        minW=""
+                        color={colorModeObj.articleNewTagTextColor[colorMode]}
+                        background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
+                      >
+                        New!
+                      </Tag>
+                    ) : null}
+                    <Box>
+                      <Text color="#787f87" fontSize=".8rem" fontWeight="600">
+                        {blog.publishedAt}
+                      </Text>
+                      <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}>
+                        {blog.title}
+                      </Heading>
+                    </Box>
+                  </ArticleTitle>
+                </StyledLink>
+              </Link>
+              <Box
+                d="flex"
+                flexDirection={['column', 'row', 'row', 'row']}
+                justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-end']}
+                alignItems={['flex-start', 'center', 'center', 'center']}
+                w="100%"
+                flexWrap="wrap"
+              >
+                {blog?.languageTags?.map((tag, index) => {
+                  const color = colorMap[tag];
+                  return (
                     <Tag
-                      fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
-                      p=".5rem"
-                      borderRadius=".3rem"
-                      m={[
-                        'auto .4rem auto 0',
-                        'auto .4rem auto 0',
-                        'auto .4rem auto 0',
-                        '1rem 1rem 10px 0',
-                      ]} //for responsive
-                      height="15px"
-                      backgroundColor="#d3f9d8"
-                      fontWeight="700"
-                      width={['2.7rem', '2.7rem', '', '']}
-                      minW=""
-                      color={colorModeObj.articleNewTagTextColor[colorMode]}
-                      background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
+                      key={index}
+                      width="max-content"
+                      height="20px"
+                      p=".3rem .5rem"
+                      fontSize=".8rem"
+                      borderRadius="16px"
+                      marginBottom="7px"
+                      marginRight=".5rem"
+                      color="#fff"
+                      backgroundColor={color?.color}
+                      _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
                     >
-                      New!
+                      {tag}
                     </Tag>
-                  ) : null}
-                  <Box>
-                    <Text color="#787f87" fontSize=".8rem" fontWeight="600">
-                      {blog.publishedAt}
-                    </Text>
-                    <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}>
-                      {blog.title}
-                    </Heading>
-                  </Box>
-                </ArticleTitle>
-              </StyledLink>
-            </Link>
-            <Box
-              d="flex"
-              flexDirection={['column', 'row', 'row', 'row']}
-              justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-end']}
-              alignItems={['flex-start', 'center', 'center', 'center']}
-              w="100%"
-              flexWrap="wrap"
-            >
-              {blog?.languageTags?.map((tag, index) => {
-                const color = colorMap[tag];
-                return (
-                  <Tag
-                    key={index}
-                    width="max-content"
-                    height="20px"
-                    p=".3rem .5rem"
-                    fontSize=".8rem"
-                    borderRadius="16px"
-                    marginBottom="7px"
-                    marginRight=".5rem"
-                    color="#fff"
-                    backgroundColor={color?.color}
-                    _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
-                  >
-                    {tag}
-                  </Tag>
-                );
-              })}
-            </Box>
-          </Article>
-        ))}
+                  );
+                })}
+              </Box>
+            </Article>
+          ))}
       </Flex>
     </Flex>
   );

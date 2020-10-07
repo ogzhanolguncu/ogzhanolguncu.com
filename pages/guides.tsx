@@ -1,9 +1,14 @@
-import { Heading, Text, Box } from '@chakra-ui/core';
+import { Heading, Text, Box, useColorMode, Flex } from '@chakra-ui/core';
 import { Layout, Card } from '@components/index';
+import { ColorModeContext } from '@contexts/CustomColorContext';
 //images
 import ExampleImg from 'images/typescript.png';
+import { useContext } from 'react';
 
 const guides = () => {
+  const colorModeObj = useContext(ColorModeContext);
+  const { colorMode } = useColorMode();
+
   const card = {
     id: 1,
     title: 'A Complete Guide to CSS Concepts and Fundamentals',
@@ -12,17 +17,22 @@ const guides = () => {
   };
   return (
     <Layout>
-      <Heading
-        textAlign="center"
-        fontSize={['2rem', '2rem', '3rem', '3rem']}
-        color="#343a40"
-        margin="1.5rem 0"
-      >
-        Guides
-      </Heading>
-      <Text textAlign="center" fontSize="1.3rem" color="#60656c" marginBottom="1.5rem">
-        The missing instruction manuals of the web.
-      </Text>
+      <Flex justifyContent="center" alignItems="center" flexDirection="column" margin="1.5rem 0">
+        <Heading
+          textAlign="center"
+          as="h2"
+          fontSize={['2rem', '2rem', '3rem', '3rem']}
+          marginBottom="1rem"
+          marginTop={['0.6rem', '0', '0', '0']}
+          fontWeight="bold"
+          color={colorModeObj.titleColor[colorMode]}
+        >
+          Guides
+        </Heading>
+        <Text textAlign="center" fontSize="1.3rem" color="#60656c">
+          The missing instruction manuals of the web.
+        </Text>
+      </Flex>
       <Box
         d="grid"
         gridTemplateColumns={[
@@ -32,7 +42,6 @@ const guides = () => {
           'repeat(3,minmax(0,1fr))',
         ]}
         gridGap="1.5rem"
-        mt="2rem"
         mb={['3rem', '4rem', '5rem', '5rem']}
       >
         <Card img={ExampleImg} title={card.title} description={card.description} />
