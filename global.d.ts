@@ -14,6 +14,7 @@ export type StaticBlog = {
   image: string;
   languageTags: string[];
   isPopular: boolean;
+  guides: boolean;
 };
 
 export type ErrorProps = {

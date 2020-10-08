@@ -1,8 +1,9 @@
-import { Avatar, Box, Flex, Heading, Link, Stack, Text, useColorMode } from '@chakra-ui/core';
+import { Avatar, Box, Flex, Heading, Link, Stack, Tag, Text, useColorMode } from '@chakra-ui/core';
 import BlogSeo from '@components/BlogSeo';
 import { Layout } from '@components/index';
 import { parseISO, format } from 'date-fns';
 import React from 'react';
+import colorMap from 'styles/colorMap';
 
 // type FrontMatter = {
 //   title: string;
@@ -71,6 +72,23 @@ export default function BlogLayout({ children, frontMatter }: any) {
               {frontMatter.readingTime.text}
               {` • `}
             </Text>
+          </Flex>
+          <Flex justifyContent="flex-end" w="100%">
+            {frontMatter.languageTags.map((tag: string, index: number) => {
+              const color = colorMap[tag];
+              return (
+                <Tag
+                  size={'sm'}
+                  key={index}
+                  color="#fff"
+                  backgroundColor={color?.color}
+                  _hover={{ backgroundColor: color.hover }}
+                  mr="5px"
+                >
+                  {tag}
+                </Tag>
+              );
+            })}
           </Flex>
         </Flex>
         {children}

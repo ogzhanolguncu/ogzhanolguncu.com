@@ -26,10 +26,15 @@ const Newsletter = () => {
         </Text>
         <Button
           width={['200px', '200px', '200px', '200px']}
-          backgroundColor="#5c7cfa"
+          backgroundColor={colorModeObj.buttonColor[colorMode]}
           color="white"
           padding="30px 30px"
-          _hover={{ backgroundColor: '#3b5bdb' }}
+          _hover={{
+            backgroundColor:
+              colorMode === 'light'
+                ? colorModeObj.buttonHoverColor.light
+                : colorModeObj.buttonHoverColor.dark,
+          }}
           fontWeight="600"
           fontSize={['15px', '16px', '16px', '18px']}
         >
