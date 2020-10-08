@@ -34,6 +34,7 @@
     "axios": "^0.20.0",
     "date-fns": "^2.16.1",
     "emotion-theming": "^10.0.27",
+    "fuse.js": "3.4.3",
     "gray-matter": "^4.0.2",
     "js.cookie": "^0.0.4",
     "lodash.groupby": "^4.6.0",
