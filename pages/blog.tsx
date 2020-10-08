@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getSortedPostsData } from 'lib/posts';
 import { StaticBlog } from 'global';
@@ -30,6 +30,20 @@ const Blog = ({ blogPosts }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
 
+  const [input, setInput] = useState<string>('');
+  const [searchedBlogPosts, setSearchedBlogPosts] = useState<StaticBlog[]>([]);
+
+  const handleChangeBlog = (value: string) => {
+    setInput(value);
+  };
+
+  useEffect(() => {
+    const searchedBlogs = blogPosts.filter((blog) =>
+      blog.title.toLowerCase().includes(input.toLowerCase()),
+    );
+    setSearchedBlogPosts(searchedBlogs);
+  }, [input]);
+
   return (
     <Layout>
       <Flex justifyContent="center" alignItems="center" margin="1.5rem 0" flexDirection="column">
@@ -46,86 +60,100 @@ const Blog = ({ blogPosts }: Props) => {
         <Text textAlign="center" fontSize="1.3rem" color="#60656c" marginBottom="1.5rem">
           Articles, tutorials, snippets, musings, and everything else.
         </Text>
-        <Input variant="outline" placeholder="Search..." maxWidth="400px" />
+        <Input
+          onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+            handleChangeBlog(e.target.value);
+          }}
+          value={input}
+          variant="outline"
+          placeholder="Search..."
+          maxWidth="400px"
+        />
       </Flex>
       <Flex alignItems="flex-start" justifyContent="center" flexDirection="column">
-        {blogPosts.map((blog) => (
-          <Article
-            key={blog.id}
-            justifyContent="space-between"
-            alignItems="space-between"
-            color={colorMode === 'light' ? 'light' : 'dark'}
-          >
-            <Link href={`/blog/${blog.id}`}>
-              <StyledLink _hover={{ textDecoration: 'none' }}>
-                <ArticleTitle>
-                  {compareDateWithTodaysDate(addTwoMonthToPublishedDate(blog.publishedAt)) ? (
-                    <Tag
-                      fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
-                      p=".5rem"
-                      borderRadius=".3rem"
-                      m={[
-                        'auto .4rem auto 0',
-                        'auto .4rem auto 0',
-                        'auto .4rem auto 0',
-                        '1rem 1rem 10px 0',
-                      ]} //for responsive
-                      height="15px"
-                      backgroundColor="#d3f9d8"
-                      fontWeight="700"
-                      width={['2.7rem', '2.7rem', '', '']}
-                      minW=""
-                      color={colorModeObj.articleNewTagTextColor[colorMode]}
-                      background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
-                    >
-                      New!
-                    </Tag>
-                  ) : null}
-                  <Box>
-                    <Text color="#787f87" fontSize=".8rem" fontWeight="600">
-                      {blog.publishedAt}
-                    </Text>
-                    <Heading
-                      fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
-                      w={['100%', '100%', 'max-content', 'max-content']}
-                    >
-                      {blog.title}
-                    </Heading>
-                  </Box>
-                </ArticleTitle>
-              </StyledLink>
-            </Link>
-            <Box
-              d="flex"
-              flexDirection={['column', 'row', 'row', 'row']}
-              justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
-              alignItems={['flex-start', 'center', 'center', 'center']}
-              w="100%"
-              flexWrap="wrap"
+        {searchedBlogPosts.length > 0 ? (
+          searchedBlogPosts.map((blog) => (
+            <Article
+              key={blog.id}
+              justifyContent="space-between"
+              alignItems="space-between"
+              color={colorMode === 'light' ? 'light' : 'dark'}
             >
-              {blog?.languageTags?.map((tag, index) => {
-                const color = colorMap[tag.toLowerCase()];
-                return (
-                  <Tag
-                    key={index}
-                    width="max-content"
-                    height="20px"
-                    p=".3rem .5rem"
-                    fontSize=".8rem"
-                    borderRadius="16px"
-                    marginBottom="7px"
-                    marginRight=".5rem"
-                    color="#fff"
-                    backgroundColor={color?.color}
-                    _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
-                  >
-                    {tag}
-                  </Tag>
-                );
-              })}
-            </Box>
-          </Article>
-        ))}
+              <Link href={`/blog/${blog.id}`}>
+                <StyledLink _hover={{ textDecoration: 'none' }}>
+                  <ArticleTitle>
+                    {compareDateWithTodaysDate(addTwoMonthToPublishedDate(blog.publishedAt)) ? (
+                      <Tag
+                        fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
+                        p=".5rem"
+                        borderRadius=".3rem"
+                        m={[
+                          'auto .4rem auto 0',
+                          'auto .4rem auto 0',
+                          'auto .4rem auto 0',
+                          '1rem 1rem 10px 0',
+                        ]} //for responsive
+                        height="15px"
+                        backgroundColor="#d3f9d8"
+                        fontWeight="700"
+                        width={['2.7rem', '2.7rem', '', '']}
+                        minW=""
+                        color={colorModeObj.articleNewTagTextColor[colorMode]}
+                        background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
+                      >
+                        New!
+                      </Tag>
+                    ) : null}
+                    <Box>
+                      <Text color="#787f87" fontSize=".8rem" fontWeight="600">
+                        {blog.publishedAt}
+                      </Text>
+                      <Heading
+                        fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
+                        w={['100%', '100%', 'max-content', 'max-content']}
+                      >
+                        {blog.title}
+                      </Heading>
+                    </Box>
+                  </ArticleTitle>
+                </StyledLink>
+              </Link>
+              <Box
+                d="flex"
+                flexDirection={['column', 'row', 'row', 'row']}
+                justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
+                alignItems={['flex-start', 'center', 'center', 'center']}
+                w="100%"
+                flexWrap="wrap"
+              >
+                {blog?.languageTags?.map((tag, index) => {
+                  const color = colorMap[tag.toLowerCase()];
+                  return (
+                    <Tag
+                      key={index}
+                      width="max-content"
+                      height="20px"
+                      p=".3rem .5rem"
+                      fontSize=".8rem"
+                      borderRadius="16px"
+                      marginBottom="7px"
+                      marginRight=".5rem"
+                      color="#fff"
+                      backgroundColor={color?.color}
+                      _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
+                    >
+                      {tag}
+                    </Tag>
+                  );
+                })}
+              </Box>
+            </Article>
+          ))
+        ) : (
+          <Text textAlign="center" fontSize="1rem" color="#60656c">
+            Sorry, nothing matched that search.
+          </Text>
+        )}
       </Flex>
     </Layout>
   );
