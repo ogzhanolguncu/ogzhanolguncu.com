@@ -9,7 +9,6 @@ export const Article = styled(Box)`
   padding: 0.8rem 1rem;
   margin: 0 -1rem;
   width: 100%;
-
   @media screen and (min-width: 1100px) {
     /* width: 1080px; */
     &:hover {

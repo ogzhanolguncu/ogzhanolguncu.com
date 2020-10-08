@@ -1,20 +1,21 @@
 import { Heading, Text, Box, useColorMode, Flex } from '@chakra-ui/core';
 import { Layout, Card } from '@components/index';
 import { ColorModeContext } from '@contexts/CustomColorContext';
+import { StaticBlog } from 'global';
 //images
 import ExampleImg from 'images/typescript.png';
+import { getSortedPostsData } from 'lib/posts';
+import { GetStaticProps } from 'next';
 import { useContext } from 'react';
 
-const guides = () => {
+type Props = {
+  guides: StaticBlog[];
+};
+
+const guides = ({ guides }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
 
-  const card = {
-    id: 1,
-    title: 'A Complete Guide to CSS Concepts and Fundamentals',
-    description:
-      'This guide covers all the fundamentals of CSS - from syntax, selectors, and specificity to layouts and responsive media queries selectors, and specificity to layouts and responsive media queries',
-  };
   return (
     <Layout>
       <Flex justifyContent="center" alignItems="center" flexDirection="column" margin="1.5rem 0">
@@ -29,7 +30,13 @@ const guides = () => {
         >
           Guides
         </Heading>
-        <Text textAlign="center" fontSize="1.3rem" color="#60656c">
+        <Text
+          textAlign="center"
+          fontSize="1.3rem"
+          color={
+            colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
+          }
+        >
           The missing instruction manuals of the web.
         </Text>
       </Flex>
@@ -44,15 +51,32 @@ const guides = () => {
         gridGap="1.5rem"
         mb={['3rem', '4rem', '5rem', '5rem']}
       >
-        <Card img={ExampleImg} title={card.title} description={card.description} />
-        <Card img={ExampleImg} title={card.title} description={card.description} />
-        <Card img={ExampleImg} title={card.title} description={card.description} />
-        <Card img={ExampleImg} title={card.title} description={card.description} />
-        <Card img={ExampleImg} title={card.title} description={card.description} />
-        <Card img={ExampleImg} title={card.title} description={card.description} />
+        {guides.map((blog: StaticBlog, index: number) => {
+          return (
+            <Card
+              key={index}
+              id={blog.id}
+              img={ExampleImg}
+              title={blog.title}
+              description={blog.summary}
+            />
+          );
+        })}
       </Box>
     </Layout>
   );
 };
 
 export default guides;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const blogPosts = getSortedPostsData();
+  //Slicing used to get first four digit of date => YYYY-DD-MM
+  const guides = blogPosts.filter((blog) => {
+    return blog.guides ? blog : null;
+  });
+
+  return {
+    props: { guides },
+  };
+};
