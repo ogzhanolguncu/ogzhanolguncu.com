@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import React, { Fragment, useContext, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getSortedPostsData } from 'lib/posts';
 import { StaticBlog } from 'global';
@@ -22,27 +22,34 @@ import groupBy from 'lodash.groupby';
 import Fuse from 'fuse.js';
 
 type Props = {
-  groupedBlogPosts: Record<number, StaticBlog[]>;
   blogPosts: StaticBlog[];
+  groupedBlogPosts: Record<number, StaticBlog[]>;
 };
 
 const options = {
   includeScore: true,
-  keys: ['title', 'id', 'publishedAt'],
+  keys: ['title', 'id'],
 };
 
-const Blog = ({ groupedBlogPosts, blogPosts }: Props) => {
+const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
-  const [fusedBlog, setFusedBlog] = useState<StaticBlog[]>();
+
+  const [fusedBlog, setFusedBlog] = useState<Record<number, StaticBlog[]>>(groupedBlogPosts);
+  const [input, setInput] = useState('');
 
   const fuse = new Fuse(blogPosts, options);
-  const handleChangeBlog = (value: string) => {
-    const result = fuse.search(value);
-    setFusedBlog(result);
-    // eslint-disable-next-line no-console
-    console.log(fusedBlog);
-  };
+  useEffect(() => {
+    if (input.length === 0) {
+      return setFusedBlog(groupedBlogPosts);
+    }
+    const results = fuse.search(input);
+    //Bu satırı aç diğer satırı yorum satırına al abi. Eslint kızıyor diye şimdilik öyle yaptım.
+    // const blogResults:StaticBlog[]=results.map(res=>res.item);
+    const blogResults = results;
+    const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
+    setFusedBlog(searchedBlogPosts);
+  }, [input]);
 
   return (
     <Layout>
@@ -62,15 +69,16 @@ const Blog = ({ groupedBlogPosts, blogPosts }: Props) => {
         </Text>
         <Input
           onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-            handleChangeBlog(e.target.value);
+            setInput(e.target.value);
           }}
+          value={input}
           variant="outline"
           placeholder="Search..."
           maxWidth="400px"
         />
       </Flex>
       <Flex alignItems="flex-start" justifyContent="center" flexDirection="column">
-        {Object.keys(groupedBlogPosts)
+        {Object.keys(fusedBlog)
           .reverse()
           .map((blog, index) => (
             <Fragment key={index}>
@@ -78,7 +86,7 @@ const Blog = ({ groupedBlogPosts, blogPosts }: Props) => {
                 {blog}
               </Heading>
               <Divider />
-              {groupedBlogPosts[(blog as unknown) as number].map((article) => (
+              {fusedBlog[(blog as unknown) as number].map((article) => (
                 <Article
                   key={`${blog}${article.id}`}
                   justifyContent="space-between"
@@ -134,7 +142,7 @@ const Blog = ({ groupedBlogPosts, blogPosts }: Props) => {
                     w="100%"
                     flexWrap="wrap"
                   >
-                    {article?.languageTags?.map((tag, tagIndex) => {
+                    {article?.languageTags?.map((tag: string, tagIndex: number) => {
                       const color = colorMap[tag.toLowerCase()];
                       return (
                         <Tag
@@ -171,6 +179,6 @@ export const getStaticProps: GetStaticProps = async () => {
   // Slicing used to get first four digit of date => YYYY-DD-MM
   const groupedBlogPosts = groupBy(blogPosts, (x) => x.publishedAt.toString().slice(0, 4));
   return {
-    props: { groupedBlogPosts, blogPosts },
+    props: { blogPosts, groupedBlogPosts },
   };
 };
