@@ -9,14 +9,14 @@ type Props = {
   image: string;
 };
 
-type featured = {
+type Featured = {
   url: string;
   alt: string;
 };
 
 const BlogSeo = ({ title, summary, publishedAt, url, image }: Props) => {
   const date = new Date(publishedAt).toISOString();
-  const featuredImage: featured = {
+  const featuredImage: Featured = {
     url: `https://ogzhnolguncu.io${image}`,
     alt: title,
   };

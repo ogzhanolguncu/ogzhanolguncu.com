@@ -20,16 +20,12 @@ module.exports = withImages(
       }),
     },
   })({
-    webpack: (config) => {
+    webpack: (config, { isServer }) => {
+      if (isServer) {
+        require('./scripts/generate-sitemap');
+      }
+
       return config;
     },
   }),
 );
-
-// const withMDX = require('@next/mdx')({
-//   extension: /\.mdx?$/,
-// });
-
-// module.exports = withMDX({
-//   pageExtensions: ['js', 'jsx', 'md', 'mdx']
-// });

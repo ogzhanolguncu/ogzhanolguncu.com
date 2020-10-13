@@ -1,20 +1,9 @@
-import { Avatar, Box, Flex, Heading, Link, Stack, Tag, Text, useColorMode } from '@chakra-ui/core';
+import { Avatar, Flex, Heading, Stack, Tag, Text, useColorMode } from '@chakra-ui/core';
 import BlogSeo from '@components/BlogSeo';
 import { Layout } from '@components/index';
 import { parseISO, format } from 'date-fns';
 import React from 'react';
 import colorMap from 'styles/colorMap';
-
-// type FrontMatter = {
-//   title: string;
-//   snippet: string;
-//   timestamp: string;
-// };
-
-const editUrl = (slug: string) =>
-  `https://github.com/leerob/leerob.io/edit/master/pages/blog/${slug}.mdx`;
-const discussUrl = (slug: string) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`https://leerob.io/blog/${slug}`)}`;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BlogLayout({ children, frontMatter }: any) {
@@ -70,11 +59,10 @@ export default function BlogLayout({ children, frontMatter }: any) {
             </Flex>
             <Text fontSize="sm" color="gray.500" minWidth="100px" mt={[2, 0]}>
               {frontMatter.readingTime.text}
-              {` • `}
             </Text>
           </Flex>
           <Flex justifyContent="flex-end" w="100%">
-            {frontMatter.languageTags.map((tag: string, index: number) => {
+            {frontMatter.languageTags?.map((tag: string, index: number) => {
               const color = colorMap[tag];
               return (
                 <Tag
@@ -92,15 +80,6 @@ export default function BlogLayout({ children, frontMatter }: any) {
           </Flex>
         </Flex>
         {children}
-        <Box>
-          <Link href={discussUrl(slug)} isExternal>
-            {'Discuss on Twitter'}
-          </Link>
-          {` • `}
-          <Link href={editUrl(slug)} isExternal>
-            {'Edit on GitHub'}
-          </Link>
-        </Box>
       </Stack>
     </Layout>
   );

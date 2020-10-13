@@ -26,6 +26,10 @@ type Props = {
   groupedBlogPosts: Record<number, StaticBlog[]>;
 };
 
+type FusedType = {
+  item: StaticBlog;
+};
+
 const options = {
   includeScore: true,
   keys: ['title', 'id'],
@@ -34,19 +38,16 @@ const options = {
 const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
-
   const [fusedBlog, setFusedBlog] = useState<Record<number, StaticBlog[]>>(groupedBlogPosts);
   const [input, setInput] = useState('');
-
   const fuse = new Fuse(blogPosts, options);
+
   useEffect(() => {
     if (input.length === 0) {
       return setFusedBlog(groupedBlogPosts);
     }
-    const results = fuse.search(input);
-    //Bu satırı aç diğer satırı yorum satırına al abi. Eslint kızıyor diye şimdilik öyle yaptım.
-    // const blogResults:StaticBlog[]=results.map(res=>res.item);
-    const blogResults = results;
+    const results = (fuse.search(input) as unknown) as FusedType[];
+    const blogResults = results.map((res) => res.item);
     const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
     setFusedBlog(searchedBlogPosts);
   }, [input]);
