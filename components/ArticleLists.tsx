@@ -40,7 +40,7 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
             backgroundColor={
               colorMode === 'light' ? colorModeObj.articleTagColor : colorModeObj.buttonColor.dark
             }
-            borderRadius={['50%', '3rem', '3rem', '3rem']}
+            borderRadius="3rem"
             _hover={{
               textDecoration: 'none',
               backgroundColor:
@@ -98,7 +98,7 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
               </Link>
               <Box
                 d="flex"
-                flexDirection={['column', 'row', 'row', 'row']}
+                flexDirection={['row', 'row', 'row', 'row']}
                 justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-end']}
                 alignItems={['flex-start', 'center', 'center', 'center']}
                 w="100%"

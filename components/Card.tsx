@@ -26,7 +26,8 @@ const Card = ({ id, img, title, description }: Props) => {
             ? colorModeObj.guidesBackgroundColor.light
             : colorModeObj.guidesBackgroundColor.dark
         }
-        borderRadius="20px"
+        borderRadius="5px"
+        boxShadow="rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
         p="1.5rem"
         _hover={{ textDecoration: 'none', bg: colorMode === 'light' ? '#E6E8EB' : '#fff' }}
       >
