@@ -5274,10 +5274,10 @@ next-mdx-enhanced@^4.0.0:
     prebuild-webpack-plugin "1.1.1"
     stringify-object "^3.3.0"
 
-next-seo@^4.11.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-4.11.0.tgz#b4f160414b49e6e3dc7791df25e29b50550ebb67"
-  integrity sha512-JrrGA+wD20ArI5jTqbLE2jipmA5VCCcjBlb1ZI2lKktd7lCXNs/IIvwkNfJPPK0vFp/ewwylA6kO5CyX2fflig==
+next-seo@^4.12.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-4.12.0.tgz#95dac6c9a437427b2ee89d52aaab024048d1ce16"
+  integrity sha512-YleYAYeAinX0LnmYpaXCE71paco7p/gnL6NZOcdU09nGuKIoOAzj/7Ezc0ZYJYfFbYGqllGn7rzT1C9ozKWk+g==
 
 next-tick@~1.0.0:
   version "1.0.0"

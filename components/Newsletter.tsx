@@ -1,48 +1,91 @@
-import { Button, Flex, Heading, Text, useColorMode } from '@chakra-ui/core';
-import { ColorModeContext } from '@contexts/CustomColorContext';
-import { useContext } from 'react';
+import {
+  Box,
+  Button,
+  useToast,
+  Heading,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Text,
+} from '@chakra-ui/core';
+// import { ColorModeContext } from '@contexts/CustomColorContext';
+import React from 'react';
+import { useRef, useState } from 'react';
 
 const Newsletter = () => {
-  const colorModeObj = useContext(ColorModeContext);
+  // const colorModeObj = useContext(ColorModeContext);
+  // const { colorMode } = useColorMode();
 
-  const { colorMode } = useColorMode();
+  const inputEl = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const subscribe = async (e: React.MouseEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const res = await fetch('/api/subscribe', {
+      body: JSON.stringify({
+        email: inputEl?.current?.value,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    });
+
+    setLoading(false);
+    const { error } = await res.json();
+
+    if (error) {
+      toast({
+        title: 'An error occurred.',
+        description: error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      return;
+    }
+
+    // inputEl?.current?.value = '';
+    toast({
+      title: 'Success!',
+      description: 'You are now subscribed.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
   return (
-    <Flex flexDirection="column" m="3rem 0">
-      <Flex
-        borderBottom={['none', 'none', '1px solid #d6d9de', '1px solid #d6d9de']}
-        alignItems="center"
-        paddingBottom=".5rem"
-      >
-        <Heading
-          fontSize={['1.7rem', '1.7rem', '2rem', '2rem']}
-          color={colorModeObj.titleColor[colorMode]}
-        >
-          Newsletter
-        </Heading>
-      </Flex>
-      <Flex mt="1.5rem" flexDirection="column">
-        <Text mb="1.5rem" fontSize="1.1rem" color="#787f87" fontWeight="400">
-          I send out an email when I create something new. Subscribe to get updates!
-        </Text>
-        <Button
-          width={['200px', '200px', '200px', '200px']}
-          backgroundColor={colorModeObj.buttonColor[colorMode]}
-          color="white"
-          padding="30px 30px"
-          _hover={{
-            backgroundColor:
-              colorMode === 'light'
-                ? colorModeObj.buttonHoverColor.light
-                : colorModeObj.buttonHoverColor.dark,
-          }}
-          fontWeight="600"
-          fontSize={['15px', '16px', '16px', '18px']}
-        >
-          <Text mr="8px">&#9889;</Text>
-          Join Newsletter
-        </Button>
-      </Flex>
-    </Flex>
+    <Box border="1px solid" borderRadius={4} padding={6} my={4} w="100%">
+      <Heading as="h5" size="lg" mb={2}>
+        Subscribe to the newsletter
+      </Heading>
+      <Text>Get emails from me about web development, tech, and early access to new articles.</Text>
+      <InputGroup size="md" mt={4}>
+        <Input
+          aria-label="Email for newsletter"
+          placeholder="tim@apple.com"
+          ref={inputEl}
+          type="email"
+        />
+        <InputRightElement width="6.75rem">
+          <Button
+            isLoading={loading}
+            fontWeight="bold"
+            h="1.75rem"
+            size="sm"
+            onClick={(e: React.MouseEvent<HTMLInputElement>): void => {
+              subscribe(e);
+            }}
+          >
+            Subscribe
+          </Button>
+        </InputRightElement>
+      </InputGroup>
+    </Box>
   );
 };
 
