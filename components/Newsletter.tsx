@@ -7,14 +7,15 @@ import {
   InputGroup,
   InputRightElement,
   Text,
+  useColorMode,
 } from '@chakra-ui/core';
-// import { ColorModeContext } from '@contexts/CustomColorContext';
-import React from 'react';
+import { ColorModeContext } from '@contexts/CustomColorContext';
+import React, { useContext } from 'react';
 import { useRef, useState } from 'react';
 
-const Newsletter = () => {
-  // const colorModeObj = useContext(ColorModeContext);
-  // const { colorMode } = useColorMode();
+const Newsletter = React.forwardRef((props, ref: React.Ref<HTMLDivElement>) => {
+  const colorModeObj = useContext(ColorModeContext);
+  const { colorMode } = useColorMode();
 
   const inputEl = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -59,11 +60,19 @@ const Newsletter = () => {
   };
 
   return (
-    <Box border="1px solid" borderRadius={4} padding={6} my={4} w="100%">
-      <Heading as="h5" size="lg" mb={2}>
+    <Box my={4} w="100%" ref={ref} {...props}>
+      <Heading
+        fontSize={['1.7rem', '1.7rem', '2rem', '2rem']}
+        color={colorModeObj.titleColor[colorMode]}
+        mb={4}
+        borderBottom={['none', 'none', '1px solid #d6d9de', '1px solid #d6d9de']}
+        paddingBottom=".5rem"
+      >
         Subscribe to the newsletter
       </Heading>
-      <Text>Get emails from me about web development, tech, and early access to new articles.</Text>
+      <Text color="#787f87" fontSize="1.1rem" fontWeight="400">
+        Get emails from me about web development, tech, and early access to new articles.
+      </Text>
       <InputGroup size="md" mt={4}>
         <Input
           aria-label="Email for newsletter"
@@ -87,6 +96,6 @@ const Newsletter = () => {
       </InputGroup>
     </Box>
   );
-};
+});
 
 export default Newsletter;
