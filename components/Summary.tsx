@@ -16,7 +16,7 @@ import React from 'react';
 import { useContext } from 'react';
 import { ColorModeContext } from 'contexts/CustomColorContext';
 
-const Summary = () => {
+const Summary = ({ gotoNewsletter }: any) => {
   const { colorMode } = useColorMode();
   const colorModeObj = useContext(ColorModeContext);
 
@@ -117,6 +117,7 @@ const Summary = () => {
         </Text>
         <Box flexDirection={['column', 'column', 'row', 'row']} d="flex">
           <Button
+            onClick={gotoNewsletter}
             backgroundColor={colorModeObj.buttonColor[colorMode]}
             color="white"
             padding="30px 30px"
