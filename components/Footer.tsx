@@ -41,21 +41,7 @@ const Footer = () => {
             Guides
           </StyledLink>
         </Link>
-        <Link href="/newsletter">
-          <StyledLink
-            _hover={{
-              textDecoration: 'none',
-              backgroundColor: 'rgba(0,0,0,0.15)',
-              borderRadius: '.35rem',
-            }}
-            mr={['.2rem', '1rem', '1.5rem', '1.5rem']}
-            p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
-            fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
-          >
-            Newsletter
-          </StyledLink>
-        </Link>
-        <Link href="/rss">
+        <Link href="/rss.xml">
           <StyledLink
             _hover={{
               textDecoration: 'none',

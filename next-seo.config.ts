@@ -13,7 +13,7 @@ const SEO = {
     description,
     images: [
       {
-        url: 'https://personal-blog-client.vercel.app/',
+        url: 'https://personal-blog-client.vercel.app/images/og.jpg',
         alt: title,
         width: 1280,
         height: 720,

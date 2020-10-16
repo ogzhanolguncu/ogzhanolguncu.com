@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next';
+import fs from 'fs';
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getSortedPostsData } from 'lib/posts';
@@ -20,6 +21,7 @@ import { ColorModeContext } from '@contexts/CustomColorContext';
 import { Article, ArticleTitle, Layout } from '@components/index';
 import groupBy from 'lodash.groupby';
 import Fuse from 'fuse.js';
+import { generateRss } from 'utils/rssOperations';
 
 type Props = {
   blogPosts: StaticBlog[];
@@ -178,6 +180,9 @@ export default Blog;
 export const getStaticProps: GetStaticProps = async () => {
   const blogPosts = getSortedPostsData();
   // Slicing used to get first four digit of date => YYYY-DD-MM
+  const rss = generateRss(blogPosts);
+  fs.writeFileSync('./public/rss.xml', rss);
+
   const groupedBlogPosts = groupBy(blogPosts, (x) => x.publishedAt.toString().slice(0, 4));
   return {
     props: { blogPosts, groupedBlogPosts },

@@ -1,0 +1,84 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Blog - Emilio Schepis</title>
+      <link>https://http://localhost:3000/blog</link>
+      <description>[...]</description>
+      <language>en</language>
+      <lastBuildDate>Mon, 14 Sep 2020 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://http://localhost:3000/rss.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://http://localhost:3000/blog/css</guid>
+    <title>How Should I Style My React Application?</title>
+    <link>https://http://localhost:3000/blog/css</link>
+    <description>Learn how CSS has evolved and explore pros and cons of different styling solutions for React.</description>
+    <pubDate>Mon, 14 Sep 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://http://localhost:3000/blog/deneme2</guid>
+    <title>Analyzing 10+ Years of My Facebook Data</title>
+    <link>https://http://localhost:3000/blog/deneme2</link>
+    <description>Which year was I the most active? Who has commented on my pictures the most? How many songs have I streamed?</description>
+    <pubDate>Mon, 07 Sep 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://http://localhost:3000/blog/backend</guid>
+    <title>Which Back End Should I Use As A Front-End Developer?</title>
+    <link>https://http://localhost:3000/blog/backend</link>
+    <description>Choosing a service to store data can be confusing and overwhelming for a front-end developer. This comprehensive guide is a choose your own adventure dive into creating your backend.</description>
+    <pubDate>Sun, 09 Aug 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://http://localhost:3000/blog/tech-online</guid>
+    <title>How I Turned an Idea into $7K by Teaching Online</title>
+    <link>https://http://localhost:3000/blog/tech-online</link>
+    <description>Six months ago, I had an idea for an online course. Today, I've taught students all over the world and made over $7,000 teaching online.</description>
+    <pubDate>Fri, 08 May 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://http://localhost:3000/blog/unsplah</guid>
+    <title>Create a Dashboard with Next.js API Routes - Unsplash API</title>
+    <link>https://http://localhost:3000/blog/unsplah</link>
+    <description>Learn how to use Next.js API routes to integrate with the Unsplash API and retrieve statistics about a user.</description>
+    <pubDate>Tue, 04 Feb 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://http://localhost:3000/blog/learn-nextjs</guid>
+    <title>Why Should You Learn Next.js?</title>
+    <link>https://http://localhost:3000/blog/learn-nextjs</link>
+    <description>Understand the growth behind JavaScript's hottest web framework and learn why Next.js can help you build web applications faster.</description>
+    <pubDate>Thu, 07 Nov 2019 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://http://localhost:3000/blog/style-guides</guid>
+    <title>Everything I Know About Style Guides, Design Systems, and Component Libraries</title>
+    <link>https://http://localhost:3000/blog/style-guides</link>
+    <description>A deep-dive on everything I've learned in the past year building style guides, design systems, component libraries, and their best practices.</description>
+    <pubDate>Wed, 07 Aug 2019 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://http://localhost:3000/blog/deneme</guid>
+    <title>Configuring Sentry for Next.js Apps</title>
+    <link>https://http://localhost:3000/blog/deneme</link>
+    <description>Learn how to set up Sentry to capture client-side and server-side exceptions for Next.js applications.</description>
+    <pubDate>Tue, 23 Apr 2019 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://http://localhost:3000/blog/migrating</guid>
+    <title>Migrating to Hugo</title>
+    <link>https://http://localhost:3000/blog/migrating</link>
+    <description>Why I chose this static site generator and the benefits you can receive.</description>
+    <pubDate>Fri, 29 Sep 2017 00:00:00 GMT</pubDate>
+  </item>
+
+    </channel>
+  </rss>

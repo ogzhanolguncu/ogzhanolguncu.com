@@ -6,7 +6,12 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="canonical" href="https://fonts.gstatic.com" crossOrigin="" />
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="RSS feed for blog posts"
+            href="http://localhost:3000/rss.xml"
+          />
           <link
             rel="preload"
             href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2"
@@ -14,7 +19,6 @@ class MyDocument extends Document {
             type="font/woff2"
             crossOrigin="anonymous"
           />
-          {/* <link rel="canonical" href="https://example.com"/> */}
         </Head>
         <body>
           <Main />
