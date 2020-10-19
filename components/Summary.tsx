@@ -12,7 +12,7 @@ import {
   Skeleton,
 } from '@chakra-ui/core';
 
-import personalImage from '../public/350.jpg';
+import personalImage from '/public/350.jpg';
 import React from 'react';
 import { useContext } from 'react';
 import { ColorModeContext } from 'contexts/CustomColorContext';
@@ -157,7 +157,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
         </Box>
       </Box>
       <Box size={['350', '150']} margin={['auto 0', '10px 0', '0 0', '0 0']}>
-        <Skeleton isLoaded={!!personalImage}>
+        <Skeleton isLoaded={!!personalImage} height="350px" width="350px">
           <Image
             src={personalImage}
             alt="Owl"
