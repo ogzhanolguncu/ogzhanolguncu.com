@@ -16,8 +16,11 @@ import React from 'react';
 import { useContext } from 'react';
 import { ColorModeContext } from 'contexts/CustomColorContext';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Summary = ({ gotoNewsletter }: any) => {
+interface IFunction {
+  gotoNewsletter: () => void;
+}
+
+const Summary = ({ gotoNewsletter }: IFunction) => {
   const { colorMode } = useColorMode();
   const colorModeObj = useContext(ColorModeContext);
 
