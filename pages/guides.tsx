@@ -2,7 +2,6 @@ import { Heading, Text, Box, useColorMode, Flex } from '@chakra-ui/core';
 import { Layout, Card } from '@components/index';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';
-//images
 import ExampleImg from 'images/typescript.png';
 import { getSortedPostsData } from 'lib/posts';
 import { GetStaticProps } from 'next';
@@ -15,7 +14,6 @@ type Props = {
 const guides = ({ guides }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
-
   return (
     <Layout>
       <Flex justifyContent="center" alignItems="center" flexDirection="column" margin="5rem 0">
@@ -40,29 +38,35 @@ const guides = ({ guides }: Props) => {
           The missing instruction manuals of the web.
         </Text>
       </Flex>
-      <Box
-        d="grid"
-        gridTemplateColumns={[
-          'repeat(1,minmax(0,1fr))',
-          'repeat(2,minmax(0,1fr))',
-          'repeat(2,minmax(0,1fr))',
-          'repeat(3,minmax(0,1fr))',
-        ]}
-        gridGap="1.5rem"
-        mb={['3rem', '4rem', '5rem', '5rem']}
-      >
-        {guides.map((blog: StaticBlog, index: number) => {
-          return (
-            <Card
-              key={index}
-              id={blog.id}
-              img={ExampleImg}
-              title={blog.title}
-              description={blog.summary}
-            />
-          );
-        })}
-      </Box>
+      {guides.length >= 1 ? (
+        <Box
+          d="grid"
+          gridTemplateColumns={[
+            'repeat(1,minmax(0,1fr))',
+            'repeat(2,minmax(0,1fr))',
+            'repeat(2,minmax(0,1fr))',
+            'repeat(3,minmax(0,1fr))',
+          ]}
+          gridGap="1.5rem"
+          mb={['3rem', '4rem', '5rem', '5rem']}
+        >
+          {guides.map((blog: StaticBlog, index: number) => {
+            return (
+              <Card
+                key={index}
+                id={blog.id}
+                img={ExampleImg}
+                title={blog.title}
+                description={blog.summary}
+              />
+            );
+          })}
+        </Box>
+      ) : (
+        <Text textAlign="center" fontSize="1.1rem">
+          There will be guides soon.
+        </Text>
+      )}
     </Layout>
   );
 };
@@ -75,7 +79,6 @@ export const getStaticProps: GetStaticProps = async () => {
   const guides = blogPosts.filter((blog) => {
     return blog.guides ? blog : null;
   });
-
   return {
     props: { guides },
   };

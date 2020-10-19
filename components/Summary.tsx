@@ -9,6 +9,7 @@ import {
   Link as StyledLink,
   Button,
   useColorMode,
+  Skeleton,
 } from '@chakra-ui/core';
 
 import personalImage from '../public/350.jpg';
@@ -156,7 +157,14 @@ const Summary = ({ gotoNewsletter }: Props) => {
         </Box>
       </Box>
       <Box size={['350', '150']} margin={['auto 0', '10px 0', '0 0', '0 0']}>
-        <Image src={personalImage} alt="Owl" borderRadius="16px" w={['150px', '150px', '350px']} />
+        <Skeleton isLoaded={!!personalImage}>
+          <Image
+            src={personalImage}
+            alt="Owl"
+            borderRadius="16px"
+            w={['150px', '150px', '350px']}
+          />
+        </Skeleton>
       </Box>
     </Flex>
   );
