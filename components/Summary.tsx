@@ -159,6 +159,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
       <Box size={['350', '150']} margin={['auto 0', '10px 0', '0 0', '0 0']}>
         <Skeleton isLoaded={!!personalImage} height="350px" width="350px">
           <Image
+            h={['150px', '150px', '350px']}
             src={personalImage}
             alt="Owl"
             borderRadius="16px"
