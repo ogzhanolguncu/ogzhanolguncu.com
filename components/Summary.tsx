@@ -16,7 +16,11 @@ import React from 'react';
 import { useContext } from 'react';
 import { ColorModeContext } from 'contexts/CustomColorContext';
 
-const Summary = ({ gotoNewsletter }: any) => {
+type Props = {
+  gotoNewsletter: () => void;
+};
+
+const Summary = ({ gotoNewsletter }: Props) => {
   const { colorMode } = useColorMode();
   const colorModeObj = useContext(ColorModeContext);
 
