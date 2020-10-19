@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next';
 import fs from 'fs';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getSortedPostsData } from 'lib/posts';
 import { StaticBlog } from 'global';
@@ -22,6 +22,7 @@ import { Article, ArticleTitle, Layout } from '@components/index';
 import groupBy from 'lodash.groupby';
 import Fuse from 'fuse.js';
 import { generateRss } from 'utils/rssOperations';
+import debounce from 'lodash.debounce';
 
 type Props = {
   blogPosts: StaticBlog[];
@@ -44,19 +45,26 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   const [input, setInput] = useState('');
   const fuse = new Fuse(blogPosts, options);
 
-  useEffect(() => {
-    if (input.length === 0) {
-      return setFusedBlog(groupedBlogPosts);
-    }
+  const updateSearch = () => {
     const results = (fuse.search(input) as unknown) as FusedType[];
     const blogResults = results.map((res) => res.item);
     const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
     setFusedBlog(searchedBlogPosts);
-  }, [input]);
+  };
+
+  const delayedSearch = useCallback(debounce(updateSearch, 400), [input]);
+
+  useEffect(() => {
+    if (input.length === 0) {
+      return setFusedBlog(groupedBlogPosts);
+    }
+    delayedSearch();
+    return delayedSearch.cancel; // If input state changes, it invokes delayedSearch so we no longer wait for old debounce instead we cancel it.
+  }, [delayedSearch]);
 
   return (
     <Layout>
-      <Flex justifyContent="center" alignItems="center" margin="1.5rem 0" flexDirection="column">
+      <Flex justifyContent="center" alignItems="center" margin="5rem 0" flexDirection="column">
         <Heading
           as="h2"
           fontSize={['2rem', '2rem', '3rem', '3rem']}
@@ -139,7 +147,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                   </Link>
                   <Box
                     d="flex"
-                    flexDirection={['column', 'row', 'row', 'row']}
+                    flexDirection={['row', 'row', 'row', 'row']}
                     justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
                     alignItems={['flex-start', 'center', 'center', 'center']}
                     w="100%"

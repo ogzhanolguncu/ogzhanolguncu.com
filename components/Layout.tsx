@@ -12,7 +12,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Navbar />
-      <Flex maxWidth="1080px" w="100%" direction="column" mx="auto" p={5}>
+      <Flex maxWidth="1150px" w="100%" direction="column" mx="auto" p={5}>
         {children}
       </Flex>
       <Footer />

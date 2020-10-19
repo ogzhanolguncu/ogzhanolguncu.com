@@ -18,7 +18,7 @@ const guides = ({ guides }: Props) => {
 
   return (
     <Layout>
-      <Flex justifyContent="center" alignItems="center" flexDirection="column" margin="1.5rem 0">
+      <Flex justifyContent="center" alignItems="center" flexDirection="column" margin="5rem 0">
         <Heading
           textAlign="center"
           as="h2"

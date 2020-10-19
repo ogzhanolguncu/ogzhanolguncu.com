@@ -34,7 +34,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
         <Heading
           as="h1"
           fontSize={['1.6rem', '2rem', '2.3rem', '2.6rem']}
-          lineHeight="1.1"
+          lineHeight="1.4"
           marginBottom="2rem"
           marginTop={['0.6rem', '0', '0', '0']}
           fontWeight="bold"
