@@ -1,64 +1,10 @@
-import {
-  Box,
-  Button,
-  useToast,
-  Heading,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Text,
-  useColorMode,
-} from '@chakra-ui/core';
+import { Box, Heading, Text, useColorMode, Link as StyledLink } from '@chakra-ui/core';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import React, { useContext } from 'react';
-import { useRef, useState } from 'react';
 
 const Newsletter = React.forwardRef((props, ref: React.Ref<HTMLDivElement>) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
-
-  const inputEl = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState(false);
-  const toast = useToast();
-
-  const subscribe = async (e: React.MouseEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    const res = await fetch('/api/subscribe', {
-      body: JSON.stringify({
-        email: inputEl?.current?.value,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
-
-    setLoading(false);
-    const { error } = await res.json();
-
-    if (error) {
-      toast({
-        title: 'An error occurred.',
-        description: error,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-
-      return;
-    }
-
-    // inputEl?.current?.value = '';
-    toast({
-      title: 'Success!',
-      description: 'You are now subscribed.',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
-  };
-
   return (
     <Box my={4} w="100%" ref={ref} {...props}>
       <Heading
@@ -73,27 +19,31 @@ const Newsletter = React.forwardRef((props, ref: React.Ref<HTMLDivElement>) => {
       <Text color="#787f87" fontSize="1.1rem" fontWeight="400">
         Get emails from me about web development, tech, and early access to new articles.
       </Text>
-      <InputGroup size="md" mt={4}>
-        <Input
-          aria-label="Email for newsletter"
-          placeholder="tim@apple.com"
-          ref={inputEl}
-          type="email"
-        />
-        <InputRightElement width="6.75rem">
-          <Button
-            isLoading={loading}
-            fontWeight="bold"
-            h="1.75rem"
-            size="sm"
-            onClick={(e: React.MouseEvent<HTMLInputElement>): void => {
-              subscribe(e);
-            }}
-          >
-            Subscribe
-          </Button>
-        </InputRightElement>
-      </InputGroup>
+      <StyledLink
+        href="https://ogzhanolguncu.substack.com/p/coming-soon?r=argne&utm_campaign=post&utm_medium=email&utm_source=copy"
+        isExternal
+        backgroundColor={colorModeObj.buttonColor[colorMode]}
+        d="inline-block"
+        color="white"
+        padding="20px 25px"
+        _hover={{
+          backgroundColor:
+            colorMode === 'light'
+              ? colorModeObj.buttonHoverColor.light
+              : colorModeObj.buttonHoverColor.dark,
+        }}
+        fontWeight="600"
+        fontSize={['15px', '16px', '16px', '18px']}
+        mt="15px"
+        mb={['10px', '10px', '0px', '0px']}
+        mr={['0px', '0', '10px', '10px']}
+        borderRadius=".25rem"
+      >
+        <Text d="inline-block" mr="8px">
+          &#9889;
+        </Text>
+        Join the Newsletter
+      </StyledLink>
     </Box>
   );
 });
