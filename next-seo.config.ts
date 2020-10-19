@@ -13,6 +13,7 @@ const SEO = {
     description,
     images: [
       {
+        url: '',
         alt: title,
         width: 1280,
         height: 720,
