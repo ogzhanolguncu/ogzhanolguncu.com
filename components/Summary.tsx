@@ -157,13 +157,17 @@ const Summary = ({ gotoNewsletter }: Props) => {
         </Box>
       </Box>
       <Box size={['350', '150']} margin={['auto 0', '10px 0', '0 0', '0 0']}>
-        <Skeleton isLoaded={!!personalImage} height="350px" width="350px">
+        <Skeleton
+          colorStart="pink"
+          colorEnd="orange"
+          my="10px"
+          isLoaded={personalImage ? true : false}
+        >
           <Image
-            h={['150px', '150px', '350px']}
             src={personalImage}
             alt="Owl"
             borderRadius="16px"
-            w={['150px', '150px', '350px']}
+            w={['150px', '150px', '350px', '350px']}
           />
         </Skeleton>
       </Box>

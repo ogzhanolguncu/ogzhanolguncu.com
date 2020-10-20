@@ -99,7 +99,7 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
               <Box
                 d="flex"
                 flexDirection={['row', 'row', 'row', 'row']}
-                justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-end']}
+                justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
                 alignItems={['flex-start', 'center', 'center', 'center']}
                 w="100%"
                 flexWrap="wrap"
