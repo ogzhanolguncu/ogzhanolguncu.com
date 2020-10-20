@@ -48,7 +48,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
           color={colorModeObj.feedBackButtonColor.dark}
         >
           This website is my 🌱 digital garden—a compendium of the things I have learned and created
-          over the years, and anything else I want to write about. You can read my
+          over the years, and anything else I want to write about. You can read my{' '}
           <Link href="/">
             <StyledLink
               color={colorModeObj.linkColor[colorMode]}
