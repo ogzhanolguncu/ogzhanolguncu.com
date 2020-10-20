@@ -39,7 +39,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
           fontWeight="bold"
           color={colorModeObj.titleColor[colorMode]}
         >
-          Hey! I'm Tania Rascia. I'm a software engineer and open-source creator.
+          Hey! I'm Oğuzhan Olguncu. I'm a software engineer and open-source creator.
         </Heading>
         <Text
           fontSize={['1rem', '1rem', '1.2rem', '1.3rem']}
@@ -48,8 +48,8 @@ const Summary = ({ gotoNewsletter }: Props) => {
           color={colorModeObj.feedBackButtonColor.dark}
         >
           This website is my 🌱 digital garden—a compendium of the things I have learned and created
-          over the years, and anything else I want to write about. You can read my{' '}
-          <Link href="www.google.com">
+          over the years, and anything else I want to write about. You can read my
+          <Link href="/">
             <StyledLink
               color={colorModeObj.linkColor[colorMode]}
               href="#"
