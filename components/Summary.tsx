@@ -161,6 +161,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
           alt="Owl"
           borderRadius="16px"
           w={['150px', '150px', '350px']}
+          ignoreFallback
         />
       </Box>
     </Flex>
