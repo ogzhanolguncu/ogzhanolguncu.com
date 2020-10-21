@@ -157,7 +157,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
       <Box size={['350', '150']} margin={['auto 0', '10px 0', '0 0', '0 0']}>
         <Image
           h={['150px', '150px', '350px']}
-          src={'/static/images/350.jpg'}
+          src={'https://personal-blog-client.vercel.app/static/images/350.jpg'}
           alt="Owl"
           borderRadius="16px"
           w={['150px', '150px', '350px']}
