@@ -15,7 +15,7 @@ const prettier = require('prettier');
                 const route = path === '/index' ? '' : path;
                 return `
                         <url>
-                            <loc>${`https://sdsd.io${route}`}</loc>
+                            <loc>${`https://ogzhanolguncu.com${route}`}</loc>
                         </url>
                     `;
               })
