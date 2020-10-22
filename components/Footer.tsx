@@ -67,19 +67,23 @@ const Footer = () => {
             <Icon aria-label="Twitter" name="github" size="1.5rem" />
           </Button>
         </StyledLink>
-        <StyledLink href="https://github.com/ogzhanolguncu" title="LinkedIn" isExternal>
+        <StyledLink
+          href="https://www.linkedin.com/in/o%C4%9Fuzhan-olguncu-93a055171/"
+          title="LinkedIn"
+          isExternal
+        >
           <Button color="gray.500" variant="ghost">
             <Icon aria-label="LinkedIn" name="linkedin" size="1.5rem" />
           </Button>
         </StyledLink>
-        <StyledLink href="https://github.com/ogzhanolguncu" title="Email" isExternal>
+        <StyledLink href="mailto:ogzhan11@gmail.com" title="Email" isExternal>
           <Button color="gray.500" variant="ghost">
             <Icon aria-label="Email" name="mail" size="1.5rem" />
           </Button>
         </StyledLink>
-        <StyledLink href="https://github.com/ogzhanolguncu" title="Email" isExternal>
+        <StyledLink href="https://www.codewars.com/users/hezarfenDede" title="Codewars" isExternal>
           <Button color="gray.500" variant="ghost">
-            <Icon aria-label="Email" name="codewars" size="1.5rem" />
+            <Icon aria-label="Codewars" name="codewars" size="1.5rem" />
           </Button>
         </StyledLink>
       </Flex>

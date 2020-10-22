@@ -49,10 +49,10 @@ const Summary = ({ gotoNewsletter }: Props) => {
         >
           This website is my 🌱 digital garden—a compendium of the things I have learned and created
           over the years, and anything else I want to write about. You can read my{' '}
-          <Link href="/">
+          <Link href="/blog">
             <StyledLink
               color={colorModeObj.linkColor[colorMode]}
-              href="#"
+              href="/blog"
               fontWeight="700"
               _hover={{
                 textDecoration: 'none',
@@ -71,10 +71,10 @@ const Summary = ({ gotoNewsletter }: Props) => {
             </StyledLink>
           </Link>
           , view my
-          <Link href="www.google.com">
+          <Link href="/guides">
             <StyledLink
               color={colorModeObj.linkColor[colorMode]}
-              href="#"
+              href="/guides"
               fontWeight="700"
               ml={2}
               _hover={{
@@ -94,10 +94,10 @@ const Summary = ({ gotoNewsletter }: Props) => {
             </StyledLink>
           </Link>
           , or learn more
-          <Link href="www.google.com">
+          <Link href="/about">
             <StyledLink
               color={colorModeObj.linkColor[colorMode]}
-              href="#"
+              href="/about"
               fontWeight="700"
               ml={2}
               _hover={{
