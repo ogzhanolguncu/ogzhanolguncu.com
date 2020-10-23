@@ -2,7 +2,6 @@ import { Heading, Text, Box, useColorMode, Flex } from '@chakra-ui/core';
 import { Layout, Card } from '@components/index';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';
-import ExampleImg from 'images/typescript.png';
 import { getSortedPostsData } from 'lib/posts';
 import { GetStaticProps } from 'next';
 import { useContext } from 'react';
@@ -72,7 +71,7 @@ const guides = ({ guides }: Props) => {
                 <Card
                   key={index}
                   id={blog.id}
-                  img={ExampleImg}
+                  img={''}
                   title={blog.title}
                   description={blog.summary}
                 />
