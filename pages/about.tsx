@@ -2,13 +2,30 @@ import { Heading, Text, Flex, List, ListItem, useColorMode } from '@chakra-ui/co
 
 import { Layout } from '@components/index';
 import TextLink from '@components/TextLink';
-import { useContext } from 'react';
+import { ReactNode, useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { NextSeo } from 'next-seo';
 
 const url = 'https://ogzhanolguncu.com/about';
 const title = 'About Me – Oğuzhan Olguncu';
 
+const CustomText = ({ children }: { children: ReactNode }) => {
+  const colorModeObj = useContext(ColorModeContext);
+  const { colorMode } = useColorMode();
+
+  return (
+    <Text
+      fontSize="1.05rem"
+      mb="1.5rem"
+      fontWeight="400"
+      color={
+        colorMode === 'light' ? colorModeObj.aboutTextColor.light : colorModeObj.aboutTextColor.dark
+      }
+    >
+      {children}
+    </Text>
+  );
+};
 const About = () => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
@@ -28,7 +45,6 @@ const About = () => {
           flexDirection="column"
           justifyContent="center"
           alignItems="flex-start"
-          w="840px"
           maxW="100%"
           mx="auto"
           p="0 2rem"
@@ -43,59 +59,20 @@ const About = () => {
           >
             About me
           </Heading>
-          <Text
-            fontSize="1.05rem"
-            mb="1.5rem"
-            fontWeight="400"
-            color={
-              colorMode === 'light'
-                ? colorModeObj.aboutTextColor.light
-                : colorModeObj.aboutTextColor.dark
-            }
-          >
+          <CustomText>
             Hi! I'm Oğuzhan Olguncu. I currently work full-time as a Frontend Developer, and I build
             {''}
             <TextLink text=" open-source projects " url="#" /> for fun.
-          </Text>
-          <Text
-            fontSize="1.05rem"
-            mb="1.5rem"
-            fontWeight="400"
-            color={
-              colorMode === 'light'
-                ? colorModeObj.aboutTextColor.light
-                : colorModeObj.aboutTextColor.dark
-            }
-          >
+          </CustomText>
+          <CustomText>
             I taught myself how to make websites first as a hobby and later as a professional
             programmer. I've been documenting everything I learn since I began.
-          </Text>
-          <Text
-            fontSize="1.05rem"
-            mb="1.5rem"
-            fontWeight="400"
-            color={
-              colorMode === 'light'
-                ? colorModeObj.aboutTextColor.light
-                : colorModeObj.aboutTextColor.dark
-            }
-          >
-            I also like to make open source projects, all of which can be found on{' '}
-            <TextLink text="Github" url="#" />. A few I'm proud of are:
-          </Text>
+          </CustomText>
+          <CustomText>
+            I also like to make open source projects, all of which can be found on github and I'm
+            also huge classical turkish music lover and recreational powerlifter.
+          </CustomText>
 
-          <Text
-            fontSize="1.05rem"
-            mb="1.5rem"
-            fontWeight="400"
-            color={
-              colorMode === 'light'
-                ? colorModeObj.aboutTextColor.light
-                : colorModeObj.aboutTextColor.dark
-            }
-          >
-            I also like classical turkish music and powerlifting.
-          </Text>
           <Heading
             fontSize="1.6rem"
             color={
@@ -105,26 +82,17 @@ const About = () => {
           >
             Get in touch
           </Heading>
-          <Text
-            fontSize="1.05rem"
-            mb="1.5rem"
-            fontWeight="400"
-            color={
-              colorMode === 'light'
-                ? colorModeObj.aboutTextColor.light
-                : colorModeObj.aboutTextColor.dark
-            }
-          >
+          <CustomText>
             I hope you love the site, and if there's anything you want to talk about with me feel
             free to drop me a line by email. I'm happy to hear your comments, feedback, suggestions,
             or just say hi!{' '}
             <em>(Emails regarding ads, sponsored posts, link-sharing, etc. will be ignored.)</em>
-          </Text>
+          </CustomText>
           <List
             styleType="disc"
             fontSize="1.05rem"
             mb="3rem"
-            p={['0 0', '0 0', '0 2rem', '0 2rem']}
+            p={['0 0', '0 0', '0 1rem', '0 1rem']}
             color={
               colorMode === 'light'
                 ? colorModeObj.aboutTextColor.light
@@ -156,7 +124,6 @@ const About = () => {
             styleType="disc"
             fontSize="1.05rem"
             mb="3rem"
-            p={['0 0', '0 0', '0 2rem', '0 2rem']}
             color={
               colorMode === 'light'
                 ? colorModeObj.aboutTextColor.light
@@ -164,37 +131,32 @@ const About = () => {
             }
           >
             <ListItem>
-              <strong>1989:</strong> Born in Chicago, the youngest of four and the only girl.
+              <strong>1996:</strong> Born in Istanbul, the only child of my family.
             </ListItem>
             <ListItem>
-              <strong>1994 – 1997:</strong> Family gets our first computer, a PC running DOS then
-              Windows 3.11, then back to DOS for a while after my brother deleted Win.exe. I use the
-              computer a lot, mostly drawing things on MS Paint and playing WarCraft.
+              <strong>2006 – 2010:</strong> The family gets our first computer, a PC running
+              Windows. I use the computer a lot, mostly silly stuff since I had no idea what was
+              going on.
             </ListItem>
             <ListItem>
-              <strong>1998 – 2005:</strong> My brother takes me to the library, and I discover the
-              internet. On the first day, I make an email address and learn the meaning of "lol". I
-              draw things at home, save them to floppy disks, and upload them online. I join and
-              create tons of forum throughout the years. I make websites for the guilds I'm part of,
-              made-up Digimon, my art, myself, video games, and anything else I'm into.
+              <strong>2010 - 2014:</strong> I started my technical high school. Studied information
+              technologies, started to learn lots of things about computers and especially about web
+              development because it was the branch I chose to study. Coded websites using HTML
+              tables, good old days :) .
             </ListItem>
             <ListItem>
-              <strong>2005:</strong> I make a website about Seona Dancing, Ricky Gervais's failed
-              eighties duo musical endeavor. (This seems to be one of the few sites the Internet
-              Archive has retained.)
+              <strong>2015:</strong> I go to university for Information Management Systems. Due to
+              my major's nature I studied both management and IT. I've taken core computer science
+              courses such as Data structures, Computer Architecture, Algorithm Analysis and
+              Database Management.
             </ListItem>
             <ListItem>
-              <strong>2007:</strong> I graduate high school. With no specific plans, ideas, or
-              aspirations of what I should do with the rest of my life, I go to college for Culinary
-              Arts.
+              <strong>2016:</strong> At the last quarter of 2016, I started work as a full time
+              Fullstack .Net developer and honed my overall skills.
             </ListItem>
             <ListItem>
-              <strong>2017:</strong> After two years, I quit to solo travel around Europe for a
-              couple months, visiting 15 countries while writing for DigitalOcean.
-            </ListItem>
-            <ListItem>
-              <strong>2019 – Present:</strong> Working as a Senior Software Engineer for a large
-              corporation.
+              <strong>2020 – Present:</strong> I was bored working as a full stack developer. I've
+              chosen a different path and became a Frontend Developer.
             </ListItem>
           </List>
         </Flex>
