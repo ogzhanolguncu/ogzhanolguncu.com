@@ -140,23 +140,26 @@ const About = () => {
             </ListItem>
             <ListItem>
               <strong>2010 - 2014:</strong> I started my technical high school. Studied information
-              technologies, started to learn lots of things about computers and especially about web
-              development because it was the branch I chose to study. Coded websites using HTML
-              tables, good old days :) .
+              technologies,
+              <br /> started to learn lots of things about computers and especially about web
+              development
+              <br />
+              because it was the branch I chose to study. Coded websites using HTML tables, good old
+              days :) .
             </ListItem>
             <ListItem>
               <strong>2015:</strong> I go to university for Information Management Systems. Due to
-              my major's nature I studied both management and IT. I've taken core computer science
-              courses such as Data structures, Computer Architecture, Algorithm Analysis and
-              Database Management.
+              my major's nature I studied both management and IT.
+              <br /> I've taken core computer science courses such as Data structures, Computer
+              Architecture, Algorithm Analysis and Database Management.
             </ListItem>
             <ListItem>
               <strong>2016:</strong> At the last quarter of 2016, I started work as a full time
               Fullstack .Net developer and honed my overall skills.
             </ListItem>
             <ListItem>
-              <strong>2020 – Present:</strong> I was bored working as a full stack developer. I've
-              chosen a different path and became a Frontend Developer.
+              <strong>2020 – Present:</strong> I was bored working as a full stack developer and
+              I've chosen a different path and became a Frontend Developer.
             </ListItem>
           </List>
         </Flex>
