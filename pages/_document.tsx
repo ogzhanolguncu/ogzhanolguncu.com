@@ -21,7 +21,7 @@ class MyDocument extends Document {
             rel="alternate"
             type="application/rss+xml"
             title="RSS feed for blog posts"
-            href="https://ogzhanolguncu:3000/rss.xml"
+            href="https://ogzhanolguncu.com/rss.xml"
           />
           <link
             rel="preload"
