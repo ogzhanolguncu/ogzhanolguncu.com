@@ -7,7 +7,7 @@ Feel free to copy and use.
 
 ```bash
 $ git clone https://github.com/ogzhanolguncu/ogzhanolguncu.com.git
-$ ogzhanolguncu.com
+$ cd ogzhanolguncu.com
 $ yarn
 $ yarn dev
 ```
