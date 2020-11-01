@@ -154,13 +154,13 @@ const Summary = ({ gotoNewsletter }: Props) => {
           </Button>
         </Box>
       </Box>
-      <Box size={['350', '150']} margin={['auto 0', '10px 0', '0 0', '0 0']}>
+      <Box margin={['auto 0', '10px 0', '0 0', '0 0']}>
         <Image
-          h={['150px', '150px', '350px']}
+          h={['150px', '150px', '420px']}
           src={'/static/images/350.jpg'}
           alt="Owl"
           borderRadius="16px"
-          w={['150px', '150px', '350px']}
+          w={['150px', '150px', '420px']}
           ignoreFallback
         />
       </Box>
