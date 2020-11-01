@@ -44,7 +44,7 @@ const BlogSeo = ({ title, summary, publishedAt, url, image }: Props) => {
         datePublished={date}
         description={summary}
         images={[]}
-        publisherLogo="/static/favicons/android-chrome-192x192.png"
+        publisherLogo="/static/favicons/favicon.ico"
         publisherName="Oğuzhan Olguncu"
         title={title}
         url={url}
