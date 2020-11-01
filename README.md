@@ -18,3 +18,4 @@ $ yarn dev
 - [Vercel](https://vercel.com)
 - [MDX](https://github.com/mdx-js/mdx)
 - [Chakra UI](https://chakra-ui.com/)
+- [Typescript](https://www.typescriptlang.org/)
