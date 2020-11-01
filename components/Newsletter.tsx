@@ -20,7 +20,7 @@ const Newsletter = React.forwardRef((props, ref: React.Ref<HTMLDivElement>) => {
         Get emails from me about web development, tech, and early access to new articles.
       </Text>
       <StyledLink
-        href="https://ogzhanolguncu.substack.com/p/coming-soon?r=argne&utm_campaign=post&utm_medium=email&utm_source=copy"
+        href="https://ogzhanolguncu.substack.com/subscribe"
         isExternal
         backgroundColor={colorModeObj.buttonColor[colorMode]}
         d="inline-block"
