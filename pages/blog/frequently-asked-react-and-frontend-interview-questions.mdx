@@ -1,0 +1,128 @@
+---
+title: 'Frequently Asked React and Front-end Interview Questions'
+publishedAt: '2020-11-02'
+summary: 'Today, we are going to discuss most frequently asked interview question that I faced during interviews. Tagged with javascript, webdev, dom, interview, front-end.'
+image: '/static/images/binary-search-in-javascript/binary.png'
+languageTags: ['javascript', 'tutorial', 'computerscience']
+isPopular: true
+guides: false
+---
+
+![interview-questions](/static/images/hash-tables-explained-in-javascript/hash-tables-javascript.png)
+
+It's been a long time since writing a blog post. Because of my day job, I was quite occupied and tired and because of my recent job searching,
+I wanted to write about the interview questions that I faced all the time. So, here we go.
+
+## Table of Contents
+
+1.  [Var vs Let vs Const](#var-vs-let-vs-const)
+2.  [What Is Hoisting?](#what-is-hoisting)
+3.  [What Is Closures?](#what-is-closures)
+4.  [Most Commonly Used Functions Map, Filter, Find and Reduce](#most-commonly-used-functions-map-filter-find-and-reduce)
+5.  [Optional Chaining](#optional-chaining)
+6.  [?? vs ||](#??-vs-||)
+7.  [Bind vs Arrow Function](#bind-vs-arrow-function)
+8.  [What Is SPA](#what-is-spa)
+9.  [SSR vs CSR](#ssr-vs-csr)
+10. [Higher Order Functions/Components With Examples](#higher-order-functions-components-with-examples)
+11. [React Lifecycle Methods](#react-lifecycle-methods)
+12. [How To Access DOM Directly In React](#how-to-access-dom-directly-in-react)
+13. [Babel and Webpack](#babel-and-webpack)
+14. [useMemo and useCallback](#usememo-and-usecallback)
+15. [Redux Flow](#redux-flow)
+16. [Context vs Redux](#context-vs-redux)
+
+## Var vs Let vs Const
+
+Actually, `var` and `let` is pretty similar only difference is `var` is function scoped and `let` is block scoped.
+It can also be said `var` is more like a global variable whereas `let` is only valid inside its parent parenthesis.
+The main reason we use `let` is to avoid [Hosting](#what-is-hoisting) which I'll explain two minutes later in this post.
+Finally, `const` is a **constant** value that cannot be changed once defined.
+There are some exceptions which usually interviewers asks once you said you cannot change a `const` value once defined.
+Such as what if I push a variable inside `const arr = []` array then what happens? It works since you don't **re-assign** the value.
+There is one more trap question interviewer might ask what if I do this below code piece then what happens?
+
+```javascript
+const obj = {};
+obj.someValue = 'Does it work?';
+```
+
+Yeah, it works. It creates _key_ called `someValue` and _value_ called `Does it work?`. That's all you have to know about var, let and const.
+
+## What Is Hoisting?
+
+Before, `let` and `const` introduced people had to use `var` since there were no alternatives.
+That caused a interesting problem called hoisting which is basically using variable before its definition. It's easier to show then write. Come along.
+
+```javascript
+// calling x after definition
+var x = 5;
+console.log(x, '\n');
+
+// calling y after definition
+let y = 10;
+console.log(y, '\n');
+
+// calling var z before definition will return undefined
+console.log(z, '\n');
+var z = 2;
+
+// calling let a before definition will give error
+console.log(a);
+let a = 3;
+```
+
+You see, when `var` used javascript won't complain and returns **undefined** which is pretty annoying. But, when we use `let` javascript complains and says you cannot call a variable before definition and throws **Uncaught ReferenceError: Cannot access 'a' before initialization**
+
+## What Is Closures?
+
+Arghh, tough one. Interviewers loves closures, dunno why 😅. Let's get over it. [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures) document says
+
+> A closure gives you access to an outer function’s scope from an inner function. In JavaScript, closures are created every time a function is created, at function creation time.
+
+Closures are also like hoisting its lot easier to show.
+
+```javascript
+function init() {
+  var name = 'Mozilla';
+  function displayName() {
+    // displayName() is the inner function, a closure
+    name = 'Chrome';
+    console.log('Inner function --> ', name); // Returns Inner function --> Chrome
+  }
+  console.log('Outer function --> ', name); // Returns Outer function --> Mozilla
+  displayName();
+}
+init();
+```
+
+As you can see we did not change the outer value. It only changes if we call `displayName()` closure.
+That is a primitive way of emulating private values since JS doesn't have private class fields like other languages such as C#, Java and C++.
+One practical use of closures may be [Debounce](#debounce) which I'll talk later. Finally, be careful while using this technique may lead to memory leak and performance issues.
+
+## Most Commonly Used Functions Map, Filter, Find and Reduce
+
+### Map
+
+Fancy way of doing your iterations but, also functional way of iterating over elements. One of the key things to know that `map` is a **array method** and **returns a new array** after computation finishes.
+Few use cases.
+
+```javascript
+const arr = [🍇, 🍈 , 🍉, 🍊];
+arr.map(fruit => fruit) // Returns [🍇, 🍈 , 🍉, 🍊]
+
+const arr = [2,4,5,6];
+arr.map(number => number * number) // Returns [4,16,25,36]
+
+```
+
+By the way, if you don't need the returned array don't use map it's an anti-pattern use `forEach` instead since it does not return an array.
+
+So, you shouldn't be using `map` if:
+
+- you're not using the array it returns; and/or
+- you're not returning a value from the callback.
+
+---
+
+**Work-in-progress**
