@@ -20,7 +20,7 @@ I wanted to write about the interview questions that I faced all the time. So, h
 3.  [What Is Closures?](#what-is-closures)
 4.  [Most Commonly Used Functions Map, Filter, Find and Reduce](#most-commonly-used-functions-map-filter-find-and-reduce)
 5.  [Optional Chaining](#optional-chaining)
-6.  [?? vs ||](#??-vs-||)
+6.  [Null Coalescing Operator vs Logical Operator](#null-coalescing-operator-vs-logical-operator) [Also Known As ?? vs ||](#null-coalescing-operator-vs-logical-operator)
 7.  [Bind vs Arrow Function](#bind-vs-arrow-function)
 8.  [What Is SPA](#what-is-spa)
 9.  [SSR vs CSR](#ssr-vs-csr)
@@ -186,7 +186,7 @@ The third `reducers` works similar to `filter()` method it actually `filter()` i
 
 ## Optional Chaining
 
-Long before **optional chaining** added to Ecmascript, we had to lots of hacky stuff to ensure data is not undefined. Things like this `person && person.car && person.car.wheels` if `person.car` is undefined and you have not used `&&` then you are screwed,
+Long before **optional chaining** added to Ecmascript, we had to do lots of hacky stuff to ensure data is not undefined. Things like this `person && person.car && person.car.wheels` if `person.car` is undefined and you have not used `&&` then you are screwed,
 because Javascript will throw `Uncaught TypeError: Cannot read property 'name' of undefined`. This piece of code will ruin your life in runtime 😅. So, instead people came up with something like that to prevent **undefined errors**
 
 ```javascript
@@ -203,7 +203,7 @@ console.log(dogName);
 
 Javascript will not complain about this and simply return `undefined` and you are good to go.
 
-## ?? vs ||
+## Null Coalescing Operator vs Logical Operator
 
 First, let me tell you what `||` and `??` those are. The first one is **Logical Or** and the second one is **Nullish coalescing operator**. Let's go over first one with examples.
 
