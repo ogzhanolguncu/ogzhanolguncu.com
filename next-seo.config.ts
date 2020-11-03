@@ -1,5 +1,5 @@
-const title = 'Oğuzhan Olguncu – Developer, writer, creator.';
-const description = 'Front-end developer, JavaScript enthusiast, and course creator.';
+const title = 'Oğuzhan Olguncu – Developer, writer, dedicated learner.';
+const description = 'Front-end developer, JavaScript/Typescript enthusiast.';
 
 const SEO = {
   title,
@@ -13,7 +13,7 @@ const SEO = {
     description,
     images: [
       {
-        url: '',
+        url: '/static/favicons/favicon.ico',
         alt: title,
         width: 1280,
         height: 720,

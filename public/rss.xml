@@ -1,83 +1,67 @@
 
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <title>Blog - Emilio Schepis</title>
+      <title>Oğuzhan Olguncu – Developer, writer, creator.</title>
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
-      <lastBuildDate>Mon, 14 Sep 2020 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Fri, 23 Oct 2020 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
   <item>
-    <guid>https://ogzhanolguncu.com/blog/css</guid>
-    <title>How Should I Style My React Application?</title>
-    <link>https://ogzhanolguncu.com/blog/css</link>
-    <description>Learn how CSS has evolved and explore pros and cons of different styling solutions for React.</description>
-    <pubDate>Mon, 14 Sep 2020 00:00:00 GMT</pubDate>
+    <guid>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</guid>
+    <title>Currying in Javascript with examples</title>
+    <link>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</link>
+    <description>Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 
   <item>
-    <guid>https://ogzhanolguncu.com/blog/deneme2</guid>
-    <title>Analyzing 10+ Years of My Facebook Data</title>
-    <link>https://ogzhanolguncu.com/blog/deneme2</link>
-    <description>Which year was I the most active? Who has commented on my pictures the most? How many songs have I streamed?</description>
-    <pubDate>Mon, 07 Sep 2020 00:00:00 GMT</pubDate>
+    <guid>https://ogzhanolguncu.com/blog/using-async-await-the-right-way</guid>
+    <title>Using Async/Await: The right way</title>
+    <link>https://ogzhanolguncu.com/blog/using-async-await-the-right-way</link>
+    <description>Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 
   <item>
-    <guid>https://ogzhanolguncu.com/blog/backend</guid>
-    <title>Which Back End Should I Use As A Front-End Developer?</title>
-    <link>https://ogzhanolguncu.com/blog/backend</link>
-    <description>Choosing a service to store data can be confusing and overwhelming for a front-end developer. This comprehensive guide is a choose your own adventure dive into creating your backend.</description>
-    <pubDate>Sun, 09 Aug 2020 00:00:00 GMT</pubDate>
+    <guid>https://ogzhanolguncu.com/blog/selection-sort-in-javascript</guid>
+    <title>Selection Sort In Javascript</title>
+    <link>https://ogzhanolguncu.com/blog/selection-sort-in-javascript</link>
+    <description>Today, we are going to discover how Selection Sort works and discuss its complexity using Big O Notat... Tagged with javascript, datastructures, computerscience, typescript.</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 
   <item>
-    <guid>https://ogzhanolguncu.com/blog/tech-online</guid>
-    <title>How I Turned an Idea into $7K by Teaching Online</title>
-    <link>https://ogzhanolguncu.com/blog/tech-online</link>
-    <description>Six months ago, I had an idea for an online course. Today, I've taught students all over the world and made over $7,000 teaching online.</description>
-    <pubDate>Fri, 08 May 2020 00:00:00 GMT</pubDate>
+    <guid>https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</guid>
+    <title>React Crash Course: Building React App using Hooks, Mobx, Typescript and much more</title>
+    <link>https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</link>
+    <description>Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 
   <item>
-    <guid>https://ogzhanolguncu.com/blog/unsplah</guid>
-    <title>Create a Dashboard with Next.js API Routes - Unsplash API</title>
-    <link>https://ogzhanolguncu.com/blog/unsplah</link>
-    <description>Learn how to use Next.js API routes to integrate with the Unsplash API and retrieve statistics about a user.</description>
-    <pubDate>Tue, 04 Feb 2020 00:00:00 GMT</pubDate>
+    <guid>https://ogzhanolguncu.com/blog/quicksort-in-javascript</guid>
+    <title>Quicksort In Javascript</title>
+    <link>https://ogzhanolguncu.com/blog/quicksort-in-javascript</link>
+    <description>Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 
   <item>
-    <guid>https://ogzhanolguncu.com/blog/learn-nextjs</guid>
-    <title>Why Should You Learn Next.js?</title>
-    <link>https://ogzhanolguncu.com/blog/learn-nextjs</link>
-    <description>Understand the growth behind JavaScript's hottest web framework and learn why Next.js can help you build web applications faster.</description>
-    <pubDate>Thu, 07 Nov 2019 00:00:00 GMT</pubDate>
+    <guid>https://ogzhanolguncu.com/blog/hash-tables-explained-in-javascript</guid>
+    <title>Hash tables explained in Javascript</title>
+    <link>https://ogzhanolguncu.com/blog/hash-tables-explained-in-javascript</link>
+    <description>Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 
   <item>
-    <guid>https://ogzhanolguncu.com/blog/style-guides</guid>
-    <title>Everything I Know About Style Guides, Design Systems, and Component Libraries</title>
-    <link>https://ogzhanolguncu.com/blog/style-guides</link>
-    <description>A deep-dive on everything I've learned in the past year building style guides, design systems, component libraries, and their best practices.</description>
-    <pubDate>Wed, 07 Aug 2019 00:00:00 GMT</pubDate>
-  </item>
-
-  <item>
-    <guid>https://ogzhanolguncu.com/blog/deneme</guid>
-    <title>Configuring Sentry for Next.js Apps</title>
-    <link>https://ogzhanolguncu.com/blog/deneme</link>
-    <description>Learn how to set up Sentry to capture client-side and server-side exceptions for Next.js applications.</description>
-    <pubDate>Tue, 23 Apr 2019 00:00:00 GMT</pubDate>
-  </item>
-
-  <item>
-    <guid>https://ogzhanolguncu.com/blog/migrating</guid>
-    <title>Migrating to Hugo</title>
-    <link>https://ogzhanolguncu.com/blog/migrating</link>
-    <description>Why I chose this static site generator and the benefits you can receive.</description>
-    <pubDate>Fri, 29 Sep 2017 00:00:00 GMT</pubDate>
+    <guid>https://ogzhanolguncu.com/blog/binary-search-in-javascript</guid>
+    <title>Binary Search In Javascript</title>
+    <link>https://ogzhanolguncu.com/blog/binary-search-in-javascript</link>
+    <description>Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 
     </channel>

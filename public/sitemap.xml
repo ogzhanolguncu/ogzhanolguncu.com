@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sdsd.io/blog/backend</loc>
+    <loc>https://ogzhanolguncu.com/404</loc>
   </url>
 
   <url>
-    <loc>https://sdsd.io/blog/css</loc>
+    <loc>https://ogzhanolguncu.com/about</loc>
   </url>
 
   <url>
-    <loc>https://sdsd.io/blog/deneme</loc>
+    <loc>https://ogzhanolguncu.com/blog</loc>
   </url>
 
   <url>
-    <loc>https://sdsd.io/blog/deneme2</loc>
+    <loc>https://ogzhanolguncu.com/guides</loc>
   </url>
 
   <url>
-    <loc>https://sdsd.io/blog/learn-nextjs</loc>
+    <loc>https://ogzhanolguncu.com</loc>
   </url>
 
   <url>
-    <loc>https://sdsd.io/blog/migrating</loc>
+    <loc>https://ogzhanolguncu.com/blog/binary-search-in-javascript</loc>
   </url>
 
   <url>
-    <loc>https://sdsd.io/blog/style-guides</loc>
+    <loc>https://ogzhanolguncu.com/blog/hash-tables-explained-in-javascript</loc>
   </url>
 
   <url>
-    <loc>https://sdsd.io/blog/tech-online</loc>
+    <loc>https://ogzhanolguncu.com/blog/quicksort-in-javascript</loc>
   </url>
 
   <url>
-    <loc>https://sdsd.io/blog/unsplah</loc>
+    <loc
+      >https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</loc
+    >
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/selection-sort-in-javascript</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/using-async-await-the-right-way</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</loc>
   </url>
 </urlset>

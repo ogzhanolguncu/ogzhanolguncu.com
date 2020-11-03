@@ -6,11 +6,22 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9GGC8MHKK"></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-T9GGC8MHKK');
+        `,
+            }}
+          />
           <link
             rel="alternate"
             type="application/rss+xml"
             title="RSS feed for blog posts"
-            href="http://localhost:3000/rss.xml"
+            href="https://ogzhanolguncu.com/rss.xml"
           />
           <link
             rel="preload"

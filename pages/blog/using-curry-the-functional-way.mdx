@@ -1,0 +1,56 @@
+---
+title: 'Currying in Javascript with examples'
+publishedAt: '2020-10-23'
+summary: 'Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.'
+image: '/static/images/using-curry-the-functional-way/curry.png'
+languageTags: ['javascript', 'tutorial', 'computerscience']
+isPopular: false
+guides: false
+---
+
+![Alt Text](/static/images/using-curry-the-functional-way/curry.png)
+
+### Prerequisites
+
+**Knowledge of higher order functions and arrow functions are needed.**
+
+Name curry doesn't come from the spice we know, it comes from [Haskell Curry ](Haskell Curry) a mathematician. Haskel Curry defines Currying as:
+
+> "Currying is the technique of translating the evaluation of a function that takes multiple arguments into evaluating a sequence of functions, each with a single argument".
+
+Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus. This technique gives us an option to control how arguments are passed to functions. Enough chit chat let's see the code!
+
+## Oldschool function
+
+![Alt Text](/static/images/using-curry-the-functional-way/1.png)
+
+At first sight, this may look like functions inside the function but it's more than that. Each function has it's own scope so you can do whatever you want and not worry about changing the outer variables. Please, see [Closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures) for more detail. First, when we invoke <code>addNumber</code> it returns **<code>[Function]</code>** because there are still two more function waiting to be executed. Also, **secondFunction** returns **<code>[Function]</code>** because function is still not resolved. But, when we call the function one last time it returns 30 because all the functions finally evaluated.
+
+I know what you are thinking right now. Saying things like "Why do I wanna define three variables just to get function result?". What if said there is an easier way to curry?
+
+![Alt Text](/static/images/using-curry-the-functional-way/2.png)
+
+Ta-da. See? A lot cleaner and easier to read. Stay tight we are not done yet.
+We can do these similar actions using [Arrow Function](https://developer.mozilla.org/tr/docs/Web/JavaScript/Reference/Functions/Arrow_functions).
+
+![Alt Text](/static/images/using-curry-the-functional-way/3.png)
+
+Here, we're mapping -> filtering -> reducing <code>randomNumbers</code> array. Parameter **X** takes <code>randomNumbers</code> array, **Y** takes a value to map over the array with a given value which is **2** and returns a mapped version of <code>randomNumbers</code>, **Z** filters out numbers only dividable by given number, in that case, **3** and finally, **D** takes an initial starting value **4**.
+
+We're not done yet. What if you wanted to **Un-curry** the parameters? It's really easy. Check this out.
+
+![Alt Text](/static/images/using-curry-the-functional-way/4.png)
+
+Similar to destructuring, you specify the parameters you want.
+
+One more, this is called **Partial Application**.
+
+![Alt Text](/static/images/using-curry-the-functional-way/5.png)
+
+Reducing your function to fewer parameters called partial application.
+
+### Final Thoughts
+
+To be honest, I've never used curry functions except for coding challenges but it's good to know how functional programming works.
+
+Thanks for reading.

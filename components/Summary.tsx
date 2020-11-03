@@ -9,10 +9,8 @@ import {
   Link as StyledLink,
   Button,
   useColorMode,
-  Skeleton,
 } from '@chakra-ui/core';
 
-import personalImage from '/public/350.jpg';
 import React from 'react';
 import { useContext } from 'react';
 import { ColorModeContext } from 'contexts/CustomColorContext';
@@ -41,7 +39,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
           fontWeight="bold"
           color={colorModeObj.titleColor[colorMode]}
         >
-          Hey! I'm Tania Rascia. I'm a software engineer and open-source creator.
+          Hey! I'm Oğuzhan Olguncu. I'm a software developer and open-source lover.
         </Heading>
         <Text
           fontSize={['1rem', '1rem', '1.2rem', '1.3rem']}
@@ -49,12 +47,12 @@ const Summary = ({ gotoNewsletter }: Props) => {
           fontWeight="400"
           color={colorModeObj.feedBackButtonColor.dark}
         >
-          This website is my 🌱 digital garden—a compendium of the things I have learned and created
-          over the years, and anything else I want to write about. You can read my{' '}
-          <Link href="www.google.com">
+          This website is my 📚 digital library of the things I have learned and created over the
+          years, and anything else I want to write about. You can read my{' '}
+          <Link href="/blog">
             <StyledLink
               color={colorModeObj.linkColor[colorMode]}
-              href="#"
+              href="/blog"
               fontWeight="700"
               _hover={{
                 textDecoration: 'none',
@@ -73,10 +71,10 @@ const Summary = ({ gotoNewsletter }: Props) => {
             </StyledLink>
           </Link>
           , view my
-          <Link href="www.google.com">
+          <Link href="/guides">
             <StyledLink
               color={colorModeObj.linkColor[colorMode]}
-              href="#"
+              href="/guides"
               fontWeight="700"
               ml={2}
               _hover={{
@@ -96,10 +94,10 @@ const Summary = ({ gotoNewsletter }: Props) => {
             </StyledLink>
           </Link>
           , or learn more
-          <Link href="www.google.com">
+          <Link href="/about">
             <StyledLink
               color={colorModeObj.linkColor[colorMode]}
-              href="#"
+              href="/about"
               fontWeight="700"
               ml={2}
               _hover={{
@@ -156,20 +154,15 @@ const Summary = ({ gotoNewsletter }: Props) => {
           </Button>
         </Box>
       </Box>
-      <Box size={['350', '150']} margin={['auto 0', '10px 0', '0 0', '0 0']}>
-        <Skeleton
-          colorStart="pink"
-          colorEnd="orange"
-          my="10px"
-          isLoaded={personalImage ? true : false}
-        >
-          <Image
-            src={personalImage}
-            alt="Owl"
-            borderRadius="16px"
-            w={['150px', '150px', '350px', '350px']}
-          />
-        </Skeleton>
+      <Box margin={['auto 0', '10px 0', '0 0', '0 0']}>
+        <Image
+          h={['150px', '150px', '360px']}
+          src={'/static/images/350.jpg'}
+          alt="Owl"
+          borderRadius="16px"
+          w={['150px', '150px', '380px']}
+          ignoreFallback
+        />
       </Box>
     </Flex>
   );

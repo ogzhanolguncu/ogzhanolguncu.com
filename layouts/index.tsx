@@ -46,9 +46,9 @@ export default function BlogLayout({ children, frontMatter }: any) {
           >
             <Flex align="center">
               <Avatar
-                size="xs"
+                size="sm"
                 name="Oğuzhan Olguncu"
-                src="https://media-exp1.licdn.com/dms/image/C4E03AQHv_LowbjEUOw/profile-displayphoto-shrink_100_100/0?e=1606953600&v=beta&t=-tVK2oYnkpwrtm9xKgcCyz4jJCiREvlQWjmizKocuYY"
+                src="https://avatars2.githubusercontent.com/u/21091016?s=460&u=788774b6cbffaa93e2b8eadcd10ef32e1c6ecf58&v=4"
                 mr={2}
               />
               <Text fontSize="sm" color={textColor[colorMode]}>

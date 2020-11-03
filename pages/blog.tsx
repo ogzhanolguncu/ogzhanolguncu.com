@@ -23,6 +23,7 @@ import groupBy from 'lodash.groupby';
 import Fuse from 'fuse.js';
 import { generateRss } from 'utils/rssOperations';
 import debounce from 'lodash.debounce';
+import { NextSeo } from 'next-seo';
 
 type Props = {
   blogPosts: StaticBlog[];
@@ -37,6 +38,10 @@ const options = {
   includeScore: true,
   keys: ['title', 'id'],
 };
+
+const url = 'https://ogzhanolguncu.com/blog';
+const title = 'Blog – Oğuzhan Olguncu';
+const description = 'Programming tutorials, guides and technical writings about web related stuff.';
 
 const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
@@ -63,123 +68,135 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   }, [delayedSearch]);
 
   return (
-    <Layout>
-      <Flex justifyContent="center" alignItems="center" margin="5rem 0" flexDirection="column">
-        <Heading
-          as="h2"
-          fontSize={['2rem', '2rem', '3rem', '3rem']}
-          marginBottom="1rem"
-          marginTop={['0.6rem', '0', '0', '0']}
-          fontWeight="bold"
-          color={colorModeObj.titleColor[colorMode]}
-        >
-          Blog
-        </Heading>
-        <Text textAlign="center" fontSize="1.3rem" color="#60656c" marginBottom="1.5rem">
-          Articles, tutorials, snippets, musings, and everything else.
-        </Text>
-        <Input
-          onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-            setInput(e.target.value);
-          }}
-          value={input}
-          variant="outline"
-          placeholder="Search..."
-          maxWidth="400px"
-        />
-      </Flex>
-      <Flex alignItems="flex-start" justifyContent="center" flexDirection="column">
-        {Object.keys(fusedBlog)
-          .reverse()
-          .map((blog, index) => (
-            <Fragment key={index}>
-              <Heading size="lg" marginTop={index !== 0 ? '4rem' : '0'}>
-                {blog}
-              </Heading>
-              <Divider />
-              {fusedBlog[(blog as unknown) as number].map((article) => (
-                <Article
-                  key={`${blog}${article.id}`}
-                  justifyContent="space-between"
-                  alignItems="space-between"
-                  color={colorMode === 'light' ? 'light' : 'dark'}
-                >
-                  <Link href={`/blog/${article.id}`}>
-                    <StyledLink _hover={{ textDecoration: 'none' }}>
-                      <ArticleTitle>
-                        {compareDateWithTodaysDate(
-                          addTwoMonthToPublishedDate(article.publishedAt),
-                        ) ? (
-                          <Tag
-                            fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
-                            p=".5rem"
-                            borderRadius=".3rem"
-                            m={[
-                              'auto .4rem auto 0',
-                              'auto .4rem auto 0',
-                              'auto .4rem auto 0',
-                              '1rem 1rem 10px 0',
-                            ]} //for responsive
-                            height="15px"
-                            backgroundColor="#d3f9d8"
-                            fontWeight="700"
-                            width={['2.7rem', '2.7rem', '', '']}
-                            minW=""
-                            color={colorModeObj.articleNewTagTextColor[colorMode]}
-                            background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
-                          >
-                            New!
-                          </Tag>
-                        ) : null}
-                        <Box>
-                          <Text color="#787f87" fontSize=".8rem" fontWeight="600">
-                            {article.publishedAt}
-                          </Text>
-                          <Heading
-                            fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
-                            w={['100%', '100%', 'max-content', 'max-content']}
-                          >
-                            {article.title}
-                          </Heading>
-                        </Box>
-                      </ArticleTitle>
-                    </StyledLink>
-                  </Link>
-                  <Box
-                    d="flex"
-                    flexDirection={['row', 'row', 'row', 'row']}
-                    justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
-                    alignItems={['flex-start', 'center', 'center', 'center']}
-                    w="100%"
-                    flexWrap="wrap"
+    <>
+      <NextSeo
+        title={title}
+        description={description}
+        canonical={url}
+        openGraph={{
+          url,
+          title,
+          description,
+        }}
+      />
+      <Layout>
+        <Flex justifyContent="center" alignItems="center" margin="5rem 0" flexDirection="column">
+          <Heading
+            as="h2"
+            fontSize={['2rem', '2rem', '3rem', '3rem']}
+            marginBottom="1rem"
+            marginTop={['0.6rem', '0', '0', '0']}
+            fontWeight="bold"
+            color={colorModeObj.titleColor[colorMode]}
+          >
+            Blog
+          </Heading>
+          <Text textAlign="center" fontSize="1.3rem" color="#60656c" marginBottom="1.5rem">
+            Articles, tutorials, snippets, musings, and everything else.
+          </Text>
+          <Input
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+              setInput(e.target.value);
+            }}
+            value={input}
+            variant="outline"
+            placeholder="Search..."
+            maxWidth="400px"
+          />
+        </Flex>
+        <Flex alignItems="flex-start" justifyContent="center" flexDirection="column">
+          {Object.keys(fusedBlog)
+            .reverse()
+            .map((blog, index) => (
+              <Fragment key={index}>
+                <Heading size="lg" marginTop={index !== 0 ? '4rem' : '0'}>
+                  {blog}
+                </Heading>
+                <Divider />
+                {fusedBlog[(blog as unknown) as number].map((article) => (
+                  <Article
+                    key={`${blog}${article.id}`}
+                    justifyContent="space-between"
+                    alignItems="space-between"
+                    color={colorMode === 'light' ? 'light' : 'dark'}
                   >
-                    {article?.languageTags?.map((tag: string, tagIndex: number) => {
-                      const color = colorMap[tag.toLowerCase()];
-                      return (
-                        <Tag
-                          key={`${blog}${article.id}${tagIndex}`}
-                          width="max-content"
-                          height="20px"
-                          p=".3rem .5rem"
-                          fontSize=".8rem"
-                          borderRadius="16px"
-                          marginBottom="7px"
-                          marginRight=".5rem"
-                          color="#fff"
-                          backgroundColor={color?.color}
-                          _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
-                        >
-                          {tag}
-                        </Tag>
-                      );
-                    })}
-                  </Box>
-                </Article>
-              ))}
-            </Fragment>
-          ))}
-      </Flex>
-    </Layout>
+                    <Link href={`/blog/${article.id}`}>
+                      <StyledLink _hover={{ textDecoration: 'none' }}>
+                        <ArticleTitle>
+                          {compareDateWithTodaysDate(
+                            addTwoMonthToPublishedDate(article.publishedAt),
+                          ) ? (
+                            <Tag
+                              fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
+                              p=".5rem"
+                              borderRadius=".3rem"
+                              m={[
+                                'auto .4rem auto 0',
+                                'auto .4rem auto 0',
+                                'auto .4rem auto 0',
+                                '1rem 1rem 10px 0',
+                              ]} //for responsive
+                              height="15px"
+                              backgroundColor="#d3f9d8"
+                              fontWeight="700"
+                              width={['2.7rem', '2.7rem', '', '']}
+                              minW=""
+                              color={colorModeObj.articleNewTagTextColor[colorMode]}
+                              background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
+                            >
+                              New!
+                            </Tag>
+                          ) : null}
+                          <Box>
+                            <Text color="#787f87" fontSize=".8rem" fontWeight="600">
+                              {article.publishedAt}
+                            </Text>
+                            <Heading
+                              fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
+                              w={['100%', '100%', 'max-content', 'max-content']}
+                            >
+                              {article.title}
+                            </Heading>
+                          </Box>
+                        </ArticleTitle>
+                      </StyledLink>
+                    </Link>
+                    <Box
+                      d="flex"
+                      flexDirection={['row', 'row', 'row', 'row']}
+                      justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
+                      alignItems={['flex-start', 'center', 'center', 'center']}
+                      w="100%"
+                      flexWrap="wrap"
+                    >
+                      {article?.languageTags?.map((tag: string, tagIndex: number) => {
+                        const color = colorMap[tag.toLowerCase()];
+                        return (
+                          <Tag
+                            key={`${blog}${article.id}${tagIndex}`}
+                            width="max-content"
+                            height="20px"
+                            p=".3rem .5rem"
+                            fontSize=".8rem"
+                            borderRadius="16px"
+                            marginBottom="7px"
+                            marginRight=".5rem"
+                            color="#fff"
+                            backgroundColor={color?.color}
+                            _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
+                          >
+                            {tag}
+                          </Tag>
+                        );
+                      })}
+                    </Box>
+                  </Article>
+                ))}
+              </Fragment>
+            ))}
+        </Flex>
+      </Layout>
+    </>
   );
 };
 

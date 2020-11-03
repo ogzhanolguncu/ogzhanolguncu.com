@@ -13,7 +13,7 @@ const generateRssItem = (post: StaticBlog): string => `
 export const generateRss = (posts: StaticBlog[]): string => `
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <title>Blog - Emilio Schepis</title>
+      <title>Oğuzhan Olguncu – Developer, writer, creator.</title>
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
