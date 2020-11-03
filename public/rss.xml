@@ -5,9 +5,17 @@
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
-      <lastBuildDate>Fri, 23 Oct 2020 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Mon, 02 Nov 2020 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://ogzhanolguncu.com/blog/frequently-asked-react-and-frontend-interview-questions</guid>
+    <title>Frequently Asked React and Front-end Interview Questions</title>
+    <link>https://ogzhanolguncu.com/blog/frequently-asked-react-and-frontend-interview-questions</link>
+    <description>Today, we are going to discuss most frequently asked interview question that I faced during interviews. Tagged with javascript, webdev, dom, interview, front-end.</description>
+    <pubDate>Mon, 02 Nov 2020 00:00:00 GMT</pubDate>
+  </item>
+
   <item>
     <guid>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</guid>
     <title>Currying in Javascript with examples</title>
