@@ -121,7 +121,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                     color={colorMode === 'light' ? 'light' : 'dark'}
                   >
                     <Link href={`/blog/${article.id}`}>
-                      <StyledLink _hover={{ textDecoration: 'none' }}>
+                      <StyledLink _hover={{ textDecoration: 'none' }} w="100%">
                         <ArticleTitle>
                           {compareDateWithTodaysDate(
                             addTwoMonthToPublishedDate(article.publishedAt),
@@ -151,10 +151,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                             <Text color="#787f87" fontSize=".8rem" fontWeight="600">
                               {article.publishedAt}
                             </Text>
-                            <Heading
-                              fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
-                              w={['100%', '100%', 'max-content', 'max-content']}
-                            >
+                            <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']} w="100%">
                               {article.title}
                             </Heading>
                           </Box>

@@ -37,7 +37,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
             {frontMatter.title}
           </Heading>
           <Flex
-            justify="space-between"
+            justifyContent="space-between"
             align={['initial', 'center']}
             direction={['column', 'row']}
             mt={2}
@@ -57,7 +57,14 @@ export default function BlogLayout({ children, frontMatter }: any) {
                 {format(parseISO(frontMatter.publishedAt), 'MMMM dd, yyyy')}
               </Text>
             </Flex>
-            <Text fontSize="sm" color="gray.500" minWidth="100px" mt={[2, 0]}>
+            <Text
+              fontSize="sm"
+              textAlign={['left', 'right', 'right', 'right']}
+              mr="4px"
+              color="gray.500"
+              minWidth="100px"
+              mt={[2, 0]}
+            >
               {frontMatter.readingTime.text}
             </Text>
           </Flex>
