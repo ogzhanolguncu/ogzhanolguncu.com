@@ -9,7 +9,6 @@ guides: false
 ---
 
 ![interview-questions](/static/images/frequently-asked-react-and-frontend-interview-questions/interview.png)
-
 It's been a long time since I write a blog post. Because of my day job I was quite occupied, tired and, because of my recent job searching
 I wanted to write about the interview questions that I faced all the time. So, here we go.
 
@@ -122,7 +121,8 @@ init();
 
 As you can see we did not change the outer value. It only changes if we call `displayName()` closure.
 That is a primitive way of emulating private values since JS doesn't have private class fields like other languages such as C#, Java and C++.
-One practical use of closures may be [Debounce](#debounce) which I'll talk later. Finally, be careful while using this technique may lead to memory leak and performance issues.
+One practical use of closures may be [Debounce](#debounce) which I'll talk later.
+Finally, be careful while using this technique may lead to memory leak and performance issues.
 
 ## Most Commonly Used Functions Map, Filter, Find and Reduce
 
@@ -203,15 +203,18 @@ people.reduce((acc, person) => {
 }, []);
 ```
 
-As you can see, our first `reducer` returned `48`, second one returned `{id: "1", name: "John", age: 18}` and third one returned `[{id: "1", name: "John", age: 18}, {id: "2", name: "Smith", age: 35}]`.
-If I have to explain how it works `reduce` works like a `recursive function`. The first parameter behaves as an accumulator basically holds our total value.
-So, each time reducer works it iterates over person ages and adds them to accumulator then finally returns the sum of the total. That was how the first reducer works. The second one is pretty straight forward, its a `find()` method implemented in the reducer. Looks for `John` in peoples array when it finds `John` return associated object.
+As you can see, our first `reducer` returned `48`, second one returned `{id: "1", name: "John", age: 18}` and third one returned **[{id: "1", name: "John", age: 18}, {id: "2", name: "Smith", age: 35}]**.
+If I have to explain how it works `reduce` works like a `recursive function`.
+The first parameter behaves as an accumulator basically holds our total value.
+So, each time reducer works it iterates over person ages and adds them to accumulator then finally returns the sum of the total.
+
+That was how the first reducer works.The second one is pretty straight forward, its a `find()` method implemented in the reducer. Looks for `John` in peoples array when it finds `John` return associated object.
 The third `reducers` works similar to `filter()` method it actually `filter()` implemented in `reduce`. It iterates over peoples array and looks for person who's age greater than 25.
 
 ## Optional Chaining
 
 Long before **optional chaining** added to Ecmascript, we had to do lots of hacky stuff to ensure data is not undefined. Things like this `person && person.car && person.car.wheels` if `person.car` is undefined and you have not used `&&` then you are screwed,
-because Javascript will throw `Uncaught TypeError: Cannot read property 'name' of undefined`. This piece of code will ruin your life in runtime 😅. So, instead people came up with something like that to prevent **undefined errors**
+because Javascript will throw **Uncaught TypeError: Cannot read property 'name' of undefined**. This piece of code will ruin your life in runtime 😅. So, instead people came up with something like that to prevent **undefined errors**
 
 ```javascript
 const adventurer = {
