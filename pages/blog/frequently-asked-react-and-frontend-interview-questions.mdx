@@ -213,7 +213,7 @@ The third `reducers` works similar to `filter()` method it actually `filter()` i
 
 ## Optional Chaining
 
-Long before **optional chaining** added to Ecmascript, we had to do lots of hacky stuff to ensure data is not undefined. Things like this `person && person.car && person.car.wheels` if `person.car` is undefined and you have not used `&&` then you are screwed,
+Long before **optional chaining** added to Ecmascript, we had to do lots of hacky stuff to ensure data is not undefined. Things like this **person && person.car && person.car.wheels** if `person.car` is undefined and you have not used `&&` then you are screwed,
 because Javascript will throw **Uncaught TypeError: Cannot read property 'name' of undefined**. This piece of code will ruin your life in runtime 😅. So, instead people came up with something like that to prevent **undefined errors**
 
 ```javascript
