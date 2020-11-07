@@ -24,18 +24,42 @@ I wanted to write about the interview questions that I faced all the time. So, h
 7.  [Bind vs Arrow Function](#bind-vs-arrow-function)
 8.  [What Is SPA](#what-is-spa)
 9.  [SSR vs CSR](#ssr-vs-csr)
-10. [Higher Order Functions/Components With Examples](#higher-order-functions-components-with-examples)
+10. [Higher Order Functions and Components With Examples](#higher-order-functions-and-components-with-examples)
 11. [React Lifecycle Methods](#react-lifecycle-methods)
 12. [How To Access DOM Directly In React](#how-to-access-dom-directly-in-react)
-13. [Babel and Webpack](#babel-and-webpack)
-14. [useMemo and useCallback](#usememo-and-usecallback)
+13. [useMemo and useCallback](#usememo-and-usecallback)
+14. [Context vs Redux](#context-vs-redux)
 15. [Redux Flow](#redux-flow)
-16. [Context vs Redux](#context-vs-redux)
+16. [Babel and Webpack](#babel-and-webpack)
+17. [Async vs Promise](#async-vs-promise)
+18. [Value vs Reference](#value-vs-reference)
+19. [Debounce and Throttle](#debounce-and-throttle)
 
 ## Var vs Let vs Const
 
 Actually, `var` and `let` is pretty similar only difference is `var` is function scoped and `let` is block scoped.
 It can also be said `var` is more like a global variable whereas `let` is only valid inside its parent parenthesis.
+
+By global I mean, because of the **hoisting** `var` can be accessed from the outer scope:
+
+```javascript
+if (true) {
+  var a = 5;
+}
+
+console.log(a); // Prints out 5
+```
+
+But, if you try doing same example with `let` javascript will throw **_Uncaught ReferenceError: a is not defined_**
+
+```javascript
+if (true) {
+  let a = 5;
+}
+
+console.log(a); // Prints out Uncaught ReferenceError: a is not defined.
+```
+
 The main reason we use `let` is to avoid [Hosting](#what-is-hoisting) which I'll explain two minutes later in this post.
 Finally, `const` is a **constant** value that cannot be changed once defined.
 There are some exceptions which usually interviewers asks once you said you cannot change a `const` value once defined.
@@ -266,7 +290,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-They pretty much similar apart from their syntax. People used **_Binding_** before **_Arrow Functions_** included in ES6. So, tell your interviewer that if s/he want to avoid **code smells** s/he should be use arrow functions,
+They pretty much similar apart from their syntax. People used **_Binding_** before **_Arrow Functions_** included in ES6. So, tell your interviewer that if s/he want to avoid **code smells** s/he should be using arrow functions, because
 its way more readable and understandable.
 
 ## What Is SPA
@@ -284,3 +308,226 @@ If you have no idea about React, this `<App />` piece of code actually stands as
 And, this component will be getting rendered in `<div id="root"></div>` this div.
 So, whenever React gets rerendered you are actually still in the same page but only requested parts of the app changes.
 Also, if you check out the url of your browser it also stays same, because you never left the page.
+
+## SSR vs CSR
+
+SSR stands for _*Server Side Rendering*_, which means all your **code**, first get prepared on the server side then send fully rendered page to the client.
+
+_Benefits of Server Side Rendering_
+
+- Improved SEO
+- Improved Page Speed
+
+CSR stands for _*Client Side Rendering*_. The server sends a single page without a content, then browser starts rendering components as you fetch Javascript.
+The downside of the CSR is; Browser shows you a blank page which impacts SEO because of [First Paint](https://web.dev/user-centric-performance-metrics/#first_paint_and_first_contentful_paint) (FP) and [First Contentful Paint](https://web.dev/user-centric-performance-metrics/#first_paint_and_first_contentful_paint) (FCP) kinda slow.
+
+_Benefits of Client Side Rendering_
+
+- Easy Deployment
+- Cheap Hosting
+- Less Server Side Workload
+
+## Higher Order Functions and Components With Examples
+
+Higher-order functions are functions that take other functions as arguments or return functions as their results.
+As you can imagine, Higher-order components aka **_HOC_** also take other components as arguments and return a new altered component.
+
+### Higher Order Functions
+
+Actually, you already knew and used higher order functions. Some of the basic higher order functions we use:
+
+- Filter
+- Map
+- Reduce
+
+These are higher order functions built into Javascript.
+
+Example:
+
+```javascript
+const people = [
+  { name: 'John', age: 35, gender: 'M' },
+  { name: 'Doe', grade: 28, gender: 'M' },
+  { name: 'Sarah', grade: 21, gender: 'F' },
+];
+
+const isMale = (people) => people.gender === 'M';
+const isFemale = (people) => people.gender === 'F';
+const getMales = (people) => people.filter(isMale); // Filter takes an another function as an argument.
+
+console.log(getMales(people));
+```
+
+### Higher Order Components
+
+If you've ever implemented **Authentication** in React, you probably know what **_HOC_** is.
+
+Example:
+
+```jsx
+export function AuthHOC(Component) {
+  return class AuthenticatedComponent extends React.Component {
+    isAuthenticated() {
+      return this.props.isAuthenticated;
+    }
+
+    render() {
+      const loginErrorMessage = (
+        <div>
+          Please <a href="/login">login</a> in order to view this part of the application.
+        </div>
+      );
+
+      return (
+        <div>
+          {this.isAuthenticated === true ? <Component {...this.props} /> : loginErrorMessage}
+        </div>
+      );
+    }
+  };
+}
+
+export default AuthHOC;
+```
+
+And this is how you use it:
+
+```jsx
+import React from 'react';
+import { AuthHOC } from './AuthenticatedComponent';
+
+export class MyPrivateComponent extends React.Component {
+  render() {
+    return <div>My secret search, that is only viewable by authenticated users.</div>;
+  }
+}
+
+// Now wrap MyPrivateComponent with the AuthHOC function
+export default AuthHOC(MyPrivateComponent);
+```
+
+The primary goals of **_HOC_**:
+
+- [**Don't Repeat Yourself**](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+- [**Do One Thing and Do It Well**](https://en.wikipedia.org/wiki/Unix_philosophy)
+- [**Separation of Concerns**](https://en.wikipedia.org/wiki/Separation_of_concerns)
+
+## React Lifecycle Methods
+
+Each component in React has a lifecycle which you can manipulate through methods.
+First, I wanna talk about class component lifecycle methods, then I'll explain in functional components respectively.
+
+### Class Component Lifecycles
+
+![lifecycle-methods](/static/images/frequently-asked-react-and-frontend-interview-questions/lifecycles.png)
+
+As you can see, there are some commonly used lifecycle methods.
+
+- constructor: The `constructor()` method is called before anything else, and this usually where you set your `state`.
+- render: The `render()` method is required to show your outputs to end-user.
+- componentDidMount: The `componentDidMount()` method is called after your component fully rendered.
+- componentDidUpdate: The `componentDidUpdate()` method is called after your component is updated in the DOM.
+- componentWillUnmount: The `componentWillUnmount()` method is called right before you left the component. This is usually where you clean-up your listeners.
+
+Example:
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { favoritecolor: 'red' };
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ favoritecolor: 'yellow' });
+    }, 1000);
+  }
+  componentWillUnmount() {
+    setTimeout(() => {
+      console.log('I will unmount');
+    }, 1000);
+  }
+  render() {
+    return <h1>My Favorite Color is {this.state.favoritecolor}</h1>;
+  }
+}
+
+ReactDOM.render(<Header />, document.getElementById('container'));
+```
+
+### Functional Component Lifecycles
+
+Thanks to [React Hooks](https://reactjs.org/docs/hooks-intro.html), people find a better way to utilize lifecycle methods.
+Some of the common methods we discussed at the top, gathered in one method, and this is `useEffect()`. `useEffect()` replaces three method.
+
+- componentDidMount
+- componentDidUpdate
+- componentWillUnmount
+
+I'll explain this with examples:
+
+```jsx
+import React, { useEffect, useState } from 'react';
+import './styles.css';
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("I'm getting rendered yeyyyyy");
+    FakeAPI.subscribeToFriendStatus(id, handleStatusChange);
+    return () => {
+      FakeAPI.unsubscribeFromFriendStatus(id, handleStatusChange);
+    };
+  }, [count]); // Only re-run the effect if count changes
+
+  useEffect(() => {});
+
+  return (
+    <div className="App">
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount((prevState) => prevState + 1)}>Click me!</button>
+    </div>
+  );
+}
+```
+
+In this example, component will first render `I'm getting rendered yeyyyyy` no matter what, then it'll only render, if you click on **Click me!**.
+And, finally in `return () => {}` it will clean-up your listeners similar to `componentWillUnmount()`.
+
+## How To Access DOM Directly In React
+
+You can access DOM directly specifying the `ref`.
+
+#### When to Use Refs
+
+- Managing focus, text selection, or media playback.
+- Triggering imperative animations.
+- Integrating with third-party DOM libraries.
+
+Example:
+
+```jsx
+function CustomTextInput(props) {
+  // textInput must be declared here so the ref can refer to it
+  const textInput = useRef(null);
+
+  function handleClick() {
+    textInput.current.focus();
+  }
+
+  return (
+    <div>
+      <input type="text" ref={textInput} />
+      <input type="button" value="Focus the text input" onClick={handleClick} />
+    </div>
+  );
+}
+```
+
+## useMemo and useCallback
+
+## **WIP**
