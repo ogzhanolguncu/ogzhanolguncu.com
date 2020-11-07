@@ -156,10 +156,10 @@ const MDXComponents = {
   th: THead,
   td: TData,
   a: CustomLink,
-  p: (props: any) => <Text as="p" mt={4} lineHeight="tall" {...props} />,
-  ul: (props: any) => <Box as="ul" pt={2} pl={4} ml={2} {...props} />,
-  ol: (props: any) => <Box as="ol" pt={2} pl={4} ml={2} {...props} />,
-  li: (props: any) => <Box as="li" pb={1} {...props} />,
+  p: (props: any) => <Text as="p" mt={4} fontSize="17.5px" lineHeight="1.7" {...props} />,
+  ul: (props: any) => <Box as="ul" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
+  ol: (props: any) => <Box as="ol" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
+  li: (props: any) => <Box as="li" pb={1} fontSize="17.5px" {...props} />,
   blockquote: Quote,
 };
 

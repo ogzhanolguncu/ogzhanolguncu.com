@@ -3,14 +3,14 @@ title: 'Frequently Asked React and Front-end Interview Questions'
 publishedAt: '2020-11-02'
 summary: 'Today, we are going to discuss most frequently asked interview question that I faced during interviews. Tagged with javascript, webdev, dom, interview, front-end.'
 image: '/static/images/frequently-asked-react-and-frontend-interview-questions/interview.png'
-languageTags: ['javascript', 'tutorial', 'computerscience']
+languageTags: ['javascript', 'tutorial']
 isPopular: true
 guides: false
 ---
 
 ![interview-questions](/static/images/frequently-asked-react-and-frontend-interview-questions/interview.png)
 
-It's been a long time since I write a blog post. because of my day job, I was quite occupied and tired and because of my recent job searching,
+It's been a long time since I write a blog post. Because of my day job, I was quite occupied and tired and, because of my recent job searching
 I wanted to write about the interview questions that I faced all the time. So, here we go.
 
 ## Table of Contents
@@ -32,8 +32,8 @@ I wanted to write about the interview questions that I faced all the time. So, h
 15. [Redux Flow](#redux-flow)
 16. [Babel and Webpack](#babel-and-webpack)
 17. [Async vs Promise](#async-vs-promise)
-18. [Value vs Reference](#value-vs-reference)
-19. [Debounce and Throttle](#debounce-and-throttle)
+    <!-- 18. [Value vs Reference](#value-vs-reference) -->
+    <!-- 19. [Debounce and Throttle](#debounce-and-throttle) -->
 
 ## Var vs Let vs Const
 
@@ -530,4 +530,89 @@ function CustomTextInput(props) {
 
 ## useMemo and useCallback
 
-## **WIP**
+These are broad topics that cannot be summarized in few words, but there are some key things to remember.
+If interviewers asks you how to eliminate unncessary render in React
+tell them to use `useMemo()` at component level and `useCallback()` at function level.
+These functions utilizes concept called **memoization**, which basically having a copy of old versions of objects, and using them if the data has not been changed.
+
+> For more information please, check Kent's article about useMemo and useCallback [When to useMemo and useCallback](https://kentcdodds.com/blog/usememo-and-usecallback).
+
+## Context vs Redux
+
+They both being used for global state management, and there is one important distinction, **Context** is built into React and can be used through `useContext()`.
+On the other hand **Redux** is popular statement management library favored by lots of developer. Oppose to Context, Redux might be overkill for your project depending on your needs.
+
+## Redux Flow
+
+![Redux-Flow](/static/images/frequently-asked-react-and-frontend-interview-questions/redux-flow.gif)
+
+This beautiful GIF taken from --> [Redux Data Flow](https://github.com/reduxjs/redux/issues/653).
+
+To simply put,
+
+- When event triggered from UI it dispatchs an action, which carries a payload and type
+- Then in reducer, the dispatched function gets resolved according to its relevant action type, which ultimately returns a new state.
+- Then the store notifies the view.
+- And, finally view gets re-rendered with final state.
+
+## Babel and Webpack
+
+**Babel** allows you to use latest ES features without worrying about browser compatibility. Turns your ES6+ code into this:
+
+```javascript
+// Babel Input: ES2015 arrow function
+[1, 2, 3].map((n) => n + 1);
+
+// Babel Output: ES5 equivalent
+[1, 2, 3].map(function (n) {
+  return n + 1;
+});
+```
+
+**Webpack** allows you to bundle all your assets into one or more bundles.
+
+- Does tree shaking which eliminates unncessary codes.
+- Improves file sizes.
+- More control over assets.
+
+## Async vs Promise
+
+These are actually pretty similar concepts, but difference lies in their syntaxes. `Async/Await` is basically syntactic sugar.
+
+### Promise
+
+```javascript
+function promiseFunc(string) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(string);
+    }, 1000);
+  });
+}
+promiseFunc('hello').then((response) => console.log(response));
+```
+
+### Async/Await
+
+```javascript
+function promiseFunc(string) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(string);
+    }, 1000);
+  });
+}
+
+async function doIt() {
+  const myPromise = await promiseFunc('hello');
+  console.log(myPromise); // "hello"
+}
+
+doIt();
+```
+
+Pretty much same stuff, but `Async/Await` lets you write cleaner, maintainable and understandable functions.
+
+Thanks for reading. (づ｡◕‿‿◕｡)づ
+
+[Edit this page](https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/pages/blog/frequently-asked-react-and-frontend-interview-questions.mdx)
