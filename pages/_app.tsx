@@ -24,7 +24,7 @@ const GlobalStyle = ({ children }: Prop) => {
         styles={css`
           ${colorMode === 'light' ? prismLightTheme : prismDarkTheme};
           ::selection {
-            background-color: #47a3f3;
+            background-color: rgb(87, 62, 222);
             color: #fefefe;
           }
           html {

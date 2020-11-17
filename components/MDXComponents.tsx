@@ -148,7 +148,9 @@ const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
   h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
   h3: (props: any) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
-  inlineCode: (props: any) => <Code variantColor="yellow" fontSize="0.84em" {...props} />,
+  inlineCode: (props: any) => (
+    <Code variantColor="yellow" fontSize={['0.45em', '0.55em', '0.60em', '0.84em']} {...props} />
+  ),
   kbd: Kbd,
   br: (props: any) => <Box height="24px" {...props} />,
   hr: Hr,

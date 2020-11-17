@@ -15,6 +15,7 @@ const colorMap: Record<string, { color: string; hover: string }> = {
   ssr: { color: '#77aa7b', hover: '#609363' },
   css: { color: '#FE4A49', hover: '#ed3434' },
   computerscience: { color: '#267067', hover: '#1b4d47' },
+  testing: { color: '#05afa0', hover: '#0ce5d2' },
 };
 
 export default colorMap;
