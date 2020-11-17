@@ -1,5 +1,6 @@
 const title = 'Oğuzhan Olguncu – Developer, writer, dedicated learner.';
-const description = 'Front-end developer, JavaScript/Typescript enthusiast.';
+const description =
+  'A developer who likes to focus on building beautiful UI/UX designs. Loves using Typescript - Oğuzhan Olguncu';
 
 const SEO = {
   title,
@@ -13,7 +14,7 @@ const SEO = {
     description,
     images: [
       {
-        url: '/static/favicons/favicon.ico',
+        url: 'https://ogzhanolguncu.com/static/favicons/favicon.ico',
         alt: title,
         width: 1280,
         height: 720,
