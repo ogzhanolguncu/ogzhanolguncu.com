@@ -12,6 +12,10 @@ guides: true
 
 > “Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.” (Martin Golding)
 
+Source code of the project: [Github](https://github.com/ogzhanolguncu/react-testing-with-chuck)
+
+Live Example: [Codesandbox](https://codesandbox.io/s/flamboyant-goldwasser-ucu19)
+
 I've always been curious about how testing works in React and how to get used to the habit of writing tests.
 So, finally gathered my courage and started my journey to testing in React. In my first attempt
 I came across with this incredible article written by Kent C. Dodds [Introducing The React Testing Library](https://kentcdodds.com/blog/introducing-the-react-testing-library)
@@ -23,9 +27,9 @@ Before we dive into React Testing Library, let's first talk about **_"What Is Te
 ## Testing
 
 Testing is one of the crucial parts of the software development process and mostly overlooked by developers.
-Usually, developers avoid writing tests, because it takes more time than just simply developing a product if you are not familiar with tests.
+Usually, developers avoid writing tests, because it takes more time than just simply developing a product, if you are not familiar with tests.
 But there is only one way to make sure your code works as you keep working on it.
-Imagine a scenario where you develop a new component that works with your old component, you might be somehow modified your all component, so how do you make sure your old component is working as you expected?.
+Imagine a scenario where you develop a new component that works with your old component, you might be somehow modified your all components, so how do you make sure your old component is working as you expected?.
 You can't if you avoid writing tests. Period.
 
 So, few gotchas:
@@ -323,7 +327,8 @@ If we type `yarn test` now, you will see that `PASS src/__tests__/home.spec.tsx`
 
 ### Let's move on to the second case.
 
-`mockedAxios.mockImplementationOnce(() => Promise.resolve(singularJoke));` => We call method called `mockImplementationOnce()` to mock a request, and tell it to return a single joke.
+`mockedAxios.mockImplementationOnce(()`
+`=> Promise.resolve(singularJoke));` => We call method called `mockImplementationOnce()` to mock a request, and tell it to return a single joke.
 
 `const { getByText } = render(<Home />);` => Like `getByTestId` we can also query by text using `getByText`.
 
@@ -334,7 +339,8 @@ and we know this is truthy and we want to ensure a value is true in a boolean co
 
 ### Let's move to our the third case.
 
-`mockedAxios.mockImplementationOnce(() => Promise.resolve(emptySingularStory));` => We want to test empty joke case.
+`mockedAxios.mockImplementationOnce(()`
+`=> Promise.resolve(emptySingularStory));` => We want to test empty joke case.
 
 Only difference between our second and third test case is `toHaveTextContent`. Since, we want to check given element has a text content or not,
 and since we don't have any text inside _jokeText_ `toHaveTextContent` will fulfill our test case.
@@ -381,3 +387,11 @@ Second test case is also similar, but make sure API does not return a joke.
 
 Tests matters, because it makes our code future proof to incoming changes, refactorings.
 So, write tests for things that might break in the future. Don't write tests for everything.
+
+**Thanks for reading.**
+
+Source code of the project: [Github](https://github.com/ogzhanolguncu/react-testing-with-chuck)
+
+Live Example: [Codesandbox](https://codesandbox.io/s/flamboyant-goldwasser-ucu19)
+
+[Edit This Page](https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/pages/blog/testing-with-react-testing-library-typescript-and-axios.mdx)
