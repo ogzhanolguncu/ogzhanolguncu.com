@@ -1,9 +1,9 @@
 [
   {
-    "redirectUrl": "www.google.com",
+    "redirectUrl": "https://todo-list-liart.vercel.app/",
     "unicodeIcon": "📝",
-    "leftSide": "Take Note",
-    "rightSide": "A free, open source notes app for the web."
+    "leftSide": "Things to do",
+    "rightSide": "Todo list to demonstrate custom hooks."
   },
   {
     "redirectUrl": "www.google.com",
