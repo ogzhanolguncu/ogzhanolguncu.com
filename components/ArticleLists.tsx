@@ -7,6 +7,7 @@ import colorMap from 'styles/colorMap';
 import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
 import React from 'react';
 import { Article, ArticleTitle } from '.';
+import { useRouter } from 'next/router';
 
 type Props = {
   blogs: StaticBlog[];
@@ -16,6 +17,7 @@ type Props = {
 const ArticleLists = ({ blogs, isPopular = false }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
+  const router = useRouter();
 
   return (
     <Flex flexDirection="column" m="3rem 0">
@@ -119,6 +121,12 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                       color="#fff"
                       backgroundColor={color?.color}
                       _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
+                      onClick={() =>
+                        router.push({
+                          pathname: '/blog/',
+                          query: { tag },
+                        })
+                      }
                     >
                       {tag}
                     </Tag>

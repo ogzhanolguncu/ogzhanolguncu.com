@@ -21,13 +21,3 @@ export type ErrorProps = {
   statusCode: number;
   message: string;
 };
-
-export type TagNames =
-  | 'javascript'
-  | 'css'
-  | 'nextjs'
-  | 'asynchronous'
-  | 'api'
-  | 'react'
-  | 'tutorial'
-  | 'redux';

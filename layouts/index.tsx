@@ -4,9 +4,11 @@ import { Layout } from '@components/index';
 import { parseISO, format } from 'date-fns';
 import React from 'react';
 import colorMap from 'styles/colorMap';
+import { useRouter } from 'next/router';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BlogLayout({ children, frontMatter }: any) {
+  const router = useRouter();
   const slug = frontMatter.__resourcePath.replace('blog/', '').replace('.mdx', '');
   const { colorMode } = useColorMode();
   const textColor = {
@@ -77,8 +79,14 @@ export default function BlogLayout({ children, frontMatter }: any) {
                   key={index}
                   color="#fff"
                   backgroundColor={color?.color}
-                  _hover={{ backgroundColor: color.hover }}
+                  _hover={{ cursor: 'pointer', backgroundColor: color.hover }}
                   mr="5px"
+                  onClick={() =>
+                    router.push({
+                      pathname: '/blog/',
+                      query: { tag },
+                    })
+                  }
                 >
                   {tag}
                 </Tag>

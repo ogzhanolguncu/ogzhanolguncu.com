@@ -5,9 +5,17 @@
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
-      <lastBuildDate>Wed, 18 Nov 2020 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 06 Dec 2020 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://ogzhanolguncu.com/blog/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky</guid>
+    <title>How to Setup a Bulletproof Next.js Project with Typescript, ESLint, Prettier, Babel and Husky</title>
+    <link>https://ogzhanolguncu.com/blog/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky</link>
+    <description>In order to make your Next.js project robust and maintainable, you should be using ESLint, Typescript, Husky and Prettier.</description>
+    <pubDate>Sun, 06 Dec 2020 00:00:00 GMT</pubDate>
+  </item>
+
   <item>
     <guid>https://ogzhanolguncu.com/blog/testing-with-react-testing-library-typescript-and-axios</guid>
     <title>Test your React components and APIs with React Testing Library, Jest, Typescript, and Axios</title>

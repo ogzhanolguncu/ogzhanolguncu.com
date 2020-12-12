@@ -24,6 +24,7 @@ import Fuse from 'fuse.js';
 import { generateRss } from 'utils/rssOperations';
 import debounce from 'lodash.debounce';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 
 type Props = {
   blogPosts: StaticBlog[];
@@ -49,10 +50,17 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   const [fusedBlog, setFusedBlog] = useState<Record<number, StaticBlog[]>>(groupedBlogPosts);
   const [input, setInput] = useState('');
   const fuse = new Fuse(blogPosts, options);
+  const router = useRouter();
 
   const updateSearch = () => {
     const results = (fuse.search(input) as unknown) as FusedType[];
     const blogResults = results.map((res) => res.item);
+    const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
+    setFusedBlog(searchedBlogPosts);
+  };
+
+  const searchByTag = (tag: string) => {
+    const blogResults = blogPosts.filter((blog) => blog.languageTags.includes(tag));
     const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
     setFusedBlog(searchedBlogPosts);
   };
@@ -66,6 +74,16 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
     delayedSearch();
     return delayedSearch.cancel; // If input state changes, it invokes delayedSearch so we no longer wait for old debounce instead we cancel it.
   }, [delayedSearch]);
+
+  useEffect(() => {
+    if (router.query?.tag !== undefined) {
+      searchByTag(router.query?.tag as string);
+      window.scrollTo({
+        top: 100,
+        behavior: 'smooth',
+      });
+    }
+  }, [router]);
 
   return (
     <>
@@ -103,6 +121,37 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
             placeholder="Search..."
             maxWidth="400px"
           />
+          <Box
+            marginTop="1.3rem"
+            d="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+            w={['100%', '90%', '75%', '65%']}
+            flexWrap="wrap"
+          >
+            {Object.keys(colorMap).map((tag: string, tagIndex: number) => {
+              const color = colorMap[tag.toLowerCase()];
+              return (
+                <Tag
+                  key={tagIndex}
+                  width="max-content"
+                  height="20px"
+                  p=".3rem .5rem"
+                  fontSize=".8rem"
+                  borderRadius="16px"
+                  marginBottom="7px"
+                  marginRight=".5rem"
+                  color="#fff"
+                  backgroundColor={color?.color}
+                  _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
+                  onClick={() => searchByTag(tag)}
+                >
+                  {tag}
+                </Tag>
+              );
+            })}
+          </Box>
         </Flex>
         <Flex alignItems="flex-start" justifyContent="center" flexDirection="column">
           {Object.keys(fusedBlog)
@@ -181,6 +230,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                             color="#fff"
                             backgroundColor={color?.color}
                             _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
+                            onClick={() => searchByTag(tag)}
                           >
                             {tag}
                           </Tag>
