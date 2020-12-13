@@ -1,7 +1,6 @@
 import { GetStaticProps } from 'next';
 import fs from 'fs';
 import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react';
-import Link from 'next/link';
 import { getSortedPostsData } from 'lib/posts';
 import { StaticBlog } from 'global';
 import {
@@ -169,44 +168,46 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                     alignItems="space-between"
                     color={colorMode === 'light' ? 'light' : 'dark'}
                   >
-                    <Link href={`/blog/${article.id}`}>
-                      <StyledLink _hover={{ textDecoration: 'none' }} w="100%">
-                        <ArticleTitle>
-                          {compareDateWithTodaysDate(
-                            addTwoMonthToPublishedDate(article.publishedAt),
-                          ) ? (
-                            <Tag
-                              fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
-                              p=".5rem"
-                              borderRadius=".3rem"
-                              m={[
-                                'auto .4rem auto 0',
-                                'auto .4rem auto 0',
-                                'auto .4rem auto 0',
-                                '1rem 1rem 10px 0',
-                              ]} //for responsive
-                              height="15px"
-                              backgroundColor="#d3f9d8"
-                              fontWeight="700"
-                              width={['2.7rem', '2.7rem', '', '']}
-                              minW=""
-                              color={colorModeObj.articleNewTagTextColor[colorMode]}
-                              background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
-                            >
-                              New!
-                            </Tag>
-                          ) : null}
-                          <Box>
-                            <Text color="#787f87" fontSize=".8rem" fontWeight="600">
-                              {article.publishedAt}
-                            </Text>
-                            <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']} w="100%">
-                              {article.title}
-                            </Heading>
-                          </Box>
-                        </ArticleTitle>
-                      </StyledLink>
-                    </Link>
+                    <StyledLink
+                      href={`/blog/${article.id}`}
+                      _hover={{ textDecoration: 'none' }}
+                      w="100%"
+                    >
+                      <ArticleTitle>
+                        {compareDateWithTodaysDate(
+                          addTwoMonthToPublishedDate(article.publishedAt),
+                        ) ? (
+                          <Tag
+                            fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
+                            p=".5rem"
+                            borderRadius=".3rem"
+                            m={[
+                              'auto .4rem auto 0',
+                              'auto .4rem auto 0',
+                              'auto .4rem auto 0',
+                              '1rem 1rem 10px 0',
+                            ]} //for responsive
+                            height="15px"
+                            backgroundColor="#d3f9d8"
+                            fontWeight="700"
+                            width={['2.7rem', '2.7rem', '', '']}
+                            minW=""
+                            color={colorModeObj.articleNewTagTextColor[colorMode]}
+                            background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
+                          >
+                            New!
+                          </Tag>
+                        ) : null}
+                        <Box>
+                          <Text color="#787f87" fontSize=".8rem" fontWeight="600">
+                            {article.publishedAt}
+                          </Text>
+                          <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']} w="100%">
+                            {article.title}
+                          </Heading>
+                        </Box>
+                      </ArticleTitle>
+                    </StyledLink>
                     <Box
                       d="flex"
                       flexDirection={['row', 'row', 'row', 'row']}
