@@ -26,7 +26,7 @@ const Redirect = (props: Props) => {
       </Head>
       <style global jsx>{`
         body {
-          display: ${typeof window !== 'undefined' &&
+          display: ${typeof window !== `undefined` &&
           props.redirectOnUser &&
           document.cookie.includes('token') &&
           location.pathname !== '/home'
