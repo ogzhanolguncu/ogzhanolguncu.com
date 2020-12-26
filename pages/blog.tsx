@@ -13,6 +13,8 @@ import {
   Text,
   Divider,
   Input,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/core';
 import colorMap from 'styles/colorMap';
 import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
@@ -48,6 +50,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   const { colorMode } = useColorMode();
   const [fusedBlog, setFusedBlog] = useState<Record<number, StaticBlog[]>>(groupedBlogPosts);
   const [input, setInput] = useState('');
+  const [currentSelectedTag, setCurrentSelectedTag] = useState('');
   const fuse = new Fuse(blogPosts, options);
   const router = useRouter();
 
@@ -59,6 +62,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   };
 
   const searchByTag = (tag: string) => {
+    setCurrentSelectedTag(tag);
     const blogResults = blogPosts.filter((blog) => blog.languageTags.includes(tag));
     const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
     setFusedBlog(searchedBlogPosts);
@@ -153,95 +157,103 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
           </Box>
         </Flex>
         <Flex alignItems="flex-start" justifyContent="center" flexDirection="column">
-          {Object.keys(fusedBlog)
-            .reverse()
-            .map((blog, index) => (
-              <Fragment key={index}>
-                <Heading size="lg" marginTop={index !== 0 ? '4rem' : '0'}>
-                  {blog}
-                </Heading>
-                <Divider />
-                {fusedBlog[(blog as unknown) as number].map((article) => (
-                  <Article
-                    key={`${blog}${article.id}`}
-                    justifyContent="space-between"
-                    alignItems="space-between"
-                    color={colorMode === 'light' ? 'light' : 'dark'}
-                  >
-                    <StyledLink
-                      href={`/blog/${article.id}`}
-                      _hover={{ textDecoration: 'none' }}
-                      w="100%"
+          {Object.entries(fusedBlog).length > 0 ? (
+            Object.keys(fusedBlog)
+              .reverse()
+              .map((blog, index) => (
+                <Fragment key={index}>
+                  <Heading size="lg" marginTop={index !== 0 ? '4rem' : '0'}>
+                    {blog}
+                  </Heading>
+                  <Divider />
+                  {fusedBlog[(blog as unknown) as number].map((article) => (
+                    <Article
+                      key={`${blog}${article.id}`}
+                      justifyContent="space-between"
+                      alignItems="space-between"
+                      color={colorMode === 'light' ? 'light' : 'dark'}
                     >
-                      <ArticleTitle>
-                        {compareDateWithTodaysDate(
-                          addTwoMonthToPublishedDate(article.publishedAt),
-                        ) ? (
-                          <Tag
-                            fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
-                            p=".5rem"
-                            borderRadius=".3rem"
-                            m={[
-                              'auto .4rem auto 0',
-                              'auto .4rem auto 0',
-                              'auto .4rem auto 0',
-                              '1rem 1rem 10px 0',
-                            ]} //for responsive
-                            height="15px"
-                            backgroundColor="#d3f9d8"
-                            fontWeight="700"
-                            width={['2.7rem', '2.7rem', '', '']}
-                            minW=""
-                            color={colorModeObj.articleNewTagTextColor[colorMode]}
-                            background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
-                          >
-                            New!
-                          </Tag>
-                        ) : null}
-                        <Box>
-                          <Text color="#787f87" fontSize=".8rem" fontWeight="600">
-                            {article.publishedAt}
-                          </Text>
-                          <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']} w="100%">
-                            {article.title}
-                          </Heading>
-                        </Box>
-                      </ArticleTitle>
-                    </StyledLink>
-                    <Box
-                      d="flex"
-                      flexDirection={['row', 'row', 'row', 'row']}
-                      justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
-                      alignItems={['flex-start', 'center', 'center', 'center']}
-                      w="100%"
-                      flexWrap="wrap"
-                    >
-                      {article?.languageTags?.map((tag: string, tagIndex: number) => {
-                        const color = colorMap[tag.toLowerCase()];
-                        return (
-                          <Tag
-                            key={`${blog}${article.id}${tagIndex}`}
-                            width="max-content"
-                            height="20px"
-                            p=".3rem .5rem"
-                            fontSize=".8rem"
-                            borderRadius="16px"
-                            marginBottom="7px"
-                            marginRight=".5rem"
-                            color="#fff"
-                            backgroundColor={color?.color}
-                            _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
-                            onClick={() => searchByTag(tag)}
-                          >
-                            {tag}
-                          </Tag>
-                        );
-                      })}
-                    </Box>
-                  </Article>
-                ))}
-              </Fragment>
-            ))}
+                      <StyledLink
+                        href={`/blog/${article.id}`}
+                        _hover={{ textDecoration: 'none' }}
+                        w="100%"
+                      >
+                        <ArticleTitle>
+                          {compareDateWithTodaysDate(
+                            addTwoMonthToPublishedDate(article.publishedAt),
+                          ) ? (
+                            <Tag
+                              fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
+                              p=".5rem"
+                              borderRadius=".3rem"
+                              m={[
+                                'auto .4rem auto 0',
+                                'auto .4rem auto 0',
+                                'auto .4rem auto 0',
+                                '1rem 1rem 10px 0',
+                              ]} //for responsive
+                              height="15px"
+                              backgroundColor="#d3f9d8"
+                              fontWeight="700"
+                              width={['2.7rem', '2.7rem', '', '']}
+                              minW=""
+                              color={colorModeObj.articleNewTagTextColor[colorMode]}
+                              background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
+                            >
+                              New!
+                            </Tag>
+                          ) : null}
+                          <Box>
+                            <Text color="#787f87" fontSize=".8rem" fontWeight="600">
+                              {article.publishedAt}
+                            </Text>
+                            <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']} w="100%">
+                              {article.title}
+                            </Heading>
+                          </Box>
+                        </ArticleTitle>
+                      </StyledLink>
+                      <Box
+                        d="flex"
+                        flexDirection={['row', 'row', 'row', 'row']}
+                        justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
+                        alignItems={['flex-start', 'center', 'center', 'center']}
+                        w="100%"
+                        flexWrap="wrap"
+                      >
+                        {article?.languageTags?.map((tag: string, tagIndex: number) => {
+                          const color = colorMap[tag.toLowerCase()];
+                          return (
+                            <Tag
+                              key={`${blog}${article.id}${tagIndex}`}
+                              width="max-content"
+                              height="20px"
+                              p=".3rem .5rem"
+                              fontSize=".8rem"
+                              borderRadius="16px"
+                              marginBottom="7px"
+                              marginRight=".5rem"
+                              color="#fff"
+                              backgroundColor={color?.color}
+                              _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
+                              onClick={() => searchByTag(tag)}
+                            >
+                              {tag}
+                            </Tag>
+                          );
+                        })}
+                      </Box>
+                    </Article>
+                  ))}
+                </Fragment>
+              ))
+          ) : (
+            <Alert status="info" m="0 auto 40px auto" borderRadius="20px">
+              <AlertIcon />
+              Blog has not been found about{' '}
+              <strong style={{ marginLeft: '3px' }}>{currentSelectedTag.toUpperCase()}</strong>
+            </Alert>
+          )}
         </Flex>
       </Layout>
     </>

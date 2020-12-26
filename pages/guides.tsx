@@ -4,7 +4,7 @@ import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';
 import { getSortedPostsData } from 'lib/posts';
 import { GetStaticProps } from 'next';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { NextSeo } from 'next-seo';
 
 type Props = {
@@ -19,6 +19,39 @@ const description =
 const guides = ({ guides }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
+  const [randomEmojies] = useState([
+    '🐀',
+    '🐃',
+    '🐄',
+    '🐅',
+    '🐆',
+    '🐇',
+    '🐉',
+    '🐋',
+    '🐌',
+    '🐍',
+    '🐎',
+    '🐏',
+    '🐒',
+    '🐕',
+    '🐘',
+    '🐙',
+    '🐛',
+    '🐜',
+    '🐝',
+    '🐞',
+    '🐠',
+    '🐢',
+    '🐦',
+    '🐧',
+    '🐨',
+    '🐩',
+    '🐫',
+    '🐬',
+    '🐯',
+    '🐲',
+    '🐸',
+  ]);
   return (
     <>
       <NextSeo
@@ -71,7 +104,7 @@ const guides = ({ guides }: Props) => {
                 <Card
                   key={index}
                   id={blog.id}
-                  img={''}
+                  img={randomEmojies[Math.floor(Math.random() * randomEmojies.length)]}
                   title={blog.title}
                   description={blog.summary}
                 />

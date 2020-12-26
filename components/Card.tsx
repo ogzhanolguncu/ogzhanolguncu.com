@@ -1,4 +1,4 @@
-import { Heading, Text, Image, Link as StyledLink, useColorMode } from '@chakra-ui/core';
+import { Heading, Text, Link as StyledLink, useColorMode, Box } from '@chakra-ui/core';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import Link from 'next/link';
 import { useContext } from 'react';
@@ -13,7 +13,6 @@ type Props = {
 const Card = ({ id, img, title, description }: Props) => {
   const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
-
   return (
     <Link href={`blog/${id}`}>
       <StyledLink
@@ -31,7 +30,8 @@ const Card = ({ id, img, title, description }: Props) => {
         p="1.5rem"
         _hover={{ textDecoration: 'none', bg: colorMode === 'light' ? '#E6E8EB' : '#fff' }}
       >
-        <Image src={img} w={['50px', '50px', '80px', '80px']} />
+        {/* <Image src={img} w={['50px', '50px', '80px', '80px']} /> */}
+        <Box fontSize="30px">{img}</Box>
         <Heading
           fontSize={['1.1rem', '1.1rem', '1.3rem', '1.3rem']}
           fontWeight="700"
