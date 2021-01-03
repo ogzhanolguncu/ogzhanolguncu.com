@@ -263,7 +263,10 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
 export default Blog;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const blogPosts = getSortedPostsData();
+  const blogPosts = getSortedPostsData().map((x) => {
+    x.languageTags?.sort(() => 0.5 - Math.random());
+    return x;
+  });
   // Slicing used to get first four digit of date => YYYY-DD-MM
   const rss = generateRss(blogPosts);
   fs.writeFileSync('./public/rss.xml', rss);

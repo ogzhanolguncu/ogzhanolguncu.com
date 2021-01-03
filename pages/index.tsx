@@ -33,7 +33,10 @@ const Home = ({ blogPosts, popularPosts }: Props) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const blogPosts = getSortedPostsData();
+  const blogPosts = getSortedPostsData().map((x) => {
+    x.languageTags?.sort(() => 0.5 - Math.random());
+    return x;
+  });
   const popularPosts = blogPosts.filter((blog) => blog.isPopular);
   return {
     props: { blogPosts, popularPosts },

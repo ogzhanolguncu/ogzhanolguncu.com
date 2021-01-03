@@ -71,27 +71,29 @@ export default function BlogLayout({ children, frontMatter }: any) {
             </Text>
           </Flex>
           <Flex justifyContent="flex-end" w="100%">
-            {frontMatter.languageTags?.map((tag: string, index: number) => {
-              const color = colorMap[tag];
-              return (
-                <Tag
-                  size={'sm'}
-                  key={index}
-                  color="#fff"
-                  backgroundColor={color?.color}
-                  _hover={{ cursor: 'pointer', backgroundColor: color.hover }}
-                  mr="5px"
-                  onClick={() =>
-                    router.push({
-                      pathname: '/blog/',
-                      query: { tag },
-                    })
-                  }
-                >
-                  {tag}
-                </Tag>
-              );
-            })}
+            {frontMatter.languageTags
+              ?.sort(() => 0.5 - Math.random())
+              .map((tag: string, index: number) => {
+                const color = colorMap[tag];
+                return (
+                  <Tag
+                    size={'sm'}
+                    key={index}
+                    color="#fff"
+                    backgroundColor={color?.color}
+                    _hover={{ cursor: 'pointer', backgroundColor: color.hover }}
+                    mr="5px"
+                    onClick={() =>
+                      router.push({
+                        pathname: '/blog/',
+                        query: { tag },
+                      })
+                    }
+                  >
+                    {tag}
+                  </Tag>
+                );
+              })}
           </Flex>
         </Flex>
         {children}

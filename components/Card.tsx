@@ -1,4 +1,4 @@
-import { Heading, Text, Link as StyledLink, useColorMode, Box } from '@chakra-ui/core';
+import { Heading, Text, Link as StyledLink, useColorMode, Box, Image } from '@chakra-ui/core';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import Link from 'next/link';
 import { useContext } from 'react';
@@ -27,22 +27,22 @@ const Card = ({ id, img, title, description }: Props) => {
         }
         borderRadius="5px"
         boxShadow="rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
-        p="1.5rem"
         _hover={{ textDecoration: 'none', bg: colorMode === 'light' ? '#E6E8EB' : '#fff' }}
       >
-        {/* <Image src={img} w={['50px', '50px', '80px', '80px']} /> */}
-        <Box fontSize="30px">{img}</Box>
-        <Heading
-          fontSize={['1.1rem', '1.1rem', '1.3rem', '1.3rem']}
-          fontWeight="700"
-          m={['.5rem 0 1rem', '.5rem 0 1rem', '1rem 0 1rem', '1rem 0 1rem']}
-          color="black"
-        >
-          {title}
-        </Heading>
-        <Text fontSize="1.1rem" color="#787f87" lineHeight="1.5" fontWeight="400">
-          {description}
-        </Text>
+        <Image src={img} />
+        <Box p="1.5rem">
+          <Heading
+            fontSize={['1.1rem', '1.1rem', '1.3rem', '1.3rem']}
+            fontWeight="700"
+            m={['.5rem 0 1rem', '.5rem 0 1rem', '1rem 0 1rem', '1rem 0 1rem']}
+            color="black"
+          >
+            {title}
+          </Heading>
+          <Text fontSize="1.1rem" color="#787f87" lineHeight="1.5" fontWeight="400">
+            {description}
+          </Text>
+        </Box>
       </StyledLink>
     </Link>
   );
