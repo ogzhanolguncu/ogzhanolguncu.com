@@ -1,7 +1,5 @@
 import { Heading, Text, Link as StyledLink, useColorMode, Box, Image } from '@chakra-ui/core';
-import { ColorModeContext } from '@contexts/CustomColorContext';
 import Link from 'next/link';
-import { useContext } from 'react';
 
 type Props = {
   id: string;
@@ -11,7 +9,6 @@ type Props = {
 };
 
 const Card = ({ id, img, title, description }: Props) => {
-  const colorModeObj = useContext(ColorModeContext);
   const { colorMode } = useColorMode();
   return (
     <Link href={`blog/${id}`}>
@@ -20,26 +17,44 @@ const Card = ({ id, img, title, description }: Props) => {
         flexDirection="column"
         justifyContent="space-between"
         alignItems="flex-start"
-        backgroundColor={
-          colorMode === 'light'
-            ? colorModeObj.guidesBackgroundColor.light
-            : colorModeObj.guidesBackgroundColor.dark
-        }
-        borderRadius="5px"
-        boxShadow="rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
-        _hover={{ textDecoration: 'none', bg: colorMode === 'light' ? '#E6E8EB' : '#fff' }}
+        backgroundColor={colorMode === 'light' ? '#fff' : 'transparent'}
+        borderRadius="3px"
+        _hover={{ textDecoration: 'none', bg: colorMode === 'light' ? '' : '' }}
       >
-        <Image src={img} />
-        <Box p="1.5rem">
+        <Image
+          alt={title}
+          src={img}
+          width="350px"
+          height="160px"
+          borderRadius="3px"
+          boxShadow="0 3.3px calc(4px) rgba(0,0,0,0.02),0 calc(11.2px) 13.4px rgba(0,0,0,0.03),0 calc(50px) 60px rgba(0,0,0,0.05);"
+        />
+        <Box
+          paddingX="1rem"
+          marginTop="2rem"
+          d="flex"
+          alignItems="flex-start"
+          flexDirection="column"
+        >
           <Heading
             fontSize={['1.1rem', '1.1rem', '1.3rem', '1.3rem']}
             fontWeight="700"
             m={['.5rem 0 1rem', '.5rem 0 1rem', '1rem 0 1rem', '1rem 0 1rem']}
-            color="black"
+            color={colorMode === 'light' ? '#000' : '#fff'}
+            height="96px"
+            width="305px"
           >
             {title}
           </Heading>
-          <Text fontSize="1.1rem" color="#787f87" lineHeight="1.5" fontWeight="400">
+          <Text
+            fontSize="1rem"
+            color={colorMode === 'light' ? 'rgb(103, 112, 126)' : 'rgb(143, 151, 163)'}
+            lineHeight="1.75"
+            fontWeight="400"
+            maxWidth="305px"
+            maxHeight="112px"
+            overflow="hidden"
+          >
             {description}
           </Text>
         </Box>
