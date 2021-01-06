@@ -71,11 +71,11 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                         p=".5rem"
                         borderRadius=".3rem"
                         m={[
-                          'auto .4rem auto 0',
-                          'auto .4rem auto 0',
-                          'auto .4rem auto 0',
+                          '1rem .4rem 1rem 0',
+                          '1rem .4rem 1rem 0',
+                          '1rem .4rem 1rem 0',
                           '1rem 1rem 10px 0',
-                        ]} //for responsive
+                        ]}
                         height="15px"
                         backgroundColor="#d3f9d8"
                         fontWeight="700"
@@ -88,7 +88,12 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                       </Tag>
                     ) : null}
                     <Box>
-                      <Text color="#787f87" fontSize=".8rem" fontWeight="600">
+                      <Text
+                        color="#787f87"
+                        fontSize=".8rem"
+                        fontWeight="600"
+                        marginBottom={['1rem', '1rem', 0, 0]}
+                      >
                         {blog.publishedAt}
                       </Text>
                       <Heading
