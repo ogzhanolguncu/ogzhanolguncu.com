@@ -9,6 +9,7 @@ import { Global, css } from '@emotion/core';
 import { ReactNode } from 'react';
 import { DefaultSeo } from 'next-seo';
 import SEO from 'next-seo.config';
+import { isItDayTime } from 'utils/dateOperations';
 
 type Prop = {
   children: ReactNode;
@@ -51,7 +52,7 @@ const GlobalStyle = ({ children }: Prop) => {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <ColorModeProvider value="light">
+      <ColorModeProvider value={isItDayTime() ? 'light' : 'dark'}>
         <GlobalStyle>
           <CustomColorModeProvider>
             <MDXProvider components={MDXComponents}>

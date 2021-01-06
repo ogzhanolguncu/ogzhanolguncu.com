@@ -6,3 +6,9 @@ export const addTwoMonthToPublishedDate = (publishedDate: Date) => {
 export const compareDateWithTodaysDate = (publishedDate: Date) => {
   return publishedDate >= new Date();
 };
+
+export const isItDayTime = () => {
+  const hours = new Date().getHours();
+  const isDayTime = hours > 8 && hours < 18;
+  return isDayTime;
+};
