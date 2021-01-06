@@ -4,17 +4,5 @@
     "unicodeIcon": "📝",
     "leftSide": "Things to do",
     "rightSide": "Todo list to demonstrate custom hooks."
-  },
-  {
-    "redirectUrl": "www.google.com",
-    "unicodeIcon": "🌙",
-    "leftSide": "New Moon",
-    "rightSide": "The optimized dark theme for web development. Your new favorite theme."
-  },
-  {
-    "redirectUrl": "www.google.com",
-    "unicodeIcon": "🔱",
-    "leftSide": "MVC.js",
-    "rightSide": "A simple Todo MVC application in JavaScript."
   }
 ]
