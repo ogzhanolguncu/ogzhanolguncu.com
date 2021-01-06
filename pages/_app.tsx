@@ -37,6 +37,10 @@ const GlobalStyle = ({ children }: Prop) => {
             min-height: 100vh;
             background: ${colorMode === 'light' ? 'white' : '#171923'};
           }
+          h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+          }
         `}
       />
       {children}

@@ -91,7 +91,10 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                       <Text color="#787f87" fontSize=".8rem" fontWeight="600">
                         {blog.publishedAt}
                       </Text>
-                      <Heading fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}>
+                      <Heading
+                        fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
+                        fontFamily="Inter"
+                      >
                         {blog.title}
                       </Heading>
                     </Box>

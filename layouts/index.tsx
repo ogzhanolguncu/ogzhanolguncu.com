@@ -1,16 +1,18 @@
-import { Avatar, Flex, Heading, Stack, Tag, Text, useColorMode } from '@chakra-ui/core';
+import { Flex, Heading, Stack, Tag, Text, useColorMode } from '@chakra-ui/core';
 import BlogSeo from '@components/BlogSeo';
 import { Layout } from '@components/index';
 import { parseISO, format } from 'date-fns';
-import React from 'react';
+import React, { useContext } from 'react';
 import colorMap from 'styles/colorMap';
 import { useRouter } from 'next/router';
+import { ColorModeContext } from '@contexts/CustomColorContext';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BlogLayout({ children, frontMatter }: any) {
   const router = useRouter();
   const slug = frontMatter.__resourcePath.replace('blog/', '').replace('.mdx', '');
   const { colorMode } = useColorMode();
+  const colorModeObj = useContext(ColorModeContext);
   const textColor = {
     light: 'gray.700',
     dark: 'gray.400',
@@ -29,13 +31,21 @@ export default function BlogLayout({ children, frontMatter }: any) {
         w="100%"
       >
         <Flex
+          margin="5rem 0"
           flexDirection="column"
           justifyContent="flex-start"
           alignItems="flex-start"
           maxWidth="700px"
           w="100%"
+          textAlign="center"
         >
-          <Heading letterSpacing="tight" mb={2} as="h1" size="2xl">
+          <Heading
+            letterSpacing="tight"
+            mb={2}
+            as="h1"
+            size="2xl"
+            color={colorModeObj.titleColor[colorMode]}
+          >
             {frontMatter.title}
           </Heading>
           <Flex
@@ -46,54 +56,37 @@ export default function BlogLayout({ children, frontMatter }: any) {
             w="100%"
             mb={4}
           >
-            <Flex align="center">
-              <Avatar
-                size="sm"
-                name="Oğuzhan Olguncu"
-                src="https://avatars2.githubusercontent.com/u/21091016?s=460&u=788774b6cbffaa93e2b8eadcd10ef32e1c6ecf58&v=4"
-                mr={2}
-              />
-              <Text fontSize="sm" color={textColor[colorMode]}>
+            <Flex justifyContent="center" width="100%" my="1rem">
+              <Text fontSize="md" color={textColor[colorMode]}>
                 {frontMatter.by}
-                {'Oğuzhan Olguncu / '}
+                {`Oğuzhan Olguncu\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0`}
                 {format(parseISO(frontMatter.publishedAt), 'MMMM dd, yyyy')}
+                {`\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0 ${frontMatter.readingTime.text} `}
               </Text>
             </Flex>
-            <Text
-              fontSize="sm"
-              textAlign={['left', 'right', 'right', 'right']}
-              mr="4px"
-              color="gray.500"
-              minWidth="100px"
-              mt={[2, 0]}
-            >
-              {frontMatter.readingTime.text}
-            </Text>
           </Flex>
-          <Flex justifyContent="flex-end" w="100%">
-            {frontMatter.languageTags
-              ?.sort(() => 0.5 - Math.random())
-              .map((tag: string, index: number) => {
-                const color = colorMap[tag];
-                return (
-                  <Tag
-                    size={'sm'}
-                    key={index}
-                    color="#fff"
-                    backgroundColor={color?.color}
-                    _hover={{ cursor: 'pointer', backgroundColor: color.hover }}
-                    mr="5px"
-                    onClick={() =>
-                      router.push({
-                        pathname: '/blog/',
-                        query: { tag },
-                      })
-                    }
-                  >
-                    {tag}
-                  </Tag>
-                );
-              })}
+          <Flex justifyContent="center" w="100%">
+            {frontMatter.languageTags?.map((tag: string, index: number) => {
+              const color = colorMap[tag];
+              return (
+                <Tag
+                  size={'sm'}
+                  key={index}
+                  color="#fff"
+                  backgroundColor={color?.color}
+                  _hover={{ cursor: 'pointer', backgroundColor: color.hover }}
+                  mr="5px"
+                  onClick={() =>
+                    router.push({
+                      pathname: '/blog/',
+                      query: { tag },
+                    })
+                  }
+                >
+                  {tag}
+                </Tag>
+              );
+            })}
           </Flex>
         </Flex>
         {children}

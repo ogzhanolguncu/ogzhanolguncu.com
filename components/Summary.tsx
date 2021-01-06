@@ -31,7 +31,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
     >
       <Box maxW="600px">
         <Heading
-          as="h1"
+          as="h6"
           fontSize={['1.6rem', '2rem', '2.3rem', '2.6rem']}
           lineHeight="1.4"
           marginBottom="2rem"
@@ -154,10 +154,10 @@ const Summary = ({ gotoNewsletter }: Props) => {
           </Button>
         </Box>
       </Box>
-      <Box margin={['auto 0', '10px 0', '10px 20px', '10px 20px']} maxW="390px">
+      <Box margin={['auto 0', '10px 0', '10px 0px', '10px 0px']} maxW="390px">
         <Image
-          borderRadius="16px"
-          w={['150px', '150px', '100%', '100%']}
+          borderRadius={['50%', '50%', '16px', '16px']}
+          w={['120px', '120px', '100%', '100%']}
           h="auto"
           src={'/static/images/350.jpg'}
           alt="Owl"

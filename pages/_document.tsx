@@ -30,6 +30,10 @@ class MyDocument extends Document {
             type="font/woff2"
             crossOrigin="anonymous"
           />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+            rel="stylesheet"
+          />
           <link href="/static/favicons/favicon.ico" rel="shortcut icon" />
           <link
             href="/static/favicons/favicon-32x32.png"

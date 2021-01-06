@@ -7,7 +7,6 @@ export const Article = styled(Box)`
   width: 100%;
   border-radius: 20px;
   padding: 0.8rem 1rem;
-  margin: 0 -1rem;
   @media screen and (min-width: 1100px) {
     &:hover {
       background-color: ${(props) => (props.color === 'light' ? '#f6f8fb' : '#10151fbf')};

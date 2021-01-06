@@ -9,9 +9,9 @@
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
   <item>
-    <guid>https://ogzhanolguncu.com/blog/debounce-and-throttling-definitive-guide</guid>
+    <guid>https://ogzhanolguncu.com/blog/debounce-and-throttling-comprehensive-guide</guid>
     <title>Debounce and Throttle: Comprehensive Guide</title>
-    <link>https://ogzhanolguncu.com/blog/debounce-and-throttling-definitive-guide</link>
+    <link>https://ogzhanolguncu.com/blog/debounce-and-throttling-comprehensive-guide</link>
     <description>Every web developer must aware of Debounce and Throttle to maximize client performance. Typescript, Javascript, debounce, throttling</description>
     <pubDate>Sun, 03 Jan 2021 00:00:00 GMT</pubDate>
   </item>

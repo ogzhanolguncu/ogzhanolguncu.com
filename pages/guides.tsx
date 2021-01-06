@@ -63,7 +63,7 @@ const guides = ({ guides }: Props) => {
               'repeat(2,minmax(0,1fr))',
               'repeat(3,minmax(0,1fr))',
             ]}
-            gridGap="1.5rem"
+            gridGap="4rem"
             mb={['3rem', '4rem', '5rem', '5rem']}
           >
             {guides.map((blog: StaticBlog) => {

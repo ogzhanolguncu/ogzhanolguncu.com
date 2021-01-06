@@ -17,7 +17,7 @@ type Featured = {
 const BlogSeo = ({ title, summary, publishedAt, url, image }: Props) => {
   const date = new Date(publishedAt).toISOString();
   const featuredImage: Featured = {
-    url: `https://ogzhnolguncu.com${image}`,
+    url: `https://ogzhanolguncu.com${image}`,
     alt: title,
   };
 

@@ -16,8 +16,8 @@ const SEO = {
       {
         url: 'https://ogzhanolguncu.com/static/favicons/favicon.ico',
         alt: title,
-        width: 1280,
-        height: 720,
+        width: 72,
+        height: 72,
       },
     ],
   },

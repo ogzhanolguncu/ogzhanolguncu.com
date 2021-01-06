@@ -1,7 +1,7 @@
 import React, { createContext, useState, ReactNode } from 'react';
 
 export const initialState = {
-  titleColor: { light: '#343a40', dark: 'white' },
+  titleColor: { light: '#000', dark: 'white' },
   linkColor: { light: 'blue.500', dark: 'white' },
   linkHoverColor: { light: '#1b1d25', dark: 'orange.300' },
   buttonColor: { light: '#5c7cfa', dark: 'orange.500' },
