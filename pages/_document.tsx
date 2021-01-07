@@ -24,7 +24,7 @@ class MyDocument extends Document {
             href="https://ogzhanolguncu.com/rss.xml"
           />
           <link
-            rel="preload"
+            rel="stylesheet"
             href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2"
             as="font"
             type="font/woff2"

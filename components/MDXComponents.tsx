@@ -44,7 +44,7 @@ const TData = (props: any) => (
   />
 );
 
-const TImage = (props: any) => <Image borderRadius="16px" {...props} />;
+const TImage = (props: any) => <Image borderRadius="16px" {...props} ignoreFallback />;
 
 const CustomLink = (props: any) => {
   const { colorMode } = useColorMode();

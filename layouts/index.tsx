@@ -1,4 +1,4 @@
-import { Flex, Heading, Stack, Tag, Text, useColorMode } from '@chakra-ui/core';
+import { Flex, Heading, Stack, Tag, Text, useColorMode, Link, Icon } from '@chakra-ui/core';
 import BlogSeo from '@components/BlogSeo';
 import { Layout } from '@components/index';
 import { parseISO, format } from 'date-fns';
@@ -20,7 +20,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
 
   return (
     <Layout>
-      <BlogSeo url={`https://ogzolguncu.io/blog/${slug}`} {...frontMatter} />
+      <BlogSeo url={`https://ogzhanolguncu.com/blog/${slug}`} {...frontMatter} />
       <Stack
         as="article"
         spacing={8}
@@ -90,6 +90,13 @@ export default function BlogLayout({ children, frontMatter }: any) {
           </Flex>
         </Flex>
         {children}
+        <Link
+          isExternal
+          href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/tree/master/pages/blog/${slug}.mdx`}
+        >
+          <Icon aria-label="edit" name="edit" size="1.5rem" />
+          Edit this page
+        </Link>
       </Stack>
     </Layout>
   );

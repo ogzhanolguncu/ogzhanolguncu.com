@@ -8,7 +8,17 @@ isPopular: false
 guides: false
 ---
 
-![debounce-throttle](/static/images/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky/husky-eslint-prettier.png)
+![debounce-throttle-cover-image](/static/images/debounce-and-throttle-comprehensive-guide/02.png)
+
+## Table of Contents
+
+1.  [Debounce](#debounce)
+2.  [Closure](#closure)
+3.  [Function.Apply()](#functionapply)
+4.  [setTimeout()](#settimeout)
+5.  [Debounce use cases](#debounce-use-cases)
+6.  [Throttle](#throttle)
+7.  [Throttle use cases](#throttle-use-cases)
 
 When it's come to client-side optimization, **_Debounce_** and **_Throttling_** are one of the most important techniques that every web developer must have
 in their toolboxes. Because web development not only consists of **_UI/UX_**. We should always bear in mind that we also optimize
@@ -115,14 +125,45 @@ Before we call `setTimeout()` we first call `clearTimeout()`. Reason is, if user
 completes, and, then another debounce method gonna fire. So, to avoid such cases we use `clearTimeout()` to ensure there are no unfinished calls. Finally, we just wait `setTimeout()`
 complete and call our `later()` function so we can invoke passed `func`.
 
-## Throttle
-
-WIP
-
-## Use case examples:
+### Debounce use cases:
 
 - Don't make any axios requests until user stops typing.
 - Don't do anything while user drags and drops.
 - Wait until the user stops resizing the window.
 
-Thanks for reading 🥳🥳🥳.
+## Throttle
+
+![throttle-gif](/static/images/debounce-and-throttle-comprehensive-guide/throttle.gif)
+Live Example: [Codesandbox](https://codesandbox.io/s/throttle-example-elzis)
+
+Throttle and debounce shares some similarities, but the throttle is another beast. Unlike debounce, throttle only allows a certain amount of actions within a given time.
+Such as the example above. But, debounce waits until the process to be completed first, and only then proceeds to do the costly calculation.
+
+### Example
+
+```javascript
+const throttle = (func, duration) => {
+  let shouldWait = false;
+  return (...args) => {
+    if (!shouldWait) {
+      func.apply(null, args);
+      shouldWait = true;
+      setTimeout(function () {
+        shouldWait = false;
+      }, duration);
+    }
+  };
+};
+```
+
+This function looks similar to debounce, but now we are storing a boolean variable across function calls to ensure that our function cannot be called if it's already called.
+Then, after we applied that function we toggle `shouldWait` to true. After a certain amount of time has passed, referencing `duration` here, then we toggle our `shouldWait` to false
+to make our `throttle` function callable.
+
+### Throttle use cases:
+
+- Disable button click so users cannot spam.
+- Throttling after mousemove.
+- Throttling API calls.
+
+**Thanks for reading 🥳🥳🥳.**
