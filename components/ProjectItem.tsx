@@ -18,19 +18,27 @@ const ProjectItems = ({ colorMode, unicodeIcon, leftSide, rightSide, redirectUrl
       }}
       m="auto -1rem"
       borderRadius="20px"
-      padding=".5rem 1rem"
+      padding=".5rem 2rem"
       href={redirectUrl}
     >
       <Flex flexDirection={['column', 'column', 'row', 'row']}>
         <Flex flex="1">
-          <Box h="10" mr="0.8rem" fontSize="1.15rem">
+          <Box h="10" mr="0.8rem" fontSize="1.15rem" d="flex" alignItems="center">
             {unicodeIcon}
           </Box>
-          <Text h="10" fontSize="1.15rem" fontWeight="bold">
+          <Text h="10" fontSize="1.15rem" fontWeight="bold" d="flex" alignItems="center">
             {leftSide}
           </Text>
         </Flex>
-        <Text h="10" flex="3" fontSize="1.1rem" fontWeight="400" color="#787f87">
+        <Text
+          h="10"
+          flex="3"
+          fontSize="1.1rem"
+          fontWeight="400"
+          color="#787f87"
+          d="flex"
+          alignItems="center"
+        >
           {rightSide}
         </Text>
       </Flex>

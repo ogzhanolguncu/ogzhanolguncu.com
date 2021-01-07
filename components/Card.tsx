@@ -22,6 +22,7 @@ const Card = ({ id, img, title, description }: Props) => {
         _hover={{ textDecoration: 'none', bg: colorMode === 'light' ? '' : '' }}
       >
         <Image
+          ignoreFallback
           alt={title}
           src={img}
           width="350px"

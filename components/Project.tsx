@@ -30,6 +30,7 @@ const Project = () => {
         <Heading
           fontSize={['1.7rem', '1.7rem', '2rem', '2rem']}
           color={colorModeObj.titleColor[colorMode]}
+          padding="0.8rem 1rem"
         >
           Projects
         </Heading>

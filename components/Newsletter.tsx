@@ -12,11 +12,11 @@ const Newsletter = React.forwardRef((props, ref: React.Ref<HTMLDivElement>) => {
         color={colorModeObj.titleColor[colorMode]}
         mb={4}
         borderBottom={['none', 'none', '1px solid #d6d9de', '1px solid #d6d9de']}
-        paddingBottom=".5rem"
+        padding="0.8rem 1rem"
       >
         Subscribe to the newsletter
       </Heading>
-      <Text color="#787f87" fontSize="1.1rem" fontWeight="400">
+      <Text color="#787f87" fontSize="1.1rem" fontWeight="400" padding="0.8rem 1rem">
         Get emails from me about web development, tech, and early access to new articles.
       </Text>
       <StyledLink
@@ -36,7 +36,7 @@ const Newsletter = React.forwardRef((props, ref: React.Ref<HTMLDivElement>) => {
         fontSize={['15px', '16px', '16px', '18px']}
         mt="15px"
         mb={['10px', '10px', '0px', '0px']}
-        mr={['0px', '0', '10px', '10px']}
+        mx={['16px', '16px', '16px', '16px']}
         borderRadius=".25rem"
       >
         <Text d="inline-block" mr="8px">
