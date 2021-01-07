@@ -14,10 +14,10 @@ const SEO = {
     description,
     images: [
       {
-        url: 'https://ogzhanolguncu.com/static/favicons/favicon.ico',
+        url: '/static/images/debounce-and-throttle-comprehensive-guide/02.png',
         alt: title,
-        width: 72,
-        height: 72,
+        width: 1200,
+        height: 800,
       },
     ],
   },
