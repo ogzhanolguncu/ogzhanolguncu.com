@@ -92,9 +92,9 @@ if our `timeout` has a value, then we call our function right away with `func.ap
 ### Function.Apply()
 
 ```javascript
-Math.max(1, 2, 3); // Will return 3
+Math.max(1, 2, 3, 4); // Will return 3
 
-Math.max.apply(null, [1, 2, 3]); // Will also return 3
+Math.max.apply(null, [1, 2, 3, 4]); // Will also return 3
 ```
 
 If I have to explain `func.apply()` briefly: Since Javascript arrays do not have a method called `max()`.
