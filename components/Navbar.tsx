@@ -65,6 +65,7 @@ const Navbar = () => {
             icon={colorMode === 'dark' ? <BiSun /> : <BsMoon />}
             onClick={toggleColorMode}
             color="white"
+            _focus={{ boxShadow: 'none' }}
           />
         </Box>
       </Flex>

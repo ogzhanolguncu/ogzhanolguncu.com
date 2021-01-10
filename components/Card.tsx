@@ -25,16 +25,17 @@ const Card = ({ id, img, title, description }: Props) => {
           ignoreFallback
           alt={title}
           src={img}
-          width="350px"
-          height="160px"
+          height="100%"
+          width="100%"
           borderRadius="3px"
           boxShadow="0 3.3px calc(4px) rgba(0,0,0,0.02),0 calc(11.2px) 13.4px rgba(0,0,0,0.03),0 calc(50px) 60px rgba(0,0,0,0.05);"
         />
         <Box marginTop="1.5rem" d="flex" alignItems="flex-start" flexDirection="column">
           <Heading
+            as="h3"
             fontFamily="Inter"
-            fontSize={['1.1rem', '1.1rem', '1.3rem', '1.3rem']}
-            fontWeight="500"
+            fontSize={['1.1rem', '1.1rem', '1.5rem', '1.5rem']}
+            fontWeight="600"
             lineHeight="1.9rem"
             m={['.5rem 0 1.2rem', '.5rem 0 1rem', '1rem 0 1rem', '1rem 0 3rem']}
             color={colorMode === 'light' ? '#000' : '#fff'}

@@ -1,4 +1,4 @@
-import { Heading, Text, Flex, List, ListItem, useColorMode } from '@chakra-ui/react';
+import { Heading, Text, Flex, List, ListItem, useColorMode, Box } from '@chakra-ui/react';
 
 import { Layout } from '@components/index';
 import TextLink from '@components/TextLink';
@@ -6,8 +6,51 @@ import { ReactNode, useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { NextSeo } from 'next-seo';
 
+import { Chrono } from 'react-chrono';
+import { TimelineItemModel } from 'react-chrono/dist/models/TimelineItemModel';
+
 const url = 'https://ogzhanolguncu.com/about';
 const title = 'About Me – Oğuzhan Olguncu';
+
+const items: TimelineItemModel[] = [
+  {
+    title: '1996',
+    cardTitle: 'Beginning',
+    cardSubtitle: 'Journey begins',
+    cardDetailedText: 'Born in Istanbul, the only child of my family.',
+  },
+  {
+    title: '2006 – 2010',
+    cardTitle: 'First Computer',
+    cardSubtitle: 'Baby steps',
+    cardDetailedText: `The family gets our first computer, a PC running Windows. I've used the computer a lot, mostly silly stuff since I had no idea what was going on.`,
+  },
+  {
+    title: '2010 - 2014',
+    cardTitle: 'Exploring the Internet',
+    cardSubtitle: '01010111 01001000 01010101 01010100',
+    cardDetailedText:
+      'I started my technical high school. Studied information technologies, started to learn lots of things about computers and especially about web development because it was the branch I chose to study. Coded websites using HTML tables, good old days. :)',
+  },
+  {
+    title: '2015',
+    cardTitle: 'University',
+    cardSubtitle: 'Endless nights of studying',
+    cardDetailedText: `I went to university for Information Management Systems. Due to my major's nature I studied both management and IT. I've taken core computer science courses such as Data structures, Computer Architecture, Algorithm Analysis and Database Management.`,
+  },
+  {
+    title: '2016',
+    cardTitle: 'University',
+    cardSubtitle: 'Endless nights of work',
+    cardDetailedText: `At the last quarter of 2016, I started work as a full time Fullstack .Net developer and honed my overall skills.`,
+  },
+  {
+    title: '2020 - Present',
+    cardTitle: 'Work',
+    cardSubtitle: 'Different path',
+    cardDetailedText: `I was bored working as a full stack developer. I've chosen a different path and became a Frontend Developer.`,
+  },
+];
 
 const CustomText = ({ children }: { children: ReactNode }) => {
   const colorModeObj = useContext(ColorModeContext);
@@ -74,11 +117,12 @@ const About = () => {
           </CustomText>
 
           <Heading
-            fontSize="1.6rem"
+            fontSize="1.3rem"
             color={
               colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
             }
             mb="1rem"
+            fontFamily="Inter"
           >
             Get in touch
           </Heading>
@@ -110,55 +154,35 @@ const About = () => {
           </List>
           <Heading
             fontSize="1.6rem"
+            textAlign="center"
+            fontFamily="Inter"
             color={
               colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
             }
             mb="1.5rem"
             pb="1rem"
-            borderBottom="1px solid #d6d9de"
             w="100%"
           >
             Timeline
           </Heading>
-          <List
-            styleType="disc"
+          <Box
+            display="flex"
             fontSize="1.05rem"
-            mb="3rem"
+            justifyContent="center"
+            width="100%"
             color={
               colorMode === 'light'
                 ? colorModeObj.aboutTextColor.light
                 : colorModeObj.aboutTextColor.dark
             }
           >
-            <ListItem>
-              <strong>1996:</strong> Born in Istanbul, the only child of my family.
-            </ListItem>
-            <ListItem>
-              <strong>2006 – 2010:</strong> The family gets our first computer, a PC running
-              Windows. I use the computer a lot, mostly silly stuff since I had no idea what was
-              going on.
-            </ListItem>
-            <ListItem>
-              <strong>2010 - 2014:</strong> I started my technical high school. Studied information
-              technologies, started to learn lots of things about computers and especially about web
-              development because it was the branch I chose to study. Coded websites using HTML
-              tables, good old days :) .
-            </ListItem>
-            <ListItem>
-              <strong>2015:</strong> I go to university for Information Management Systems. Due to
-              my major's nature I studied both management and IT. I've taken core computer science
-              courses such as Data structures, Computer Architecture, Algorithm Analysis and
-              Database Management.
-            </ListItem>
-            <ListItem>
-              <strong>2016:</strong> At the last quarter of 2016, I started work as a full time
-              Fullstack .Net developer and honed my overall skills.
-            </ListItem>
-            <ListItem>
-              <strong>2020 – Present:</strong> I was bored working as a full stack developer. I've
-              chosen a different path and became a Frontend Developer.
-            </ListItem>
-          </List>
+            <Chrono
+              items={items}
+              hideControls
+              mode="VERTICAL_ALTERNATING"
+              theme={{ secondary: '#6e89f6' }}
+            />
+          </Box>
         </Flex>
       </Layout>
     </>

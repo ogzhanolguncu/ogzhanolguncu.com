@@ -50,7 +50,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body>
-          <ColorModeScript initialColorMode="light" />
+          <ColorModeScript />
           <Main />
           <NextScript />
         </body>
