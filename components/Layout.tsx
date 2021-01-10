@@ -1,6 +1,6 @@
 import Navbar from './Navbar';
 import React, { ReactNode } from 'react';
-import { Flex } from '@chakra-ui/core';
+import { Flex } from '@chakra-ui/react';
 import Footer from './Footer';
 
 type Props = {

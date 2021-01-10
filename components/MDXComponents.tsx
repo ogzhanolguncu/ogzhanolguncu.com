@@ -2,18 +2,17 @@
 /** @jsx jsx */
 import {
   Box,
-  Callout,
+  Alert,
   Code,
   Heading,
   Kbd,
   Link,
-  PseudoBox,
   Text,
   Divider,
   useColorMode,
   Image,
-} from '@chakra-ui/core';
-import { jsx } from '@emotion/core';
+} from '@chakra-ui/react';
+import { jsx } from '@emotion/react';
 import NextLink from 'next/link';
 
 const Table = (props: any) => (
@@ -75,7 +74,7 @@ const Quote = (props: any) => {
   };
 
   return (
-    <Callout
+    <Alert
       mt={4}
       w="98%"
       bg={bgColor[colorMode]}
@@ -117,7 +116,7 @@ const DocsHeading = (props: any) => (
       {props.children}
       {props.id && (
         <NextLink href={`#${props.id}`}>
-          <PseudoBox
+          <Box
             aria-label="anchor"
             as="a"
             color="transparent"
@@ -130,7 +129,7 @@ const DocsHeading = (props: any) => (
             ml="0.375rem"
           >
             #
-          </PseudoBox>
+          </Box>
         </NextLink>
       )}
     </Box>
@@ -152,7 +151,7 @@ const MDXComponents = {
   h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
   h3: (props: any) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
   inlineCode: (props: any) => (
-    <Code variantColor="yellow" fontSize={['0.45em', '0.55em', '0.60em', '0.84em']} {...props} />
+    <Code colorScheme="yellow" fontSize={['0.45em', '0.55em', '0.60em', '0.84em']} {...props} />
   ),
   kbd: Kbd,
   br: (props: any) => <Box height="24px" {...props} />,

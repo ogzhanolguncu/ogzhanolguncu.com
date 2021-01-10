@@ -9,7 +9,7 @@ import {
   Link as StyledLink,
   Button,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 import React from 'react';
 import { useContext } from 'react';

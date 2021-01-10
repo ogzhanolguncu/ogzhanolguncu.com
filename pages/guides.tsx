@@ -1,4 +1,4 @@
-import { Heading, Text, Box, useColorMode, Flex } from '@chakra-ui/core';
+import { Heading, Text, Box, useColorMode, Flex } from '@chakra-ui/react';
 import { Layout, Card } from '@components/index';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';

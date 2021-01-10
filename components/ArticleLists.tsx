@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from '@chakra-ui/core';
+import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';
@@ -78,10 +78,10 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                           '1rem 1rem 10px 0',
                         ]}
                         height="15px"
-                        backgroundColor="#d3f9d8"
                         fontWeight="700"
                         width={['2.7rem', '2.7rem', '', '']}
                         minW=""
+                        minHeight="2rem"
                         color={colorModeObj.articleNewTagTextColor[colorMode]}
                         background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
                       >
@@ -123,6 +123,7 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                       width="max-content"
                       height="20px"
                       p=".3rem .5rem"
+                      minHeight="2rem"
                       fontSize=".8rem"
                       borderRadius="16px"
                       marginBottom="7px"

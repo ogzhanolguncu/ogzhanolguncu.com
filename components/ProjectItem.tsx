@@ -1,4 +1,4 @@
-import { Flex, Link as StyledLink, Text, Box } from '@chakra-ui/core';
+import { Flex, Link as StyledLink, Text, Box } from '@chakra-ui/react';
 
 type Props = {
   colorMode: string;

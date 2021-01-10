@@ -12,11 +12,10 @@ import {
   useColorMode,
   Link as StyledLink,
   Text,
-  Divider,
   Input,
   Alert,
   AlertIcon,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import colorMap from 'styles/colorMap';
 import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
 import { ColorModeContext } from '@contexts/CustomColorContext';
@@ -141,6 +140,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                   key={tagIndex}
                   width="max-content"
                   height="20px"
+                  minHeight="2rem"
                   p=".3rem .5rem"
                   fontSize=".8rem"
                   borderRadius="16px"
@@ -164,14 +164,14 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
               .map((blog, index) => (
                 <Fragment key={index}>
                   <Heading
-                    size="lg"
+                    fontSize="1.5rem"
                     marginTop={index !== 0 ? '2.7rem' : '0'}
                     fontFamily="Inter"
                     paddingX="1rem"
+                    marginBottom="1rem"
                   >
                     {blog}
                   </Heading>
-                  <Divider />
                   {fusedBlog[(blog as unknown) as number].map((article) => (
                     <Article
                       key={`${blog}${article.id}`}
@@ -196,10 +196,10 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                                   '1rem 1rem 10px 0',
                                 ]} //for responsive
                                 height="15px"
-                                backgroundColor="#d3f9d8"
                                 fontWeight="700"
                                 width={['2.7rem', '2.7rem', '', '']}
                                 minW=""
+                                minHeight="2rem"
                                 color={colorModeObj.articleNewTagTextColor[colorMode]}
                                 background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
                               >
@@ -242,6 +242,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                               width="max-content"
                               height="20px"
                               p=".3rem .5rem"
+                              minHeight="2rem"
                               fontSize=".8rem"
                               borderRadius="16px"
                               marginBottom="7px"

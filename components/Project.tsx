@@ -1,4 +1,4 @@
-import { Flex, Heading, useColorMode } from '@chakra-ui/core';
+import { Flex, Heading, useColorMode } from '@chakra-ui/react';
 
 import { useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';

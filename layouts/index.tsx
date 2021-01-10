@@ -1,4 +1,4 @@
-import { Flex, Heading, Stack, Tag, Text, useColorMode, Link, Icon } from '@chakra-ui/core';
+import { Flex, Heading, Stack, Tag, Text, useColorMode, Link } from '@chakra-ui/react';
 import BlogSeo from '@components/BlogSeo';
 import { Layout } from '@components/index';
 import { parseISO, format } from 'date-fns';
@@ -6,6 +6,7 @@ import React, { useContext } from 'react';
 import colorMap from 'styles/colorMap';
 import { useRouter } from 'next/router';
 import { ColorModeContext } from '@contexts/CustomColorContext';
+import { RiEdit2Line } from 'react-icons/ri';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BlogLayout({ children, frontMatter }: any) {
@@ -91,11 +92,16 @@ export default function BlogLayout({ children, frontMatter }: any) {
         </Flex>
         {children}
         <Link
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
           isExternal
           href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/tree/master/pages/blog/${slug}.mdx`}
         >
-          <Icon aria-label="edit" name="edit" size="1.5rem" />
-          Edit this page
+          <RiEdit2Line size={25} />
+          <Text marginLeft=".5rem" marginTop="5px">
+            Edit this page
+          </Text>
         </Link>
       </Stack>
     </Layout>

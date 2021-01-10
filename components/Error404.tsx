@@ -1,5 +1,5 @@
 import Layout from './Layout';
-import { Flex, Image, Box, Heading, Text, Button } from '@chakra-ui/core';
+import { Flex, Image, Box, Heading, Text, Button } from '@chakra-ui/react';
 import Router from 'next/router';
 import error404 from 'images/404.png';
 

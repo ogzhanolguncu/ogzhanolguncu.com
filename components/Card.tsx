@@ -1,4 +1,4 @@
-import { Heading, Text, Link as StyledLink, useColorMode, Box, Image } from '@chakra-ui/core';
+import { Heading, Text, Link as StyledLink, useColorMode, Box, Image } from '@chakra-ui/react';
 import Link from 'next/link';
 
 type Props = {

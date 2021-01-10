@@ -1,4 +1,4 @@
-import { Heading, Text, Flex, List, ListItem, useColorMode } from '@chakra-ui/core';
+import { Heading, Text, Flex, List, ListItem, useColorMode } from '@chakra-ui/react';
 
 import { Layout } from '@components/index';
 import TextLink from '@components/TextLink';

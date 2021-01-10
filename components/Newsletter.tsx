@@ -1,4 +1,4 @@
-import { Box, Heading, Text, useColorMode, Link as StyledLink } from '@chakra-ui/core';
+import { Box, Heading, Text, useColorMode, Link as StyledLink } from '@chakra-ui/react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import React, { useContext } from 'react';
 

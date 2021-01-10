@@ -2,7 +2,9 @@ import Link from 'next/link';
 
 import NavbarButton from './NavbarButton';
 
-import { useColorMode, Button, Flex, Box, IconButton, Text } from '@chakra-ui/core';
+import { useColorMode, Button, Flex, Box, IconButton, Text } from '@chakra-ui/react';
+import { BsMoon } from 'react-icons/bs';
+import { BiSun } from 'react-icons/bi';
 import styled from '@emotion/styled';
 
 const StickyNav = styled(Flex)`
@@ -60,7 +62,7 @@ const Navbar = () => {
             variant="ghost"
             _hover={{ bg: 'rgba(0,0,0,.2)' }}
             aria-label="Toggle dark mode"
-            icon={colorMode === 'dark' ? 'sun' : 'moon'}
+            icon={colorMode === 'dark' ? <BiSun /> : <BsMoon />}
             onClick={toggleColorMode}
             color="white"
           />
