@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Link from 'next/link';
 
 import NavbarButton from './NavbarButton';
@@ -16,6 +17,7 @@ const StickyNav = styled(Flex)`
 `;
 
 const Navbar = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { colorMode, toggleColorMode } = useColorMode();
 
   const bgColor = { light: 'rgb(76, 110, 245, 0.8)', dark: 'rgb(26, 32, 44, 0.5)' };
@@ -56,7 +58,7 @@ const Navbar = () => {
           <NavbarButton LinkComponent={Link} href="/about" text="About" />
           <NavbarButton LinkComponent={Link} href="/blog" text="Blog" />
           <NavbarButton LinkComponent={Link} href="/guides" text="Guides" />
-          <IconButton
+          {/* <IconButton
             fontWeight={['normal', 'medium', 'bold']}
             fontSize={['xs', 'sm', 'lg', 'xl']}
             variant="ghost"
@@ -66,7 +68,7 @@ const Navbar = () => {
             onClick={toggleColorMode}
             color="white"
             _focus={{ boxShadow: 'none' }}
-          />
+          /> */}
         </Box>
       </Flex>
     </StickyNav>
