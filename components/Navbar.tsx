@@ -58,7 +58,7 @@ const Navbar = () => {
           <NavbarButton LinkComponent={Link} href="/about" text="About" />
           <NavbarButton LinkComponent={Link} href="/blog" text="Blog" />
           <NavbarButton LinkComponent={Link} href="/guides" text="Guides" />
-          {/* <IconButton
+          <IconButton
             fontWeight={['normal', 'medium', 'bold']}
             fontSize={['xs', 'sm', 'lg', 'xl']}
             variant="ghost"
@@ -68,7 +68,7 @@ const Navbar = () => {
             onClick={toggleColorMode}
             color="white"
             _focus={{ boxShadow: 'none' }}
-          /> */}
+          />
         </Box>
       </Flex>
     </StickyNav>
