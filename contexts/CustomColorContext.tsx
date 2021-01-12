@@ -7,7 +7,7 @@ export const initialState = {
   buttonColor: { light: '#5c7cfa', dark: 'orange.500' },
   buttonHoverColor: { light: '#3b5bdb', dark: 'orange.600' },
   feedBackButtonColor: { light: '#3b5bdb', dark: '#787f87' },
-  feedBackButtonBackgroundColor: { light: 'edf2ff', dark: '#edf2ff' },
+  feedBackButtonBackgroundColor: { light: '#edf2ff', dark: '#edf2ff' },
   articleNewTagBackgroundColor: { light: '#d3f9d8', dark: '#edf2ff' },
   articleNewTagTextColor: { light: '', dark: '#1A202C' },
   articleTagColor: '#f6f8fb',

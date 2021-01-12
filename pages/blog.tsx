@@ -109,6 +109,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
             marginTop={['0.6rem', '0', '0', '0']}
             fontWeight="bold"
             color={colorModeObj.titleColor[colorMode]}
+            fontFamily="Inter"
           >
             Blog
           </Heading>
