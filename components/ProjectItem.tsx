@@ -1,14 +1,18 @@
-import { Flex, Link as StyledLink, Text, Box } from '@chakra-ui/react';
+import { Flex, Link as StyledLink, Text, Box, useColorMode } from '@chakra-ui/react';
+
+import { useContext } from 'react';
+import { ColorModeContext } from '@contexts/CustomColorContext';
 
 type Props = {
-  colorMode: string;
   unicodeIcon: string;
   leftSide: string;
   rightSide: string;
   redirectUrl: string;
 };
 
-const ProjectItems = ({ colorMode, unicodeIcon, leftSide, rightSide, redirectUrl }: Props) => {
+const ProjectItems = ({ unicodeIcon, leftSide, rightSide, redirectUrl }: Props) => {
+  const colorModeObj = useContext(ColorModeContext);
+  const { colorMode } = useColorMode();
   return (
     <StyledLink
       _hover={{
@@ -35,7 +39,7 @@ const ProjectItems = ({ colorMode, unicodeIcon, leftSide, rightSide, redirectUrl
           flex="3"
           fontSize="1.1rem"
           fontWeight="400"
-          color="#787f87"
+          color={colorModeObj.publishedDateColor[colorMode]}
           d="flex"
           alignItems="center"
         >

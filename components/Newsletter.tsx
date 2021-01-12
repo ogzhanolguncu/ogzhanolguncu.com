@@ -16,7 +16,12 @@ const Newsletter = React.forwardRef((props, ref: React.Ref<HTMLDivElement>) => {
       >
         Subscribe to the newsletter
       </Heading>
-      <Text color="#787f87" fontSize="1.1rem" fontWeight="400" padding="0.8rem 1rem">
+      <Text
+        color={colorModeObj.publishedDateColor[colorMode]}
+        fontSize="1.1rem"
+        fontWeight="400"
+        padding="0.8rem 1rem"
+      >
         Get emails from me about web development, tech, and early access to new articles.
       </Text>
       <StyledLink

@@ -34,8 +34,8 @@ export default function BlogLayout({ children, frontMatter }: any) {
         <Flex
           margin="5rem 0"
           flexDirection="column"
-          justifyContent="flex-start"
-          alignItems="flex-start"
+          justifyContent="center"
+          alignItems="center"
           maxWidth="700px"
           w="100%"
           textAlign="center"
@@ -46,6 +46,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
             as="h1"
             size="2xl"
             color={colorModeObj.titleColor[colorMode]}
+            lineHeight="1.4"
           >
             {frontMatter.title}
           </Heading>

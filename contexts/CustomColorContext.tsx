@@ -16,6 +16,7 @@ export const initialState = {
   aboutTextColor: { light: '#495057', dark: '#B3B0B1' },
   guidesHeadingColor: { light: 'black', dark: 'gray' },
   guidesBackgroundColor: { light: '#f6f8fb', dark: '#E6E8EB' },
+  publishedDateColor: { light: '#3f4852', dark: '#9dabbb' },
 };
 
 //If initial value is a const we specify as  ||| as typeof initialState ||

@@ -1,4 +1,4 @@
-import { Flex, Link as StyledLink, IconButton } from '@chakra-ui/react';
+import { Flex, Link as StyledLink, IconButton, Button } from '@chakra-ui/react';
 import { SiCodewars, SiGithub, SiGmail, SiLinkedin } from 'react-icons/si';
 
 import Link from 'next/link';
@@ -16,46 +16,31 @@ const Footer = () => {
     >
       <Flex justifyContent="space-between">
         <Link href="/blog">
-          <StyledLink
-            _hover={{
-              textDecoration: 'none',
-              backgroundColor: 'rgba(0,0,0,0.15)',
-              borderRadius: '.35rem',
-            }}
+          <Button
             mr={['.2rem', '1rem', '1.5rem', '1.5rem']}
             p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
             fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
           >
             Blog
-          </StyledLink>
+          </Button>
         </Link>
         <Link href="/guides">
-          <StyledLink
-            _hover={{
-              textDecoration: 'none',
-              backgroundColor: 'rgba(0,0,0,0.15)',
-              borderRadius: '.35rem',
-            }}
+          <Button
             mr={['.2rem', '1rem', '1.5rem', '1.5rem']}
             p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
             fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
           >
             Guides
-          </StyledLink>
+          </Button>
         </Link>
         <Link href="/rss.xml">
-          <StyledLink
-            _hover={{
-              textDecoration: 'none',
-              backgroundColor: 'rgba(0,0,0,0.15)',
-              borderRadius: '.35rem',
-            }}
+          <Button
             mr={['0', '0', '0', '0']}
             p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
             fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
           >
             RSS
-          </StyledLink>
+          </Button>
         </Link>
       </Flex>
       <Flex

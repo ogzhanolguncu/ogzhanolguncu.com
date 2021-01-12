@@ -209,7 +209,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                             ) : null}
                             <Box>
                               <Text
-                                color="#787f87"
+                                color={colorModeObj.publishedDateColor[colorMode]}
                                 fontSize=".8rem"
                                 fontWeight="600"
                                 marginBottom={['1rem', '1rem', 0, 0]}

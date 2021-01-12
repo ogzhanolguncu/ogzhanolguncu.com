@@ -96,6 +96,7 @@ const About = () => {
               colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
             }
             margin="5rem auto"
+            fontStyle="Inter"
           >
             About me
           </Heading>

@@ -39,7 +39,6 @@ const Project = () => {
         {projects.map((project, index) => (
           <ProjectItems
             key={index}
-            colorMode={colorMode}
             redirectUrl={project.redirectUrl}
             unicodeIcon={project.unicodeIcon}
             leftSide={project.leftSide}
