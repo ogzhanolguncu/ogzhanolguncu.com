@@ -21,3 +21,12 @@ export type ErrorProps = {
   statusCode: number;
   message: string;
 };
+
+export type TimeLineProps = {
+  text: string;
+  date: string;
+  category: {
+    tag: string;
+    color: string;
+  };
+};

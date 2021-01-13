@@ -10,6 +10,7 @@ import React, { ReactNode } from 'react';
 import { DefaultSeo } from 'next-seo';
 import SEO from 'next-seo.config';
 import { ChakraProvider } from '@chakra-ui/react';
+import 'components/time.css';
 
 type Prop = {
   children: ReactNode;
