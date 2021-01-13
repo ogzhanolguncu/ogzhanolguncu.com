@@ -38,6 +38,11 @@ const GlobalStyle = ({ children }: Prop) => {
             min-height: 100vh;
             background: ${colorMode === 'light' ? 'white' : '#171923'};
           }
+          @font-face {
+            font-family: 'Avenir-Roman';
+            src: url('/fonts/Avenir-Roman.ttf');
+            font-display: swap;
+          }
         `}
       />
       {children}

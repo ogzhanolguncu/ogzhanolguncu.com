@@ -122,45 +122,6 @@ const About = () => {
             Timeline
           </Heading>
           <Timeline />
-          {/* <List
-            spacing={3}
-            fontSize="1.05rem"
-            mb="3rem"
-            color={
-              colorMode === 'light'
-                ? colorModeObj.aboutTextColor.light
-                : colorModeObj.aboutTextColor.dark
-            }
-          >
-            <ListItem>
-              <strong>1999:</strong> I was born in Istanbul, the last child of my family.
-            </ListItem>
-            <ListItem>
-              <strong>2006 – 2010:</strong> The family gets our first computer, a PC running
-              Windows. I use the computer a lot, mostly silly stuff since I had no idea what was
-              going on.
-            </ListItem>
-            <ListItem>
-              <strong>2010 - 2014:</strong> I started my technical high school. Studied information
-              technologies, started to learn lots of things about computers and especially about web
-              development because it was the branch I chose to study. Coded websites using HTML
-              tables, good old days :) .
-            </ListItem>
-            <ListItem>
-              <strong>2015:</strong> I go to university for Information Management Systems. Due to
-              my major's nature I studied both management and IT. I've taken core computer science
-              courses such as Data structures, Computer Architecture, Algorithm Analysis and
-              Database Management.
-            </ListItem>
-            <ListItem>
-              <strong>2016:</strong> At the last quarter of 2016, I started work as a full time
-              Fullstack .Net developer and honed my overall skills.
-            </ListItem>
-            <ListItem>
-              <strong>2020 – Present:</strong> I was bored working as a full stack developer. I've
-              chosen a different path and became a Frontend Developer.
-            </ListItem>
-          </List> */}
         </Flex>
       </Layout>
     </>

@@ -26,6 +26,8 @@ import { generateRss } from 'utils/rssOperations';
 import debounce from 'lodash.debounce';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
+import { ScaleBox } from '@components/ScaleBox';
+import { rand } from 'utils/utils';
 
 type Props = {
   blogPosts: StaticBlog[];
@@ -136,23 +138,26 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
             {Object.keys(colorMap).map((tag: string, tagIndex: number) => {
               const color = colorMap[tag.toLowerCase()];
               return (
-                <Tag
-                  key={tagIndex}
-                  width="max-content"
-                  height="20px"
-                  minHeight="2rem"
-                  p=".3rem .5rem"
-                  fontSize=".8rem"
-                  borderRadius="16px"
-                  marginBottom="7px"
-                  marginRight=".5rem"
-                  color="#fff"
-                  backgroundColor={color?.color}
-                  _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
-                  onClick={() => searchByTag(tag)}
-                >
-                  {tag}
-                </Tag>
+                <Box key={tagIndex}>
+                  <ScaleBox duration={1} delayOrder={rand(1, 6)}>
+                    <Tag
+                      width="max-content"
+                      height="20px"
+                      minHeight="2rem"
+                      p=".3rem .5rem"
+                      fontSize=".8rem"
+                      borderRadius="16px"
+                      marginBottom="7px"
+                      marginRight=".5rem"
+                      color="#fff"
+                      backgroundColor={color?.color}
+                      _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
+                      onClick={() => searchByTag(tag)}
+                    >
+                      {tag}
+                    </Tag>
+                  </ScaleBox>
+                </Box>
               );
             })}
           </Box>

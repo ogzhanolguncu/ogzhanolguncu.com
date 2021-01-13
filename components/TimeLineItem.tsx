@@ -33,6 +33,7 @@ const TimelineItem = ({ timeLineData }: Props) => {
           fontWeight="bold"
           top="10px"
           left={['5px', '5px', '15px', '15px']}
+          border-Radius="3px"
           letterSpacing="1px"
           padding="5px"
           position="absolute"
