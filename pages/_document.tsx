@@ -32,6 +32,8 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
           <link href="/static/favicons/favicon.ico" rel="shortcut icon" />
+
+          <link href="/fonts/Avenir-Roman.ttf" as="font" type="font/ttf" rel="stylesheet" />
           <link
             href="/static/favicons/favicon-32x32.png"
             rel="icon"

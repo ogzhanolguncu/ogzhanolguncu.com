@@ -38,12 +38,12 @@ const Navbar = () => {
         <Box>
           <Link href="/" passHref>
             <Button
-              fontWeight={['normal', 'medium', 'medium']}
+              fontWeight={['medium', 'medium', 'medium']}
               fontSize={['xs', 'sm', 'lg', 'xl']}
               as="a"
               variant="ghost"
               _hover={{ bg: 'rgba(0,0,0,.2)' }}
-              p={[1, 4]}
+              padding="1"
               color="white"
               letterSpacing="0.65px"
               fontFamily="Avenir-Roman"
