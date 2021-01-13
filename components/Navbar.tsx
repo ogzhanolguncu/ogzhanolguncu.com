@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 
 const StickyNav = styled(Flex)`
   position: sticky;
-  z-index: 10;
+  z-index: 99999;
   top: 0;
   backdrop-filter: saturate(180%) blur(20px);
   transition: background-color 0.1 ease-in-out;

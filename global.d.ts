@@ -27,6 +27,6 @@ export type TimeLineProps = {
   date: string;
   category: {
     tag: string;
-    color: string;
+    color: { light: string; dark: string };
   };
 };

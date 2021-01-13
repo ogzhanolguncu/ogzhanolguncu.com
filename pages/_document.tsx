@@ -32,7 +32,7 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400&display=swap"
             rel="stylesheet"
           />
           <link href="/static/favicons/favicon.ico" rel="shortcut icon" />
