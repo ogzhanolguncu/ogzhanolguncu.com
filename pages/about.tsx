@@ -42,14 +42,7 @@ const About = () => {
         }}
       />
       <Layout>
-        <Flex
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="flex-start"
-          maxW="100%"
-          mx="auto"
-          p="0 2rem"
-        >
+        <Flex flexDirection="column" justifyContent="center" alignItems="flex-start">
           <Heading
             textAlign="center"
             fontSize={['2rem', '2rem', '3rem', '3rem']}

@@ -72,7 +72,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
               const color = colorMap[tag];
               return (
                 <Tag
-                  size={'sm'}
+                  size={'md'}
                   key={index}
                   color="#fff"
                   backgroundColor={color?.color}
