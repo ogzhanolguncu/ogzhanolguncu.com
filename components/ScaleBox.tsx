@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
-import { IntersectionContext } from '@contexts/IntersectionContext';
 import { isValidMotionProp, motion } from 'framer-motion';
-import React, { useMemo, forwardRef, useContext } from 'react';
+import React, { useMemo, forwardRef } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const MotionBox = motion.custom(
   forwardRef(
@@ -40,8 +40,9 @@ export const ScaleBox = ({
   duration,
   easing = [0.42, 0, 0.58, 1],
 }: Props) => {
-  const { inView } = useContext(IntersectionContext);
-
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
   const transition = useMemo(
     () => ({
       duration,
@@ -66,6 +67,7 @@ export const ScaleBox = ({
 
   return (
     <MotionBox
+      ref={ref}
       initial={{ opacity: 0 }}
       animate={inView ? 'show' : 'hidden'}
       exit="hidden"
