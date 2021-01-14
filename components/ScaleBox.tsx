@@ -30,7 +30,7 @@ const MotionBox = motion.custom(
 type Props = {
   children: React.ReactNode;
   delayOrder: number;
-  duration: number;
+  duration?: number;
   easing?: number[];
 };
 

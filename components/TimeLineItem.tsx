@@ -2,7 +2,7 @@ import { TimeLineProps } from 'global';
 import React from 'react';
 
 import { Box, Text, useColorMode } from '@chakra-ui/react';
-import { TimeLineItem } from 'components';
+import { TimeLineItemContainer } from 'components';
 
 type Props = {
   timeLineData: TimeLineProps;
@@ -20,7 +20,7 @@ const TimelineItem = ({ timeLineData }: Props) => {
     },
   } = timeLineData;
   return (
-    <TimeLineItem className="timeline-item">
+    <TimeLineItemContainer className="timeline-item">
       <Box
         className="timeline-item-content"
         backgroundColor={colorMode === 'light' ? '#fff' : 'rgb(26, 32, 44, 0.5)'}
@@ -33,7 +33,7 @@ const TimelineItem = ({ timeLineData }: Props) => {
           fontWeight="bold"
           top="10px"
           left={['5px', '5px', '15px', '15px']}
-          border-Radius="3px"
+          borderRadius="3px"
           letterSpacing="1px"
           padding="5px"
           position="absolute"
@@ -70,7 +70,7 @@ const TimelineItem = ({ timeLineData }: Props) => {
           zIndex="100"
         />
       </Box>
-    </TimeLineItem>
+    </TimeLineItemContainer>
   );
 };
 

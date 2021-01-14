@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useIntersection } from 'react-use';
 type Props = {
   children: React.ReactNode;
-  reset: boolean;
+  reset?: boolean;
 };
 
 export const IntersectionContext = React.createContext({ inView: true });
