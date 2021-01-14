@@ -139,7 +139,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
               const color = colorMap[tag.toLowerCase()];
               return (
                 <Box key={tagIndex}>
-                  <ScaleBox duration={1} delayOrder={rand(1, 6)}>
+                  <ScaleBox duration={1} delayOrder={rand(1, 5)}>
                     <Tag
                       width="max-content"
                       height="20px"

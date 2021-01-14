@@ -29,20 +29,19 @@ const MotionBox = motion.custom(
 
 type Props = {
   children: React.ReactNode;
-  delayOrder: number;
+  delayOrder?: number;
   duration?: number;
   easing?: number[];
+  [x: string]: any;
 };
 
-export const ScaleBox = ({
-  children,
-  delayOrder,
-  duration,
-  easing = [0.42, 0, 0.58, 1],
-}: Props) => {
+export const ScaleBox = (props: Props) => {
+  const { children, delayOrder = 1, duration, easing = [0.42, 0, 0.58, 1] } = props;
   const { ref, inView } = useInView({
     threshold: 0,
+    triggerOnce: true,
   });
+
   const transition = useMemo(
     () => ({
       duration,
@@ -72,6 +71,7 @@ export const ScaleBox = ({
       animate={inView ? 'show' : 'hidden'}
       exit="hidden"
       variants={variants}
+      {...props}
     >
       {children}
     </MotionBox>

@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Box, Text, useColorMode } from '@chakra-ui/react';
 import { TimeLineItemContainer } from 'components';
+import { ScaleBox } from './ScaleBox';
 
 type Props = {
   timeLineData: TimeLineProps;
@@ -21,7 +22,8 @@ const TimelineItem = ({ timeLineData }: Props) => {
   } = timeLineData;
   return (
     <TimeLineItemContainer className="timeline-item">
-      <Box
+      <ScaleBox
+        duration={0.65}
         className="timeline-item-content"
         backgroundColor={colorMode === 'light' ? '#fff' : 'rgb(26, 32, 44, 0.5)'}
         _after={{ backgroundColor: colorMode === 'light' ? '#fff' : 'rgb(26, 32, 44, 0.5)' }}
@@ -44,6 +46,7 @@ const TimelineItem = ({ timeLineData }: Props) => {
         >
           {tag}
         </Text>
+
         <Text color="#777" fontSize="12px" fontWeight="bold" marginTop={['4rem', '3rem', '0', '0']}>
           {date}
         </Text>
@@ -69,7 +72,7 @@ const TimelineItem = ({ timeLineData }: Props) => {
           height="20px"
           zIndex="100"
         />
-      </Box>
+      </ScaleBox>
     </TimeLineItemContainer>
   );
 };
