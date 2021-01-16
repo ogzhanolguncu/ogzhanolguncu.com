@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { jsx } from '@emotion/react';
 import NextLink from 'next/link';
+import CodeSandBox from './CodeSandBox';
 
 const Table = (props: any) => (
   <Box overflowX="scroll" w="full">
@@ -165,7 +166,7 @@ const MDXComponents = {
   ul: (props: any) => <Box as="ul" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
   ol: (props: any) => <Box as="ol" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
   li: (props: any) => <Box as="li" pb={1} fontSize="17.5px" {...props} />,
-
+  CodeSandBox,
   blockquote: Quote,
 };
 

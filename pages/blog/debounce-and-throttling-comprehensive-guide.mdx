@@ -27,12 +27,20 @@ our codes to use less-resource, for both client and server. Enough chit-chat! Le
 ## Debounce
 
 ![debounce-gif](/static/images/debounce-and-throttle-comprehensive-guide/debounce.gif)
-Live Example: [Codesandbox](https://codesandbox.io/s/boring-knuth-jbybw)
 
-First, let's go over a use-case scenario to get a better understanding of **_Debounce_**. Imagine a case where you have to optimize a **search bar**.
-As someone types into a **search bar**, the client makes a request and fetches some data, let's suppose these are list of books,
-but here is the catch: As user keeps typing, our search function instantly makes a request and fetches, by the way, this is not a wrong way of doing things but makes too much burden for our
-backend services. Because, now, our services have to fetch all-time until the user finishes typing this is costly both for the client and server.
+<CodeSandBox
+  src={
+    'https://codesandbox.io/embed/debounce-example-jbybw?autoresize=1&fontsize=14&hidenavigation=1&theme=dark&view=preview'
+  }
+  title={'Debounce example'}
+/>
+
+First, let's go over a use-case scenario to get a better understanding of **_Debounce_**. Imagine a case
+where you have to optimize a **search bar**. As someone types into a **search bar**, the client makes
+a request and fetches some data, let's suppose these are list of books, but here is the catch: As user
+keeps typing, our search function instantly makes a request and fetches, by the way, this is not a wrong
+way of doing things but makes too much burden for our backend services. Because, now, our services have
+to fetch all-time until the user finishes typing this is costly both for the client and server.
 
 ### Example
 
@@ -134,7 +142,13 @@ complete and call our `later()` function so we can invoke passed `func`.
 ## Throttle
 
 ![throttle-gif](/static/images/debounce-and-throttle-comprehensive-guide/throttle.gif)
-Live Example: [Codesandbox](https://codesandbox.io/s/throttle-example-elzis)
+
+<CodeSandBox
+  src={
+    'https://codesandbox.io/embed/throttle-example-elzis?autoresize=1&fontsize=14&hidenavigation=1&theme=dark&view=preview'
+  }
+  title={'Throttle example'}
+/>
 
 Throttle and debounce shares some similarities, but the throttle is another beast. Unlike debounce, throttle only allows a certain amount of actions within a given time.
 Such as the example above. But, debounce waits until the process to be completed first, and only then proceeds to do the costly calculation.

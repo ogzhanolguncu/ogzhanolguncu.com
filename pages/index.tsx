@@ -3,7 +3,7 @@ import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/
 import { getSortedPostsData } from 'lib/posts';
 
 import { StaticBlog } from 'global';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 type Props = {
   blogPosts: StaticBlog[];
