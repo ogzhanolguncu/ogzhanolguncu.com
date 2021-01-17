@@ -99,7 +99,7 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                       </Text>
                       <Heading
                         fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
-                        fontFamily="Inter"
+                        fontFamily="Inter, Avenir-Roman"
                       >
                         {blog.title}
                       </Heading>

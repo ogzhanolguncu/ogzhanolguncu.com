@@ -5,9 +5,17 @@
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
-      <lastBuildDate>Sun, 03 Jan 2021 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sat, 16 Jan 2021 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://ogzhanolguncu.com/blog/build-a-custom-react-router-from-scratch</guid>
+    <title>Build a Custom React Router From Scratch</title>
+    <link>https://ogzhanolguncu.com/blog/build-a-custom-react-router-from-scratch</link>
+    <description>Have you ever wondered how react router works under the hood? If that's the case best way to explore is to build a custom react router from scratch</description>
+    <pubDate>Sat, 16 Jan 2021 00:00:00 GMT</pubDate>
+  </item>
+
   <item>
     <guid>https://ogzhanolguncu.com/blog/debounce-and-throttling-comprehensive-guide</guid>
     <title>Debounce and Throttle: Comprehensive Guide</title>
