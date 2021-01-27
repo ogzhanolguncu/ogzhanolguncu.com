@@ -43,7 +43,7 @@ const GlobalStyle = ({ children }: Prop) => {
             src: url('/fonts/Avenir-Roman.ttf');
             font-style: medium;
             font-weight: 500;
-            font-display: auto;
+            font-display: swap;
           }
         `}
       />
