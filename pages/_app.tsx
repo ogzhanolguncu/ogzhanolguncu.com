@@ -43,7 +43,8 @@ const GlobalStyle = ({ children }: Prop) => {
             src: url('/fonts/Avenir-Roman.ttf');
             font-style: medium;
             font-weight: 500;
-            font-display: swap;
+            font-display: auto;
+            unicode-range: U+0020-007F, U+0100-017F;
           }
         `}
       />

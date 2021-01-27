@@ -26,12 +26,17 @@ class MyDocument extends Document {
           />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
+            href="/fonts/Avenir-Roman.ttf&display=swap"
+            as="font"
+            type="font/ttf"
+            rel="preload"
+          />
+          <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
           />
           <link href="/static/favicons/favicon.ico" rel="shortcut icon" />
 
-          <link href="/fonts/Avenir-Roman.ttf" as="font" type="font/ttf" rel="stylesheet" />
           <link
             href="/static/favicons/favicon-32x32.png"
             rel="icon"
