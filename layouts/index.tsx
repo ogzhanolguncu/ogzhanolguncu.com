@@ -23,7 +23,6 @@ export default function BlogLayout({ children, frontMatter }: any) {
     <Layout>
       <BlogSeo url={`https://ogzhanolguncu.com/blog/${slug}`} {...frontMatter} />
       <Stack
-        as="article"
         spacing={8}
         justifyContent="center"
         alignItems="flex-start"
@@ -43,7 +42,6 @@ export default function BlogLayout({ children, frontMatter }: any) {
           <Heading
             letterSpacing="tight"
             mb={2}
-            as="h1"
             size="2xl"
             color={colorModeObj.titleColor[colorMode]}
             lineHeight="1.4"
