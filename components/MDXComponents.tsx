@@ -9,6 +9,7 @@ import {
   Divider,
   useColorMode,
   Image,
+  chakra,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import CodeSandBox from './CodeSandBox';
@@ -114,19 +115,17 @@ const DocsHeading = (props: any) => (
       {props.children}
       {props.id && (
         <NextLink href={`#${props.id}`}>
-          <Box
+          <chakra.a
             aria-label="anchor"
             color="transparent"
             fontWeight="normal"
             outline="none"
-            _hover={{ cursor: 'pointer', color: 'blue.500' }}
-            _focus={{
-              boxShadow: 'outline',
-            }}
+            _hover={{ cursor: 'pointer', color: 'rgb(76, 110, 245, 0.8)' }}
+            _focus={{ opacity: 1, boxShadow: 'outline' }}
             ml="0.375rem"
           >
             #
-          </Box>
+          </chakra.a>
         </NextLink>
       )}
     </Box>
