@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/** @jsx jsx */
 import {
   Box,
   Alert,
@@ -12,7 +10,6 @@ import {
   useColorMode,
   Image,
 } from '@chakra-ui/react';
-import { jsx } from '@emotion/react';
 import NextLink from 'next/link';
 import CodeSandBox from './CodeSandBox';
 
@@ -119,7 +116,6 @@ const DocsHeading = (props: any) => (
         <NextLink href={`#${props.id}`}>
           <Box
             aria-label="anchor"
-            as="a"
             color="transparent"
             fontWeight="normal"
             outline="none"

@@ -31,7 +31,6 @@ const Summary = ({ gotoNewsletter }: Props) => {
     >
       <Box maxW="600px">
         <Heading
-          as="h6"
           fontSize={['1.6rem', '2rem', '2.3rem', '2.6rem']}
           lineHeight="1.4"
           marginBottom="2rem"
@@ -158,9 +157,9 @@ const Summary = ({ gotoNewsletter }: Props) => {
         <Image
           borderRadius={['50%', '50%', '16px', '16px']}
           w={['120px', '120px', '100%', '100%']}
-          h="auto"
+          h={['120px', '120px', '390px', '390px']}
           src={'/static/images/350.jpg'}
-          alt="Owl"
+          alt="Profile Photo"
           ignoreFallback
         />
       </Box>

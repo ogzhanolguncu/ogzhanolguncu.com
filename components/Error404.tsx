@@ -1,7 +1,6 @@
 import Layout from './Layout';
 import { Flex, Image, Box, Heading, Text, Button } from '@chakra-ui/react';
 import Router from 'next/router';
-import error404 from 'images/404.png';
 
 const Error404 = () => {
   const redirectToHome = () => {
@@ -17,7 +16,7 @@ const Error404 = () => {
         height={['62vh', '65vh', '55vh', '55vh']}
         textAlign={['center', 'center', 'initial', 'initial']}
       >
-        <Image w={['300px', '400px', '400px', '500px']} src={error404}></Image>
+        <Image w={['300px', '400px', '400px', '500px']} src={'/static/images/404.png'}></Image>
         <Box>
           <Heading textTransform="uppercase" mb="10px">
             404 - Page Not Found

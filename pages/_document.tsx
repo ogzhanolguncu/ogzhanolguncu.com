@@ -26,10 +26,11 @@ class MyDocument extends Document {
           />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="/fonts/Avenir-Roman.ttf&display=swap"
+            href="/fonts/Avenir-Roman.ttf"
             as="font"
             type="font/ttf"
             rel="preload"
+            crossOrigin="anonymous"
           />
           <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"

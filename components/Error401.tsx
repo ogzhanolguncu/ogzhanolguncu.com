@@ -1,7 +1,6 @@
 import Layout from './Layout';
 import { Flex, Image, Box, Heading, Text, Button } from '@chakra-ui/react';
 import Router from 'next/router';
-import error401 from 'images/401.png';
 
 const Error401 = () => {
   const redirectToLogin = () => {
@@ -27,7 +26,7 @@ const Error401 = () => {
           <Text mb="20px">You are not authorized for selected action.</Text>
           <Button onClick={redirectToLogin}>Go to Login</Button>
         </Box>
-        <Image w={['400px', '500px', '500px', '600px']} src={error401}></Image>
+        <Image w={['400px', '500px', '500px', '600px']} src={'/static/images/404.png'}></Image>
       </Flex>
     </Layout>
   );
