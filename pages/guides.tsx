@@ -2,10 +2,10 @@ import { Heading, Text, Box, useColorMode, Flex } from '@chakra-ui/react';
 import { Layout, Card } from '@components/index';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';
-import { getSortedPostsData } from 'lib/posts';
 import { GetStaticProps } from 'next';
 import { useContext } from 'react';
 import { NextSeo } from 'next-seo';
+import { getAllFilesFrontMatter } from 'lib/mdx';
 
 type Props = {
   guides: StaticBlog[];
@@ -91,8 +91,7 @@ const guides = ({ guides }: Props) => {
 export default guides;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const blogPosts = getSortedPostsData();
-  //Slicing used to get first four digit of date => YYYY-DD-MM
+  const blogPosts = await getAllFilesFrontMatter('blog');
   const guides = blogPosts.filter((blog) => {
     return blog.guides ? blog : null;
   });
