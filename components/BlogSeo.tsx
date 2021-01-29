@@ -32,6 +32,7 @@ const BlogSeo = ({ title, summary, publishedAt, url, image }: Props) => {
           article: {
             publishedTime: date,
           },
+          url,
           title,
           description: summary,
           images: [featuredImage],
