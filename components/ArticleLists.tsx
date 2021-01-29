@@ -5,7 +5,6 @@ import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';
 import colorMap from 'styles/colorMap';
 import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
-import React from 'react';
 import { Article, ArticleTitle } from '.';
 import { useRouter } from 'next/router';
 

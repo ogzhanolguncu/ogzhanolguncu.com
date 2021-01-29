@@ -11,7 +11,7 @@ import { RiEdit2Line } from 'react-icons/ri';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BlogLayout({ children, frontMatter }: any) {
   const router = useRouter();
-  const slug = frontMatter.__resourcePath.replace('blog/', '').replace('.mdx', '');
+  const slug = frontMatter.slug;
   const { colorMode } = useColorMode();
   const colorModeObj = useContext(ColorModeContext);
   const textColor = {

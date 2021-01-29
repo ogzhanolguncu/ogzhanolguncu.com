@@ -34,7 +34,7 @@
     "@typescript-eslint/member-delimiter-style": 0,
     "@typescript-eslint/no-var-requires": 0,
     "@typescript-eslint/no-use-before-define": 0,
-    "@typescript-eslint/ban-ts-ignore": ["off"],
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-unescaped-entities": 0,
     "react/no-unescaped-entities": 0,
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],

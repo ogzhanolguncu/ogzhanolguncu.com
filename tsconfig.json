@@ -22,6 +22,13 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js", "scripts/generate-sitemap.js", "public/robots.txt"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next.config.js",
+    "scripts/generate-sitemap.js",
+    "public/robots.txt"
+  ],
   "exclude": ["node_modules"]
 }

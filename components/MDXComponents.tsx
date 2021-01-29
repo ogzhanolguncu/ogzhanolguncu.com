@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any*/
+
 import {
   Box,
   Alert,
@@ -8,7 +10,6 @@ import {
   Text,
   Divider,
   useColorMode,
-  Image,
   chakra,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
@@ -42,7 +43,7 @@ const TData = (props: any) => (
   />
 );
 
-const TImage = (props: any) => <Image borderRadius="16px" {...props} ignoreFallback />;
+const TImage = (props: any) => <chakra.img borderRadius="16px" {...props} ignoreFallback />;
 
 const CustomLink = (props: any) => {
   const { colorMode } = useColorMode();

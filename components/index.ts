@@ -8,6 +8,7 @@ export { default as Error401 } from './Error401';
 export { default as Error404 } from './Error404';
 export { default as Redirect } from './Redirect';
 export { default as CodeSandBox } from './CodeSandBox';
+export { default as MDXComponents } from './MDXComponents';
 
 //Dashboard
 export * from './StyledComponents';
