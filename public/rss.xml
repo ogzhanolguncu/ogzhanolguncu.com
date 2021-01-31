@@ -9,6 +9,14 @@
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
   <item>
+    <guid>https://ogzhanolguncu.com/blog/speeding-up-your-website</guid>
+    <title>Speding Up Your Website</title>
+    <link>https://ogzhanolguncu.com/blog/speeding-up-your-website</link>
+    <description>Techniques to speed your website, specifically React and NextJs. We'll discuss things like bundles, fonts, unicode-ranges, webpack.</description>
+    <pubDate>Sat, 16 Jan 2021 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
     <guid>https://ogzhanolguncu.com/blog/build-a-custom-react-router-from-scratch</guid>
     <title>Build a Custom React Router From Scratch</title>
     <link>https://ogzhanolguncu.com/blog/build-a-custom-react-router-from-scratch</link>
