@@ -7,7 +7,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9GGC8MHKK"></script>
+          <script defer src="https://www.googletagmanager.com/gtag/js?id=G-T9GGC8MHKK"></script>
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -33,6 +33,8 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
           <link
+            media="print"
+            onLoad={() => 'this.onload=null;this.removeAttribute("media");'}
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
           />
