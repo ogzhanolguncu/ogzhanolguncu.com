@@ -1,7 +1,7 @@
 ---
-title: 'Dealing With Binaries in Javascript: Bitwise Operators'
+title: 'Dealing With Binaries in Javascript'
 publishedAt: '2021-02-07'
-summary: 'Dealing with binaries in Javascript requires the knowledge of bitwise operators. Those operators often come in handy when manipulating bits and bytes.'
+summary: 'Dealing with binaries in Javascript requires the knowledge of bitwise operators, bits, bytes, hexadeciamls. Those operators often come in handy when manipulating bits and bytes.'
 image: '/static/images/dealing-with-binaries-in-javascript/binaries.webp'
 languageTags: ['javascript', 'computerscience']
 isPopular: false
@@ -10,7 +10,7 @@ guides: false
 
 ![cover](/static/images/dealing-with-binaries-in-javascript/binaries.webp)
 
-If you ever had to deal with binaries in Javascript, you know you can't escape from **_Bitwise_** operators. I know because, over the last two week or so,
+If you ever had to deal with binaries in Javascript, you know you can't escape from **_Bitwise_**operators, bits, bytes and hexadecimals. I know because, over the last two week or so,
 I've spent my time to build a [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator in Javascript, and I had to implement a CPU in Javascript. And, of course, Without the knowledge of neither binaries nor bitwise operators
 such implementation would be impossible. That is why, today, we are going to talk about how to become a kickass bitwise ninja. But, before start talking about binaries in general we should have solid understanding regarding:
 
@@ -20,9 +20,9 @@ such implementation would be impossible. That is why, today, we are going to tal
 
 ### Binary
 
-As you may have heard, binaries nothing but ones and zeros streaming through your hardware. Logical example for binary would be, a _Light Bulb_.
+As you may have heard, binaries nothing but 1s and 0s streaming through your hardware. Logical example for binary would be, a _Light Bulb_.
 A light bulb has only two states; it's either open(1) or close(0). You may ask yourself, how do only two digits make up all this stuff?
-The good thing is we can combine the values like `0101` or `1000` etc. With having more ones in hand we can construct a meaningful things such as:
+The good thing is we can combine the values like `0101` or `1000` etc. With having more 1s in hand we can construct a meaningful things such as:
 _Colors_, _Strings_, _Numbers_.
 
 | Length | Name   | Example  |
@@ -54,7 +54,7 @@ If you are wondering how `1111` become `15` don't worry I got you. Key thing to 
 
 ### Hexadecimal
 
-Hexadecimals(also base 16) aren't so different than bytes. If we wanted to display decimal `255` in binary format we would have something like this: `0b11111111` 8-bit long digits.
+Hexadecimals(also base 16) aren't so different than binaries. If we wanted to display decimal `255` in binary format we would have something like this: `0b11111111` 8-bit long digits.
 But, what if we wanted to display `4095` or `65535`. You see where this is going it's becoming more and more difficult to present them in binary(base-2) format. Instead of
 displaying them as binaries people come up with hexadecimal to present them in more readable format.
 
@@ -123,13 +123,115 @@ learn more about memory efficiency in Javascript, please, read on.
 
 There are several operators:
 
-- AND
-- OR
-- XOR
-- NOT
-- LEFT SHIFT
-- RIGHT SHIFT
+- Bitwise AND (&)
+- Bitwise OR (|)
+- Bitwise XOR (^)
+- Bitwise NOT (~)
+- Bitwise Left Shift (<<)
+- Bitwise Right Shift (>>)
 
-### AND
+### Bitwise AND (&)
+
+The `And` operator(`&`) is quite simple it returns a `1` in each bit position for which the corresponding bits of both operands are `1`s.
+
+```javascript
+
+//If we apply & to this binaries
+
+Binary #1      1 1 1 0
+               | | | |
+Binary #2      1 0 1 0
+               ------- &
+Result:        1 0 1 0  // Only takes 1s from both binaries
+
+In Javascript: 0b1110 & 0b1010 // Returns 10
+
+
+```
+
+Practical example for `And`(`&`) would be bitmasking. A bitmask is a pattern of isolating the positions of bits we're interested in.
+Let's suppose we are only interested in first 8 bits of first binary.
+
+```bash
+0100010000110010
+        ^------^ Here is our 8bit
+0000000011111111
+---------------- &
+0000000000110010
+```
+
+### Bitwise OR (|)
+
+The `Or` operator(`|`) similar to `And`, but instead returns a 1 in each bit position for which the corresponding bits of either or both operands are 1s.
+
+```javascript
+
+Binary #1      1 1 1 0
+               | | | |
+Binary #2      1 0 1 0
+               ------- |
+Result:        1 1 1 0  // Takes 1s from both binaries
+
+In Javascript: 0b1110 | 0b1010 // Returns 14
+
+```
+
+### Bitwise XOR (^)
+
+The `Xor` operator(`^`) returns a 1 in each bit position for which the corresponding bits of either but not both operands are 1s.
+
+```javascript
+
+Binary #1      1 1 1 0
+               | | | |
+Binary #2      1 0 1 0
+               ------- ^
+Result:        0 1 0 0  // If only one of two bits is 1, then set bit to 1
+
+In Javascript: 0b1110 ^ 0b1010 // Returns 4
+
+```
+
+### Bitwise NOT (~)
+
+The `Not` operator(`~`) one of the easiest among others we simply invert 1s to 0s and 0s to 1s.
+
+```javascript
+
+Binary #1      1 1 1 0
+               ------- ~
+Result:        0 0 0 1  // if only one of two bits is 1, then set bit to 1
+
+In Javascript: ~0b1110 // Returns -15
+```
+
+### Bitwise Left Shift (<<)
+
+The `Left Shift` operator(`<<`) simply adds 0s to right of your binary by shifting others to left. This is generally used when we want to make room at the end of
+our binary.
+
+```javascript
+
+Binary #1      1 1 1 0
+               ------- << 8
+Result:        1 1 1 0 0 0 0 0  // if only one of two bits is 1, then set bit to 1
+
+In Javascript: 0b11100000 << 8 // Returns 57344
+```
+
+Every shift left also multiplies your number as much as you shift left. If you shift `0b1110` `<<` `1` this will give us 28 since `0b1110` was 14.
+
+### Bitwise Right Shift (>>)
+
+The `Right Shift` operator(`>>`) deletes from right as much as your shift value.
+
+```javascript
+
+Binary #1      1 1 1 0
+               ------- >> 1
+Result:        0 1 1 1  // if only one of two bits is 1, then set bit to 1
+
+In Javascript: 0b1110 >> 1 // Returns 57344
+```
 
 **Thanks for reading 🥳🥳🥳.**
