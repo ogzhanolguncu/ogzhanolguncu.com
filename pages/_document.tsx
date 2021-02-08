@@ -3,8 +3,6 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import React from 'react';
 
 import { ColorModeScript } from '@chakra-ui/react';
-import { GoogleFont } from '@components/index';
-
 class MyDocument extends Document {
   render() {
     return (
@@ -27,7 +25,7 @@ class MyDocument extends Document {
             title="RSS feed for blog posts"
             href="https://ogzhanolguncu.com/rss.xml"
           />
-          {/* <link rel="preconnect" href="https://fonts.gstatic.com" /> */}
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             href="/fonts/Avenir-Roman.woff2"
             as="font"
@@ -35,15 +33,11 @@ class MyDocument extends Document {
             rel="preload"
             crossOrigin="anonymous"
           />
-          <GoogleFont href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
-          {/* <link
-            media="print"
-            onLoad={() => 'this.onload=null;this.removeAttribute("media");'}
+          <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
-          /> */}
+          />
           <link href="/static/favicons/favicon.ico" rel="shortcut icon" />
-
           <link
             href="/static/favicons/favicon-32x32.png"
             rel="icon"
