@@ -5,15 +5,23 @@
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
-      <lastBuildDate>Sat, 16 Jan 2021 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 07 Feb 2021 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
   <item>
+    <guid>https://ogzhanolguncu.com/blog/dealing-with-binaries-in-javascript</guid>
+    <title>Dealing With Binaries in Javascript: Bitwise Operators</title>
+    <link>https://ogzhanolguncu.com/blog/dealing-with-binaries-in-javascript</link>
+    <description>Dealing with binaries in Javascript requires the knowledge of bitwise operators. Those operators often come in handy when manipulating bits and bytes.</description>
+    <pubDate>Sun, 07 Feb 2021 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
     <guid>https://ogzhanolguncu.com/blog/speeding-up-your-website</guid>
-    <title>Speding Up Your Website</title>
+    <title>Speeding Up Your Website</title>
     <link>https://ogzhanolguncu.com/blog/speeding-up-your-website</link>
-    <description>Techniques to speed your website, specifically React and NextJs. We'll discuss things like bundles, fonts, unicode-ranges, webpack.</description>
-    <pubDate>Sat, 16 Jan 2021 00:00:00 GMT</pubDate>
+    <description>Techniques to speed up your website and improve the user experience that specifically aiming to React and Next.js sites. We'll discuss things like bundles, fonts, unicode-ranges, webpack.</description>
+    <pubDate>Sun, 31 Jan 2021 00:00:00 GMT</pubDate>
   </item>
 
   <item>

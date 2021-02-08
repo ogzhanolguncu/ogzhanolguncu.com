@@ -1,6 +1,9 @@
-import { ColorModeScript } from '@chakra-ui/react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+
 import React from 'react';
+
+import { ColorModeScript } from '@chakra-ui/react';
+import { GoogleFont } from '@components/index';
 
 class MyDocument extends Document {
   render() {
@@ -24,20 +27,21 @@ class MyDocument extends Document {
             title="RSS feed for blog posts"
             href="https://ogzhanolguncu.com/rss.xml"
           />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          {/* <link rel="preconnect" href="https://fonts.gstatic.com" /> */}
           <link
-            href="/fonts/Avenir-Roman.ttf"
+            href="/fonts/Avenir-Roman.woff2"
             as="font"
-            type="font/ttf"
+            type="font/woff2"
             rel="preload"
             crossOrigin="anonymous"
           />
-          <link
+          <GoogleFont href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+          {/* <link
             media="print"
             onLoad={() => 'this.onload=null;this.removeAttribute("media");'}
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
-          />
+          /> */}
           <link href="/static/favicons/favicon.ico" rel="shortcut icon" />
 
           <link
