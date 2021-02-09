@@ -11,8 +11,8 @@ guides: false
 ![cover](/static/images/dealing-with-binaries-in-javascript/binaries.webp)
 
 If you ever had to deal with binaries in Javascript, you know you can't escape from **_Bitwise_** operators, bits, bytes and hexadecimals. I know because, over the last two week or so,
-I've spent my time to build a [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator in Javascript, and I had to implement a CPU in Javascript. And, of course, Without the knowledge of neither binaries nor bitwise operators
-such implementation would be impossible. That is why, today, we are going to talk about how to become a kickass bitwise ninja. But, before start talking about binaries in general we should have solid understanding regarding:
+I've spent my time to build a [CHIP-8](https://en.wikipedia.org/wiki/CHIP-8) emulator in Javascript, and I had to implement a CPU in Javascript. And, of course, without the knowledge of neither binaries nor bitwise operators
+such implementation would be impossible. That is why, today, we are going to talk about how to become a kickass bitwise ninja, but before we start talking about binaries in general we should have solid understanding regarding:
 
 - What is Binary ?
 - What is Byte ?
@@ -20,8 +20,8 @@ such implementation would be impossible. That is why, today, we are going to tal
 
 ### Binary
 
-As you may have heard, binaries nothing but 1s and 0s streaming through your hardware. Logical example for binary would be, a _Light Bulb_.
-A light bulb has only two states; it's either open(1) or close(0). You may ask yourself, how do only two digits make up all this stuff?
+As you may have heard, binaries nothing but 1s and 0s streaming through your hardware. In essence everything in our computers are binaries, but also in real life we somehow use binaries as well.
+Logical example for binary would be a _Light Bulb_; a light bulb has only two states it's either open(1) or close(0). Now you may say, okay there are only 2 states in a light bulb, but how do only two digits make up all this stuff?
 The good thing is we can combine the values like `0101` or `1000` etc. With having more 1s in hand we can construct a meaningful things such as:
 _Colors_, _Strings_, _Numbers_.
 
@@ -239,5 +239,13 @@ Result:        0 1 1 1  // if only one of two bits is 1, then set bit to 1
 
 In Javascript: 0b1110 >> 1 // Returns 7
 ```
+
+That's all there is to it.
+
+## Roundup
+
+- Performing some operations at binary level will be faster than regular operations.
+- The bitwise operators are mandatory if we have to deal with cases like **bitmasking**.
+- Must learn the shifting operations if we are saving some space or clipping a part for future use.
 
 **Thanks for reading 🥳🥳🥳.**
