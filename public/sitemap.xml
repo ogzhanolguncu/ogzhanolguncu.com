@@ -43,10 +43,6 @@
   </url>
 
   <url>
-    <loc>https://ogzhanolguncu.com/blog/frequently-used-types-in-typescript</loc>
-  </url>
-
-  <url>
     <loc>https://ogzhanolguncu.com/blog/hash-tables-explained-in-javascript</loc>
   </url>
 
@@ -54,6 +50,10 @@
     <loc
       >https://ogzhanolguncu.com/blog/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky</loc
     >
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/must-know-types-in-typescript</loc>
   </url>
 
   <url>
