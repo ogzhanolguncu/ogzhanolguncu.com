@@ -30,6 +30,7 @@
     "@mdx-js/loader": "^1.6.18",
     "@mdx-js/react": "^1.6.18",
     "@next/mdx": "^9.5.3",
+    "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "framer-motion": "^3.2.0",
     "fuse.js": "3.4.3",
