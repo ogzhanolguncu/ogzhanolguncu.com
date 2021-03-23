@@ -2,16 +2,16 @@
 title: 'Introduction to Custom Hooks'
 publishedAt: '2021-03-18'
 summary: 'In this article we will learn how to setup our first custom hook. We will convert axios into re-usable hook with typescript and generics.'
-image: '/static/images/must-know-types-in-typescript/25.webp'
+image: '/static/images/intro-to-custom-hooks/custom-hook.webp'
 languageTags: ['typescript', 'react']
 isPopular: false
-guides: false
+guides: true
 ---
 
 import ToggleWithHook from '../../components/CustomHookExample/ToggleWithHook.tsx';
 import AsyncWithtHook from '../../components/CustomHookExample/AsyncWithHook.tsx';
 
-![Testing a React/Redux Toolkit app with Typescript](/static/images/must-know-types-in-typescript/25.webp)
+![Testing a React/Redux Toolkit app with Typescript](/static/images/intro-to-custom-hooks/custom-hook.webp)
 
 Custom hooks become a staple in our lives after we got introduced to hooks such as **useEffect**, **useState**, **useReducer**. Regardless of their purposes, custom hooks should start with `use`
 such as `useAxiosAsync` or `useToggle`. Therefore we can easily perceive that this is a custom hook. We could name them differently, but that would make them harder to detect at the first sight this is why the community following that convention.
