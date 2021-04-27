@@ -5,14 +5,22 @@
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
-      <lastBuildDate>Thu, 18 Mar 2021 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 04 Apr 2021 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
   <item>
+    <guid>https://ogzhanolguncu.com/blog/handling-loggedin-user-firebase-react-app</guid>
+    <title>Handling Logged-in User in React/Firebase App</title>
+    <link>https://ogzhanolguncu.com/blog/handling-loggedin-user-firebase-react-app</link>
+    <description>Best way to handle logged-in users in the Firebase/React app is to use custom hook and a context api built with Typescript.</description>
+    <pubDate>Sun, 04 Apr 2021 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
     <guid>https://ogzhanolguncu.com/blog/intro-to-custom-hooks</guid>
-    <title>Intro to Custom Hooks</title>
+    <title>Introduction to Custom Hooks</title>
     <link>https://ogzhanolguncu.com/blog/intro-to-custom-hooks</link>
-    <description>In this article we will talk about types we use in our everyday lives to ease development process. And, discover some tricks that can be used with Typescript types.</description>
+    <description>In this article we will learn how to setup our first custom hook. We will convert axios into re-usable hook with typescript and generics.</description>
     <pubDate>Thu, 18 Mar 2021 00:00:00 GMT</pubDate>
   </item>
 
