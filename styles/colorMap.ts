@@ -18,6 +18,7 @@ const colorMap: Record<string, { color: string; hover: string }> = {
   testing: { color: '#05afa0E2', hover: '#0ce5d2E2' },
   webpack: { color: '#a02438', hover: '#a02438E2' },
   optimization: { color: '#8f4dbf', hover: '#8f4dbfE2' },
+  microfrontend: { color: '#c52546e2', hover: '#c52546' },
 };
 
 export default colorMap;

@@ -91,7 +91,9 @@ Let's take a look at a more complex example, where we also use `Generics` in Typ
 
 ### useAxiosAsync
 
-```javascript
+Without a custom hook.
+
+```typescript
 type JokeType = {
   created_at: string;
   icon_url: string;
@@ -137,7 +139,38 @@ export default AsyncWithoutHook;
 
 Now, using custom hooks, again.
 
-```javascript
+```typescript
+import { useCallback, useEffect, useState } from 'react';
+import axios, { AxiosError } from 'axios';
+
+const useAxiosAsync = <T>(url: string) => {
+  const [joke, setJoke] = useState<T | null>(null);
+  const [error, setError] = useState<AxiosError<Error> | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const fetchAJoke = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.get<T>(url);
+      setJoke(data);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
+    }
+  }, [url]);
+
+  useEffect(() => {
+    fetchAJoke();
+  }, [fetchAJoke]);
+
+  return [{ data: joke, isLoading, error }, fetchAJoke] as const;
+};
+
+export default useAxiosAsync;
+```
+
+```typescript
 import { Button, Flex } from '@chakra-ui/react';
 import React from 'react';
 
