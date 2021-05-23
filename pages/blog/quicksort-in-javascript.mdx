@@ -58,5 +58,3 @@ Then, we need two arrays to store bigger and smaller elements that sorted agains
 Then, we iterate our original array. If, item in the original array smaller than pivot push it to <code>leftOfPivot[]</code>if it's not push it to <code>rightOfPivot[]</code>.
 
 Here comes the crucial part. We use <code>...</code> to destructure and call our<code>quickSort()</code> with that <code>leftOfPivot[]</code> and <code>rightOfPivot[]</code> array to repeat all this process. All these individual recursions will keep running until their array size is smaller than 2. Each recursion will finally yield it's own sorted array.
-
-Thanks for reading.

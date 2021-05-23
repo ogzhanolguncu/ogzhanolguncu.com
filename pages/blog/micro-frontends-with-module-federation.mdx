@@ -1,0 +1,633 @@
+---
+title: 'Introduction to Micro Frontends with Module Federation, React and Typescript'
+publishedAt: '2021-05-18'
+summary: 'In this article we will set up Micro Frontends with Module Federation, React and Typescript'
+image: '/static/images/micro-frontends-with-module-federation/micro-frontends.webp'
+languageTags: ['typescript', 'react', 'tutorial', 'microfrontend']
+isPopular: false
+guides: true
+---
+
+![Migrating CRA to Micro Frontends with Single SPA](/static/images/micro-frontends-with-module-federation/micro-frontends.webp)
+
+The Micro Frontend is one of the hottest topics on the internet right now. We hear it all the time, but what is micro Frontend? Imagine a website with lots of components such as Navbar, Footer, Main Container and Side Menu. What would happen, if they were being served from different domains? Yes, you guessed it right we would've ended up with a micro Frontend. Now, thanks to micro frontend technologies, we can deal with those apps separately. We can write their unit tests separately, e2e tests separately we can even use different frameworks like Angular, Vue and Svelte.
+
+There are two major players to make those things happen right now, one of them is Module Federation and another one is Single SPA which I covered here: [🔗Migrating CRA to Micro Frontends with Single SPA](https://ogzhanolguncu.com/blog/migrating-cra-to-micro-frontends-with-single-spa).
+
+Unlike **Single SPA**, **Module Federation** is lot less opiniated. You can architect your project however you want in Module Federation whereas in Single SPA you need setup a config file and architect your project around this file.
+And there is only one thing scary about micro Frontends, and, that is configurations. Initial configuration scares people away because there are lots of pieces you need to bring together, and if it's your first time, without guidance, it's so easy to get lost.
+
+### Working Example
+
+This a POC(Proof of Concept) project it may not look great, but that's not the point in our case.
+
+[🔗Project's Github address](https://github.com/ogzhanolguncu/react-typescript-module-federation)
+
+[🔴Live Example](http://ogz-microfrontend-container.s3-website.eu-central-1.amazonaws.com/)
+
+## Module Federation
+
+The **Module Federation** is actually part of Webpack config. This config enables us to expose or receive different parts of the CRA to another CRA project.
+These separate project should not have dependencies between each other, so they can be developed and deployed individually.
+
+Let's first start by creating our `Container` project which exports other two app `APP-1` and `APP-2`.
+
+```bash
+npx create-react-app container --template typescript
+```
+
+## Container App
+
+### Project Structure
+
+```bash
+container
+├─ package.json
+├─ public
+│ ├─ index.dev.html
+│ └─ index.prod.html
+├─ src
+│ ├─ App.tsx
+│ ├─ bootstrap.tsx
+│ └─ index.ts
+├─ tsconfig.json
+├─ webpack.config.js
+├─ webpack.prod.js
+└─ yarn.lock
+```
+
+Let's add our dependencies
+
+```bash
+yarn add html-webpack-plugin serve ts-loader webpack webpack-cli webpack-dev-server
+```
+
+We need to make some changes. Create a file called `bootstrap.tsx` and move `index.ts` into `bootstrap.tsx`.
+
+### bootstrap.tsx
+
+```typescript
+import App from './App';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+And add those into `index.ts`
+
+### index.ts
+
+```typescript
+import('./bootstrap');
+export {};
+```
+
+And, finally add those into `app.tsx` for future use. We will discuss them later.
+
+### app.tsx
+
+```typescript
+import React from 'react';
+//@ts-ignore
+import CounterAppTwo from 'app2/CounterAppTwo';
+//@ts-ignore
+import CounterAppOne from 'app1/CounterAppOne';
+
+export default () => (
+  <div style={{ margin: '20px' }}>
+    <React.Suspense fallback="Loading header...">
+      <div
+        style={{
+          border: '1px dashed black',
+          height: '50vh',
+          display: 'flex',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <h1>CONTAINER</h1>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+          }}
+        >
+          <div
+            style={{
+              marginRight: '2rem',
+              padding: '2rem',
+              border: '1px dashed black',
+            }}
+          >
+            <h2>APP-1</h2>
+            <CounterAppOne />
+          </div>
+          <div style={{ border: '1px dashed black', padding: '2rem' }}>
+            <h2>APP-2</h2>
+            <CounterAppTwo />
+          </div>
+        </div>
+      </div>
+    </React.Suspense>
+  </div>
+);
+```
+
+We've completed component parts and here comes the critical part. We need to setup our container apps Webpack to receive `app-1` and `app-2`.
+
+### webpack.config.js
+
+```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { ModuleFederationPlugin } = require('webpack').container;
+const path = require('path');
+const deps = require('./package.json').dependencies;
+
+module.exports = {
+  entry: './src/index.ts',
+  mode: 'development',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    port: 3000,
+  },
+  output: {
+    publicPath: 'http://localhost:3000/',
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx|tsx|ts)$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'container',
+      library: { type: 'var', name: 'container' },
+      remotes: {
+        app1: 'app1',
+        app2: 'app2',
+      },
+      shared: {
+        ...deps,
+        react: { singleton: true, eager: true, requiredVersion: deps.react },
+        'react-dom': {
+          singleton: true,
+          eager: true,
+          requiredVersion: deps['react-dom'],
+        },
+      },
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.dev.html',
+    }),
+  ],
+};
+```
+
+Update your `package.json` scripts as follows:
+
+```json
+"scripts": {
+    "start": "webpack serve --open",
+    "build": "webpack --config webpack.prod.js",
+    "serve": "serve dist -p 3002",
+    "clean": "rm -rf dist"
+}
+```
+
+Update your `tsconfig` as follows:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}
+```
+
+Most important thing to consider is `ModuleFederationPlugin`. We specify `name` of the module and `remotes` we receive from outside of the project. And set shared dependencies for eager consumption.
+
+> Don't mess up remote names. If the names are set incorrectly project won't compile.
+
+Final step is to edit `index.html`.
+
+```html
+<html>
+  <head>
+    <script src="http://localhost:3001/remoteEntry.js"></script>
+    <script src="http://localhost:3002/remoteEntry.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+Here, we add remotes with corresponding ports.
+
+Now our container app is ready we need setup `app-1` and `app-2`, and expose `<Counter />` components. Steps are pretty much the same, we'll setup `bootstrap.tsx` and `webpack.config.js`.
+There are only minor changes in webpack config.
+
+## App-1
+
+### Project Structure
+
+```bash
+├─ package.json
+├─ public
+│  └─ index.html
+├─ README.md
+├─ src
+│  ├─ App.tsx
+│  ├─ bootstrap.tsx
+│  ├─ components
+│  │  └─ CounterAppOne.tsx
+│  └─ index.ts
+├─ tsconfig.json
+├─ webpack.config.js
+├─ webpack.prod.js
+└─ yarn.lock
+```
+
+Let's add our dependencies
+
+```bash
+npx create-react-app app-1 --template typescript
+yarn add html-webpack-plugin serve ts-loader webpack webpack-cli webpack-dev-server
+```
+
+Just like we did in Container app we'll setup `bootstrap.tsx`, `index.ts` and `app.tsx`.
+
+### bootstrap.tsx
+
+```typescript
+import App from './App';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+And add those into `index.ts`
+
+### index.ts
+
+```typescript
+import('./bootstrap');
+export {};
+```
+
+And, finally add those into `app.tsx` for future use. We will discuss them later.
+
+### app.tsx
+
+```typescript
+import React from 'react';
+import CounterAppOne from './components/CounterAppOne';
+
+const App = () => (
+  <div style={{ margin: '20px' }}>
+    <div>APP-1 - S4 </div>
+    <div>
+      <CounterAppOne />
+    </div>
+  </div>
+);
+
+export default App;
+```
+
+Now we will create `<Counter />` component which we will expose to container later in webpack config.
+
+### components > CounterAppOne.tsx
+
+```typescript
+import React, { useState } from 'react';
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>
+        Add by one each click <strong>APP-1</strong>
+      </p>
+      <p>Your click count: {count} </p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+    </div>
+  );
+};
+
+export default Counter;
+```
+
+We are pretty much done here, just need to add webpack configs.
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { ModuleFederationPlugin } = require('webpack').container;
+const path = require('path');
+const deps = require('./package.json').dependencies;
+
+module.exports = {
+  entry: './src/index.ts',
+  mode: 'development',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    port: 3001,
+  },
+  output: {
+    publicPath: 'http://localhost:3001/',
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx|tsx|ts)$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'app1',
+      library: { type: 'var', name: 'app1' },
+      filename: 'remoteEntry.js',
+      exposes: {
+        // expose each component
+        './CounterAppOne': './src/components/CounterAppOne',
+      },
+      shared: {
+        ...deps,
+        react: { singleton: true, eager: true, requiredVersion: deps.react },
+        'react-dom': {
+          singleton: true,
+          eager: true,
+          requiredVersion: deps['react-dom'],
+        },
+      },
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
+};
+```
+
+Update your `package.json` scripts as follows:
+
+```json
+"scripts": {
+    "start": "webpack serve --open",
+    "build": "webpack --config webpack.prod.js",
+    "serve": "serve dist -p 3001",
+    "clean": "rm -rf dist"
+}
+```
+
+Update your `tsconfig` as follows:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}
+```
+
+Edit `index.html`.
+
+```html
+<html>
+  <head> </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+This config has some differences. We set port differently, exposed our app instead of remoting it, and we have a thing called `filename` where expose our
+module to different modules. Remember that we add ` <script src="http://local``host:3001/remoteEntry.js"></script> ` to our container index.html. This is where
+`container` will look up for `app-1`.
+
+Important things here:
+
+- name: 'app1'
+- filename: 'remoteEntry.js'
+- expose
+
+Exposing the wrong path very likely to cause a failure at compile time. Also settting up wrong name will cause a problem, because `container` is looking for `app-1` if it can't
+find it, it will fail.
+
+## App-2
+
+### Project Structure
+
+```bash
+├─ package.json
+├─ public
+│  └─ index.html
+├─ README.md
+├─ src
+│  ├─ App.tsx
+│  ├─ bootstrap.tsx
+│  ├─ components
+│  │  └─ CounterAppTwo.tsx
+│  └─ index.ts
+├─ tsconfig.json
+├─ webpack.config.js
+├─ webpack.prod.js
+└─ yarn.lock
+```
+
+App-2 is pretty much the same. Create a new react project do all the thing above and just add `<CounterAppTwo />` and `webpack` config.
+
+### components > CounterAppTwo
+
+```typescript
+import React, { useState } from 'react';
+
+const Counter = () => {
+  const [count, setCount] = useState(1);
+
+  return (
+    <div>
+      <p>
+        Multiply by two each click <strong>APP-2</strong>
+      </p>
+      <p>Your click count: {count}</p>
+      <button onClick={() => setCount((prevState) => prevState * 2)}>Click me</button>
+    </div>
+  );
+};
+
+export default Counter;
+```
+
+### webpack.config.js
+
+```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { ModuleFederationPlugin } = require('webpack').container;
+const path = require('path');
+const deps = require('./package.json').dependencies;
+
+module.exports = {
+  entry: './src/index.ts',
+  mode: 'development',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    port: 3002,
+  },
+  output: {
+    publicPath: 'http://localhost:3002/',
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx|tsx|ts)$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'app2',
+      library: { type: 'var', name: 'app2' },
+      filename: 'remoteEntry.js',
+      exposes: {
+        // expose each component
+        './CounterAppTwo': './src/components/CounterAppTwo',
+      },
+      shared: {
+        ...deps,
+        react: { singleton: true, eager: true, requiredVersion: deps.react },
+        'react-dom': {
+          singleton: true,
+          eager: true,
+          requiredVersion: deps['react-dom'],
+        },
+      },
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
+};
+```
+
+Update your `package.json` scripts as follows:
+
+```json
+"scripts": {
+    "start": "webpack serve --open",
+    "build": "webpack --config webpack.prod.js",
+    "serve": "serve dist -p 3002",
+    "clean": "rm -rf dist"
+}
+```
+
+Update your `tsconfig` as follows:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}
+```
+
+Edit `index.html`.
+
+```html
+<html>
+  <head> </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+Now go to each project and run `yarn start` and navigate to localhost:3000. If you head over to sources tab in your
+developer console, you'll see that each app comes from different port.
+
+![Apps coming from different ports](/static/images/micro-frontends-with-module-federation/app-from.png)
+
+## Roundup
+
+### Pros
+
+- Easier to maintain
+- Easier to test
+- Independent deploy
+- Increases scalability of the teams
+
+### Cons
+
+- Requires lots of configuration
+- If one of the projects crashes may affect other micro-frontends as well
+- Having multiple projects run on the background for the development
+
+In essence, it's pretty easy, bunch of apps getting together in a same website and being served from different servers. If you are dealing with huge codebases, it's a fantastic technology
+to keep in your arsenal. It will feel like a breeze to decouple your huge components into little apps. I hope I encouraged you to give micro-frontends a try.
