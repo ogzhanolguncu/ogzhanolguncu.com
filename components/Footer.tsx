@@ -23,7 +23,6 @@ const Footer = () => {
           <Link href="/blog">Blog</Link>
         </Button>
         <Button
-          mr={['.2rem', '1rem', '1.5rem', '1.5rem']}
           p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
           fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
         >
