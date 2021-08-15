@@ -2,7 +2,6 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import fs from 'fs';
 import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react';
-import { getSortedPostsData } from 'lib/posts';
 import { StaticBlog } from 'global';
 import {
   Flex,
@@ -27,6 +26,7 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { ScaleBox } from '@components/ScaleBox';
 import { rand } from 'utils/utils';
+import { getAllFilesFrontMatter } from 'lib/mdx';
 
 type Props = {
   blogPosts: StaticBlog[];
@@ -277,9 +277,9 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
 export default Blog;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const blogPosts = getSortedPostsData().map((x) => {
-    x.languageTags?.sort(() => 0.5 - Math.random());
-    return x;
+  const blogPosts = (await getAllFilesFrontMatter('blog')).map((blog) => {
+    blog.languageTags?.sort(() => 0.5 - Math.random());
+    return blog;
   });
   // Slicing used to get first four digit of date => YYYY-DD-MM
   const rss = generateRss(blogPosts);

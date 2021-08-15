@@ -14,19 +14,14 @@ import {
 import React from 'react';
 import { useContext } from 'react';
 import { ColorModeContext } from 'contexts/CustomColorContext';
-import useProgressiveImg from 'utils/useProgressiveImg';
 
 type Props = {
   gotoNewsletter: () => void;
 };
 
-const Summary = ({ gotoNewsletter }: Props) => {
+const HeroSection = ({ gotoNewsletter }: Props) => {
   const { colorMode } = useColorMode();
   const colorModeObj = useContext(ColorModeContext);
-  const [src, { blur }] = useProgressiveImg(
-    '/static/images/350tiny.webp',
-    '/static/images/350.webp',
-  );
 
   return (
     <Flex
@@ -165,13 +160,9 @@ const Summary = ({ gotoNewsletter }: Props) => {
           h={['120px', '120px', '390px', '390px']}
           htmlWidth="390px"
           htmlHeight="390px"
-          src={src}
+          src={'/static/images/350.webp'}
           alt="Profile Photo"
           loading="eager"
-          style={{
-            filter: blur ? 'blur(20px)' : 'none',
-            transition: blur ? 'none' : 'filter 0.3s ease-out',
-          }}
           tabIndex={0}
         />
       </Box>
@@ -179,4 +170,4 @@ const Summary = ({ gotoNewsletter }: Props) => {
   );
 };
 
-export default Summary;
+export default HeroSection;

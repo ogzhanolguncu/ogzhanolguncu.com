@@ -15,33 +15,19 @@ const Footer = () => {
       p={5}
     >
       <Flex justifyContent="space-between">
-        <Link href="/blog">
-          <Button
-            mr={['.2rem', '1rem', '1.5rem', '1.5rem']}
-            p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
-            fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
-          >
-            Blog
-          </Button>
-        </Link>
-        <Link href="/guides">
-          <Button
-            mr={['.2rem', '1rem', '1.5rem', '1.5rem']}
-            p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
-            fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
-          >
-            Guides
-          </Button>
-        </Link>
-        <Link href="/rss.xml">
-          <Button
-            mr={['0', '0', '0', '0']}
-            p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
-            fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
-          >
-            RSS
-          </Button>
-        </Link>
+        <Button
+          mr={['.2rem', '1rem', '1.5rem', '1.5rem']}
+          p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
+          fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
+        >
+          <Link href="/blog">Blog</Link>
+        </Button>
+        <Button
+          p={['.4rem .85rem', '.5rem 1rem', '.75rem 1.25rem', '.75rem 1.25rem']}
+          fontSize={['.8rem', '.8rem', '1.1rem', '1.1rem']}
+        >
+          <Link href="/guides">Guides</Link>
+        </Button>
       </Flex>
       <Flex
         justifyContent="center"

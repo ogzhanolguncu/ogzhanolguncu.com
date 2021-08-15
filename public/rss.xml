@@ -5,7 +5,7 @@
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
-      <lastBuildDate>Tue, 18 May 2021 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 23 May 2021 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
   <item>
@@ -13,7 +13,7 @@
     <title>Introduction to Micro Frontends with Module Federation, React and Typescript</title>
     <link>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</link>
     <description>In this article we will set up Micro Frontends with Module Federation, React and Typescript</description>
-    <pubDate>Tue, 18 May 2021 00:00:00 GMT</pubDate>
+    <pubDate>Sun, 23 May 2021 00:00:00 GMT</pubDate>
   </item>
 
   <item>
@@ -121,42 +121,10 @@
   </item>
 
   <item>
-    <guid>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</guid>
-    <title>Currying in Javascript with examples</title>
-    <link>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</link>
-    <description>Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.</description>
-    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
-  </item>
-
-  <item>
-    <guid>https://ogzhanolguncu.com/blog/using-async-await-the-right-way</guid>
-    <title>Using Async/Await: The right way</title>
-    <link>https://ogzhanolguncu.com/blog/using-async-await-the-right-way</link>
-    <description>Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript</description>
-    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
-  </item>
-
-  <item>
-    <guid>https://ogzhanolguncu.com/blog/selection-sort-in-javascript</guid>
-    <title>Selection Sort In Javascript</title>
-    <link>https://ogzhanolguncu.com/blog/selection-sort-in-javascript</link>
-    <description>Today, we are going to discover how Selection Sort works and discuss its complexity using Big O Notat... Tagged with javascript, datastructures, computerscience, typescript.</description>
-    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
-  </item>
-
-  <item>
-    <guid>https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</guid>
-    <title>React Crash Course: Building React App using Hooks, Mobx, Typescript and much more</title>
-    <link>https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</link>
-    <description>Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.</description>
-    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
-  </item>
-
-  <item>
-    <guid>https://ogzhanolguncu.com/blog/quicksort-in-javascript</guid>
-    <title>Quicksort In Javascript</title>
-    <link>https://ogzhanolguncu.com/blog/quicksort-in-javascript</link>
-    <description>Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.</description>
+    <guid>https://ogzhanolguncu.com/blog/binary-search-in-javascript</guid>
+    <title>Binary Search In Javascript</title>
+    <link>https://ogzhanolguncu.com/blog/binary-search-in-javascript</link>
+    <description>Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.</description>
     <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 
@@ -169,10 +137,42 @@
   </item>
 
   <item>
-    <guid>https://ogzhanolguncu.com/blog/binary-search-in-javascript</guid>
-    <title>Binary Search In Javascript</title>
-    <link>https://ogzhanolguncu.com/blog/binary-search-in-javascript</link>
-    <description>Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.</description>
+    <guid>https://ogzhanolguncu.com/blog/quicksort-in-javascript</guid>
+    <title>Quicksort In Javascript</title>
+    <link>https://ogzhanolguncu.com/blog/quicksort-in-javascript</link>
+    <description>Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</guid>
+    <title>React Crash Course: Building React App using Hooks, Mobx, Typescript and much more</title>
+    <link>https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</link>
+    <description>Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://ogzhanolguncu.com/blog/selection-sort-in-javascript</guid>
+    <title>Selection Sort In Javascript</title>
+    <link>https://ogzhanolguncu.com/blog/selection-sort-in-javascript</link>
+    <description>Today, we are going to discover how Selection Sort works and discuss its complexity using Big O Notat... Tagged with javascript, datastructures, computerscience, typescript.</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://ogzhanolguncu.com/blog/using-async-await-the-right-way</guid>
+    <title>Using Async/Await: The right way</title>
+    <link>https://ogzhanolguncu.com/blog/using-async-await-the-right-way</link>
+    <description>Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript</description>
+    <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
+  </item>
+
+  <item>
+    <guid>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</guid>
+    <title>Currying in Javascript with examples</title>
+    <link>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</link>
+    <description>Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.</description>
     <pubDate>Fri, 23 Oct 2020 00:00:00 GMT</pubDate>
   </item>
 

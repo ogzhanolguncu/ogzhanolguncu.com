@@ -1,9 +1,9 @@
 [
   {
-    "redirectUrl": "https://todo-list-liart.vercel.app/",
+    "redirectUrl": "https://github.com/ogzhanolguncu/react-typescript-module-federation",
     "unicodeIcon": "📝",
-    "leftSide": "Things to do",
-    "rightSide": "Todo list to demonstrate custom hooks."
+    "leftSide": "Micro-frontend v2",
+    "rightSide": "Micro-frontend project built with Module federation and Typescript."
   },
   {
     "redirectUrl": "https://github.com/ogzhanolguncu/single-spa-react-app",

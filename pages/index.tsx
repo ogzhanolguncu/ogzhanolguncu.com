@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next';
-import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/index';
-import { getSortedPostsData } from 'lib/posts';
+import { Layout, Project, Newsletter, ArticleLists, HeroSection } from '@components/index';
+import { getAllFilesFrontMatter } from 'lib/mdx';
 
 import { StaticBlog } from 'global';
 import React, { useRef } from 'react';
@@ -12,7 +12,6 @@ type Props = {
 
 const Home = ({ blogPosts, popularPosts }: Props) => {
   const newsletterRef = useRef<HTMLInputElement>(null);
-
   const gotoNewsletter = () => {
     window.scrollTo({
       top: newsletterRef.current?.offsetTop,
@@ -21,7 +20,7 @@ const Home = ({ blogPosts, popularPosts }: Props) => {
   };
   return (
     <Layout>
-      <Summary gotoNewsletter={gotoNewsletter} />
+      <HeroSection gotoNewsletter={gotoNewsletter} />
       <ArticleLists blogs={blogPosts} />
       <ArticleLists blogs={popularPosts} isPopular={true} />
       <Project />
@@ -33,9 +32,9 @@ const Home = ({ blogPosts, popularPosts }: Props) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const blogPosts = getSortedPostsData().map((x) => {
-    x.languageTags?.sort(() => 0.5 - Math.random());
-    return x;
+  const blogPosts = (await getAllFilesFrontMatter('blog')).map((blog) => {
+    blog.languageTags?.sort(() => 0.5 - Math.random());
+    return blog;
   });
   const popularPosts = blogPosts.filter((blog) => blog.isPopular);
   return {
