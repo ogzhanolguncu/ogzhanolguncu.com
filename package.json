@@ -8,19 +8,14 @@
     "start": "next start",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "type-check": "tsc --pretty --noEmit",
-    "lint": "eslint . --ext ts --ext tsx --ext js"
+    "lint": "eslint . --ext ts --ext tsx --ext js",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.@(ts|tsx)": [
       "yarn lint",
       "yarn format"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn run type-check"
-    }
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.6",
@@ -63,8 +58,8 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.3.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.1.1",
     "rehype": "^11.0.0",
     "typescript": "^4.3.2"
