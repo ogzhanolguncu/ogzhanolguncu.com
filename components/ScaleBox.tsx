@@ -1,31 +1,6 @@
-import { Box } from '@chakra-ui/react';
-import { isValidMotionProp, motion } from 'framer-motion';
-import React, { useMemo, forwardRef } from 'react';
+import { motion } from 'framer-motion';
+import React, { useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
-
-const MotionBox = motion.custom(
-  forwardRef(
-    (
-      props: { children: React.ReactNode },
-      ref:
-        | string
-        | ((instance: HTMLDivElement | null) => void)
-        | React.RefObject<HTMLDivElement>
-        | null
-        | undefined,
-    ) => {
-      const chakraProps = Object.fromEntries(
-        // do not pass framer props to DOM element
-        Object.entries(props).filter(([key]) => !isValidMotionProp(key)),
-      );
-      return (
-        <Box ref={ref} {...chakraProps}>
-          {props.children}
-        </Box>
-      );
-    },
-  ),
-);
 
 type Props = {
   children: React.ReactNode;
@@ -65,7 +40,7 @@ export const ScaleBox = (props: Props) => {
   };
 
   return (
-    <MotionBox
+    <motion.div
       ref={ref}
       initial={{ opacity: 0 }}
       animate={inView ? 'show' : 'hidden'}
@@ -74,6 +49,6 @@ export const ScaleBox = (props: Props) => {
       {...props}
     >
       {children}
-    </MotionBox>
+    </motion.div>
   );
 };

@@ -1,4 +1,4 @@
-import { Heading, Text, Link as StyledLink, useColorMode, Box, Image } from '@chakra-ui/react';
+import { Heading, Text, Link as StyledLink, useColorMode, Box, Img } from '@chakra-ui/react';
 import Link from 'next/link';
 
 type Props = {
@@ -20,8 +20,7 @@ const Card = ({ id, img, title, description }: Props) => {
       borderRadius="3px"
       _hover={{ textDecoration: 'none', bg: colorMode === 'light' ? '' : '' }}
     >
-      <Image
-        ignoreFallback
+      <Img
         alt={title}
         src={img}
         height="100%"

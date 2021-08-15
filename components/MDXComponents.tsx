@@ -43,9 +43,7 @@ const TData = (props: any) => (
   />
 );
 
-const TImage = (props: any) => (
-  <chakra.img shadow="md" borderRadius="16px" {...props} ignoreFallback />
-);
+const TImage = (props: any) => <chakra.img shadow="md" borderRadius="16px" {...props} />;
 
 const CustomLink = (props: any) => {
   const { colorMode } = useColorMode();

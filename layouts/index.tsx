@@ -1,12 +1,12 @@
 import { Flex, Heading, Stack, Tag, Text, useColorMode, Link } from '@chakra-ui/react';
 import BlogSeo from '@components/BlogSeo';
 import { Layout } from '@components/index';
-import { parseISO, format } from 'date-fns';
 import React, { useContext } from 'react';
 import colorMap from 'styles/colorMap';
 import { useRouter } from 'next/router';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { RiEdit2Line } from 'react-icons/ri';
+import dayjs from 'dayjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BlogLayout({ children, frontMatter }: any) {
@@ -60,7 +60,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
               <Text fontSize="md" color={textColor[colorMode]}>
                 {frontMatter.by}
                 {`Oğuzhan Olguncu\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0`}
-                {format(parseISO(frontMatter.publishedAt), 'MMMM dd, yyyy')}
+                {dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}
                 {`\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0 ${frontMatter.readingTime.text} `}
               </Text>
             </Flex>
