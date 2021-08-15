@@ -1,12 +1,13 @@
-import { Flex, Heading, Stack, Tag, Text, useColorMode, Link } from '@chakra-ui/react';
-import BlogSeo from '@components/BlogSeo';
-import { Layout } from '@components/index';
-import React, { useContext } from 'react';
-import colorMap from 'styles/colorMap';
 import { useRouter } from 'next/router';
-import { ColorModeContext } from '@contexts/CustomColorContext';
+import React, { useContext } from 'react';
+import { Flex, Heading, Stack, Tag, Text, useColorMode, Link } from '@chakra-ui/react';
+import colorMap from 'styles/colorMap';
 import { RiEdit2Line } from 'react-icons/ri';
 import dayjs from 'dayjs';
+
+import { ColorModeContext } from '@contexts/CustomColorContext';
+import { Layout } from '@components/index';
+import BlogSeo from '@components/BlogSeo';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BlogLayout({ children, frontMatter }: any) {

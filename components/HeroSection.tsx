@@ -8,12 +8,12 @@ import {
   Link as StyledLink,
   Button,
   useColorMode,
-  Img,
 } from '@chakra-ui/react';
 
 import React from 'react';
 import { useContext } from 'react';
 import { ColorModeContext } from 'contexts/CustomColorContext';
+import { ChakraNextImage } from './ChakraNextImage';
 
 type Props = {
   gotoNewsletter: () => void;
@@ -154,16 +154,14 @@ const HeroSection = ({ gotoNewsletter }: Props) => {
         </Box>
       </Box>
       <Box margin={['auto 0', '10px 0', '10px 0px', '10px 0px']} maxW="390px">
-        <Img
-          borderRadius={['50%', '50%', '16px', '16px']}
+        <ChakraNextImage
           w={['120px', '120px', '100%', '100%']}
           h={['120px', '120px', '390px', '390px']}
-          htmlWidth="390px"
-          htmlHeight="390px"
           src={'/static/images/350.webp'}
           alt="Profile Photo"
-          loading="eager"
-          tabIndex={0}
+          loadingType="eager"
+          nextWidth="390px"
+          nextHeight="390px"
         />
       </Box>
     </Flex>
