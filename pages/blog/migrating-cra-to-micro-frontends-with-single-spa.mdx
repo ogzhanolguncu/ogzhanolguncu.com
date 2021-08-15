@@ -1,0 +1,448 @@
+---
+title: 'Migrating CRA to Micro Frontends with Single SPA'
+publishedAt: '2021-05-08'
+summary: 'In this article we will explore how to covert our existing CRA(Create React App) into Micro Frontends with Single SPA'
+image: '/static/images/migrating-cra-to-micro-frontends-with-single-spa/single-spa.webp'
+languageTags: ['typescript', 'react', 'tutorial', 'microfrontend']
+isPopular: true
+guides: true
+---
+
+![Migrating CRA to Micro Frontends with Single SPA](/static/images/migrating-cra-to-micro-frontends-with-single-spa/single-spa.webp)
+
+We started to hear the term **Micro Frontend** a lot because as web apps getting bigger and bigger each day, they also become harder to maintain by teams of developers without breaking each others code.
+Thats why people came up with term called Micro Frontend where people develop their web apps seperately, maybe using different libraries or frameworks. One of the projects may use **React** for the navigation section whereas
+another project may use **Vue** or **Angular** for the footer section. In the end you may end up with something below.
+
+![Seperate Micro Frontends](/static/images/migrating-cra-to-micro-frontends-with-single-spa/microfrontend-projects.webp)
+
+In essence, they are pretty similar to micro services. They both have different development processes, unit tests, end-to-end tests and CI/CD pipelines.
+As every technology comes with a trade-off, let's see it's pros and cons.
+
+### Pros
+
+- Easier to maintain
+- Easier to test
+- Independent deploy
+- Increases scalability of the teams
+
+### Cons
+
+- Requires lots of configuration
+- If one of the projects crashes may affect other micro-frontends as well
+- Having multiple projects run on the background for the
+
+Since we made a brief introduction into micro frontends, we can now start migrating from CRA to Single Spa. I'll share a project which uses **Rick and Morty** api.
+Project uses **React**, **Typescript** and **Chakra UI**. Tests are also included.
+
+### Working Example
+
+[🔗Project's Github address](https://github.com/ogzhanolguncu/rick-and-morty-project)
+
+<CodeSandBox
+  src={
+    'https://codesandbox.io/embed/rick-and-morty-with-tests-1fmmt?fontsize=14&hidenavigation=1&theme=dark&view=preview'
+  }
+  title={'Rick and Morty Project'}
+/>
+
+## Single SPA
+
+The idea behind Single SPA is it lets us build our micro-frontends around a root or container app that encapsulates all. In this root app we can configure
+routing, shared dependencies, style guides, api and such. We can use as many micro-frontends as we like. And Single SPA has a powerful cli that enables us to
+do things above without a hussle.
+
+Before we move on to Single SPA, let's first decide how we are going to split our CRA into micro-frontends.
+
+```bash
+├─ src
+│  ├─ App.tsx
+│  ├─ components
+│  │  ├─ CharacterFeatureCard.tsx
+│  │  ├─ CustomError.tsx
+│  │  ├─ CustomSpinner.tsx
+│  │  ├─ EpisodeCardWrapper.tsx
+│  │  ├─ Layout.tsx
+│  │  ├─ LocationCardWrapper.tsx
+│  │  └─ Navbar.tsx
+│  ├─ constants
+│  │  ├─ routes.ts
+│  │  └─ urls.ts
+│  ├─ hooks
+│  │  ├─ useFetchCharacters.ts
+│  │  └─ useInitialData.ts
+│  ├─ index.tsx
+│  ├─ pages
+│  │  ├─ Episodes.tsx
+│  │  ├─ Locations.tsx
+│  │  └─ NotFound.tsx
+│  ├─ react-app-env.d.ts
+│  ├─ setupTests.ts
+│  └─ __tests__
+│     ├─ CharacterFeatureWrapper.spec.tsx
+│     ├─ Episodes.spec.tsx
+│     ├─ EpisodesCardWrapper.spec.tsx
+│     ├─ Location.spec.tsx
+│     ├─ LocationCardWrapper.spec.tsx
+│     └─ Navbar.spec.tsx
+├─ type.d.ts
+```
+
+Our project has two features, **Locations** and **Episodes**. Components or tests either associated with Locations or Episodes.
+So it's quite easy to see what to separate when we introduced our project to Single SPA. The final structure will resemble something like.
+
+![Seperate Micro Frontends-1](/static/images/migrating-cra-to-micro-frontends-with-single-spa/mf-single-spa.webp)
+
+Let's get started by creating our root project. Project projects are essential in Single SPA.
+
+```bash
+mkdir MFProjects
+cd MFProjects
+npx create-single-spa
+```
+
+Then, pick the followings:
+
+```bash
+? Directory for new project single-spa-root
+? Select type to generate single-spa root config
+? Which package manager do you want to use? yarn
+? Will this project use Typescript? Yes
+? Would you like to use single-spa Layout Engine No
+? Organization name (can use letters, numbers, dash or underscore) Tutorial
+cd single-spa-root
+yarn add npm-run-all
+```
+
+Organization name is quite critical here. If we name other projects differently we may end up with a broken app, so follow the convention.
+
+In root app we register other projects in `Tutorial-root-config.ts`.
+
+```typescript
+registerApplication({
+  name: '@single-spa/welcome',
+  app: () => System.import('https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js'),
+  activeWhen: ['/'],
+});
+```
+
+`name` is quite important as well it should always start **@Organization name/project-name** in our case it's **@single-spa/welcome**.
+
+`app` lets us specify import path.
+
+`activeWhen` for routing purposes.
+
+And, we have another important file called `index.ejs`. If we register new apps into our root we also need to update `index.ejs`.
+
+```html
+<% if (isLocal) { %>
+<script type="systemjs-importmap">
+  {
+    "imports": {
+      "@Tutorial/root-config": "//localhost:9000/Tutorial-root-config.js"
+    }
+  }
+</script>
+<% } %>
+```
+
+Update your package.json script section as follows.
+
+```json
+"scripts": {
+    "start": "webpack serve --port 9000 --env isLocal",
+    "lint": "eslint src --ext js,ts,tsx",
+    "test": "cross-env BABEL_ENV=test jest --passWithNoTests",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "build": "webpack --mode=production",
+    "episodes": "cd .. && cd single-spa-app-episodes && yarn start --port 9001",
+    "locations": "cd .. && cd single-spa-app-locations && yarn start --port 9002",
+    "episodes-build": "cd .. && cd single-spa-app-episodes && yarn",
+    "locations-build": "cd .. && cd single-spa-app-locations && yarn",
+    "start-all": "npm-run-all --parallel start episodes locations",
+    "build-all": "npm-run-all --parallel episodes-build locations-build"
+}
+```
+
+We will come back to this part when we add Episodes and Locations.
+
+Now, lets add Episodes project.
+
+```bash
+npx create-single-spa
+? Directory for new project single-spa-episodes
+? Select type to generate single-spa application / parcel
+? Which framework do you want to use? react
+? Which package manager do you want to use? yarn
+? Will this project use Typescript? Yes
+? Organization name (can use letters, numbers, dash or underscore) Tutorial
+? Project name (can use letters, numbers, dash or underscore) tutorial-episodes
+```
+
+This time we picked `single-spa application / parcel` and specificed project name as `tutorial-episodes`.
+
+Now, let's add Locations project.
+
+```bash
+npx create-single-spa
+? Directory for new project single-spa-locations
+? Select type to generate single-spa application / parcel
+? Which framework do you want to use? react
+? Which package manager do you want to use? yarn
+? Will this project use Typescript? Yes
+? Organization name (can use letters, numbers, dash or underscore) Tutorial
+? Project name (can use letters, numbers, dash or underscore) tutorial-locations
+```
+
+Before we move on we need to configure our `Tutorial-root-config.ts` and `index.ejs`. Head over to your root app and change the followings.
+
+### Tutorial-root-config.ts
+
+```typescript
+import { registerApplication, start } from 'single-spa';
+
+registerApplication({
+  name: '@Tutorial/tutorial-episodes',
+  app: () => System.import('@Tutorial/tutorial-episodes'),
+  activeWhen: ['/episodes'],
+});
+
+registerApplication({
+  name: '@Tutorial/tutorial-locations',
+  app: () => System.import('@Tutorial/tutorial-locations'),
+  activeWhen: ['/locations'],
+});
+
+start({
+  urlRerouteOnly: true,
+});
+```
+
+location.pathname === '/' ? location.replace('/episodes') : null;
+
+### index.ejs
+
+```html
+<script type="systemjs-importmap">
+  {
+    "imports": {
+      "react": "https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.development.js",
+      "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.development.js",
+      "@Tutorial/root-config": "http://localhost:9000/Tutorial-root-config.js",
+      "@Tutorial/tutorial-episodes": "http://localhost:9001/Tutorial-tutorial-episodes.js",
+      "@Tutorial/tutorial-locations": "http://localhost:9002/Tutorial-tutorial-locations.js"
+    }
+  }
+</script>
+```
+
+Let's start building Episodes project. First, add dependencies listed below.
+
+```bash
+cd single-spa-episodes
+yarn add react-infinite-scroller react-lazy-load-image-component axios @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^4 react-router-dom @types/react-router-dom @types/react-lazy-load-image-component
+```
+
+Now, we will copy corresponding folders and files to Episodes project. You can copy filesf from: [🔗Project's Github address](https://github.com/ogzhanolguncu/rick-and-morty-project)
+
+```bash
+├─ src
+│  ├─ components
+│  │  ├─ CharacterFeatureCard.tsx
+│  │  ├─ CustomError.tsx
+│  │  ├─ CustomSpinner.tsx
+│  │  ├─ EpisodeCardWrapper.tsx
+│  │  ├─ Layout.tsx
+│  │  └─ Navbar.tsx
+│  ├─ constants
+│  │  ├─ routes.ts
+│  │  └─ urls.ts
+│  ├─ declarations.d.ts
+│  ├─ hooks
+│  │  ├─ useFetchCharacters.ts
+│  │  └─ useInitialData.ts
+│  ├─ pages
+│  │  ├─ Episodes.tsx
+│  │  └─ NotFound.tsx
+│  ├─ root.component.test.tsx
+│  ├─ root.component.tsx
+│  ├─ Tutorial-tutorial-episodes.tsx
+│  └─ __tests__
+│     ├─ CharacterFeatureWrapper.spec.tsx
+│     ├─ Episodes.spec.tsx
+│     ├─ EpisodesCardWrapper.spec.tsx
+│     └─ Navbar.spec.tsx
+│─ type.d.ts
+```
+
+Notice that we only copied files that associated with Episodes. We have one more step to do.
+
+### Episodes > root.component.tsx
+
+```typescript
+import React from 'react';
+import App from './App';
+
+export default function Root(props) {
+  return <App />;
+}
+```
+
+### App.tsx
+
+```typescript
+import React from 'react';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+
+import * as ROUTES from './constants/routes';
+
+const Episodes = lazy(() => import('./pages/Episodes'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+function App() {
+  return (
+    <ChakraProvider>
+      <Router>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Switch>
+            <Route path={ROUTES.EPISODES} component={Episodes} exact />
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
+      </Router>
+    </ChakraProvider>
+  );
+}
+
+export default App;
+```
+
+We've created new entry point for our Episodes project. Now, let's add Locations project.
+
+```bash
+cd single-spa-locations
+yarn add react-infinite-scroller react-lazy-load-image-component axios @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^4 react-router-dom @types/react-router-dom @types/react-lazy-load-image-component
+```
+
+Now, we will copy corresponding folders and files to Locations project just like we did for Episodes. You can copy filesf from: [🔗Project's Github address](https://github.com/ogzhanolguncu/rick-and-morty-project)
+
+```bash
+├─ src
+│  ├─ components
+│  │  ├─ CharacterFeatureCard.tsx
+│  │  ├─ CustomError.tsx
+│  │  ├─ CustomSpinner.tsx
+│  │  ├─ Layout.tsx
+│  │  ├─ LocationCardWrapper.tsx
+│  │  └─ Navbar.tsx
+│  ├─ constants
+│  │  ├─ routes.ts
+│  │  └─ urls.ts
+│  ├─ declarations.d.ts
+│  ├─ hooks
+│  │  ├─ useFetchCharacters.ts
+│  │  └─ useInitialData.ts
+│  ├─ pages
+│  │  ├─ Locations.tsx
+│  │  └─ NotFound.tsx
+│  ├─ root.component.test.tsx
+│  ├─ root.component.tsx
+│  ├─ Tutorial-tutorial-locations.tsx
+│  └─ __tests__
+│     ├─ CharacterFeatureWrapper.spec.tsx
+│     ├─ Location.spec.tsx
+│     ├─ LocationCardWrapper.spec.tsx
+│     └─ Navbar.spec.tsx
+├─ type.d.ts
+```
+
+### Locations > root.component.tsx
+
+```typescript
+import React from 'react';
+import App from './App';
+
+export default function Root(props) {
+  return <App />;
+}
+```
+
+### Locations > App.tsx
+
+```typescript
+import { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+
+import * as ROUTES from './constants/routes';
+import React from 'react';
+
+const Locations = lazy(() => import('./pages/Locations'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+function App() {
+  return (
+    <ChakraProvider>
+      <Router>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Switch>
+            <Route path={ROUTES.LOCATIONS} component={Locations} exact />
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
+      </Router>
+    </ChakraProvider>
+  );
+}
+
+export default App;
+```
+
+Now let's add a header to our root project. Head over to your `index.ejs` and replace your body as follows.
+
+```html
+<body>
+  <main>
+    <h2 id="header">The Rick and Morty Characters Directory</h2>
+  </main>
+  <script>
+    System.import('@Tutorial/root-config');
+  </script>
+  <import-map-overrides-full
+    show-when-local-storage="devtools"
+    dev-libs
+  ></import-map-overrides-full>
+</body>
+```
+
+Add those styles to center header.
+
+```css
+<style>
+      #header {
+        width: 100%;
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        text-align: center;
+        margin-top: 1.3rem;
+        font-size: 2.25rem;
+        line-height: 1.2;
+        font-size: "-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+      }
+</style>
+```
+
+To run all projects at once, we head over to our root directory and run `yarn start-all`. Now, if we check [localhost:9000](http://localhost:9000/) we will see
+Episodes page being served from localhost:9001 and Locations page being served from localhost:9002. They are being conditionally rendered as we switch in our root project.
+
+[🔗Finished Project's Github address](https://github.com/ogzhanolguncu/single-spa-react-app)
+
+## Roundup
+
+As we can see, setting up micro-frontends is little tedious, but gives us freedom to architect each project differently and that's a pretty good thing if we are work alongside with lots of other devs.
+Every decision every technique comes with a price so choose wisely.

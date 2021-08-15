@@ -150,6 +150,15 @@ export const prismLightTheme = css`
     background: ${theme.colors.gray[50]};
     border: 1px solid ${theme.colors.gray[200]};
   }
+  :not(pre) > code[class*='language-bash'],
+  pre[class*='language-bash'] {
+    background: ${theme.colors.black};
+    border: 1px solid ${theme.colors.black};
+  }
+  code[class*='language-bash'],
+  pre[class*='language-bash'] {
+    color: #fff;
+  }
   .mdx-marker {
     background-color: hsla(204, 45%, 96%, 1);
   }

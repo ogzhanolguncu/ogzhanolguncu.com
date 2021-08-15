@@ -8,7 +8,7 @@ isPopular: false
 guides: false
 ---
 
-![Alt Text](/static/images/selection-sort-in-javascript/selection.png)
+![Selection Sort In Javascript](/static/images/selection-sort-in-javascript/selection.png)
 
 Today, we are going to discover how **Selection Sort** works and discuss its complexity using [Big O Notation](https://en.wikipedia.org/wiki/Big_O_notation). Selection sort may not be one of the fastest, but one of the easiest sort to write down.
 
@@ -78,5 +78,3 @@ selectionSort([10,2,99,6,1,7]) --> Returns: 1,2,6,7,10,99
 ```
 
 This function makes use of our <code>findSmallest()</code>. Whenever we find the smallest value, we push it to our <code>newArray</code> and delete from the existing one. Three dots used for destructuring since splice returns an array. By the way, <code>splice()</code> manipulates original array and returns desired output.
-
-Thanks for reading.

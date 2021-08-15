@@ -90,6 +90,9 @@ export default function BlogLayout({ children, frontMatter }: any) {
           </Flex>
         </Flex>
         {children}
+        <Text as="strong" fontSize="17.5px" color="rgb(221, 107, 32)">
+          Thanks for reading 🥳🥳🥳.
+        </Text>
         <Link
           display="flex"
           flexDirection="row"

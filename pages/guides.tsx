@@ -37,7 +37,6 @@ const guides = ({ guides }: Props) => {
             textAlign="center"
             as="h2"
             fontSize={['2rem', '2rem', '3rem', '3rem']}
-            marginBottom="1rem"
             marginTop={['0.6rem', '0', '0', '0']}
             fontWeight="bold"
             color={colorModeObj.titleColor[colorMode]}

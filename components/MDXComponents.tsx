@@ -145,6 +145,16 @@ const Hr = () => {
   return <Divider borderColor={borderColor[colorMode]} my={4} w="100%" />;
 };
 
+const Tstrong = (props: any) => {
+  const { colorMode } = useColorMode();
+  const textColor = {
+    light: '#1A202C',
+    dark: 'rgb(221, 107, 32)',
+  };
+
+  return <Text as="strong" color={textColor[colorMode]} {...props} />;
+};
+
 const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
   h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
@@ -164,6 +174,7 @@ const MDXComponents = {
   ul: (props: any) => <Box as="ul" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
   ol: (props: any) => <Box as="ol" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
   li: (props: any) => <Box as="li" pb={1} fontSize="17.5px" {...props} />,
+  strong: Tstrong,
   CodeSandBox,
   blockquote: Quote,
 };

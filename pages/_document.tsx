@@ -1,13 +1,14 @@
-import { ColorModeScript } from '@chakra-ui/react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+
 import React from 'react';
 
+import { ColorModeScript } from '@chakra-ui/react';
 class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
         <Head>
-          <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9GGC8MHKK"></script>
+          <script defer src="https://www.googletagmanager.com/gtag/js?id=G-T9GGC8MHKK"></script>
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -26,9 +27,9 @@ class MyDocument extends Document {
           />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="/fonts/Avenir-Roman.ttf"
+            href="/fonts/Avenir-Roman.woff2"
             as="font"
-            type="font/ttf"
+            type="font/woff2"
             rel="preload"
             crossOrigin="anonymous"
           />
@@ -37,7 +38,6 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <link href="/static/favicons/favicon.ico" rel="shortcut icon" />
-
           <link
             href="/static/favicons/favicon-32x32.png"
             rel="icon"

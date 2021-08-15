@@ -9,7 +9,6 @@ import {
   Box,
   Heading,
   useColorMode,
-  Link as StyledLink,
   Text,
   Input,
   Alert,
@@ -184,53 +183,49 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                       alignItems="space-between"
                       color={colorMode === 'light' ? 'light' : 'dark'}
                     >
-                      <Link href={`/blog/${article.id}`}>
-                        <StyledLink _hover={{ textDecoration: 'none' }} w="100%">
-                          <ArticleTitle>
-                            {compareDateWithTodaysDate(
-                              addTwoMonthToPublishedDate(article.publishedAt),
-                            ) ? (
-                              <Tag
-                                fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
-                                p=".5rem"
-                                borderRadius=".3rem"
-                                m={[
-                                  '1rem .4rem 1rem 0',
-                                  '1rem .4rem 1rem 0',
-                                  '1rem .4rem 1rem 0',
-                                  '1rem 1rem 10px 0',
-                                ]} //for responsive
-                                height="15px"
-                                fontWeight="700"
-                                width={['2.7rem', '2.7rem', '', '']}
-                                minW=""
-                                minHeight="2rem"
-                                color={colorModeObj.articleNewTagTextColor[colorMode]}
-                                background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
-                              >
-                                New!
-                              </Tag>
-                            ) : null}
-                            <Box>
-                              <Text
-                                color={colorModeObj.publishedDateColor[colorMode]}
-                                fontSize=".8rem"
-                                fontWeight="600"
-                                marginBottom={['1rem', '1rem', 0, 0]}
-                              >
-                                {article.publishedAt}
-                              </Text>
-                              <Heading
-                                fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
-                                w="100%"
-                                fontFamily="Inter"
-                              >
-                                {article.title}
-                              </Heading>
-                            </Box>
-                          </ArticleTitle>
-                        </StyledLink>
-                      </Link>
+                      <ArticleTitle w="100%">
+                        {compareDateWithTodaysDate(
+                          addTwoMonthToPublishedDate(article.publishedAt),
+                        ) ? (
+                          <Tag
+                            fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
+                            p=".5rem"
+                            borderRadius=".3rem"
+                            m={[
+                              '1rem .4rem 1rem 0',
+                              '1rem .4rem 1rem 0',
+                              '1rem .4rem 1rem 0',
+                              '1rem 1rem 10px 0',
+                            ]} //for responsive
+                            height="15px"
+                            fontWeight="700"
+                            width={['2.7rem', '2.7rem', '', '']}
+                            minW=""
+                            minHeight="2rem"
+                            color={colorModeObj.articleNewTagTextColor[colorMode]}
+                            background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
+                          >
+                            New!
+                          </Tag>
+                        ) : null}
+                        <Box>
+                          <Text
+                            color={colorModeObj.publishedDateColor[colorMode]}
+                            fontSize=".8rem"
+                            fontWeight="600"
+                            marginBottom={['1rem', '1rem', 0, 0]}
+                          >
+                            {article.publishedAt}
+                          </Text>
+                          <Heading
+                            fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
+                            w="100%"
+                            fontFamily="Inter"
+                          >
+                            <Link href={`/blog/${article.id}`}>{article.title}</Link>
+                          </Heading>
+                        </Box>
+                      </ArticleTitle>
                       <Box
                         d="flex"
                         flexDirection={['row', 'row', 'row', 'row']}

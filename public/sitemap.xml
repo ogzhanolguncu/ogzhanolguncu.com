@@ -21,6 +21,42 @@
   </url>
 
   <url>
+    <loc>https://ogzhanolguncu.com/blog/dealing-with-binaries-in-javascript</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/handling-loggedin-user-firebase-react-app</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/intro-to-custom-hooks</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/migrating-cra-to-micro-frontends-with-single-spa</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/must-know-types-in-typescript</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/react-redux-toolkit-with-typescript</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/speeding-up-your-website</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/blog/testing-react-redux-toolkit-with-typescript</loc>
+  </url>
+
+  <url>
     <loc>https://ogzhanolguncu.com/blog/[slug]</loc>
   </url>
 </urlset>

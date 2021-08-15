@@ -40,7 +40,7 @@ const GlobalStyle = ({ children }: Prop) => {
           }
           @font-face {
             font-family: 'Avenir-Roman';
-            src: url('/fonts/Avenir-Roman.ttf');
+            src: url('/fonts/Avenir-Roman.woff2') format('woff2');
             font-style: medium;
             font-weight: 500;
             font-display: swap;
