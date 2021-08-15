@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import { Layout, Project, Newsletter, ArticleLists, Summary } from '@components/index';
+import { Layout, Project, Newsletter, ArticleLists, HeroSection } from '@components/index';
 import { getAllFilesFrontMatter } from 'lib/mdx';
 
 import { StaticBlog } from 'global';
@@ -20,7 +20,7 @@ const Home = ({ blogPosts, popularPosts }: Props) => {
   };
   return (
     <Layout>
-      <Summary gotoNewsletter={gotoNewsletter} />
+      <HeroSection gotoNewsletter={gotoNewsletter} />
       <ArticleLists blogs={blogPosts} />
       <ArticleLists blogs={popularPosts} isPopular={true} />
       <Project />

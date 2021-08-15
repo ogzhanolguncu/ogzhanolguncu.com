@@ -5,10 +5,10 @@ import {
   Box,
   Heading,
   Text,
-  Image,
   Link as StyledLink,
   Button,
   useColorMode,
+  Img,
 } from '@chakra-ui/react';
 
 import React from 'react';
@@ -19,7 +19,7 @@ type Props = {
   gotoNewsletter: () => void;
 };
 
-const Summary = ({ gotoNewsletter }: Props) => {
+const HeroSection = ({ gotoNewsletter }: Props) => {
   const { colorMode } = useColorMode();
   const colorModeObj = useContext(ColorModeContext);
 
@@ -154,7 +154,7 @@ const Summary = ({ gotoNewsletter }: Props) => {
         </Box>
       </Box>
       <Box margin={['auto 0', '10px 0', '10px 0px', '10px 0px']} maxW="390px">
-        <Image
+        <Img
           borderRadius={['50%', '50%', '16px', '16px']}
           w={['120px', '120px', '100%', '100%']}
           h={['120px', '120px', '390px', '390px']}
@@ -167,4 +167,4 @@ const Summary = ({ gotoNewsletter }: Props) => {
   );
 };
 
-export default Summary;
+export default HeroSection;
