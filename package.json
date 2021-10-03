@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node ./scripts/generate-sitemap.mjs",
     "start": "next start",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "type-check": "tsc --pretty --noEmit",
@@ -58,6 +59,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
+    "globby": "^12.0.2",
     "husky": "^7.0.0",
     "lint-staged": "^11.1.2",
     "prettier": "^2.1.1",
