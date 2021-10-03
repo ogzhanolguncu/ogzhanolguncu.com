@@ -14,7 +14,7 @@ import {
   Alert,
   AlertIcon,
 } from '@chakra-ui/react';
-import colorMap from 'styles/colorMap';
+import LANGUAGE_TAGS from 'styles/languageTags';
 import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { Article, ArticleTitle, Layout } from '@components/index';
@@ -134,8 +134,8 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
             w={['100%', '90%', '75%', '65%']}
             flexWrap="wrap"
           >
-            {Object.keys(colorMap).map((tag: string, tagIndex: number) => {
-              const color = colorMap[tag.toLowerCase()];
+            {Object.keys(LANGUAGE_TAGS).map((tag: string, tagIndex: number) => {
+              const color = LANGUAGE_TAGS[tag.toLowerCase()];
               return (
                 <Box key={tagIndex}>
                   <ScaleBox duration={1} delayOrder={rand(1, 5)}>
@@ -235,7 +235,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                         flexWrap="wrap"
                       >
                         {article?.languageTags?.map((tag: string, tagIndex: number) => {
-                          const color = colorMap[tag.toLowerCase()];
+                          const color = LANGUAGE_TAGS[tag.toLowerCase()];
                           return (
                             <Tag
                               key={`${blog}${article.id}${tagIndex}`}

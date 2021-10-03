@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import { Flex, Heading, Stack, Tag, Text, useColorMode, Link } from '@chakra-ui/react';
-import colorMap from 'styles/colorMap';
+import LANGUAGE_TAGS from 'styles/languageTags';
 import { RiEdit2Line } from 'react-icons/ri';
 import dayjs from 'dayjs';
 
@@ -68,7 +68,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
           </Flex>
           <Flex justifyContent="center" w="100%">
             {frontMatter.languageTags?.map((tag: string, index: number) => {
-              const color = colorMap[tag];
+              const color = LANGUAGE_TAGS[tag];
               return (
                 <Tag
                   size={'md'}

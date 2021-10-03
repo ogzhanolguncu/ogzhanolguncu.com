@@ -3,7 +3,7 @@ import { Box, Text, Flex, Heading, Link as StyledLink, Tag, useColorMode } from 
 import { useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { StaticBlog } from 'global';
-import colorMap from 'styles/colorMap';
+import LANGUAGE_TAGS from 'styles/languageTags';
 import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
 import { Article, ArticleTitle } from '.';
 import { useRouter } from 'next/router';
@@ -111,7 +111,7 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                 flexWrap="wrap"
               >
                 {blog?.languageTags?.map((tag, index) => {
-                  const color = colorMap[tag];
+                  const color = LANGUAGE_TAGS[tag];
                   return (
                     <Tag
                       key={index}

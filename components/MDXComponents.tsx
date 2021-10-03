@@ -153,6 +153,21 @@ const Tstrong = (props: any) => {
   return <Text as="strong" color={textColor[colorMode]} {...props} />;
 };
 
+const Tparagraph = (props: any) => {
+  const { colorMode } = useColorMode();
+
+  return (
+    <Text
+      as="p"
+      mt={4}
+      fontSize="17.5px"
+      lineHeight="1.7"
+      fontWeight={colorMode === 'light' ? '500' : 'normal'}
+      {...props}
+    />
+  );
+};
+
 const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
   h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
@@ -168,7 +183,7 @@ const MDXComponents = {
   td: TData,
   a: CustomLink,
   img: TImage,
-  p: (props: any) => <Text as="p" mt={4} fontSize="17.5px" lineHeight="1.7" {...props} />,
+  p: Tparagraph,
   ul: (props: any) => <Box as="ul" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
   ol: (props: any) => <Box as="ol" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
   li: (props: any) => <Box as="li" pb={1} fontSize="17.5px" {...props} />,

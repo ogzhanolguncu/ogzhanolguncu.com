@@ -5,9 +5,17 @@
       <link>https://ogzhanolguncu.com/blog</link>
       <description>[...]</description>
       <language>en</language>
-      <lastBuildDate>Sun, 23 May 2021 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sun, 03 Oct 2021 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://ogzhanolguncu.com/rss.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://ogzhanolguncu.com/blog/function-composition-javascript</guid>
+    <title>Function Composition in Javascript</title>
+    <link>https://ogzhanolguncu.com/blog/function-composition-javascript</link>
+    <description>In this article we`ll deep dive into function composition, pipes, currying and partial applications with examples from real world.</description>
+    <pubDate>Sun, 03 Oct 2021 00:00:00 GMT</pubDate>
+  </item>
+
   <item>
     <guid>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</guid>
     <title>Introduction to Micro Frontends with Module Federation, React and Typescript</title>

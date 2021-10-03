@@ -4,6 +4,7 @@ import { theme } from '@chakra-ui/react';
 const prismBaseTheme = css`
   code {
     white-space: pre;
+    font-weight: bold;
   }
   code[class*='language-'],
   pre[class*='language-'] {
@@ -56,6 +57,7 @@ const prismBaseTheme = css`
     color: slategray;
   }
   .token.punctuation {
+    font-weight: bold;
     color: #999;
   }
   .token.namespace {
@@ -68,7 +70,7 @@ const prismBaseTheme = css`
   .token.constant,
   .token.symbol,
   .token.deleted {
-    color: #905;
+    font-weight: bold;
   }
   .token.selector,
   .token.attr-name,
@@ -83,6 +85,7 @@ const prismBaseTheme = css`
   .token.url,
   .language-css .token.string,
   .style .token.string {
+    font-weight: bold;
     color: #9a6e3a;
   }
   .token.atrule,
@@ -183,9 +186,6 @@ export const prismDarkTheme = css`
   .token.variable {
     color: rgb(214, 222, 235);
   }
-  .token.number {
-    color: rgb(247, 140, 15);
-  }
   .token.builtin,
   .token.char,
   .token.constant,
@@ -193,7 +193,7 @@ export const prismDarkTheme = css`
     color: rgb(130, 170, 255);
   }
   .token.punctuation {
-    color: rgb(199, 146, 234);
+    color: #ffa7c4;
   }
   .token.selector,
   .token.doctype {
