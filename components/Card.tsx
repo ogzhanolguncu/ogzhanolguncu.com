@@ -41,8 +41,7 @@ const Card = ({ id, img, title, description }: Props) => {
           width="305px"
           textTransform="capitalize"
           letterSpacing="tight"
-          noOfLines={1}
-          isTruncated
+          noOfLines={3}
         >
           <Link href={`blog/${id}`}>{title}</Link>
         </Heading>

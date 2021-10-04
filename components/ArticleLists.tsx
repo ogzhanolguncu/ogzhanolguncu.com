@@ -65,7 +65,7 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
               <ArticleTitle>
                 {compareDateWithTodaysDate(addTwoMonthToPublishedDate(blog.publishedAt)) ? (
                   <Tag
-                    fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
+                    fontSize={['.8rem', '.8rem', '.8rem', '.7 rem']}
                     p=".5rem"
                     borderRadius=".3rem"
                     m={[
@@ -76,8 +76,8 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                     ]}
                     height="15px"
                     fontWeight="700"
-                    width={['2.7rem', '2.7rem', '', '']}
-                    minW=""
+                    width={['2.7rem', '2.7rem', '3.5rem', '3.5rem']}
+                    justifyContent="center"
                     minHeight="2rem"
                     color={colorModeObj.articleNewTagTextColor[colorMode]}
                     background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
