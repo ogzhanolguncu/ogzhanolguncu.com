@@ -4,6 +4,7 @@ import { getAllFilesFrontMatter } from 'lib/mdx';
 
 import { StaticBlog } from 'global';
 import React, { useRef } from 'react';
+import { generateRssFeed } from 'scripts/generate-rss';
 
 type Props = {
   blogPosts: StaticBlog[];
@@ -36,6 +37,8 @@ export const getStaticProps: GetStaticProps = async () => {
     blog.languageTags?.sort(() => 0.5 - Math.random());
     return blog;
   });
+  await generateRssFeed(blogPosts);
+
   const popularPosts = blogPosts.filter((blog) => blog.isPopular);
   return {
     props: { blogPosts, popularPosts },

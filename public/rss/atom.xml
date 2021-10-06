@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://ogzhanolguncu.com</id>
+    <title>Articles by Oguzhan Olguncu</title>
+    <updated>2021-10-06T21:55:47.106Z</updated>
+    <generator>Feed for Node.js</generator>
+    <author>
+        <name>Oguzhan Olguncu</name>
+        <email>ogzhan11@gmail.com</email>
+    </author>
+    <link rel="alternate" href="https://ogzhanolguncu.com"/>
+    <link rel="self" href="https://ogzhanolguncu.com/rss/atom.xml"/>
+    <logo>https://ogzhanolguncu.com/logo.svg</logo>
+    <icon>https://ogzhanolguncu.com/favicon.png</icon>
+    <rights>All rights reserved 2021, Oguzhan Olguncu</rights>
+    <entry>
+        <title type="html"><![CDATA[Function Composition in Javascript]]></title>
+        <id>https://ogzhanolguncu.com/blog/function-composition-javascript</id>
+        <link href="https://ogzhanolguncu.com/blog/function-composition-javascript"/>
+        <updated>2021-10-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article we`ll deep dive into function composition, pipes, currying and partial applications with examples from real world.]]></summary>
+        <content type="html"><![CDATA[In this article we`ll deep dive into function composition, pipes, currying and partial applications with examples from real world.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="functional_programming,tutorial,javascript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-10-03T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Introduction to Micro Frontends with Module Federation, React and Typescript]]></title>
+        <id>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</id>
+        <link href="https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation"/>
+        <updated>2021-05-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article we will set up Micro Frontends with Module Federation, React and Typescript]]></summary>
+        <content type="html"><![CDATA[In this article we will set up Micro Frontends with Module Federation, React and Typescript]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,react,microfrontend,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-05-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Migrating CRA to Micro Frontends with Single SPA]]></title>
+        <id>https://ogzhanolguncu.com/blog/migrating-cra-to-micro-frontends-with-single-spa</id>
+        <link href="https://ogzhanolguncu.com/blog/migrating-cra-to-micro-frontends-with-single-spa"/>
+        <updated>2021-05-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article we will explore how to covert our existing CRA(Create React App) into Micro Frontends with Single SPA]]></summary>
+        <content type="html"><![CDATA[In this article we will explore how to covert our existing CRA(Create React App) into Micro Frontends with Single SPA]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="react,typescript,microfrontend,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-05-08T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Handling Logged-in User in React/Firebase App]]></title>
+        <id>https://ogzhanolguncu.com/blog/handling-loggedin-user-firebase-react-app</id>
+        <link href="https://ogzhanolguncu.com/blog/handling-loggedin-user-firebase-react-app"/>
+        <updated>2021-04-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Best way to handle logged-in users in the Firebase/React app is to use custom hook and a context api built with Typescript.]]></summary>
+        <content type="html"><![CDATA[Best way to handle logged-in users in the Firebase/React app is to use custom hook and a context api built with Typescript.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="tutorial,react,typescript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-04-04T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Introduction to Custom Hooks]]></title>
+        <id>https://ogzhanolguncu.com/blog/intro-to-custom-hooks</id>
+        <link href="https://ogzhanolguncu.com/blog/intro-to-custom-hooks"/>
+        <updated>2021-03-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article we will learn how to setup our first custom hook. We will convert axios into re-usable hook with typescript and generics.]]></summary>
+        <content type="html"><![CDATA[In this article we will learn how to setup our first custom hook. We will convert axios into re-usable hook with typescript and generics.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="react,typescript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-03-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Must Know Types in Typescript]]></title>
+        <id>https://ogzhanolguncu.com/blog/must-know-types-in-typescript</id>
+        <link href="https://ogzhanolguncu.com/blog/must-know-types-in-typescript"/>
+        <updated>2021-03-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article we will talk about types we use in our everyday lives to ease development process. And, discover some tricks that can be used with Typescript types.]]></summary>
+        <content type="html"><![CDATA[In this article we will talk about types we use in our everyday lives to ease development process. And, discover some tricks that can be used with Typescript types.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-03-06T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Testing a React/Redux Toolkit app with Typescript]]></title>
+        <id>https://ogzhanolguncu.com/blog/testing-react-redux-toolkit-with-typescript</id>
+        <link href="https://ogzhanolguncu.com/blog/testing-react-redux-toolkit-with-typescript"/>
+        <updated>2021-02-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article we will test our React/Redux Toolkit app. Testing specifically slices and component that connected to react with Typescript and React Router.]]></summary>
+        <content type="html"><![CDATA[In this article we will test our React/Redux Toolkit app. Testing specifically slices and component that connected to react with Typescript and React Router.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,testing,react,redux,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-02-28T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Up & Running with React, Redux Toolkit, Typescript and React Router]]></title>
+        <id>https://ogzhanolguncu.com/blog/react-redux-toolkit-with-typescript</id>
+        <link href="https://ogzhanolguncu.com/blog/react-redux-toolkit-with-typescript"/>
+        <updated>2021-02-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[All React apps need a state management library such as Redux Toolkit and type-safety with Typescript. Today we will learn how to use them together.]]></summary>
+        <content type="html"><![CDATA[All React apps need a state management library such as Redux Toolkit and type-safety with Typescript. Today we will learn how to use them together.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="react,tutorial,typescript,redux"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-02-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Dealing With Binaries in Javascript]]></title>
+        <id>https://ogzhanolguncu.com/blog/dealing-with-binaries-in-javascript</id>
+        <link href="https://ogzhanolguncu.com/blog/dealing-with-binaries-in-javascript"/>
+        <updated>2021-02-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Dealing with binaries in Javascript requires the knowledge of bitwise operators, bits, bytes, hexadeciamls. Those operators often come in handy when manipulating bits and bytes.]]></summary>
+        <content type="html"><![CDATA[Dealing with binaries in Javascript requires the knowledge of bitwise operators, bits, bytes, hexadeciamls. Those operators often come in handy when manipulating bits and bytes.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="computerscience,javascript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-02-07T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Speeding Up Your Website]]></title>
+        <id>https://ogzhanolguncu.com/blog/speeding-up-your-website</id>
+        <link href="https://ogzhanolguncu.com/blog/speeding-up-your-website"/>
+        <updated>2021-01-31T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Techniques to speed up your website and improve the user experience that specifically aiming to React and Next.js sites. We'll discuss things like bundles, fonts, unicode-ranges, webpack.]]></summary>
+        <content type="html"><![CDATA[Techniques to speed up your website and improve the user experience that specifically aiming to React and Next.js sites. We'll discuss things like bundles, fonts, unicode-ranges, webpack.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="react,webpack,optimization"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-01-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Build a Custom React Router From Scratch]]></title>
+        <id>https://ogzhanolguncu.com/blog/build-a-custom-react-router-from-scratch</id>
+        <link href="https://ogzhanolguncu.com/blog/build-a-custom-react-router-from-scratch"/>
+        <updated>2021-01-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Have you ever wondered how react router works under the hood? If that's the case best way to explore is to build a custom react router from scratch.]]></summary>
+        <content type="html"><![CDATA[Have you ever wondered how react router works under the hood? If that's the case best way to explore is to build a custom react router from scratch.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,react,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-01-16T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Debounce and Throttle: Comprehensive Guide]]></title>
+        <id>https://ogzhanolguncu.com/blog/debounce-and-throttling-comprehensive-guide</id>
+        <link href="https://ogzhanolguncu.com/blog/debounce-and-throttling-comprehensive-guide"/>
+        <updated>2021-01-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Every web developer must aware of Debounce and Throttle to maximize client performance. Typescript, Javascript, debounce, throttling]]></summary>
+        <content type="html"><![CDATA[Every web developer must aware of Debounce and Throttle to maximize client performance. Typescript, Javascript, debounce, throttling]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="javascript,typescript,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2021-01-03T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Setup a Bulletproof Next.js Project with Typescript, ESLint, Prettier, Babel and Husky]]></title>
+        <id>https://ogzhanolguncu.com/blog/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky</id>
+        <link href="https://ogzhanolguncu.com/blog/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky"/>
+        <updated>2020-12-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In order to make your Next.js project robust and maintainable, you should be using ESLint, Typescript, Husky and Prettier.]]></summary>
+        <content type="html"><![CDATA[In order to make your Next.js project robust and maintainable, you should be using ESLint, Typescript, Husky and Prettier.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="nextjs,typescript,tutorial,react"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-12-06T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Test your React components and APIs with React Testing Library, Jest, Typescript, and Axios]]></title>
+        <id>https://ogzhanolguncu.com/blog/testing-with-react-testing-library-typescript-and-axios</id>
+        <link href="https://ogzhanolguncu.com/blog/testing-with-react-testing-library-typescript-and-axios"/>
+        <updated>2020-11-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Testing our UI components and API requests, using React Testing Library, Jest and Ts-Jest. And, of course, we`ll be using Typescript. Axios, RTL, Typescript]]></summary>
+        <content type="html"><![CDATA[Testing our UI components and API requests, using React Testing Library, Jest and Ts-Jest. And, of course, we`ll be using Typescript. Axios, RTL, Typescript]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="react,typescript,tutorial,testing"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-11-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Frequently Asked React and Front-end Interview Questions]]></title>
+        <id>https://ogzhanolguncu.com/blog/frequently-asked-react-and-frontend-interview-questions</id>
+        <link href="https://ogzhanolguncu.com/blog/frequently-asked-react-and-frontend-interview-questions"/>
+        <updated>2020-11-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Today, we are going to discuss most frequently asked interview question that I faced during interviews. Tagged with javascript, webdev, dom, interview, front-end.]]></summary>
+        <content type="html"><![CDATA[Today, we are going to discuss most frequently asked interview question that I faced during interviews. Tagged with javascript, webdev, dom, interview, front-end.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="tutorial,javascript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-11-02T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Binary Search In Javascript]]></title>
+        <id>https://ogzhanolguncu.com/blog/binary-search-in-javascript</id>
+        <link href="https://ogzhanolguncu.com/blog/binary-search-in-javascript"/>
+        <updated>2020-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.]]></summary>
+        <content type="html"><![CDATA[Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="tutorial,computerscience,javascript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-10-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hash tables explained in Javascript]]></title>
+        <id>https://ogzhanolguncu.com/blog/hash-tables-explained-in-javascript</id>
+        <link href="https://ogzhanolguncu.com/blog/hash-tables-explained-in-javascript"/>
+        <updated>2020-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript]]></summary>
+        <content type="html"><![CDATA[Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="computerscience,javascript,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-10-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Quicksort In Javascript]]></title>
+        <id>https://ogzhanolguncu.com/blog/quicksort-in-javascript</id>
+        <link href="https://ogzhanolguncu.com/blog/quicksort-in-javascript"/>
+        <updated>2020-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.]]></summary>
+        <content type="html"><![CDATA[Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="tutorial,computerscience,javascript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-10-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[React Crash Course: Building React App using Hooks, Mobx, Typescript and much more]]></title>
+        <id>https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</id>
+        <link href="https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more"/>
+        <updated>2020-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.]]></summary>
+        <content type="html"><![CDATA[Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="react,tutorial,javascript,typescript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-10-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Selection Sort In Javascript]]></title>
+        <id>https://ogzhanolguncu.com/blog/selection-sort-in-javascript</id>
+        <link href="https://ogzhanolguncu.com/blog/selection-sort-in-javascript"/>
+        <updated>2020-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Today, we are going to discover how Selection Sort works and discuss its complexity using Big O Notat... Tagged with javascript, datastructures, computerscience, typescript.]]></summary>
+        <content type="html"><![CDATA[Today, we are going to discover how Selection Sort works and discuss its complexity using Big O Notat... Tagged with javascript, datastructures, computerscience, typescript.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="tutorial,javascript,computerscience"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-10-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Using Async/Await: The right way]]></title>
+        <id>https://ogzhanolguncu.com/blog/using-async-await-the-right-way</id>
+        <link href="https://ogzhanolguncu.com/blog/using-async-await-the-right-way"/>
+        <updated>2020-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript]]></summary>
+        <content type="html"><![CDATA[Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="asynchronous,javascript,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-10-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Currying in Javascript with examples]]></title>
+        <id>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</id>
+        <link href="https://ogzhanolguncu.com/blog/using-curry-the-functional-way"/>
+        <updated>2020-10-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.]]></summary>
+        <content type="html"><![CDATA[Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="javascript,computerscience,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2020-10-23T00:00:00.000Z</published>
+    </entry>
+</feed>

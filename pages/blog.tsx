@@ -1,6 +1,5 @@
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
-import fs from 'fs';
 import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import { StaticBlog } from 'global';
 import {
@@ -20,7 +19,6 @@ import { ColorModeContext } from '@contexts/CustomColorContext';
 import { Article, ArticleTitle, Layout } from '@components/index';
 import groupBy from 'lodash.groupby';
 import Fuse from 'fuse.js';
-import { generateRss } from 'utils/rssOperations';
 import debounce from 'lodash.debounce';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
@@ -281,9 +279,6 @@ export const getStaticProps: GetStaticProps = async () => {
     blog.languageTags?.sort(() => 0.5 - Math.random());
     return blog;
   });
-  // Slicing used to get first four digit of date => YYYY-DD-MM
-  const rss = generateRss(blogPosts);
-  fs.writeFileSync('./public/rss.xml', rss);
 
   const groupedBlogPosts = groupBy(blogPosts, (x) => x.publishedAt.toString().slice(0, 4));
   return {

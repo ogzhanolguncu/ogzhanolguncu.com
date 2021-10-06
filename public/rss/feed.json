@@ -1,0 +1,364 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Articles by Oguzhan Olguncu",
+    "home_page_url": "https://ogzhanolguncu.com",
+    "feed_url": "https://ogzhanolguncu.com/rss/feed.json",
+    "icon": "https://ogzhanolguncu.com/logo.svg",
+    "author": {
+        "name": "Oguzhan Olguncu"
+    },
+    "items": [
+        {
+            "id": "https://ogzhanolguncu.com/blog/function-composition-javascript",
+            "content_html": "In this article we`ll deep dive into function composition, pipes, currying and partial applications with examples from real world.",
+            "url": "https://ogzhanolguncu.com/blog/function-composition-javascript",
+            "title": "Function Composition in Javascript",
+            "summary": "In this article we`ll deep dive into function composition, pipes, currying and partial applications with examples from real world.",
+            "image": "https://ogzhanolguncu.com/static/images/function-composition-javascript/pillars.webp",
+            "date_modified": "2021-10-03T00:00:00.000Z",
+            "date_published": "2021-10-03T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "functional_programming,tutorial,javascript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation",
+            "content_html": "In this article we will set up Micro Frontends with Module Federation, React and Typescript",
+            "url": "https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation",
+            "title": "Introduction to Micro Frontends with Module Federation, React and Typescript",
+            "summary": "In this article we will set up Micro Frontends with Module Federation, React and Typescript",
+            "image": "https://ogzhanolguncu.com/static/images/micro-frontends-with-module-federation/micro-frontends.webp",
+            "date_modified": "2021-05-23T00:00:00.000Z",
+            "date_published": "2021-05-23T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,react,microfrontend,tutorial"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/migrating-cra-to-micro-frontends-with-single-spa",
+            "content_html": "In this article we will explore how to covert our existing CRA(Create React App) into Micro Frontends with Single SPA",
+            "url": "https://ogzhanolguncu.com/blog/migrating-cra-to-micro-frontends-with-single-spa",
+            "title": "Migrating CRA to Micro Frontends with Single SPA",
+            "summary": "In this article we will explore how to covert our existing CRA(Create React App) into Micro Frontends with Single SPA",
+            "image": "https://ogzhanolguncu.com/static/images/migrating-cra-to-micro-frontends-with-single-spa/single-spa.webp",
+            "date_modified": "2021-05-08T00:00:00.000Z",
+            "date_published": "2021-05-08T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "react,typescript,microfrontend,tutorial"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/handling-loggedin-user-firebase-react-app",
+            "content_html": "Best way to handle logged-in users in the Firebase/React app is to use custom hook and a context api built with Typescript.",
+            "url": "https://ogzhanolguncu.com/blog/handling-loggedin-user-firebase-react-app",
+            "title": "Handling Logged-in User in React/Firebase App",
+            "summary": "Best way to handle logged-in users in the Firebase/React app is to use custom hook and a context api built with Typescript.",
+            "image": "https://ogzhanolguncu.com/static/images/handling-loggedin-user-firebase-react-app/react-typescript-firebase.webp",
+            "date_modified": "2021-04-04T00:00:00.000Z",
+            "date_published": "2021-04-04T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "tutorial,react,typescript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/intro-to-custom-hooks",
+            "content_html": "In this article we will learn how to setup our first custom hook. We will convert axios into re-usable hook with typescript and generics.",
+            "url": "https://ogzhanolguncu.com/blog/intro-to-custom-hooks",
+            "title": "Introduction to Custom Hooks",
+            "summary": "In this article we will learn how to setup our first custom hook. We will convert axios into re-usable hook with typescript and generics.",
+            "image": "https://ogzhanolguncu.com/static/images/intro-to-custom-hooks/custom-hook.webp",
+            "date_modified": "2021-03-18T00:00:00.000Z",
+            "date_published": "2021-03-18T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "react,typescript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/must-know-types-in-typescript",
+            "content_html": "In this article we will talk about types we use in our everyday lives to ease development process. And, discover some tricks that can be used with Typescript types.",
+            "url": "https://ogzhanolguncu.com/blog/must-know-types-in-typescript",
+            "title": "Must Know Types in Typescript",
+            "summary": "In this article we will talk about types we use in our everyday lives to ease development process. And, discover some tricks that can be used with Typescript types.",
+            "image": "https://ogzhanolguncu.com/static/images/must-know-types-in-typescript/25.webp",
+            "date_modified": "2021-03-06T00:00:00.000Z",
+            "date_published": "2021-03-06T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/testing-react-redux-toolkit-with-typescript",
+            "content_html": "In this article we will test our React/Redux Toolkit app. Testing specifically slices and component that connected to react with Typescript and React Router.",
+            "url": "https://ogzhanolguncu.com/blog/testing-react-redux-toolkit-with-typescript",
+            "title": "Testing a React/Redux Toolkit app with Typescript",
+            "summary": "In this article we will test our React/Redux Toolkit app. Testing specifically slices and component that connected to react with Typescript and React Router.",
+            "image": "https://ogzhanolguncu.com/static/images/testing-react-redux-toolkit-with-typescript/23.webp",
+            "date_modified": "2021-02-28T00:00:00.000Z",
+            "date_published": "2021-02-28T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,testing,react,redux,tutorial"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/react-redux-toolkit-with-typescript",
+            "content_html": "All React apps need a state management library such as Redux Toolkit and type-safety with Typescript. Today we will learn how to use them together.",
+            "url": "https://ogzhanolguncu.com/blog/react-redux-toolkit-with-typescript",
+            "title": "Up & Running with React, Redux Toolkit, Typescript and React Router",
+            "summary": "All React apps need a state management library such as Redux Toolkit and type-safety with Typescript. Today we will learn how to use them together.",
+            "image": "https://ogzhanolguncu.com/static/images/react-redux-toolkit-with-typescript/redux.webp",
+            "date_modified": "2021-02-25T00:00:00.000Z",
+            "date_published": "2021-02-25T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "react,tutorial,typescript,redux"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/dealing-with-binaries-in-javascript",
+            "content_html": "Dealing with binaries in Javascript requires the knowledge of bitwise operators, bits, bytes, hexadeciamls. Those operators often come in handy when manipulating bits and bytes.",
+            "url": "https://ogzhanolguncu.com/blog/dealing-with-binaries-in-javascript",
+            "title": "Dealing With Binaries in Javascript",
+            "summary": "Dealing with binaries in Javascript requires the knowledge of bitwise operators, bits, bytes, hexadeciamls. Those operators often come in handy when manipulating bits and bytes.",
+            "image": "https://ogzhanolguncu.com/static/images/dealing-with-binaries-in-javascript/binaries.webp",
+            "date_modified": "2021-02-07T00:00:00.000Z",
+            "date_published": "2021-02-07T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "computerscience,javascript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/speeding-up-your-website",
+            "content_html": "Techniques to speed up your website and improve the user experience that specifically aiming to React and Next.js sites. We'll discuss things like bundles, fonts, unicode-ranges, webpack.",
+            "url": "https://ogzhanolguncu.com/blog/speeding-up-your-website",
+            "title": "Speeding Up Your Website",
+            "summary": "Techniques to speed up your website and improve the user experience that specifically aiming to React and Next.js sites. We'll discuss things like bundles, fonts, unicode-ranges, webpack.",
+            "image": "https://ogzhanolguncu.com/static/images/speeding-up-your-website/cover.png",
+            "date_modified": "2021-01-31T00:00:00.000Z",
+            "date_published": "2021-01-31T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "react,webpack,optimization"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/build-a-custom-react-router-from-scratch",
+            "content_html": "Have you ever wondered how react router works under the hood? If that's the case best way to explore is to build a custom react router from scratch.",
+            "url": "https://ogzhanolguncu.com/blog/build-a-custom-react-router-from-scratch",
+            "title": "Build a Custom React Router From Scratch",
+            "summary": "Have you ever wondered how react router works under the hood? If that's the case best way to explore is to build a custom react router from scratch.",
+            "image": "https://ogzhanolguncu.com/static/images/build-a-custom-react-router-from-scratch/react-router.png",
+            "date_modified": "2021-01-16T00:00:00.000Z",
+            "date_published": "2021-01-16T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,react,tutorial"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/debounce-and-throttling-comprehensive-guide",
+            "content_html": "Every web developer must aware of Debounce and Throttle to maximize client performance. Typescript, Javascript, debounce, throttling",
+            "url": "https://ogzhanolguncu.com/blog/debounce-and-throttling-comprehensive-guide",
+            "title": "Debounce and Throttle: Comprehensive Guide",
+            "summary": "Every web developer must aware of Debounce and Throttle to maximize client performance. Typescript, Javascript, debounce, throttling",
+            "image": "https://ogzhanolguncu.com/static/images/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky/husky-eslint-prettier.png",
+            "date_modified": "2021-01-03T00:00:00.000Z",
+            "date_published": "2021-01-03T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "javascript,typescript,tutorial"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky",
+            "content_html": "In order to make your Next.js project robust and maintainable, you should be using ESLint, Typescript, Husky and Prettier.",
+            "url": "https://ogzhanolguncu.com/blog/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky",
+            "title": "How to Setup a Bulletproof Next.js Project with Typescript, ESLint, Prettier, Babel and Husky",
+            "summary": "In order to make your Next.js project robust and maintainable, you should be using ESLint, Typescript, Husky and Prettier.",
+            "image": "https://ogzhanolguncu.com/static/images/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky/husky-eslint-prettier.png",
+            "date_modified": "2020-12-06T00:00:00.000Z",
+            "date_published": "2020-12-06T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "nextjs,typescript,tutorial,react"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/testing-with-react-testing-library-typescript-and-axios",
+            "content_html": "Testing our UI components and API requests, using React Testing Library, Jest and Ts-Jest. And, of course, we`ll be using Typescript. Axios, RTL, Typescript",
+            "url": "https://ogzhanolguncu.com/blog/testing-with-react-testing-library-typescript-and-axios",
+            "title": "Test your React components and APIs with React Testing Library, Jest, Typescript, and Axios",
+            "summary": "Testing our UI components and API requests, using React Testing Library, Jest and Ts-Jest. And, of course, we`ll be using Typescript. Axios, RTL, Typescript",
+            "image": "https://ogzhanolguncu.com/static/images/testing-with-react-testing-library-typescript-and-axios/testing.webp",
+            "date_modified": "2020-11-18T00:00:00.000Z",
+            "date_published": "2020-11-18T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "react,typescript,tutorial,testing"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/frequently-asked-react-and-frontend-interview-questions",
+            "content_html": "Today, we are going to discuss most frequently asked interview question that I faced during interviews. Tagged with javascript, webdev, dom, interview, front-end.",
+            "url": "https://ogzhanolguncu.com/blog/frequently-asked-react-and-frontend-interview-questions",
+            "title": "Frequently Asked React and Front-end Interview Questions",
+            "summary": "Today, we are going to discuss most frequently asked interview question that I faced during interviews. Tagged with javascript, webdev, dom, interview, front-end.",
+            "image": "https://ogzhanolguncu.com/static/images/frequently-asked-react-and-frontend-interview-questions/interview.png",
+            "date_modified": "2020-11-02T00:00:00.000Z",
+            "date_published": "2020-11-02T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "tutorial,javascript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/binary-search-in-javascript",
+            "content_html": "Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.",
+            "url": "https://ogzhanolguncu.com/blog/binary-search-in-javascript",
+            "title": "Binary Search In Javascript",
+            "summary": "Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.",
+            "image": "https://ogzhanolguncu.com/static/images/binary-search-in-javascript/binary.png",
+            "date_modified": "2020-10-23T00:00:00.000Z",
+            "date_published": "2020-10-23T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "tutorial,computerscience,javascript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/hash-tables-explained-in-javascript",
+            "content_html": "Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript",
+            "url": "https://ogzhanolguncu.com/blog/hash-tables-explained-in-javascript",
+            "title": "Hash tables explained in Javascript",
+            "summary": "Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript",
+            "image": "https://ogzhanolguncu.com/static/images/hash-tables-explained-in-javascript/hash-tables-javascript.png",
+            "date_modified": "2020-10-23T00:00:00.000Z",
+            "date_published": "2020-10-23T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "computerscience,javascript,tutorial"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/quicksort-in-javascript",
+            "content_html": "Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.",
+            "url": "https://ogzhanolguncu.com/blog/quicksort-in-javascript",
+            "title": "Quicksort In Javascript",
+            "summary": "Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.",
+            "image": "https://ogzhanolguncu.com/static/images/quicksort-in-javascript/quicksort.png",
+            "date_modified": "2020-10-23T00:00:00.000Z",
+            "date_published": "2020-10-23T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "tutorial,computerscience,javascript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more",
+            "content_html": "Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.",
+            "url": "https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more",
+            "title": "React Crash Course: Building React App using Hooks, Mobx, Typescript and much more",
+            "summary": "Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.",
+            "image": "https://ogzhanolguncu.com/static/images/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more/mobx.png",
+            "date_modified": "2020-10-23T00:00:00.000Z",
+            "date_published": "2020-10-23T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "react,tutorial,javascript,typescript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/selection-sort-in-javascript",
+            "content_html": "Today, we are going to discover how Selection Sort works and discuss its complexity using Big O Notat... Tagged with javascript, datastructures, computerscience, typescript.",
+            "url": "https://ogzhanolguncu.com/blog/selection-sort-in-javascript",
+            "title": "Selection Sort In Javascript",
+            "summary": "Today, we are going to discover how Selection Sort works and discuss its complexity using Big O Notat... Tagged with javascript, datastructures, computerscience, typescript.",
+            "image": "https://ogzhanolguncu.com/static/images/selection-sort-in-javascript/selection.png",
+            "date_modified": "2020-10-23T00:00:00.000Z",
+            "date_published": "2020-10-23T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "tutorial,javascript,computerscience"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/using-async-await-the-right-way",
+            "content_html": "Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript",
+            "url": "https://ogzhanolguncu.com/blog/using-async-await-the-right-way",
+            "title": "Using Async/Await: The right way",
+            "summary": "Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript",
+            "image": "https://ogzhanolguncu.com/static/images/using-async-await-the-right-way/async.png",
+            "date_modified": "2020-10-23T00:00:00.000Z",
+            "date_published": "2020-10-23T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "asynchronous,javascript,tutorial"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/using-curry-the-functional-way",
+            "content_html": "Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.",
+            "url": "https://ogzhanolguncu.com/blog/using-curry-the-functional-way",
+            "title": "Currying in Javascript with examples",
+            "summary": "Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.",
+            "image": "https://ogzhanolguncu.com/static/images/using-curry-the-functional-way/curry.png",
+            "date_modified": "2020-10-23T00:00:00.000Z",
+            "date_published": "2020-10-23T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "javascript,computerscience,tutorial"
+            ]
+        }
+    ]
+}

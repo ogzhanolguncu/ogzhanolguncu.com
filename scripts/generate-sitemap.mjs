@@ -31,6 +31,17 @@ async function generate() {
             `;
           })
           .join('')}
+          <url>
+              <loc>${`https://ogzhanolguncu.com/rss/atom.xml`}</loc>
+          </url>
+
+          <url>
+              <loc>${`https://ogzhanolguncu.com/rss/feed.json`}</loc>
+          </url>
+
+          <url>
+              <loc>${`https://ogzhanolguncu.com/rss/feed.xml`}</loc>
+          </url>
     </urlset>
     `;
 

@@ -25,6 +25,7 @@
     "@mdx-js/react": "^1.6.18",
     "axios": "^0.21.1",
     "dayjs": "^1.10.6",
+    "feed": "^4.2.2",
     "framer-motion": "^3.7.0",
     "fuse.js": "3.4.3",
     "gray-matter": "^4.0.2",

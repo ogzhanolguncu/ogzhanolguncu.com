@@ -111,4 +111,16 @@
   <url>
     <loc>https://ogzhanolguncu.com/blog/using-curry-the-functional-way</loc>
   </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/rss/atom.xml</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/rss/feed.json</loc>
+  </url>
+
+  <url>
+    <loc>https://ogzhanolguncu.com/rss/feed.xml</loc>
+  </url>
 </urlset>
