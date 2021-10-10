@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/react-vs-solid",
+            "content_html": "In this article we'll deep dive into function composition, pipes, currying and partial applications with examples from real world.",
+            "url": "https://ogzhanolguncu.com/blog/react-vs-solid",
+            "title": "SolidJS vs React: I've Built the Same App On Both Libraries.",
+            "summary": "In this article we'll deep dive into function composition, pipes, currying and partial applications with examples from real world.",
+            "image": "https://ogzhanolguncu.com/static/images/react-vs-solid/chest.webp",
+            "date_modified": "2021-10-11T00:00:00.000Z",
+            "date_published": "2021-10-11T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "tutorial,javascript,functional_programming"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/function-composition-javascript",
             "content_html": "In this article we`ll deep dive into function composition, pipes, currying and partial applications with examples from real world.",
             "url": "https://ogzhanolguncu.com/blog/function-composition-javascript",
@@ -21,7 +37,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "functional_programming,tutorial,javascript"
+                "functional_programming,javascript,tutorial"
             ]
         },
         {
@@ -37,7 +53,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "typescript,react,microfrontend,tutorial"
+                "tutorial,react,typescript,microfrontend"
             ]
         },
         {
@@ -53,7 +69,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,typescript,microfrontend,tutorial"
+                "typescript,react,tutorial,microfrontend"
             ]
         },
         {
@@ -69,7 +85,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,react,typescript"
+                "react,typescript,tutorial"
             ]
         },
         {
@@ -85,7 +101,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,typescript"
+                "typescript,react"
             ]
         },
         {
@@ -117,7 +133,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "typescript,testing,react,redux,tutorial"
+                "react,typescript,redux,testing,tutorial"
             ]
         },
         {
@@ -165,7 +181,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,webpack,optimization"
+                "react,optimization,webpack"
             ]
         },
         {
@@ -181,7 +197,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "typescript,react,tutorial"
+                "react,typescript,tutorial"
             ]
         },
         {
@@ -197,7 +213,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "javascript,typescript,tutorial"
+                "javascript,tutorial,typescript"
             ]
         },
         {
@@ -213,7 +229,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "nextjs,typescript,tutorial,react"
+                "tutorial,typescript,react,nextjs"
             ]
         },
         {
@@ -229,7 +245,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,typescript,tutorial,testing"
+                "typescript,tutorial,testing,react"
             ]
         },
         {
@@ -245,7 +261,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,javascript"
+                "javascript,tutorial"
             ]
         },
         {
@@ -261,7 +277,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,computerscience,javascript"
+                "computerscience,tutorial,javascript"
             ]
         },
         {
@@ -277,7 +293,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "computerscience,javascript,tutorial"
+                "tutorial,javascript,computerscience"
             ]
         },
         {
@@ -293,7 +309,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,computerscience,javascript"
+                "javascript,tutorial,computerscience"
             ]
         },
         {
@@ -309,7 +325,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,tutorial,javascript,typescript"
+                "javascript,tutorial,react,typescript"
             ]
         },
         {
@@ -325,7 +341,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,javascript,computerscience"
+                "javascript,tutorial,computerscience"
             ]
         },
         {
@@ -341,7 +357,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "asynchronous,javascript,tutorial"
+                "tutorial,javascript,asynchronous"
             ]
         },
         {
@@ -357,7 +373,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "javascript,computerscience,tutorial"
+                "javascript,tutorial,computerscience"
             ]
         }
     ]

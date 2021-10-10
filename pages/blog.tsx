@@ -262,7 +262,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
           ) : (
             <Alert status="info" m="0 auto 40px auto" borderRadius="20px">
               <AlertIcon />
-              Blog has not been found about{' '}
+              Help me, Obi-Wan Kenobi. You’re my only hope.
               <strong style={{ marginLeft: '3px' }}>{currentSelectedTag.toUpperCase()}</strong>
             </Alert>
           )}

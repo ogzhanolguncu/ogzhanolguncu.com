@@ -162,6 +162,10 @@ const Tparagraph = (props: any) => {
       mt={4}
       fontSize="17.5px"
       lineHeight="1.7"
+      css={{
+        wordSpacing: '1.2px',
+        letterSpacing: '0.1px',
+      }}
       fontWeight={colorMode === 'light' ? '500' : 'normal'}
       {...props}
     />
