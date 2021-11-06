@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2021-10-10T22:57:20.735Z</updated>
+    <updated>2021-11-06T21:45:23.191Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -18,13 +18,13 @@
         <id>https://ogzhanolguncu.com/blog/react-vs-solid</id>
         <link href="https://ogzhanolguncu.com/blog/react-vs-solid"/>
         <updated>2021-10-11T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[In this article we'll deep dive into function composition, pipes, currying and partial applications with examples from real world.]]></summary>
-        <content type="html"><![CDATA[In this article we'll deep dive into function composition, pipes, currying and partial applications with examples from real world.]]></content>
+        <summary type="html"><![CDATA[In this article, we will compare SolidJS and React. Benchmark some metrics and assess the pros and cons of both libraries.]]></summary>
+        <content type="html"><![CDATA[In this article, we will compare SolidJS and React. Benchmark some metrics and assess the pros and cons of both libraries.]]></content>
         <author>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="tutorial,javascript,functional_programming"/>
+        <category label="react,typescript,tutorial"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -42,7 +42,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="functional_programming,javascript,tutorial"/>
+        <category label="tutorial,functional_programming,javascript"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -60,7 +60,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="tutorial,react,typescript,microfrontend"/>
+        <category label="typescript,microfrontend,tutorial,react"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -78,7 +78,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="typescript,react,tutorial,microfrontend"/>
+        <category label="microfrontend,react,tutorial,typescript"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -96,7 +96,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="react,typescript,tutorial"/>
+        <category label="react,tutorial,typescript"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -150,7 +150,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="react,typescript,redux,testing,tutorial"/>
+        <category label="tutorial,typescript,testing,react,redux"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -168,7 +168,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="react,tutorial,typescript,redux"/>
+        <category label="react,typescript,tutorial,redux"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -204,7 +204,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="react,optimization,webpack"/>
+        <category label="react,webpack,optimization"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -222,7 +222,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="react,typescript,tutorial"/>
+        <category label="typescript,react,tutorial"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -258,7 +258,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="tutorial,typescript,react,nextjs"/>
+        <category label="tutorial,react,typescript,nextjs"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -276,7 +276,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="typescript,tutorial,testing,react"/>
+        <category label="react,testing,typescript,tutorial"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -312,7 +312,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="computerscience,tutorial,javascript"/>
+        <category label="javascript,computerscience,tutorial"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -330,7 +330,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="tutorial,javascript,computerscience"/>
+        <category label="javascript,tutorial,computerscience"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -348,7 +348,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="javascript,tutorial,computerscience"/>
+        <category label="computerscience,tutorial,javascript"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -366,7 +366,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="javascript,tutorial,react,typescript"/>
+        <category label="react,typescript,tutorial,javascript"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -402,7 +402,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="tutorial,javascript,asynchronous"/>
+        <category label="tutorial,asynchronous,javascript"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -420,7 +420,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="javascript,tutorial,computerscience"/>
+        <category label="computerscience,tutorial,javascript"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>

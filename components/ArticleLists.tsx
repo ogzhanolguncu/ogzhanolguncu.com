@@ -76,7 +76,7 @@ const ArticleLists = ({ blogs, isPopular = false }: Props) => {
                     ]}
                     height="15px"
                     fontWeight="700"
-                    width={['2.7rem', '2.7rem', '3.5rem', '3.5rem']}
+                    width={['2.7rem', '2.7rem', '4rem', '4rem']}
                     justifyContent="center"
                     minHeight="2rem"
                     color={colorModeObj.articleNewTagTextColor[colorMode]}

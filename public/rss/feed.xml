@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Sun, 10 Oct 2021 22:57:20 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 06 Nov 2021 21:45:23 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -19,10 +19,10 @@
             <link>https://ogzhanolguncu.com/blog/react-vs-solid</link>
             <guid>https://ogzhanolguncu.com/blog/react-vs-solid</guid>
             <pubDate>Mon, 11 Oct 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[In this article we'll deep dive into function composition, pipes, currying and partial applications with examples from real world.]]></description>
-            <content:encoded><![CDATA[In this article we'll deep dive into function composition, pipes, currying and partial applications with examples from real world.]]></content:encoded>
+            <description><![CDATA[In this article, we will compare SolidJS and React. Benchmark some metrics and assess the pros and cons of both libraries.]]></description>
+            <content:encoded><![CDATA[In this article, we will compare SolidJS and React. Benchmark some metrics and assess the pros and cons of both libraries.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">tutorial,javascript,functional_programming</category>
+            <category domain="Web development/Javascript/Typescript">react,typescript,tutorial</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/react-vs-solid/chest.webp" length="0" type="image/webp"/>
         </item>
         <item>
@@ -33,7 +33,7 @@
             <description><![CDATA[In this article we`ll deep dive into function composition, pipes, currying and partial applications with examples from real world.]]></description>
             <content:encoded><![CDATA[In this article we`ll deep dive into function composition, pipes, currying and partial applications with examples from real world.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">functional_programming,javascript,tutorial</category>
+            <category domain="Web development/Javascript/Typescript">tutorial,functional_programming,javascript</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/function-composition-javascript/pillars.webp" length="0" type="image/webp"/>
         </item>
         <item>
@@ -44,7 +44,7 @@
             <description><![CDATA[In this article we will set up Micro Frontends with Module Federation, React and Typescript]]></description>
             <content:encoded><![CDATA[In this article we will set up Micro Frontends with Module Federation, React and Typescript]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">tutorial,react,typescript,microfrontend</category>
+            <category domain="Web development/Javascript/Typescript">typescript,microfrontend,tutorial,react</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/micro-frontends-with-module-federation/micro-frontends.webp" length="0" type="image/webp"/>
         </item>
         <item>
@@ -55,7 +55,7 @@
             <description><![CDATA[In this article we will explore how to covert our existing CRA(Create React App) into Micro Frontends with Single SPA]]></description>
             <content:encoded><![CDATA[In this article we will explore how to covert our existing CRA(Create React App) into Micro Frontends with Single SPA]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">typescript,react,tutorial,microfrontend</category>
+            <category domain="Web development/Javascript/Typescript">microfrontend,react,tutorial,typescript</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/migrating-cra-to-micro-frontends-with-single-spa/single-spa.webp" length="0" type="image/webp"/>
         </item>
         <item>
@@ -66,7 +66,7 @@
             <description><![CDATA[Best way to handle logged-in users in the Firebase/React app is to use custom hook and a context api built with Typescript.]]></description>
             <content:encoded><![CDATA[Best way to handle logged-in users in the Firebase/React app is to use custom hook and a context api built with Typescript.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">react,typescript,tutorial</category>
+            <category domain="Web development/Javascript/Typescript">react,tutorial,typescript</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/handling-loggedin-user-firebase-react-app/react-typescript-firebase.webp" length="0" type="image/webp"/>
         </item>
         <item>
@@ -99,7 +99,7 @@
             <description><![CDATA[In this article we will test our React/Redux Toolkit app. Testing specifically slices and component that connected to react with Typescript and React Router.]]></description>
             <content:encoded><![CDATA[In this article we will test our React/Redux Toolkit app. Testing specifically slices and component that connected to react with Typescript and React Router.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">react,typescript,redux,testing,tutorial</category>
+            <category domain="Web development/Javascript/Typescript">tutorial,typescript,testing,react,redux</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/testing-react-redux-toolkit-with-typescript/23.webp" length="0" type="image/webp"/>
         </item>
         <item>
@@ -110,7 +110,7 @@
             <description><![CDATA[All React apps need a state management library such as Redux Toolkit and type-safety with Typescript. Today we will learn how to use them together.]]></description>
             <content:encoded><![CDATA[All React apps need a state management library such as Redux Toolkit and type-safety with Typescript. Today we will learn how to use them together.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">react,tutorial,typescript,redux</category>
+            <category domain="Web development/Javascript/Typescript">react,typescript,tutorial,redux</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/react-redux-toolkit-with-typescript/redux.webp" length="0" type="image/webp"/>
         </item>
         <item>
@@ -132,7 +132,7 @@
             <description><![CDATA[Techniques to speed up your website and improve the user experience that specifically aiming to React and Next.js sites. We'll discuss things like bundles, fonts, unicode-ranges, webpack.]]></description>
             <content:encoded><![CDATA[Techniques to speed up your website and improve the user experience that specifically aiming to React and Next.js sites. We'll discuss things like bundles, fonts, unicode-ranges, webpack.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">react,optimization,webpack</category>
+            <category domain="Web development/Javascript/Typescript">react,webpack,optimization</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/speeding-up-your-website/cover.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -143,7 +143,7 @@
             <description><![CDATA[Have you ever wondered how react router works under the hood? If that's the case best way to explore is to build a custom react router from scratch.]]></description>
             <content:encoded><![CDATA[Have you ever wondered how react router works under the hood? If that's the case best way to explore is to build a custom react router from scratch.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">react,typescript,tutorial</category>
+            <category domain="Web development/Javascript/Typescript">typescript,react,tutorial</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/build-a-custom-react-router-from-scratch/react-router.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -165,7 +165,7 @@
             <description><![CDATA[In order to make your Next.js project robust and maintainable, you should be using ESLint, Typescript, Husky and Prettier.]]></description>
             <content:encoded><![CDATA[In order to make your Next.js project robust and maintainable, you should be using ESLint, Typescript, Husky and Prettier.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">tutorial,typescript,react,nextjs</category>
+            <category domain="Web development/Javascript/Typescript">tutorial,react,typescript,nextjs</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky/husky-eslint-prettier.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -176,7 +176,7 @@
             <description><![CDATA[Testing our UI components and API requests, using React Testing Library, Jest and Ts-Jest. And, of course, we`ll be using Typescript. Axios, RTL, Typescript]]></description>
             <content:encoded><![CDATA[Testing our UI components and API requests, using React Testing Library, Jest and Ts-Jest. And, of course, we`ll be using Typescript. Axios, RTL, Typescript]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">typescript,tutorial,testing,react</category>
+            <category domain="Web development/Javascript/Typescript">react,testing,typescript,tutorial</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/testing-with-react-testing-library-typescript-and-axios/testing.webp" length="0" type="image/webp"/>
         </item>
         <item>
@@ -198,7 +198,7 @@
             <description><![CDATA[Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.]]></description>
             <content:encoded><![CDATA[Today, we are going to learn how to perform a binary search in Javascript and talk a little about O n... Tagged with javascript, datastructures, webdev, computerscience.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">computerscience,tutorial,javascript</category>
+            <category domain="Web development/Javascript/Typescript">javascript,computerscience,tutorial</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/binary-search-in-javascript/binary.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -209,7 +209,7 @@
             <description><![CDATA[Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript]]></description>
             <content:encoded><![CDATA[Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">tutorial,javascript,computerscience</category>
+            <category domain="Web development/Javascript/Typescript">javascript,tutorial,computerscience</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/hash-tables-explained-in-javascript/hash-tables-javascript.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -220,7 +220,7 @@
             <description><![CDATA[Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.]]></description>
             <content:encoded><![CDATA[Have you ever wondered why Quicksort called quick? Because it's one of the fastest sorting algorithms out there. Tutorial in Javascript/Typescript.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">javascript,tutorial,computerscience</category>
+            <category domain="Web development/Javascript/Typescript">computerscience,tutorial,javascript</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/quicksort-in-javascript/quicksort.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -231,7 +231,7 @@
             <description><![CDATA[Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.]]></description>
             <content:encoded><![CDATA[Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">javascript,tutorial,react,typescript</category>
+            <category domain="Web development/Javascript/Typescript">react,typescript,tutorial,javascript</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more/mobx.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -253,7 +253,7 @@
             <description><![CDATA[Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript]]></description>
             <content:encoded><![CDATA[Hash tables are incredibly powerful and versatile beasts. They let you store your data in a key-value... Tagged with javascript, computerscience, tutorial, datastructure, typescript]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">tutorial,javascript,asynchronous</category>
+            <category domain="Web development/Javascript/Typescript">tutorial,asynchronous,javascript</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/using-async-await-the-right-way/async.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -264,7 +264,7 @@
             <description><![CDATA[Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.]]></description>
             <content:encoded><![CDATA[Currying is actually a process of linking functions together to reduce the number of arguments they take by utilizing lambda calculus.javascript, typescript, tutorial, functional.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">javascript,tutorial,computerscience</category>
+            <category domain="Web development/Javascript/Typescript">computerscience,tutorial,javascript</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/using-curry-the-functional-way/curry.png" length="0" type="image/png"/>
         </item>
     </channel>
