@@ -275,10 +275,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
 export default Blog;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const blogPosts = (await getAllFilesFrontMatter('blog')).map((blog) => {
-    blog.languageTags?.sort(() => 0.5 - Math.random());
-    return blog;
-  });
+  const blogPosts = await getAllFilesFrontMatter('blog');
 
   const groupedBlogPosts = groupBy(blogPosts, (x) => x.publishedAt.toString().slice(0, 4));
   return {

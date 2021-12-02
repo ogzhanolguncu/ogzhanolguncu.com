@@ -33,10 +33,7 @@ const Home = ({ blogPosts, popularPosts }: Props) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const blogPosts = (await getAllFilesFrontMatter('blog')).map((blog) => {
-    blog.languageTags?.sort(() => 0.5 - Math.random());
-    return blog;
-  });
+  const blogPosts = await getAllFilesFrontMatter('blog');
   await generateRssFeed(blogPosts);
 
   const popularPosts = blogPosts.filter((blog) => blog.isPopular);

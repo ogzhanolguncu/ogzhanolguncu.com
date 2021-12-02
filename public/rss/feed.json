@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/transducers-in-javascript",
+            "content_html": "In this article we`ll deep dive into transducers to optimize big data sets. Learn how to optimize compositions using Ramda and Javascript.",
+            "url": "https://ogzhanolguncu.com/blog/transducers-in-javascript",
+            "title": "Processing Massive Data Sets with Transducers in Javascript",
+            "summary": "In this article we`ll deep dive into transducers to optimize big data sets. Learn how to optimize compositions using Ramda and Javascript.",
+            "image": "https://ogzhanolguncu.com/static/images/transducers-in-javascript/stairs.webp",
+            "date_modified": "2021-12-03T00:00:00.000Z",
+            "date_published": "2021-12-03T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "tutorial,javascript,functional_programming"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/react-vs-solid",
             "content_html": "In this article, we will compare SolidJS and React. Benchmark some metrics and assess the pros and cons of both libraries.",
             "url": "https://ogzhanolguncu.com/blog/react-vs-solid",
@@ -21,7 +37,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,typescript,tutorial"
+                "tutorial,typescript,react"
             ]
         },
         {
@@ -37,7 +53,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,functional_programming,javascript"
+                "tutorial,javascript,functional_programming"
             ]
         },
         {
@@ -53,7 +69,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "typescript,microfrontend,tutorial,react"
+                "typescript,react,tutorial,microfrontend"
             ]
         },
         {
@@ -69,7 +85,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "microfrontend,react,tutorial,typescript"
+                "typescript,react,tutorial,microfrontend"
             ]
         },
         {
@@ -85,7 +101,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,tutorial,typescript"
+                "typescript,react,tutorial"
             ]
         },
         {
@@ -133,7 +149,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,typescript,testing,react,redux"
+                "redux,react,testing,typescript,tutorial"
             ]
         },
         {
@@ -149,7 +165,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,typescript,tutorial,redux"
+                "typescript,tutorial,redux,react"
             ]
         },
         {
@@ -165,7 +181,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "computerscience,javascript"
+                "javascript,computerscience"
             ]
         },
         {
@@ -181,7 +197,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,webpack,optimization"
+                "webpack,optimization,react"
             ]
         },
         {
@@ -197,7 +213,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "typescript,react,tutorial"
+                "tutorial,typescript,react"
             ]
         },
         {
@@ -213,7 +229,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "javascript,tutorial,typescript"
+                "typescript,tutorial,javascript"
             ]
         },
         {
@@ -229,7 +245,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,react,typescript,nextjs"
+                "tutorial,typescript,react,nextjs"
             ]
         },
         {
@@ -245,7 +261,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,testing,typescript,tutorial"
+                "typescript,tutorial,testing,react"
             ]
         },
         {
@@ -277,7 +293,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "javascript,computerscience,tutorial"
+                "javascript,tutorial,computerscience"
             ]
         },
         {
@@ -309,7 +325,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "computerscience,tutorial,javascript"
+                "javascript,tutorial,computerscience"
             ]
         },
         {
@@ -325,7 +341,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "react,typescript,tutorial,javascript"
+                "javascript,tutorial,react,typescript"
             ]
         },
         {
@@ -357,7 +373,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,asynchronous,javascript"
+                "javascript,asynchronous,tutorial"
             ]
         },
         {
@@ -373,7 +389,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "computerscience,tutorial,javascript"
+                "javascript,tutorial,computerscience"
             ]
         }
     ]
