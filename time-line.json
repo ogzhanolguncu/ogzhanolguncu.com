@@ -16,7 +16,7 @@
     }
   },
   {
-    "text": "I started my technical high school. Studied information technologies, started to learn lots of things about computers and especially about web development because it was the branch I chose to study. Coded websites using HTML tables, good old days. :)",
+    "text": "I started my technical high school. Studied information technologies, started to learn lots of things about computers.",
     "date": "2010 - 2014",
     "category": {
       "tag": "Exploring the Internet",
@@ -24,7 +24,7 @@
     }
   },
   {
-    "text": "I went to university for Information Management Systems. Due to my major's nature I studied both management and IT. I've taken core computer science courses such as Data structures, Computer Architecture, Algorithm Analysis and Database Management.",
+    "text": "I went to university for Information Management Systems. Due to my major's nature, I studied both management and IT. I've taken core computers science courses such as Data structures, Computer Architecture, Algorithm Analysis and Database Management.",
     "date": "2015",
     "category": {
       "tag": "University",
@@ -32,7 +32,7 @@
     }
   },
   {
-    "text": "At the last quarter of 2016, I started work as a full time Fullstack .Net developer and honed my overall skills.",
+    "text": "In the last quarter of 2016, I started work as a full-time Fullstack .Net developer and honed my overall skills.",
     "date": "2016",
     "category": {
       "tag": "University",

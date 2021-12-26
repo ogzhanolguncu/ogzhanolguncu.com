@@ -35,7 +35,7 @@ const HeroSection = ({ gotoNewsletter }: Props) => {
           lineHeight="1.4"
           marginBottom="2rem"
           marginTop={['0.6rem', '0', '0', '0']}
-          fontWeight="bold"
+          fontWeight="500"
           color={colorModeObj.titleColor[colorMode]}
         >
           Hey! I'm Oğuzhan Olguncu. I'm a software developer and open-source lover.

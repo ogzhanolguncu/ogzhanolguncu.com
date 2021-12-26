@@ -55,7 +55,6 @@ const About = () => {
           </Heading>
           <CustomText>
             Hi! I'm Oğuzhan Olguncu. I currently work full-time as a Frontend Developer, and I build
-            {''}
             <TextLink text=" open-source projects " url="#" /> for fun.
           </CustomText>
           <CustomText>
@@ -80,7 +79,7 @@ const About = () => {
           <CustomText>
             I hope you love the site, and if there's anything you want to talk about with me feel
             free to drop me a line by email. I'm happy to hear your comments, feedback, suggestions,
-            or just say hi!{' '}
+            or just say hi!
             <em>(Emails regarding ads, sponsored posts, link-sharing, etc. will be ignored.)</em>
           </CustomText>
           <List

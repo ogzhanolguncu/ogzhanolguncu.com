@@ -1,69 +1,22 @@
 import { AppProps } from 'next/app';
-import { useColorMode } from '@chakra-ui/react';
-import theme from 'styles/theme';
 import { CustomColorModeProvider } from '@contexts/CustomColorContext';
 import { MDXProvider } from '@mdx-js/react';
 import MDXComponents from '@components/MDXComponents';
-import { prismLightTheme, prismDarkTheme } from '../styles/prism';
-import { Global, css } from '@emotion/react';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import SEO from 'next-seo.config';
-import { ChakraProvider } from '@chakra-ui/react';
-import 'components/time.css';
+import { Chakra } from '@components/Chakra';
 
-type Prop = {
-  children: ReactNode;
-};
-
-const GlobalStyle = ({ children }: Prop) => {
-  const { colorMode } = useColorMode();
-
-  return (
-    <>
-      <Global
-        styles={css`
-          ${colorMode === 'light' ? prismLightTheme : prismDarkTheme};
-          ::selection {
-            background-color: rgb(87, 62, 222);
-            color: #fefefe;
-          }
-          html {
-            min-width: 360px;
-            scroll-behavior: smooth;
-          }
-          #__next {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background: ${colorMode === 'light' ? 'white' : '#171923'};
-          }
-          @font-face {
-            font-family: 'Avenir-Roman';
-            src: url('/fonts/Avenir-Roman.woff2') format('woff2');
-            font-style: medium;
-            font-weight: 500;
-            font-display: swap;
-            unicode-range: U+0020-007F, U+0100-017F;
-          }
-        `}
-      />
-      {children}
-    </>
-  );
-};
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <GlobalStyle>
-        <CustomColorModeProvider>
-          <MDXProvider components={MDXComponents}>
-            <DefaultSeo {...SEO} />
-            <Component {...pageProps} />
-          </MDXProvider>
-        </CustomColorModeProvider>
-      </GlobalStyle>
-    </ChakraProvider>
+    <Chakra cookies={pageProps.cookies}>
+      <CustomColorModeProvider>
+        <MDXProvider components={MDXComponents}>
+          <DefaultSeo {...SEO} />
+          <Component {...pageProps} />
+        </MDXProvider>
+      </CustomColorModeProvider>
+    </Chakra>
   );
 }
 

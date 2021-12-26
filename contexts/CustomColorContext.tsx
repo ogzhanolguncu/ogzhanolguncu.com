@@ -19,7 +19,6 @@ export const initialState = {
   publishedDateColor: { light: '#3f4852', dark: '#9dabbb' },
 };
 
-//If initial value is a const we specify as  ||| as typeof initialState ||
 const ColorModeContext = createContext({} as typeof initialState);
 
 type Props = {

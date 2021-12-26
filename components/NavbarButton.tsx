@@ -18,7 +18,6 @@ const NavbarButton = ({ LinkComponent, text, href }: NavbarProps) => {
         _hover={{ bg: 'rgba(0,0,0,.2)' }}
         p={[1, 4]}
         color="white"
-        fontFamily="Avenir-Roman"
       >
         {text}
       </Button>

@@ -20,6 +20,7 @@ const LANGUAGE_TAGS: Record<string, { color: string; hover: string }> = {
   optimization: { color: '#8f4dbf', hover: '#8f4dbfE2' },
   microfrontend: { color: '#c52546e2', hover: '#c52546' },
   functional_programming: { color: '#3f51b5', hover: '#212d72' },
+  solidity: { color: '#1b1b70', hover: '#1b1b60' },
 };
 
 export default LANGUAGE_TAGS;

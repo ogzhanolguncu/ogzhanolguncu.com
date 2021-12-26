@@ -46,7 +46,6 @@ const Navbar = () => {
               padding="1"
               color="white"
               letterSpacing="0.65px"
-              fontFamily="Avenir-Roman"
             >
               <Text fontSize={['xl', '2xl', '2xl', '2xl']} mr={2}>
                 🦉
