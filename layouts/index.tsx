@@ -28,7 +28,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
         justifyContent="center"
         alignItems="flex-start"
         m="0 auto 4rem auto"
-        maxWidth="700px"
+        maxWidth="800px"
         w="100%"
       >
         <Flex
@@ -36,7 +36,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          maxWidth="700px"
+          maxWidth="800px"
           w="100%"
           textAlign="center"
         >
@@ -91,7 +91,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
           </Flex>
         </Flex>
         {children}
-        <Text as="strong" fontSize="17.5px" color="rgb(221, 107, 32)">
+        <Text fontWeight="500" fontSize="17.5px" color="rgb(221, 107, 32)">
           Thanks for reading 🥳🥳🥳.
         </Text>
         <Link

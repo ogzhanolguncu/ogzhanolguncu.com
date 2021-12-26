@@ -11,7 +11,7 @@ const NavbarButton = ({ LinkComponent, text, href }: NavbarProps) => {
   return (
     <LinkComponent href={href} passHref>
       <Button
-        fontWeight={['medium', 'medium', 'medium']}
+        fontWeight="500"
         fontSize={['xs', 'sm', 'lg', 'xl']}
         as="a"
         variant="ghost"

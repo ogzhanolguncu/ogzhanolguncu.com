@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Thu, 02 Dec 2021 23:08:30 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 26 Dec 2021 16:50:41 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -15,6 +15,17 @@
         </image>
         <copyright>All rights reserved 2021, Oguzhan Olguncu</copyright>
         <item>
+            <title><![CDATA[The Mystical World of Solidity: Intro to Smart Contracts]]></title>
+            <link>https://ogzhanolguncu.com/blog/mystical-world-of-solidity</link>
+            <guid>https://ogzhanolguncu.com/blog/mystical-world-of-solidity</guid>
+            <pubDate>Sat, 25 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[If you ever wondered how to interact with the Ethereum network Solidity is here to help you.]]></description>
+            <content:encoded><![CDATA[If you ever wondered how to interact with the Ethereum network Solidity is here to help you.]]></content:encoded>
+            <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
+            <category domain="Web development/Javascript/Typescript">solidity</category>
+            <enclosure url="https://ogzhanolguncu.com/static/images/mystical-world-of-solidity/blockchain.webp" length="0" type="image/webp"/>
+        </item>
+        <item>
             <title><![CDATA[Processing Massive Data Sets with Transducers in Javascript]]></title>
             <link>https://ogzhanolguncu.com/blog/transducers-in-javascript</link>
             <guid>https://ogzhanolguncu.com/blog/transducers-in-javascript</guid>
@@ -22,7 +33,7 @@
             <description><![CDATA[In this article we`ll deep dive into transducers to optimize big data sets. Learn how to optimize compositions using Ramda and Javascript.]]></description>
             <content:encoded><![CDATA[In this article we`ll deep dive into transducers to optimize big data sets. Learn how to optimize compositions using Ramda and Javascript.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">tutorial,javascript,functional_programming</category>
+            <category domain="Web development/Javascript/Typescript">javascript,functional_programming,tutorial</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/transducers-in-javascript/stairs.webp" length="0" type="image/webp"/>
         </item>
         <item>

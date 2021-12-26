@@ -38,7 +38,7 @@ const Navbar = () => {
         <Box>
           <Link href="/" passHref>
             <Button
-              fontWeight={['medium', 'medium', 'medium']}
+              fontWeight="500"
               fontSize={['xs', 'sm', 'lg', 'xl']}
               as="a"
               variant="ghost"

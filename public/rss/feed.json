@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/mystical-world-of-solidity",
+            "content_html": "If you ever wondered how to interact with the Ethereum network Solidity is here to help you.",
+            "url": "https://ogzhanolguncu.com/blog/mystical-world-of-solidity",
+            "title": "The Mystical World of Solidity: Intro to Smart Contracts",
+            "summary": "If you ever wondered how to interact with the Ethereum network Solidity is here to help you.",
+            "image": "https://ogzhanolguncu.com/static/images/mystical-world-of-solidity/blockchain.webp",
+            "date_modified": "2021-12-25T00:00:00.000Z",
+            "date_published": "2021-12-25T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "solidity"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/transducers-in-javascript",
             "content_html": "In this article we`ll deep dive into transducers to optimize big data sets. Learn how to optimize compositions using Ramda and Javascript.",
             "url": "https://ogzhanolguncu.com/blog/transducers-in-javascript",
@@ -21,7 +37,7 @@
                 "name": "Oguzhan Olguncu"
             },
             "tags": [
-                "tutorial,javascript,functional_programming"
+                "javascript,functional_programming,tutorial"
             ]
         },
         {

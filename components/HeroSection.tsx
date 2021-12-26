@@ -129,7 +129,7 @@ const HeroSection = ({ gotoNewsletter }: Props) => {
                   ? colorModeObj.buttonHoverColor.light
                   : colorModeObj.buttonHoverColor.dark,
             }}
-            fontWeight="600"
+            fontWeight="500"
             fontSize={['15px', '16px', '16px', '18px']}
             mb={['10px', '10px', '0px', '0px']}
             mr={['0px', '0', '10px', '10px']}
@@ -141,7 +141,7 @@ const HeroSection = ({ gotoNewsletter }: Props) => {
             background={colorModeObj.feedBackButtonBackgroundColor[colorMode]}
             color={colorModeObj.feedBackButtonColor[colorMode]}
             padding="30px 30px"
-            fontWeight="600"
+            fontWeight="500"
             fontSize={['15px', '16px', '16px', '18px']}
             _hover={{
               backgroundColor:
