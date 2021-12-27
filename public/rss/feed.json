@@ -10,13 +10,13 @@
     "items": [
         {
             "id": "https://ogzhanolguncu.com/blog/mystical-world-of-solidity",
-            "content_html": "If you ever wondered how to interact with the Ethereum network Solidity is here to help you.",
+            "content_html": "Have you ever wondered how to interact with Ethereum through Smart Contracts? Solidity is here to help you with the help of Remix.",
             "url": "https://ogzhanolguncu.com/blog/mystical-world-of-solidity",
             "title": "The Mystical World of Solidity: Intro to Smart Contracts",
-            "summary": "If you ever wondered how to interact with the Ethereum network Solidity is here to help you.",
+            "summary": "Have you ever wondered how to interact with Ethereum through Smart Contracts? Solidity is here to help you with the help of Remix.",
             "image": "https://ogzhanolguncu.com/static/images/mystical-world-of-solidity/blockchain.webp",
-            "date_modified": "2021-12-25T00:00:00.000Z",
-            "date_published": "2021-12-25T00:00:00.000Z",
+            "date_modified": "2021-12-26T00:00:00.000Z",
+            "date_published": "2021-12-26T00:00:00.000Z",
             "author": {
                 "name": "Oguzhan Olguncu"
             },
