@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2021-12-26T16:50:41.034Z</updated>
+    <updated>2021-12-27T07:27:28.934Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -17,9 +17,9 @@
         <title type="html"><![CDATA[The Mystical World of Solidity: Intro to Smart Contracts]]></title>
         <id>https://ogzhanolguncu.com/blog/mystical-world-of-solidity</id>
         <link href="https://ogzhanolguncu.com/blog/mystical-world-of-solidity"/>
-        <updated>2021-12-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[If you ever wondered how to interact with the Ethereum network Solidity is here to help you.]]></summary>
-        <content type="html"><![CDATA[If you ever wondered how to interact with the Ethereum network Solidity is here to help you.]]></content>
+        <updated>2021-12-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Have you ever wondered how to interact with Ethereum through Smart Contracts? Solidity is here to help you with the help of Remix.]]></summary>
+        <content type="html"><![CDATA[Have you ever wondered how to interact with Ethereum through Smart Contracts? Solidity is here to help you with the help of Remix.]]></content>
         <author>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -29,7 +29,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </contributor>
-        <published>2021-12-25T00:00:00.000Z</published>
+        <published>2021-12-26T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Processing Massive Data Sets with Transducers in Javascript]]></title>

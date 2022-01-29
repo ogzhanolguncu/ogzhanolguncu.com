@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Sun, 26 Dec 2021 16:50:41 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 27 Dec 2021 07:27:28 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -18,9 +18,9 @@
             <title><![CDATA[The Mystical World of Solidity: Intro to Smart Contracts]]></title>
             <link>https://ogzhanolguncu.com/blog/mystical-world-of-solidity</link>
             <guid>https://ogzhanolguncu.com/blog/mystical-world-of-solidity</guid>
-            <pubDate>Sat, 25 Dec 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[If you ever wondered how to interact with the Ethereum network Solidity is here to help you.]]></description>
-            <content:encoded><![CDATA[If you ever wondered how to interact with the Ethereum network Solidity is here to help you.]]></content:encoded>
+            <pubDate>Sun, 26 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Have you ever wondered how to interact with Ethereum through Smart Contracts? Solidity is here to help you with the help of Remix.]]></description>
+            <content:encoded><![CDATA[Have you ever wondered how to interact with Ethereum through Smart Contracts? Solidity is here to help you with the help of Remix.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
             <category domain="Web development/Javascript/Typescript">solidity</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/mystical-world-of-solidity/blockchain.webp" length="0" type="image/webp"/>
