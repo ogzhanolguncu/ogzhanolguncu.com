@@ -5,7 +5,6 @@ import TextLink from '@components/TextLink';
 import React, { ReactNode, useContext } from 'react';
 import { ColorModeContext } from '@contexts/CustomColorContext';
 import { NextSeo } from 'next-seo';
-import Timeline from '@components/Timeline';
 
 const url = 'https://ogzhanolguncu.com/about';
 const title = 'About Me – Oğuzhan Olguncu';
@@ -65,7 +64,6 @@ const About = () => {
             I also like to make open source projects, all of which can be found on github and I'm
             also huge classical turkish music lover and recreational powerlifter.
           </CustomText>
-
           <Heading
             fontSize="1.3rem"
             color={
@@ -100,20 +98,6 @@ const About = () => {
               <TextLink text="@ogzhanolguncu" url="mailto:ogzhan11@gmail.com" />
             </ListItem>
           </List>
-          <Heading
-            fontSize="1.6rem"
-            textAlign="center"
-            fontFamily="Inter"
-            color={
-              colorMode === 'light' ? colorModeObj.titleColor.light : colorModeObj.titleColor.dark
-            }
-            mb="1.5rem"
-            pb="1rem"
-            w="100%"
-          >
-            Timeline
-          </Heading>
-          <Timeline />
         </Flex>
       </Layout>
     </>
