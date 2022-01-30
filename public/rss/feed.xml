@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Mon, 27 Dec 2021 07:27:28 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 30 Jan 2022 22:13:25 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -13,7 +13,18 @@
             <url>https://ogzhanolguncu.com/logo.svg</url>
             <link>https://ogzhanolguncu.com</link>
         </image>
-        <copyright>All rights reserved 2021, Oguzhan Olguncu</copyright>
+        <copyright>All rights reserved 2022, Oguzhan Olguncu</copyright>
+        <item>
+            <title><![CDATA[Introduction to Micro Frontends with Module Federation, React and Typescript - Updated 2022]]></title>
+            <link>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</link>
+            <guid>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</guid>
+            <pubDate>Mon, 31 Jan 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[In this article we will set up Micro Frontends with Module Federation, React and Typescript]]></description>
+            <content:encoded><![CDATA[In this article we will set up Micro Frontends with Module Federation, React and Typescript]]></content:encoded>
+            <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
+            <category domain="Web development/Javascript/Typescript">typescript,react,tutorial,microfrontend</category>
+            <enclosure url="https://ogzhanolguncu.com/static/images/micro-frontends-with-module-federation/micro-frontends.webp" length="0" type="image/webp"/>
+        </item>
         <item>
             <title><![CDATA[The Mystical World of Solidity: Intro to Smart Contracts]]></title>
             <link>https://ogzhanolguncu.com/blog/mystical-world-of-solidity</link>
@@ -57,17 +68,6 @@
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
             <category domain="Web development/Javascript/Typescript">tutorial,javascript,functional_programming</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/function-composition-javascript/pillars.webp" length="0" type="image/webp"/>
-        </item>
-        <item>
-            <title><![CDATA[Introduction to Micro Frontends with Module Federation, React and Typescript]]></title>
-            <link>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</link>
-            <guid>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</guid>
-            <pubDate>Sun, 23 May 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[In this article we will set up Micro Frontends with Module Federation, React and Typescript]]></description>
-            <content:encoded><![CDATA[In this article we will set up Micro Frontends with Module Federation, React and Typescript]]></content:encoded>
-            <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">typescript,react,tutorial,microfrontend</category>
-            <enclosure url="https://ogzhanolguncu.com/static/images/micro-frontends-with-module-federation/micro-frontends.webp" length="0" type="image/webp"/>
         </item>
         <item>
             <title><![CDATA[Migrating CRA to Micro Frontends with Single SPA]]></title>

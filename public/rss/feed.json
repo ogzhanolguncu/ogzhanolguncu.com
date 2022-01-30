@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation",
+            "content_html": "In this article we will set up Micro Frontends with Module Federation, React and Typescript",
+            "url": "https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation",
+            "title": "Introduction to Micro Frontends with Module Federation, React and Typescript - Updated 2022",
+            "summary": "In this article we will set up Micro Frontends with Module Federation, React and Typescript",
+            "image": "https://ogzhanolguncu.com/static/images/micro-frontends-with-module-federation/micro-frontends.webp",
+            "date_modified": "2022-01-31T00:00:00.000Z",
+            "date_published": "2022-01-31T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,react,tutorial,microfrontend"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/mystical-world-of-solidity",
             "content_html": "Have you ever wondered how to interact with Ethereum through Smart Contracts? Solidity is here to help you with the help of Remix.",
             "url": "https://ogzhanolguncu.com/blog/mystical-world-of-solidity",
@@ -70,22 +86,6 @@
             },
             "tags": [
                 "tutorial,javascript,functional_programming"
-            ]
-        },
-        {
-            "id": "https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation",
-            "content_html": "In this article we will set up Micro Frontends with Module Federation, React and Typescript",
-            "url": "https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation",
-            "title": "Introduction to Micro Frontends with Module Federation, React and Typescript",
-            "summary": "In this article we will set up Micro Frontends with Module Federation, React and Typescript",
-            "image": "https://ogzhanolguncu.com/static/images/micro-frontends-with-module-federation/micro-frontends.webp",
-            "date_modified": "2021-05-23T00:00:00.000Z",
-            "date_published": "2021-05-23T00:00:00.000Z",
-            "author": {
-                "name": "Oguzhan Olguncu"
-            },
-            "tags": [
-                "typescript,react,tutorial,microfrontend"
             ]
         },
         {

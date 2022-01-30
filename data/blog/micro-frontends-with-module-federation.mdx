@@ -1,21 +1,22 @@
 ---
-title: 'Introduction to Micro Frontends with Module Federation, React and Typescript'
-publishedAt: '2021-05-23'
+title: 'Introduction to Micro Frontends with Module Federation, React and Typescript - Updated 2022'
+publishedAt: '2022-01-31'
 summary: 'In this article we will set up Micro Frontends with Module Federation, React and Typescript'
 image: '/static/images/micro-frontends-with-module-federation/micro-frontends.webp'
 languageTags: ['typescript', 'react', 'tutorial', 'microfrontend']
-isPopular: false
+isPopular: true
 guides: true
 ---
 
 ![Micro Frontends with Module Federation](/static/images/micro-frontends-with-module-federation/micro-frontends.webp)
 
-The Micro Frontend is one of the hottest topics on the internet right now. We hear it all the time, but what is micro Frontend? Imagine a website with lots of components such as Navbar, Footer, Main Container and Side Menu. What would happen, if they were being served from different domains? Yes, you guessed it right we would've ended up with a micro Frontend. Now, thanks to micro frontend technologies, we can deal with those apps separately. We can write their unit tests separately, e2e tests separately we can even use different frameworks like Angular, Vue and Svelte.
+The Micro Frontend is one of the hottest topics on the internet right now. We hear it all the time, but what is micro frontend? Imagine a website with different components such as Navbar, Footer, Main Container and Side Menu. What would've happened if they served from unique domains/origins? Yes, you guessed it right; we would have ended up with a micro Frontend. Thanks to the Webpack module federation, we can deal with those apps separately.
+What I mean by separate is we can write their unit tests separately, e2e tests separately we can even use different frameworks like Angular, Vue and Svelte.
 
 There are two major players to make those things happen right now, one of them is Module Federation and another one is Single SPA which I covered here: [🔗Migrating CRA to Micro Frontends with Single SPA](https://ogzhanolguncu.com/blog/migrating-cra-to-micro-frontends-with-single-spa).
 
 Unlike **Single SPA**, **Module Federation** is lot less opiniated. You can architect your project however you want in Module Federation whereas in Single SPA you need setup a config file and architect your project around this file.
-And there is only one thing scary about micro Frontends, and, that is configurations. Initial configuration scares people away because there are lots of pieces you need to bring together, and if it's your first time, without guidance, it's so easy to get lost.
+And there is only one thing scary about micro Frontends, and, that is configurations. Initial configuration scares people away because there are lots of pieces you need to glue together, and if it's your first time, without guidance, it's so easy to get lost.
 
 ### Working Example
 
@@ -59,7 +60,7 @@ container
 Let's add our dependencies
 
 ```bash
-yarn add html-webpack-plugin serve ts-loader webpack webpack-cli webpack-dev-server
+yarn add html-webpack-plugin serve ts-loader webpack webpack-cli webpack-dev-server @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^5
 ```
 
 We need to make some changes. Create a file called `bootstrap.tsx` and move `index.ts` into `bootstrap.tsx`.
@@ -71,7 +72,12 @@ import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <ChakraProvider>
+    <App />
+  </ChakraProvider>,
+  document.getElementById('root'),
+);
 ```
 
 And add those into `index.ts`
@@ -80,7 +86,6 @@ And add those into `index.ts`
 
 ```typescript
 import('./bootstrap');
-export {};
 ```
 
 And, finally add those into `app.tsx` for future use. We will discuss them later.
@@ -88,52 +93,73 @@ And, finally add those into `app.tsx` for future use. We will discuss them later
 ### app.tsx
 
 ```typescript
+import { Box, Center, Flex, Heading, Spinner, Image, Link, Text } from '@chakra-ui/react';
 import React from 'react';
-//@ts-ignore
-import CounterAppTwo from 'app2/CounterAppTwo';
-//@ts-ignore
-import CounterAppOne from 'app1/CounterAppOne';
 
-export default () => (
-  <div style={{ margin: '20px' }}>
-    <React.Suspense fallback="Loading header...">
-      <div
-        style={{
-          border: '1px dashed black',
-          height: '50vh',
-          display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
+const CounterAppOne = React.lazy(() => import('app1/CounterAppOne'));
+const CounterAppTwo = React.lazy(() => import('app2/CounterAppTwo'));
+
+const App = () => (
+  <>
+    <Center
+      height="100vh"
+      width="100%"
+      backgroundColor="#1B1A29"
+      margin="0"
+      p="0"
+      flexDirection="column"
+    >
+      <Box color="#fff" position="fixed" right="0" top="0" mr="2rem" mt="2rem">
+        Latest Build Date: <Text fontWeight="bold">{version}</Text>
+      </Box>
+      <Flex
+        border="1px solid #151421"
+        borderRadius="1rem"
+        height="50vh"
+        justifyContent="space-around"
+        alignItems="center"
+        flexDirection="column"
+        padding="5rem"
+        backgroundColor="#6F60EA"
       >
-        <h1>CONTAINER</h1>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-          }}
-        >
-          <div
-            style={{
-              marginRight: '2rem',
-              padding: '2rem',
-              border: '1px dashed black',
-            }}
-          >
-            <h2>APP-1</h2>
-            <CounterAppOne />
-          </div>
-          <div style={{ border: '1px dashed black', padding: '2rem' }}>
-            <h2>APP-2</h2>
-            <CounterAppTwo />
-          </div>
-        </div>
-      </div>
-    </React.Suspense>
-  </div>
+        <Heading color="#fff">CONTAINER</Heading>
+        <Flex direction="row" justifyContent="space-around">
+          <React.Suspense fallback={<Spinner size="xl" />}>
+            <Box
+              p="2rem"
+              mr="2rem"
+              border="1px solid #aeaeae"
+              borderRadius="1rem"
+              backgroundColor="#fff"
+            >
+              <Heading color="#6F60EA" mb="1rem">
+                APP-1
+              </Heading>
+              <CounterAppOne />
+            </Box>
+          </React.Suspense>
+          <React.Suspense fallback={<Spinner size="xl" />}>
+            <Box p="2rem" border="1px solid #aeaeae" borderRadius="1rem" backgroundColor="#fff">
+              <Heading color="#6F60EA" mb="1rem">
+                APP-2
+              </Heading>
+              <CounterAppTwo />
+            </Box>
+          </React.Suspense>
+        </Flex>
+      </Flex>
+      <Link
+        marginTop="5rem"
+        href="https://github.com/ogzhanolguncu/react-typescript-module-federation"
+        target="_blank"
+      >
+        <Image src="./git.png" height="45px" width="45px" />
+      </Link>
+    </Center>
+  </>
 );
+
+export default App;
 ```
 
 We've completed component parts and here comes the critical part. We need to setup our container apps Webpack to receive `app-1` and `app-2`.
@@ -142,56 +168,63 @@ We've completed component parts and here comes the critical part. We need to set
 
 ```javascript
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { ModuleFederationPlugin } = require('webpack').container;
-const path = require('path');
+const webpack = require('webpack'); // only add this if you don't have yet
+const { ModuleFederationPlugin } = webpack.container;
 const deps = require('./package.json').dependencies;
 
-module.exports = {
-  entry: './src/index.ts',
-  mode: 'development',
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    port: 3000,
-  },
-  output: {
-    publicPath: 'http://localhost:3000/',
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx|tsx|ts)$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  plugins: [
-    new ModuleFederationPlugin({
-      name: 'container',
-      library: { type: 'var', name: 'container' },
-      remotes: {
-        app1: 'app1',
-        app2: 'app2',
-      },
-      shared: {
-        ...deps,
-        react: { singleton: true, eager: true, requiredVersion: deps.react },
-        'react-dom': {
-          singleton: true,
-          eager: true,
-          requiredVersion: deps['react-dom'],
+module.exports = (env, argv) => {
+  const isProduction = argv.mode === 'production';
+  console.log({ isProduction });
+  return {
+    entry: './src/index.ts',
+    mode: process.env.NODE_ENV || 'development',
+    devServer: {
+      port: 3000,
+      open: true,
+    },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js'],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx|tsx|ts)$/,
+          loader: 'ts-loader',
+          exclude: /node_modules/,
         },
-      },
-    }),
-    new HtmlWebpackPlugin({
-      template: './public/index.dev.html',
-    }),
-  ],
+      ],
+    },
+
+    plugins: [
+      new webpack.EnvironmentPlugin({ BUILD_DATE: buildDate }),
+      new webpack.DefinePlugin({
+        'process.env': JSON.stringify(process.env),
+      }),
+      new ModuleFederationPlugin({
+        name: 'container',
+        remotes: {
+          app1: 'app1@http://localhost:3001/remoteEntry.js',
+          app2: 'app2@http://localhost:3002/remoteEntry.js',
+        },
+        shared: {
+          ...deps,
+          react: { singleton: true, eager: true, requiredVersion: deps.react },
+          'react-dom': {
+            singleton: true,
+            eager: true,
+            requiredVersion: deps['react-dom'],
+          },
+        },
+      }),
+      new HtmlWebpackPlugin({
+        template: './public/index.html',
+      }),
+    ],
+  };
 };
 ```
+
+> If you specify your shared dependency as a singleton, they all consume the shared instance. And, eager means dependency will be ready to be consumed in the initial chunk.
 
 Update your `package.json` scripts as follows:
 
@@ -229,6 +262,26 @@ Update your `tsconfig` as follows:
 }
 ```
 
+And to avoid type issues with remotes - federated parts such as app1 and app2 - we need to define `.d.ts` file.
+
+### remoteTypes.d.ts
+
+```typescript
+///<reference types="react" />
+
+declare module 'app1/CounterAppOne' {
+  const CounterAppOne: React.ComponentType;
+
+  export default CounterAppOne;
+}
+
+declare module 'app2/CounterAppTwo' {
+  const CounterAppTwo: React.ComponentType;
+
+  export default CounterAppTwo;
+}
+```
+
 Most important thing to consider is `ModuleFederationPlugin`. We specify `name` of the module and `remotes` we receive from outside of the project. And set shared dependencies for eager consumption.
 
 > Don't mess up remote names. If the names are set incorrectly project won't compile.
@@ -238,16 +291,13 @@ Final step is to edit `index.html`.
 ```html
 <html>
   <head>
-    <script src="http://localhost:3001/remoteEntry.js"></script>
-    <script src="http://localhost:3002/remoteEntry.js"></script>
+    <title>CONTAINER</title>
   </head>
   <body>
     <div id="root"></div>
   </body>
 </html>
 ```
-
-Here, we add remotes with corresponding ports.
 
 Now our container app is ready we need setup `app-1` and `app-2`, and expose `<Counter />` components. Steps are pretty much the same, we'll setup `bootstrap.tsx` and `webpack.config.js`.
 There are only minor changes in webpack config.
@@ -277,7 +327,7 @@ Let's add our dependencies
 
 ```bash
 npx create-react-app app-1 --template typescript
-yarn add html-webpack-plugin serve ts-loader webpack webpack-cli webpack-dev-server
+yarn add html-webpack-plugin serve ts-loader webpack webpack-cli webpack-dev-server @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^5
 ```
 
 Just like we did in Container app we'll setup `bootstrap.tsx`, `index.ts` and `app.tsx`.
@@ -289,7 +339,12 @@ import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <ChakraProvider>
+    <App />
+  </ChakraProvider>,
+  document.getElementById('root'),
+);
 ```
 
 And add those into `index.ts`
@@ -298,24 +353,24 @@ And add those into `index.ts`
 
 ```typescript
 import('./bootstrap');
-export {};
 ```
 
 And, finally add those into `app.tsx` for future use. We will discuss them later.
 
-### app.tsx
+### App.tsx
 
 ```typescript
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 import CounterAppOne from './components/CounterAppOne';
 
 const App = () => (
-  <div style={{ margin: '20px' }}>
-    <div>APP-1 - S4 </div>
-    <div>
+  <Box margin="1.2rem">
+    <Box>APP-1</Box>
+    <Box>
       <CounterAppOne />
-    </div>
-  </div>
+    </Box>
+  </Box>
 );
 
 export default App;
@@ -326,19 +381,20 @@ Now we will create `<Counter />` component which we will expose to container lat
 ### components > CounterAppOne.tsx
 
 ```typescript
+import { Text, Button, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 const Counter = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <div>
-      <p>
+    <Flex gap="1rem" direction="column">
+      <Text>
         Add by one each click <strong>APP-1</strong>
-      </p>
-      <p>Your click count: {count} </p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-    </div>
+      </Text>
+      <Text>Your click count : {count} </Text>
+      <Button onClick={() => setCount(count + 1)}>Click me</Button>
+    </Flex>
   );
 };
 
@@ -357,11 +413,8 @@ module.exports = {
   entry: './src/index.ts',
   mode: 'development',
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
     port: 3001,
-  },
-  output: {
-    publicPath: 'http://localhost:3001/',
+    open: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -378,7 +431,6 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       name: 'app1',
-      library: { type: 'var', name: 'app1' },
       filename: 'remoteEntry.js',
       exposes: {
         // expose each component
@@ -441,7 +493,9 @@ Edit `index.html`.
 
 ```html
 <html>
-  <head> </head>
+  <head>
+    <title>APP-1</title>
+  </head>
   <body>
     <div id="root"></div>
   </body>
@@ -449,8 +503,15 @@ Edit `index.html`.
 ```
 
 This config has some differences. We set port differently, exposed our app instead of remoting it, and we have a thing called `filename` where expose our
-module to different modules. Remember that we add ` <script src="http://local``host:3001/remoteEntry.js"></script> ` to our container index.html. This is where
-`container` will look up for `app-1`.
+module to different modules. Remember that we add
+
+```bash
+remotes: {
+          app1: 'app1@http://localhost:3001/remoteEntry.js',
+        },
+```
+
+to our container `webpack.config.js`. This is where `container` will look up for `app-1`.
 
 Important things here:
 
@@ -487,19 +548,20 @@ App-2 is pretty much the same. Create a new react project do all the thing above
 ### components > CounterAppTwo
 
 ```typescript
+import { Button, Flex, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 const Counter = () => {
   const [count, setCount] = useState(1);
 
   return (
-    <div>
-      <p>
-        Multiply by two each click <strong>APP-2</strong>
-      </p>
-      <p>Your click count: {count}</p>
-      <button onClick={() => setCount((prevState) => prevState * 2)}>Click me</button>
-    </div>
+    <Flex gap="1rem" direction="column">
+      <Text>
+        Add by one each click <strong>APP-1</strong>
+      </Text>
+      <Text>Your click count : {count} </Text>
+      <Button onClick={() => setCount((prevState) => prevState * 2)}>Click me</Button>
+    </Flex>
   );
 };
 
@@ -518,11 +580,8 @@ module.exports = {
   entry: './src/index.ts',
   mode: 'development',
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
     port: 3002,
-  },
-  output: {
-    publicPath: 'http://localhost:3002/',
+    open: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -539,7 +598,6 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       name: 'app2',
-      library: { type: 'var', name: 'app2' },
       filename: 'remoteEntry.js',
       exposes: {
         // expose each component
@@ -602,7 +660,9 @@ Edit `index.html`.
 
 ```html
 <html>
-  <head> </head>
+  <head>
+    <title>APP-2</title>
+  </head>
   <body>
     <div id="root"></div>
   </body>
