@@ -29,30 +29,22 @@
     "@emotion/styled": "^11.3.0",
     "@mdx-js/react": "^1.6.18",
     "axios": "^0.25.0",
-    "date-fns": "^2.16.1",
     "dayjs": "^1.10.7",
     "feed": "^4.2.2",
     "framer-motion": "^3.2.0",
     "fuse.js": "3.4.3",
-    "globby": "^13.1.0",
     "gray-matter": "^4.0.2",
     "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
     "mdx-prism": "^0.3.1",
-    "next": "^11.1.0",
+    "next": "^12.0.9",
     "next-mdx-remote": "^3.0.4",
     "next-seo": "^4.26.0",
     "preact": "10.5.15",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "react-icons": "^4.1.0",
-    "react-intersection-observer": "^8.31.0",
-    "react-markdown": "^4.3.1",
-    "reading-time": "^1.2.0",
-    "remark-autolink-headings": "^6.0.1",
-    "remark-code-titles": "^0.1.1",
-    "remark-html": "^13.0.1",
-    "remark-slug": "^6.0.0"
+    "react-intersection-observer": "^8.31.0"
   },
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.6",
@@ -71,6 +63,12 @@
     "lint-staged": "^10.3.0",
     "prettier": "^2.1.1",
     "rehype": "^11.0.0",
-    "typescript": "^4.3.2"
+    "reading-time": "^1.2.0",
+    "remark-autolink-headings": "^6.0.1",
+    "remark-code-titles": "^0.1.1",
+    "remark-html": "^13.0.1",
+    "remark-slug": "^6.0.0",
+    "typescript": "^4.3.2",
+    "globby": "^13.1.0"
   }
 }
