@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/event-propagation-in-react",
+            "content_html": "A deep dive into event propagation in React through examples.",
+            "url": "https://ogzhanolguncu.com/blog/event-propagation-in-react",
+            "title": "Event Propagation in React",
+            "summary": "A deep dive into event propagation in React through examples.",
+            "image": "https://ogzhanolguncu.com/static/images/event-propagation-in-react/event-propagation.jpg",
+            "date_modified": "2022-02-16T00:00:00.000Z",
+            "date_published": "2022-02-16T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,react,tutorial"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation",
             "content_html": "In this article we will set up Micro Frontends with Module Federation, React and Typescript",
             "url": "https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation",

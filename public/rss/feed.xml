@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Mon, 31 Jan 2022 07:55:48 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 15 Feb 2022 23:08:52 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -14,6 +14,17 @@
             <link>https://ogzhanolguncu.com</link>
         </image>
         <copyright>All rights reserved 2022, Oguzhan Olguncu</copyright>
+        <item>
+            <title><![CDATA[Event Propagation in React]]></title>
+            <link>https://ogzhanolguncu.com/blog/event-propagation-in-react</link>
+            <guid>https://ogzhanolguncu.com/blog/event-propagation-in-react</guid>
+            <pubDate>Wed, 16 Feb 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[A deep dive into event propagation in React through examples.]]></description>
+            <content:encoded><![CDATA[A deep dive into event propagation in React through examples.]]></content:encoded>
+            <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
+            <category domain="Web development/Javascript/Typescript">typescript,react,tutorial</category>
+            <enclosure url="https://ogzhanolguncu.com/static/images/event-propagation-in-react/event-propagation.jpg" length="0" type="image/jpg"/>
+        </item>
         <item>
             <title><![CDATA[Introduction to Micro Frontends with Module Federation, React and Typescript - Updated 2022]]></title>
             <link>https://ogzhanolguncu.com/blog/micro-frontends-with-module-federation</link>

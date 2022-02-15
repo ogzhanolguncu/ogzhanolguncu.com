@@ -38,14 +38,6 @@ const GlobalStyle = ({ children }: { children: ReactChild }) => {
             min-height: 100vh;
             background: ${colorMode === 'light' ? 'white' : '#171923'};
           }
-          @font-face {
-            font-family: 'Avenir-Roman';
-            src: url('/fonts/Avenir-Roman.woff2') format('woff2');
-            font-style: medium;
-            font-weight: 500;
-            font-display: swap;
-            unicode-range: U+0020-007F, U+0100-017F;
-          }
         `}
       />
       {children}

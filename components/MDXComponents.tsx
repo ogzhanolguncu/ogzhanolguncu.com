@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import CodeSandBox from './CodeSandBox';
+import EventBubbling from './EventPropagationExample/Bubbling';
 
 const Table = (props: any) => (
   <Box overflowX="scroll" w="full">
@@ -193,6 +194,7 @@ const MDXComponents = {
   li: (props: any) => <Box as="li" pb={1} fontSize="17.5px" {...props} />,
   strong: Tstrong,
   CodeSandBox,
+  EventBubbling,
   blockquote: Quote,
 };
 
