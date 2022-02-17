@@ -54,7 +54,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
   const router = useRouter();
 
   const updateSearch = () => {
-    const results = (fuse.search(input) as unknown) as FusedType[];
+    const results = fuse.search(input) as unknown as FusedType[];
     const blogResults = results.map((res) => res.item);
     const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
     setFusedBlog(searchedBlogPosts);
@@ -174,7 +174,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                   >
                     {blog}
                   </Heading>
-                  {fusedBlog[(blog as unknown) as number].map((article) => (
+                  {fusedBlog[blog as unknown as number].map((article) => (
                     <Article
                       key={`${blog}${article.id}`}
                       justifyContent="space-between"

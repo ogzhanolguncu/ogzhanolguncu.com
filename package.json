@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "node ./scripts/generate-sitemap.mjs",
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "start": "next start",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "type-check": "tsc --pretty --noEmit",
@@ -59,16 +59,17 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
+    "globby": "^13.1.0",
     "husky": "^7.0.4",
     "lint-staged": "^10.3.0",
+    "next-sitemap": "^2.4.2",
     "prettier": "^2.1.1",
-    "rehype": "^11.0.0",
     "reading-time": "^1.2.0",
+    "rehype": "^11.0.0",
     "remark-autolink-headings": "^6.0.1",
     "remark-code-titles": "^0.1.1",
     "remark-html": "^13.0.1",
     "remark-slug": "^6.0.0",
-    "typescript": "^4.3.2",
-    "globby": "^13.1.0"
+    "typescript": "^4.3.2"
   }
 }

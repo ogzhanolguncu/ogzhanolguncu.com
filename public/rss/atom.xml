@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2022-02-17T08:11:41.758Z</updated>
+    <updated>2022-02-17T11:38:16.154Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -17,7 +17,7 @@
         <title type="html"><![CDATA[Event Propagation in React]]></title>
         <id>https://ogzhanolguncu.com/blog/event-propagation-in-react</id>
         <link href="https://ogzhanolguncu.com/blog/event-propagation-in-react"/>
-        <updated>2022-02-16T00:00:00.000Z</updated>
+        <updated>2022-02-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A deep dive into event propagation in React through examples.]]></summary>
         <content type="html"><![CDATA[A deep dive into event propagation in React through examples.]]></content>
         <author>
@@ -29,7 +29,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </contributor>
-        <published>2022-02-16T00:00:00.000Z</published>
+        <published>2022-02-17T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Introduction to Micro Frontends with Module Federation, React and Typescript - Updated 2022]]></title>
