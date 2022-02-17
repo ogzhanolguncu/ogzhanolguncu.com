@@ -14,8 +14,8 @@
   },
   "lint-staged": {
     "*.@(ts|tsx)": [
-      "yarn lint",
-      "yarn format"
+      "npm run lint",
+      "npm run format"
     ]
   },
   "browserslist": [
@@ -71,5 +71,8 @@
     "remark-html": "^13.0.1",
     "remark-slug": "^6.0.0",
     "typescript": "^4.3.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
