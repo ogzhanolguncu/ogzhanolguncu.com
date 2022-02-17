@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Center, Checkbox, Flex, Text } from '@chakra-ui/react';
 
-const Bubbling = () => {
+const Capturing = () => {
   const [propagateLevel, setPropagateLevel] = useState<number[]>([]);
   const [bubbledName, setBubbledName] = useState<string>();
   const [propagationStopped, setPropagationStopped] = useState<boolean>(false);
@@ -9,10 +9,10 @@ const Bubbling = () => {
 
   const handleParentClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setPropagateLevel([]);
-    setTimeout(() => setPropagateLevel((prevState) => [...prevState, 1]), 1600);
+    setTimeout(() => setPropagateLevel((prevState) => [...prevState, 1]), 1000);
     propagationStopped && event.stopPropagation();
     sendAlert && alert('LEVEL 1');
-    setBubbledName('LEVEL 1');
+    setBubbledName('LEVEL 3');
   };
   const handleFirstChildClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setPropagateLevel([]);
@@ -25,10 +25,10 @@ const Bubbling = () => {
   const handleSecondChildClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setPropagateLevel([]);
 
-    setTimeout(() => setPropagateLevel((prevState) => [...prevState, 3]), 1000);
+    setTimeout(() => setPropagateLevel((prevState) => [...prevState, 3]), 1600);
     propagationStopped && event.stopPropagation();
     sendAlert && alert('LEVEL 3');
-    setBubbledName('LEVEL 3');
+    setBubbledName('LEVEL 1');
   };
 
   return (
@@ -75,9 +75,7 @@ const Bubbling = () => {
       <Text>LEVEL 1</Text>
       <Box
         p="4rem"
-        onClick={(e) => {
-          return handleParentClick(e);
-        }}
+        onClickCapture={handleParentClick}
         border="3px solid blue"
         borderRadius="10px"
         boxShadow={propagateLevel.includes(1) ? '0px 0px 50px blue' : 'initial'}
@@ -86,9 +84,7 @@ const Bubbling = () => {
         <Text textAlign="center">LEVEL 2</Text>
         <Box
           p="3rem"
-          onClick={(e) => {
-            return handleFirstChildClick(e);
-          }}
+          onClickCapture={handleFirstChildClick}
           border="3px solid green"
           borderRadius="10px"
           boxShadow={propagateLevel.includes(2) ? '0px 0px 50px green' : 'initial'}
@@ -96,9 +92,7 @@ const Bubbling = () => {
           <Text textAlign="center">LEVEL 3</Text>
           <Box
             p="3rem"
-            onClick={(e) => {
-              return handleSecondChildClick(e);
-            }}
+            onClickCapture={handleSecondChildClick}
             border="3px solid red"
             borderRadius="10px"
             boxShadow={propagateLevel.includes(3) ? '0px 0px 50px red' : 'initial'}
@@ -109,4 +103,4 @@ const Bubbling = () => {
   );
 };
 
-export default Bubbling;
+export default Capturing;

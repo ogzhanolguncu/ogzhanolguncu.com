@@ -15,6 +15,7 @@ import {
 import NextLink from 'next/link';
 import CodeSandBox from './CodeSandBox';
 import EventBubbling from './EventPropagationExample/Bubbling';
+import EventCapturing from './EventPropagationExample/Capturing';
 
 const Table = (props: any) => (
   <Box overflowX="scroll" w="full">
@@ -178,7 +179,7 @@ const MDXComponents = {
   h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
   h3: (props: any) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
   inlineCode: (props: any) => (
-    <Code colorScheme="yellow" fontSize={['0.45em', '0.55em', '0.60em', '0.84em']} {...props} />
+    <Code colorScheme="yellow" fontSize={['0.60em', '0.60em', '0.60em', '0.84em']} {...props} />
   ),
   kbd: Kbd,
   br: (props: any) => <Box height="24px" {...props} />,
@@ -195,6 +196,7 @@ const MDXComponents = {
   strong: Tstrong,
   CodeSandBox,
   EventBubbling,
+  EventCapturing,
   blockquote: Quote,
 };
 
