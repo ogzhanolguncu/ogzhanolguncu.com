@@ -57,7 +57,6 @@ const Navbar = () => {
         <Box>
           <NavbarButton LinkComponent={Link} href="/about" text="About" />
           <NavbarButton LinkComponent={Link} href="/blog" text="Blog" />
-          <NavbarButton LinkComponent={Link} href="/guides" text="Guides" />
           <IconButton
             fontWeight={['normal', 'medium', 'bold']}
             fontSize={['xs', 'sm', 'lg', 'xl']}

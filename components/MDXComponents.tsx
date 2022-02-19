@@ -16,6 +16,8 @@ import NextLink from 'next/link';
 import CodeSandBox from './CodeSandBox';
 import EventBubbling from './EventPropagationExample/Bubbling';
 import EventCapturing from './EventPropagationExample/Capturing';
+import AsyncWithtHook from './CustomHookExample/AsyncWithHook';
+import ToggleWithHook from './CustomHookExample/AsyncWithoutHook';
 
 const Table = (props: any) => (
   <Box overflowX="scroll" w="full">
@@ -197,6 +199,8 @@ const MDXComponents = {
   CodeSandBox,
   EventBubbling,
   EventCapturing,
+  AsyncWithtHook,
+  ToggleWithHook,
   blockquote: Quote,
 };
 

@@ -45,7 +45,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body>
-          <ColorModeScript />
+          <ColorModeScript initialColorMode={'dark'} />
           <Main />
           <NextScript />
         </body>
