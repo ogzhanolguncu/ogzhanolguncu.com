@@ -158,10 +158,7 @@ const HeroSection = ({ gotoNewsletter }: Props) => {
           w={['120px', '120px', '100%', '100%']}
           h={['120px', '120px', '390px', '390px']}
           src={'/static/images/350.webp'}
-          alt="Profile Photo"
-          loadingType="eager"
-          nextWidth="390px"
-          nextHeight="390px"
+          alt="Profile Photo Oğuzhan Olguncu"
         />
       </Box>
     </Flex>

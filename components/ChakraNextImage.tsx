@@ -1,43 +1,35 @@
-import { Box, BoxProps, useBreakpointValue } from '@chakra-ui/react';
-import styled from '@emotion/styled';
+import { Box, chakra, ImageProps } from '@chakra-ui/react';
 import Image from 'next/image';
 
-type ChakraNextImageProps = {
-  src: string;
-  alt: string;
-  loadingType?: 'eager' | 'lazy';
-  nextWidth: string;
-  nextHeight: string;
-} & Omit<BoxProps, 'as'>;
-
-export const ChakraNextImage = ({
-  src,
-  alt,
-  loadingType = 'lazy',
-  nextWidth,
-  nextHeight,
-
-  ...rest
-}: ChakraNextImageProps) => {
-  const borderradius = useBreakpointValue({ base: '50%', md: '16px' });
+export const ChakraNextImage = ({ src, alt, ...rest }: ImageProps) => {
+  const ChakraImage = chakra(Image, {
+    baseStyle: { maxH: 120, maxW: 120 },
+    shouldForwardProp: (prop) =>
+      [
+        'width',
+        'height',
+        'src',
+        'alt',
+        'quality',
+        'placeholder',
+        'blurDataURL',
+        'loader ',
+      ].includes(prop),
+  });
 
   return (
     <Box position="relative" {...rest}>
-      <NextImage
+      <ChakraImage
         objectFit="cover"
-        src={src}
+        src={src as any}
         alt={alt}
-        loading={loadingType}
+        loading="eager"
         placeholder="blur"
         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAIQAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAFA4PEg8NFBIQEhcVFBgeMiEeHBwePSwuJDJJQExLR0BGRVBac2JQVW1WRUZkiGVtd3uBgoFOYI2XjH2Wc36BfP/bAEMBFRcXHhoeOyEhO3xTRlN8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fP/AABEIAIkAiQMBIgACEQEDEQH/xAAZAAEBAQEBAQAAAAAAAAAAAAACAQADBQT/xAAWEAEBAQAAAAAAAAAAAAAAAAAAARH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A+VlYEZUBEJARFQERUBEVARFYERWBGZgfY2FjYA4mFjYAoWJgChYmAKFiAKEgChIAsrAjMwPvxMPGwAxsLGwAxMPEwAxMPEsALBsOxLACodg2AKFUAUJARlYHo42FjYAY2HiYAYmHiWAFg2Olg2AFg2Olg2AFiWFYlgBUpVAFCQEZWB6mJh42AGJh4mAGJYeJYAWDY6WDYAWDYdg2AFg2Olg2AFGnRoChICMqA9fGwsbADEw8TADEsOxLAc7EsOwbACwbDsGgFg06NAKNOjQGoVQBZWB7GNhICYmEgBYlh0aAVKdGgFCulCgFGnRoBRp0aA1FqAjKgPaRWBEVgGjSqUAqUqNAKNOjQCjSo0AqUqNAai1ARmYHtMzAiKgJRpUaA0adCgNGlRoDQp0KA0aVGgNRagMioD//2Q=="
-        width={nextWidth}
-        height={nextHeight}
-        borderradius={borderradius}
+        width="390px"
+        height="390px"
+        borderRadius="50%"
       />
     </Box>
   );
 };
-
-const NextImage = styled(Image)<{ borderradius?: string }>`
-  border-radius: ${(props) => props.borderradius};
-`;
