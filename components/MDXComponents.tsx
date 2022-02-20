@@ -13,11 +13,14 @@ import {
   chakra,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
+
 import CodeSandBox from './CodeSandBox';
 import EventBubbling from './EventPropagationExample/Bubbling';
 import EventCapturing from './EventPropagationExample/Capturing';
 import AsyncWithtHook from './CustomHookExample/AsyncWithHook';
 import ToggleWithHook from './CustomHookExample/AsyncWithoutHook';
+import CounterExample from './PrevState/CounterExample';
+import CounterPrevExample from './PrevState/CounterPrevExample';
 
 const Table = (props: any) => (
   <Box overflowX="scroll" w="full">
@@ -151,7 +154,7 @@ const Tstrong = (props: any) => {
   const { colorMode } = useColorMode();
   const textColor = {
     light: '#1A202C',
-    dark: 'rgb(221, 107, 32)',
+    dark: '#81e6d9',
   };
 
   return <Text as="strong" color={textColor[colorMode]} {...props} />;
@@ -180,9 +183,7 @@ const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
   h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
   h3: (props: any) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
-  inlineCode: (props: any) => (
-    <Code colorScheme="yellow" fontSize={['0.60em', '0.60em', '0.60em', '0.84em']} {...props} />
-  ),
+  inlineCode: (props: any) => <Code colorScheme="teal" {...props} />,
   kbd: Kbd,
   br: (props: any) => <Box height="24px" {...props} />,
   hr: Hr,
@@ -201,6 +202,8 @@ const MDXComponents = {
   EventCapturing,
   AsyncWithtHook,
   ToggleWithHook,
+  CounterExample,
+  CounterPrevExample,
   blockquote: Quote,
 };
 

@@ -91,15 +91,12 @@ export default function BlogLayout({ children, frontMatter }: any) {
           </Flex>
         </Flex>
         {children}
-        <Text fontWeight="500" fontSize="17.5px" color="rgb(221, 107, 32)">
-          Thanks for reading 🥳🥳🥳.
-        </Text>
         <Link
           display="flex"
           flexDirection="row"
           alignItems="center"
           isExternal
-          href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/tree/master/pages/blog/${slug}.mdx`}
+          href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/data/blog/${slug}.mdx`}
         >
           <RiEdit2Line size={25} />
           <Text marginLeft=".5rem" marginTop="5px">

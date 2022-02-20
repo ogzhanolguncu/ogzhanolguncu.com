@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/how-does-prevstate-works-under-the-hood",
+            "content_html": "We take a peek at the React to see how prevState works under the hood to access the latest state.",
+            "url": "https://ogzhanolguncu.com/blog/how-does-prevstate-works-under-the-hood",
+            "title": "How Does \"prevState\" Works Under the Hood",
+            "summary": "We take a peek at the React to see how prevState works under the hood to access the latest state.",
+            "image": "https://ogzhanolguncu.com/static/images/how-does-prevstate-works/prevstate.webp",
+            "date_modified": "2022-02-21T00:00:00.000Z",
+            "date_published": "2022-02-21T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,react,tutorial"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/event-propagation-in-react",
             "content_html": "A deep dive into event propagation in React through examples.",
             "url": "https://ogzhanolguncu.com/blog/event-propagation-in-react",

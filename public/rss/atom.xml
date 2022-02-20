@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2022-02-19T17:00:29.789Z</updated>
+    <updated>2022-02-20T22:09:55.928Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -13,6 +13,24 @@
     <logo>https://ogzhanolguncu.com/logo.svg</logo>
     <icon>https://ogzhanolguncu.com/favicon.png</icon>
     <rights>All rights reserved 2022, Oguzhan Olguncu</rights>
+    <entry>
+        <title type="html"><![CDATA[How Does "prevState" Works Under the Hood]]></title>
+        <id>https://ogzhanolguncu.com/blog/how-does-prevstate-works-under-the-hood</id>
+        <link href="https://ogzhanolguncu.com/blog/how-does-prevstate-works-under-the-hood"/>
+        <updated>2022-02-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[We take a peek at the React to see how prevState works under the hood to access the latest state.]]></summary>
+        <content type="html"><![CDATA[We take a peek at the React to see how prevState works under the hood to access the latest state.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,react,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-02-21T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Event Propagation in React]]></title>
         <id>https://ogzhanolguncu.com/blog/event-propagation-in-react</id>

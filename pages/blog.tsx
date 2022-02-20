@@ -194,10 +194,11 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                               '1rem .4rem 1rem 0',
                               '1rem .4rem 1rem 0',
                               '1rem 1rem 10px 0',
-                            ]} //for responsive
+                            ]}
                             height="15px"
                             fontWeight="700"
                             width={['2.7rem', '2.7rem', '4rem', '4rem']}
+                            minWidth="4rem"
                             justifyContent="center"
                             minHeight="2rem"
                             color={colorModeObj.articleNewTagTextColor[colorMode]}
