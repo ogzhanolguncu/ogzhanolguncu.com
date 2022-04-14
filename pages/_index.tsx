@@ -4,7 +4,6 @@ import { getAllFilesFrontMatter } from 'lib/mdx';
 
 import { StaticBlog } from 'global';
 import React, { useRef } from 'react';
-import { generateRssFeed } from 'scripts/generate-rss';
 
 type Props = {
   blogPosts: StaticBlog[];
