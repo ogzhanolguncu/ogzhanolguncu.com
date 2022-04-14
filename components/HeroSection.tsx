@@ -38,7 +38,7 @@ const HeroSection = ({ gotoNewsletter }: Props) => {
           fontWeight="500"
           color={colorModeObj.titleColor[colorMode]}
         >
-          Hey! I'm Oğuzhan Olguncu. I'm a software developer and open-source lover.
+          Hey! I`m Oğuzhan Olguncu. I`m a software developer and open-source lover.
         </Heading>
         <Text
           fontSize={['1rem', '1rem', '1.2rem', '1.3rem']}

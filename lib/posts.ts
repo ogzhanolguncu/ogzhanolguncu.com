@@ -18,7 +18,6 @@ export function getSortedPostsData() {
 
     // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mergedData = { id, ...matterResult.data } as any;
     // Combine the data with the i
 

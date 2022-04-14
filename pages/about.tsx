@@ -53,15 +53,15 @@ const About = () => {
             About me
           </Heading>
           <CustomText>
-            Hi! I'm Oğuzhan Olguncu. I currently work full-time as a Frontend Developer, and I build
+            Hi! I`m Oğuzhan Olguncu. I currently work full-time as a Frontend Developer, and I build
             <TextLink text=" open-source projects " url="#" /> for fun.
           </CustomText>
           <CustomText>
             I taught myself how to make websites first as a hobby and later as a professional
-            programmer. I've been documenting everything I learn since I began.
+            programmer. I`ve been documenting everything I learn since I began.
           </CustomText>
           <CustomText>
-            I also like to make open source projects, all of which can be found on github and I'm
+            I also like to make open source projects, all of which can be found on github and I`m
             also huge classical turkish music lover and recreational powerlifter.
           </CustomText>
           <Heading
@@ -75,8 +75,8 @@ const About = () => {
             Get in touch
           </Heading>
           <CustomText>
-            I hope you love the site, and if there's anything you want to talk about with me feel
-            free to drop me a line by email. I'm happy to hear your comments, feedback, suggestions,
+            I hope you love the site, and if there`s anything you want to talk about with me feel
+            free to drop me a line by email. I`m happy to hear your comments, feedback, suggestions,
             or just say hi!
             <em>(Emails regarding ads, sponsored posts, link-sharing, etc. will be ignored.)</em>
           </CustomText>
