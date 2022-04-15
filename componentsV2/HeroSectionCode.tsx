@@ -48,7 +48,9 @@ const HeroSectionCode = () => {
               alt="Profile Photo Oğuzhan Olguncu"
             />
             <Flex ml="28px" flexDirection="column" justifyContent="center" alignItems="flex-start">
-              <Text fontWeight="normal">Oğuzhan Olguncu</Text>
+              <Text fontWeight="normal" color="#000">
+                Oğuzhan Olguncu
+              </Text>
               <Text color="#A49995">Developer</Text>
             </Flex>
           </Flex>

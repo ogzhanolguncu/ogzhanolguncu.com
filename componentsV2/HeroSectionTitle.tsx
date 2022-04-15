@@ -3,20 +3,22 @@ import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
 const HeroSectionTitle = () => {
   return (
-    <Flex flexDirection="column" lineHeight="1.1">
+    <Flex flexDirection="column" lineHeight="1.1" color="#000" as="section">
       <Text fontWeight="bold" fontSize="21px">
         - Hey, there!
       </Text>
-      <Text fontSize="72px" fontWeight="bold" letterSpacing="0.15rem" mt="1.3rem">
-        Programming
-      </Text>
-      <Flex fontSize="72px" fontWeight="bold" letterSpacing="0.15rem">
-        in
-        <Text mx="0.5rem" background="black" color="#fff" px="0.1rem">
-          simple
+      <Box as="h1">
+        <Text fontSize="72px" fontWeight="bold" letterSpacing="0.15rem" mt="1.3rem">
+          Programming
         </Text>
-        words.
-      </Flex>
+        <Flex fontSize="72px" fontWeight="bold" letterSpacing="0.15rem">
+          in
+          <Text mx="0.5rem" background="black" color="#fff" px="0.1rem">
+            simple
+          </Text>
+          words.
+        </Flex>
+      </Box>
       <Text mt="1.3rem" fontSize="21px" lineHeight="1.5" fontWeight="medium">
         You can read my blog, view my guides & blog,
         <Box as="br" /> or learn more about me.
