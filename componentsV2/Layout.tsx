@@ -18,6 +18,7 @@ const Layout = ({ children }: PropsWithChildren<Props>) => {
         my={['1.5rem', '2rem', '3rem', '3rem']}
         borderRadius="xl"
         flexDir="column"
+        h="100vh"
       >
         <Navbar />
         {children}
