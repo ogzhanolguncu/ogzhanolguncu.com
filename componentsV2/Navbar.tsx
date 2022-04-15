@@ -13,6 +13,7 @@ const Navbar = () => {
       width="100%"
       as="nav"
       mx="auto"
+      color="#000"
     >
       <Link href="/" passHref>
         <Button as="a" variant="ghost" _hover={{ bg: 'rgba(0,0,0,.07)' }} p="0">
