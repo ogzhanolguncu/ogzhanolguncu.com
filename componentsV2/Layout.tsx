@@ -16,7 +16,6 @@ const Layout = ({ children }: PropsWithChildren<Props>) => {
         flexDir="column"
         bgColor="siteBg"
         height="100vh"
-        color="black"
       >
         <Flex
           bgGradient="linear(to-r, #CACDD3, #E2D0C3, #E2D0C3)"
