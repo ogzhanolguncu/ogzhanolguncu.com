@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import Navbar from './Navbar';
 
 type Props = {
