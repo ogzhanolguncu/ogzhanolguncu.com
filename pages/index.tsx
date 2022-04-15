@@ -6,7 +6,7 @@ import React from 'react';
 const Home = () => {
   return (
     <Layout>
-      <Box mt="10rem" />
+      <Box mt={['5rem', '5rem', '10rem', '10rem']} />
       <HeroSection />
     </Layout>
   );
