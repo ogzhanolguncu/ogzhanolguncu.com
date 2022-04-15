@@ -12,6 +12,9 @@ const theme = extendTheme({
   },
   colors: {
     siteBg: '#101010',
+    whiteAlpha: {
+      900: '#000',
+    },
   },
 });
 
