@@ -45,7 +45,7 @@ const HeroSectionCode = () => {
           backgroundColor="rgba(255, 255, 255, 0.35)"
           w={['200px', '200px', '340px', '340px']}
           borderRadius="10px"
-          backdropFilter="blur(10px)"
+          backdropFilter="saturate(180%) blur(10px)"
         >
           <Flex>
             <Img
@@ -59,7 +59,7 @@ const HeroSectionCode = () => {
               <Text fontWeight="normal" color="#000">
                 Oğuzhan Olguncu
               </Text>
-              <Text color="#A49995">Developer</Text>
+              <Text color="#766c68">Developer</Text>
             </Flex>
           </Flex>
         </Box>
@@ -69,3 +69,8 @@ const HeroSectionCode = () => {
 };
 
 export default HeroSectionCode;
+
+// background: rgba(255, 255, 255, 0.27);
+// border-radius: 16px;
+// box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+// backdrop-filter: blur(10.3px);
