@@ -4,7 +4,7 @@ import { Box, Button, Flex, Text } from '@chakra-ui/react';
 const HeroSectionTitle = () => {
   return (
     <Flex flexDirection="column" lineHeight="1.1" color="#000" mt={['0', '0', '2rem', '2rem']}>
-      <Text fontWeight="bold" fontSize={['14px', '14px', '18px', '21px']}>
+      <Text fontWeight="bold" fontSize={['16px', '16px', '18px', '21px']}>
         - Hey, there!
       </Text>
       <Box
@@ -24,7 +24,7 @@ const HeroSectionTitle = () => {
       </Box>
       <Text
         mt="1.3rem"
-        fontSize={['12px', '12px', '18px', '21px']}
+        fontSize={['14px', '14px', '18px', '21px']}
         lineHeight="1.5"
         fontWeight="medium"
       >
