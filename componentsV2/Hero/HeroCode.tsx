@@ -31,7 +31,7 @@ const HeroSectionCode = () => {
           color="#fff"
           boxShadow="6px 6px gray"
           padding="1rem"
-          fontSize={['9px', '9px', '12px', '14px']}
+          fontSize={['12px', '12px', '12px', '14px']}
         >
           {JSON.stringify(data, null, 2)}
         </Code>
