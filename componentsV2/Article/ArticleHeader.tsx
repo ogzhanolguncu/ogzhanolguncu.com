@@ -1,6 +1,7 @@
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
 import { Flex, Heading } from '@chakra-ui/react';
+
 import NavigationButton from 'componentsV2/Navbar/NavigationButton';
 
 type Props = {

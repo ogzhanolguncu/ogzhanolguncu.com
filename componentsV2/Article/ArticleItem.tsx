@@ -1,9 +1,9 @@
 import React from 'react';
 import { Flex, Heading, Text } from '@chakra-ui/react';
+import Link from 'next/link';
 
 import ArticleTag from './ArticleTag';
 import { Underline } from 'componentsV2/Article/Underline';
-import Link from 'next/link';
 
 type Props = {
   articleDate: Date | string;
@@ -19,6 +19,7 @@ const ArticleItem = ({ articleDate, articleTitle, languageTags, articleId }: Pro
       alignItems="flex-start"
       justifyContent="space-between"
       flexDirection={['column', 'column', 'column', 'row']}
+      gap="0 1.5rem"
     >
       <Flex flexDirection="column" width="100%">
         <Text fontSize="12px" fontWeight="bold" letterSpacing="0.05px">

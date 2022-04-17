@@ -15,7 +15,7 @@ export const Underline = styled(Box)`
   padding-bottom: 7px;
 
   :hover {
-    animation: Animation 1s ease;
+    animation: Animation 0.5s ease;
 
     @keyframes Animation {
       from {

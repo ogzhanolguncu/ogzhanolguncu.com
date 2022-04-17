@@ -42,10 +42,11 @@ const HeroSectionCode = () => {
           bottom={['unset', 'unset', '-80px', '-80px']}
           top={['-25px', '-25px', 'unset', 'unset']}
           padding={['15px 20px', '15px 20px', '20px 30px', '30px 40px']}
-          backgroundColor="rgba(255, 255, 255, 0.35)"
           w={['200px', '200px', '340px', '340px']}
           borderRadius="10px"
-          backdropFilter="saturate(180%) blur(10px)"
+          background="rgba(255, 255, 255, 0.27)"
+          boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
+          backdropFilter="blur(10.3px)"
         >
           <Flex>
             <Img
@@ -56,10 +57,10 @@ const HeroSectionCode = () => {
               alt="Profile Photo Oğuzhan Olguncu"
             />
             <Flex ml="28px" flexDirection="column" justifyContent="center" alignItems="flex-start">
-              <Text fontWeight="normal" color="#000">
+              <Text fontWeight="normal" color="#d4cecd">
                 Oğuzhan Olguncu
               </Text>
-              <Text color="#766c68">Developer</Text>
+              <Text color="#1f2334">Developer, Lifetime learner</Text>
             </Flex>
           </Flex>
         </Box>
@@ -69,8 +70,3 @@ const HeroSectionCode = () => {
 };
 
 export default HeroSectionCode;
-
-// background: rgba(255, 255, 255, 0.27);
-// border-radius: 16px;
-// box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-// backdrop-filter: blur(10.3px);
