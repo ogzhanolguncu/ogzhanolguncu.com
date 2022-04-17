@@ -1,12 +1,12 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
 
-import HeroSectionTitle from './HeroSectionTitle';
-import HeroSectionCode from './HeroSectionCode';
+import HeroSectionTitle from './HeroTitle';
+import HeroSectionCode from './HeroCode';
 
 const HeroSection = () => {
   return (
-    <Flex flexDirection={['column', 'column', 'row', 'row']}>
+    <Flex flexDirection={['column', 'column', 'row', 'row']} as="section">
       <HeroSectionTitle />
       <HeroSectionCode />
     </Flex>

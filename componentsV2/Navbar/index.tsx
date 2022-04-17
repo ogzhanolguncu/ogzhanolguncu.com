@@ -1,7 +1,7 @@
 import { Button, Flex, HStack, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import React from 'react';
-import NavbarButton from './NavbarButton';
+import NavbarButton from './NavigationButton';
 import NavbarText from './NavbarTexts';
 
 const Navbar = () => {

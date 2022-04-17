@@ -3,13 +3,7 @@ import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
 const HeroSectionTitle = () => {
   return (
-    <Flex
-      flexDirection="column"
-      lineHeight="1.1"
-      color="#000"
-      as="section"
-      mt={['0', '0', '2rem', '2rem']}
-    >
+    <Flex flexDirection="column" lineHeight="1.1" color="#000" mt={['0', '0', '2rem', '2rem']}>
       <Text fontWeight="bold" fontSize={['14px', '14px', '18px', '21px']}>
         - Hey, there!
       </Text>

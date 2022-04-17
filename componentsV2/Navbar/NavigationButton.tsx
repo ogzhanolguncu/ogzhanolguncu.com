@@ -8,7 +8,7 @@ type NavbarProps = {
   LinkComponent: typeof Link;
 };
 
-const NavbarButton = ({ LinkComponent, text, href }: NavbarProps) => {
+const NavigationButton = ({ LinkComponent, text, href }: NavbarProps) => {
   return (
     <LinkComponent href={href} passHref>
       <Button as="a" variant="ghost" _hover={{ bg: 'rgba(0,0,0,.07)' }}>
@@ -18,4 +18,4 @@ const NavbarButton = ({ LinkComponent, text, href }: NavbarProps) => {
   );
 };
 
-export default NavbarButton;
+export default NavigationButton;
