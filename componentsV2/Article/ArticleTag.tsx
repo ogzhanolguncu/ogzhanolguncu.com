@@ -5,8 +5,6 @@ type Props = {
   text: string;
 };
 
-const randomBoolean = () => Math.random() >= 0.5;
-
 const ArticleTag = ({ text }: Props) => {
   return (
     <Button
@@ -15,22 +13,10 @@ const ArticleTag = ({ text }: Props) => {
       border="3px solid black"
       borderRadius="10px"
       _hover={{ bg: '#000', color: '#e9e2dd' }}
-      _even={
-        randomBoolean()
-          ? {
-              backgroundColor: '#000',
-              color: '#e9e2dd',
-            }
-          : {}
-      }
-      _odd={
-        randomBoolean()
-          ? {
-              backgroundColor: '#000',
-              color: '#e9e2dd',
-            }
-          : {}
-      }
+      _even={{
+        backgroundColor: '#000',
+        color: '#e9e2dd',
+      }}
     >
       {text}
     </Button>
