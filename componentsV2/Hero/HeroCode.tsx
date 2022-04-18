@@ -1,21 +1,14 @@
-import React from 'react';
-import { Box, Code, Flex, Img, Text } from '@chakra-ui/react';
-
-const data = {
-  menu: {
-    id: 'file',
-    value: 'File',
-    popup: {
-      menuitem: [
-        { value: 'New', onclick: 'CreateNewDoc()' },
-        { value: 'Open', onclick: 'OpenDoc()' },
-        { value: 'Close', onclick: 'CloseDoc()' },
-      ],
-    },
-  },
-};
+import React, { useRef } from 'react';
+import { Box, Flex, Img, Text } from '@chakra-ui/react';
+import { TypeContainer } from './TypeContainer';
+import useTypewritting from './hooks/useTypewritting';
+import { CODE_USER_INFO } from './constants';
 
 const HeroSectionCode = () => {
+  const typeRef = useRef<any>(null);
+
+  useTypewritting(typeRef);
+
   return (
     <Flex
       w="100%"
@@ -24,25 +17,29 @@ const HeroSectionCode = () => {
       alignItems={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
     >
       <Box position="relative">
-        <Code
-          w={['300px', '200px', '300px', '400px']}
-          borderRadius="9px"
-          background="black"
-          color="#fff"
-          boxShadow="6px 6px gray"
-          padding="1rem"
-          fontSize={['12px', '12px', '12px', '14px']}
-        >
-          {JSON.stringify(data, null, 2)}
-        </Code>
+        <TypeContainer>
+          <Box
+            as="pre"
+            ref={typeRef}
+            w={['300px', '200px', '300px', '400px']}
+            height="450px"
+            borderRadius="9px"
+            background="black"
+            color="#fff"
+            boxShadow="6px 6px gray"
+            padding="2rem"
+            fontSize={['1.2rem', '1rem', '1.5rem', '1.5rem']}
+            fontFamily="Cabin"
+          >
+            {CODE_USER_INFO}
+          </Box>
+        </TypeContainer>
         <Box
           position="absolute"
-          left={['unset', 'unset', '-80px', '-80px']}
-          right={['-25px', '-25px', 'unset', 'unset']}
-          bottom={['unset', 'unset', '-80px', '-80px']}
-          top={['-25px', '-25px', 'unset', 'unset']}
+          left={['50px', '50px', '-80px', '-80px']}
+          bottom={['-60px', '-60px', '-80px', '-80px']}
           padding={['15px 20px', '15px 20px', '20px 30px', '30px 40px']}
-          w={['200px', '200px', '340px', '340px']}
+          w={['260px', '260px', '340px', '340px']}
           borderRadius="10px"
           background="rgba(255, 255, 255, 0.27)"
           boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
