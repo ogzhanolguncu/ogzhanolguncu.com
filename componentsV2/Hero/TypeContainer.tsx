@@ -8,7 +8,8 @@ export const TypeContainer = styled(Box)`
   .string-highlight {
     color: rgba(253, 149, 90, 0.8);
     margin-bottom: 5px;
-    padding: 8px;
+    padding-right: 2px;
+    padding-left: 2px;
   }
 
   #typewriter {
