@@ -7,7 +7,7 @@ export const CODE_USER_INFO = (
     <span className="string-highlight">&#39;Olguncu&#39;</span>,
     &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; location:
     <span className="string-highlight">&#39;Istanbul/Turkey&#39;</span>,
-    &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;technologies:[
+    &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;technologies: [
     <span className="string-highlight">
       &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#39;Javascript&#39;
     </span>
@@ -19,6 +19,6 @@ export const CODE_USER_INFO = (
     <span className="string-highlight">
       &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#39;React&#39;
     </span>
-    ];&#125;
+    ]<span style={{ display: 'flex' }}>{'}'}</span>;
   </>
 );

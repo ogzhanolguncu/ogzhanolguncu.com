@@ -19,19 +19,23 @@ const HeroSectionCode = () => {
       <Box position="relative">
         <TypeContainer>
           <Box
-            as="pre"
-            ref={typeRef}
             w={['300px', '200px', '300px', '400px']}
             height="450px"
             borderRadius="9px"
             background="black"
-            color="#fff"
             boxShadow="6px 6px gray"
             padding="2rem"
-            fontSize={['1.2rem', '1rem', '1.5rem', '1.5rem']}
-            fontFamily="Cabin"
           >
-            {CODE_USER_INFO}
+            <Box
+              as="pre"
+              ref={typeRef}
+              color="#fff"
+              visibility="hidden"
+              fontSize={['1.2rem', '1rem', '1.5rem', '1.5rem']}
+              fontFamily="Cabin"
+            >
+              {CODE_USER_INFO}
+            </Box>
           </Box>
         </TypeContainer>
         <Box

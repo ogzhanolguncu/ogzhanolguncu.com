@@ -8,7 +8,7 @@ const useTypewritting = (typeRef: any) => {
       const HTML = typeRef.current.innerHTML;
 
       typeRef.current.innerHTML = '';
-
+      typeRef.current.style.visibility = 'unset';
       const typeInfo = {
         cursorPosition: 0,
         tag: '',
