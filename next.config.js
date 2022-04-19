@@ -3,6 +3,9 @@
  */
 module.exports = {
   swcMinify: false,
+  experimental: {
+    scrollRestoration: true,
+  },
 
   webpack: (config, { dev, isServer }) => {
     // Replace React with Preact only in client production build
