@@ -41,7 +41,7 @@ const HeroSectionTitle = () => {
         py="30px"
         fontWeight="bold"
         fontSize="16px"
-        boxShadow="6px 6px gray"
+        boxShadow="6px 6px #8080805e"
         _hover={{
           backgroundColor: 'black',
         }}

@@ -47,7 +47,7 @@ const useTypewritting = (typeRef: any) => {
           }
         }
 
-        if (typeInfo.writingTag === true && HTML[typeInfo.cursorPosition] === '>') {
+        if (typeInfo.writingTag && HTML[typeInfo.cursorPosition] === '>') {
           typeInfo.tempTypeSpeed = Math.random() * typeInfo.typeSpeed + 25;
           typeInfo.writingTag = false;
           if (typeInfo.tagOpen) {
