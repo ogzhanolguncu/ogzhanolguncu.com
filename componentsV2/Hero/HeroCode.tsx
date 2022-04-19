@@ -1,7 +1,10 @@
 import React from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
-import { BlinkContainer } from './BlinkContainer';
+import TypeIt from 'typeit-react';
+
+import { CodeContainer } from './CodeContainer';
+import Codes from './Codes';
 
 const HeroSectionCode = () => {
   return (
@@ -22,46 +25,21 @@ const HeroSectionCode = () => {
           color="#fff"
           fontSize={['1.2rem', '1.5rem', '1.5rem', '1.5rem']}
           fontFamily="Cabin"
-          whiteSpace="nowrap"
         >
-          <Box>
-            <Flex>
-              <Text color="#c0ad60" mr="8px">
-                const
-              </Text>
-              <Text> userInfo</Text> <Text>: {'{'} </Text>
-            </Flex>
-            <Flex ml="3rem">
-              <Text mr="5px">name: </Text> &#39;<Text color="rgba(253, 139, 90, 0.8)">Oguzhan</Text>
-              &#39; ,
-            </Flex>
-            <Flex ml="3rem">
-              <Text mr="5px">surname: </Text> &#39;
-              <Text color="rgba(253, 139, 90, 0.8)">Olguncu</Text>
-              &#39; ,
-            </Flex>
-            <Flex ml="3rem">
-              <Text mr="5px">location: </Text> &#39;
-              <Text color="rgba(253, 149, 90, 0.8)">Istanbul/Turkey</Text>
-              &#39;,
-            </Flex>
-            <Flex ml="3rem">
-              <Text mr="5px">technologies: </Text> <Text>{'['} </Text>
-            </Flex>
-            <Flex ml="1.5rem">
-              &#39;<Text color="rgba(253, 149, 90, 0.8)">Javascript</Text>&#39;,
-            </Flex>
-            <Flex ml="1.5rem">
-              &#39;<Text color="rgba(253, 149, 90, 0.8)">Typescript</Text>&#39;,
-            </Flex>
-            <Flex ml="1.5rem">
-              &#39;<Text color="rgba(253, 149, 90, 0.8)">React</Text>&#39;{' ]'}
-            </Flex>
-            <Flex>
-              <Text>{'};'}</Text>
-              <BlinkContainer />
-            </Flex>
-          </Box>
+          <CodeContainer>
+            <TypeIt
+              options={{
+                cursor: false,
+                speed: 50,
+                lifeLike: true,
+                loop: true,
+                loopDelay: 1000,
+                waitUntilVisible: true,
+              }}
+            >
+              <Codes />
+            </TypeIt>
+          </CodeContainer>
         </Box>
         <Box
           position="absolute"
