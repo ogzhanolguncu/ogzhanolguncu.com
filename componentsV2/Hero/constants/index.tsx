@@ -21,15 +21,15 @@ export const CODE_USER_INFO = (
     <Box as="span" className="string-highlight">
       &#39;Istanbul/Turkey&#39;
     </Box>
-    , &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;technologies: [
+    , &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;technologies:[
     <Box as="span" className="string-highlight">
       &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#39;Javascript&#39;
     </Box>
-    ,
+    {', '}
     <Box as="span" className="string-highlight">
       &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#39;Typescript&#39;
     </Box>
-    ,
+    {', '}
     <Box as="span" className="string-highlight">
       &#10;&#13;&#32;&#32;&#32;&#32;&#32;&#32;&#39;React&#39;
     </Box>

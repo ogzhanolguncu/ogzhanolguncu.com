@@ -33,6 +33,7 @@ const HeroSectionCode = () => {
               visibility="hidden"
               fontSize={['1.2rem', '1.2rem', '1.5rem', '1.5rem']}
               fontFamily="Cabin"
+              whiteSpace="break-spaces"
             >
               {CODE_USER_INFO}
             </Box>
