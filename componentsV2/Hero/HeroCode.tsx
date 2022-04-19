@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
-import { Box, Flex, Img, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { TypeContainer } from './TypeContainer';
 import useTypewritting from './hooks/useTypewritting';
 import { CODE_USER_INFO } from './constants';
+import Image from 'next/image';
 
 const HeroSectionCode = () => {
   const typeRef = useRef<any>(null);
@@ -19,7 +20,7 @@ const HeroSectionCode = () => {
       <Box position="relative">
         <TypeContainer>
           <Box
-            w={['300px', '200px', '300px', '400px']}
+            w={['300px', '400px', '300px', '400px']}
             height="450px"
             borderRadius="9px"
             background="black"
@@ -31,7 +32,7 @@ const HeroSectionCode = () => {
               ref={typeRef}
               color="#fff"
               visibility="hidden"
-              fontSize={['1.2rem', '1rem', '1.5rem', '1.5rem']}
+              fontSize={['1.2rem', '1.2rem', '1.5rem', '1.5rem']}
               fontFamily="Cabin"
             >
               {CODE_USER_INFO}
@@ -50,12 +51,15 @@ const HeroSectionCode = () => {
           backdropFilter="blur(10.3px)"
         >
           <Flex>
-            <Img
-              borderRadius="50%"
-              w={['45px', '45px', '65px', '90px']}
-              h={['45px', '45px', '65px', '90px']}
-              src={'/static/images/coloredProfileImage.jpeg'}
+            <Image
+              style={{ borderRadius: '50%' }}
+              src={'/static/images/colored.webp'}
               alt="Profile Photo Oğuzhan Olguncu"
+              loading="eager"
+              placeholder="empty"
+              width="90px"
+              height="90px"
+              priority
             />
             <Flex ml="28px" flexDirection="column" justifyContent="center" alignItems="flex-start">
               <Text fontWeight="normal" color="#d4cecd">
