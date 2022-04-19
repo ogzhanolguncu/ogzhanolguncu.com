@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { TypeContainer } from './TypeContainer';
 import useTypewritting from './hooks/useTypewritting';
-// import { CODE_USER_INFO } from './constants';
+import { CODE_USER_INFO } from './constants';
 import Image from 'next/image';
 
 const HeroSectionCode = () => {
@@ -34,7 +34,7 @@ const HeroSectionCode = () => {
               fontSize={['1.2rem', '1.2rem', '1.5rem', '1.5rem']}
               fontFamily="Cabin"
             >
-              {/* {CODE_USER_INFO} */}
+              {CODE_USER_INFO}
             </Box>
           </Box>
         </TypeContainer>

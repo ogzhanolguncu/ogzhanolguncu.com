@@ -3,6 +3,9 @@
  */
 module.exports = {
   reactStrictMode: true,
+  compiler: {
+    styledComponents: true,
+  },
 
   webpack: (config, { dev, isServer }) => {
     // Replace React with Preact only in client production build
