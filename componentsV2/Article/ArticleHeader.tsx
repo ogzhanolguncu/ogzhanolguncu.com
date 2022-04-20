@@ -5,7 +5,7 @@ import { Flex, Heading } from '@chakra-ui/react';
 import NavigationButton from 'componentsV2/Navbar/NavigationButton';
 
 type Props = {
-  isPopular: boolean;
+  isPopular?: boolean;
 };
 
 const ArticleHeader = ({ isPopular }: Props) => {

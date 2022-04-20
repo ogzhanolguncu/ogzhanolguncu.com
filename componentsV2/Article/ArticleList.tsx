@@ -10,10 +10,10 @@ type Props = {
   isPopular?: boolean;
 };
 
-const ArticleList = ({ articles }: Props) => {
+const ArticleList = ({ articles, isPopular }: Props) => {
   return (
     <Flex flexDirection="column" color="#000" as="section">
-      <ArticleHeader isPopular />
+      <ArticleHeader isPopular={isPopular} />
       {articles.slice(0, 5).map((article) => (
         <ArticleItem
           key={article.id}
