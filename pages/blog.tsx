@@ -45,8 +45,6 @@ const title = 'Blog – Oğuzhan Olguncu';
 const description = 'Programming tutorials, guides and technical writings about web related stuff.';
 
 const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
-  const colorModeObj = useContext(ColorModeContext);
-  const { colorMode } = useColorMode();
   const [fusedBlog, setFusedBlog] = useState<Record<number, StaticBlog[]>>(groupedBlogPosts);
   const [input, setInput] = useState('');
   const [currentSelectedTag, setCurrentSelectedTag] = useState('');
@@ -107,7 +105,6 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
             marginBottom="1rem"
             marginTop={['0.6rem', '0', '0', '0']}
             fontWeight="bold"
-            color={colorModeObj.titleColor[colorMode]}
           >
             Blog
           </Heading>
@@ -179,7 +176,6 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                       key={`${blog}${article.id}`}
                       justifyContent="space-between"
                       alignItems="space-between"
-                      color={colorMode === 'light' ? 'light' : 'dark'}
                     >
                       <ArticleTitle w="100%">
                         {compareDateWithTodaysDate(
@@ -201,15 +197,12 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
                             minWidth="4rem"
                             justifyContent="center"
                             minHeight="2rem"
-                            color={colorModeObj.articleNewTagTextColor[colorMode]}
-                            background={colorModeObj.articleNewTagBackgroundColor[colorMode]}
                           >
                             New!
                           </Tag>
                         ) : null}
                         <Box>
                           <Text
-                            color={colorModeObj.publishedDateColor[colorMode]}
                             fontSize=".8rem"
                             fontWeight="600"
                             marginBottom={['1rem', '1rem', 0, 0]}

@@ -1,23 +1,16 @@
 import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
-import { Flex, Heading, Stack, Tag, Text, useColorMode, Link } from '@chakra-ui/react';
+import React from 'react';
+import { Flex, Heading, Stack, Tag, Text, Link } from '@chakra-ui/react';
 import LANGUAGE_TAGS from 'styles/languageTags';
 import { RiEdit2Line } from 'react-icons/ri';
 import dayjs from 'dayjs';
 
-import { ColorModeContext } from '@contexts/CustomColorContext';
 import { Layout } from '@components/index';
 import BlogSeo from '@components/BlogSeo';
 
 export default function BlogLayout({ children, frontMatter }: any) {
   const router = useRouter();
   const slug = frontMatter.slug;
-  const { colorMode } = useColorMode();
-  const colorModeObj = useContext(ColorModeContext);
-  const textColor = {
-    light: 'gray.700',
-    dark: 'gray.400',
-  };
 
   return (
     <Layout>
@@ -39,13 +32,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
           w="100%"
           textAlign="center"
         >
-          <Heading
-            letterSpacing="tight"
-            mb={2}
-            size="2xl"
-            color={colorModeObj.titleColor[colorMode]}
-            lineHeight="1.4"
-          >
+          <Heading letterSpacing="tight" mb={2} size="2xl" lineHeight="1.4">
             {frontMatter.title}
           </Heading>
           <Flex
@@ -57,7 +44,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
             mb={4}
           >
             <Flex justifyContent="center" width="100%" my="1rem">
-              <Text fontSize="md" color={textColor[colorMode]}>
+              <Text fontSize="md">
                 {frontMatter.by}
                 {`Oğuzhan Olguncu\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0`}
                 {dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}
