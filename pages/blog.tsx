@@ -15,7 +15,6 @@ import {
 } from '@chakra-ui/react';
 import LANGUAGE_TAGS from 'styles/languageTags';
 import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
-import { ColorModeContext } from '@contexts/CustomColorContext';
 import { Article, ArticleTitle, Layout } from '@components/index';
 import groupBy from 'lodash.groupby';
 import Fuse from 'fuse.js';
@@ -73,7 +72,7 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
     }
     delayedSearch();
     return delayedSearch.cancel; // If input state changes, it invokes delayedSearch so we no longer wait for old debounce instead we cancel it.
-  }, [delayedSearch]);
+  }, [delayedSearch, groupedBlogPosts, input.length]);
 
   useEffect(() => {
     if (router.query?.tag !== undefined) {
