@@ -11,16 +11,16 @@ const HeroSectionCode = () => {
     <Flex
       w="100%"
       flexDirection="column"
-      justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
-      alignItems={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
+      justifyContent={['flex-start', 'flex-start', 'flex-start', 'flex-end']}
+      alignItems={['flex-start', 'flex-start', 'flex-start', 'flex-end']}
     >
       <Box position="relative">
         <Box
-          w={['300px', '400px', '300px', '400px']}
+          w={['300px', '400px', '400px', '400px']}
           height="450px"
           borderRadius="9px"
           background="black"
-          boxShadow="6px 6px #8080805e"
+          boxShadow="8px 6px #8080805e"
           padding="2rem"
           color="#fff"
           fontSize={['1.2rem', '1.5rem', '1.5rem', '1.5rem']}
@@ -33,6 +33,7 @@ const HeroSectionCode = () => {
                 speed: 50,
                 lifeLike: true,
                 loop: true,
+                loopDelay: 5000,
               }}
             >
               <Codes />
@@ -41,9 +42,9 @@ const HeroSectionCode = () => {
         </Box>
         <Box
           position="absolute"
-          left={['20px', '60px', '-80px', '-80px']}
-          bottom={['-60px', '-60px', '-80px', '-80px']}
-          padding={['15px 20px', '15px 20px', '20px 30px', '30px 40px']}
+          left={['20px', '150px', '150px', '-70px']}
+          bottom={['-60px', '-60px', '-65px', '-70px']}
+          padding={['15px 20px', '15px 20px', '20px 30px', '20px 30px']}
           w={['300px', '300px', '340px', '340px']}
           borderRadius="10px"
           background="rgba(255, 255, 255, 0.27)"
@@ -61,11 +62,17 @@ const HeroSectionCode = () => {
               height={90}
               priority
             />
-            <Flex ml="28px" flexDirection="column" justifyContent="center" alignItems="flex-start">
+            <Flex
+              ml="28px"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="flex-start"
+              fontWeight="medium"
+            >
               <Text fontWeight="normal" color="#d4cecd">
                 Oğuzhan Olguncu
               </Text>
-              <Text color="#1f2334">Developer, Lifetime learner</Text>
+              <Text color="#1f2334">Engineer, mentor, blogger.</Text>
             </Flex>
           </Flex>
         </Box>

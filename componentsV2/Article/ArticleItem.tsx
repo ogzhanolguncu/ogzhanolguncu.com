@@ -28,14 +28,14 @@ const ArticleItem = ({
       flexDirection={['column', 'column', 'column', 'row']}
       gap="0 1.5rem"
     >
-      <Flex flexDirection="column" width="100%">
+      <Flex flexDirection="column">
         <Text fontSize="12px" fontWeight="bold" letterSpacing="0.05px">
           {articleDate}
         </Text>
         <Flex flexDirection="column">
           <Heading
             as="h3"
-            fontSize={['15px', '15px', '18px', '21px']}
+            fontSize={['17px', '17px', '18px', '21px']}
             fontWeight="bold"
             letterSpacing="0.05px"
           >

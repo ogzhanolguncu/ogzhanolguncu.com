@@ -6,7 +6,7 @@ import HeroSectionCode from './HeroCode';
 
 const HeroSection = () => {
   return (
-    <Flex flexDirection={['column', 'column', 'row', 'row']} as="section">
+    <Flex flexDirection={['column', 'column', 'column', 'row']} as="section">
       <HeroSectionTitle />
       <HeroSectionCode />
     </Flex>

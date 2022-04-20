@@ -32,9 +32,9 @@ const HeroSectionTitle = () => {
         <Box as="br" /> or learn more about me.
       </Text>
       <Button
-        width={['300px', '300px', '233px', '233px']}
+        width={['300px', '400px', '400px', '233px']}
         mt={['50px', '50px', '110px', '110px']}
-        mb={['50px', '50px', '0', '0']}
+        mb={['50px', '50px', '50px', '0']}
         bgColor="black"
         color="#fff"
         px="55px"

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 export const CodeContainer = styled(Box)`
   > * {
-    &:first-child {
+    &:first-of-type {
       ::before {
         content: none;
       }

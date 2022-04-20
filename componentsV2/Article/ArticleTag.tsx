@@ -8,7 +8,7 @@ type Props = {
 const ArticleTag = ({ text }: Props) => {
   return (
     <Button
-      fontSize={['13px', '13px', '14px', '16px']}
+      fontSize={['15px', '15px', '16px', '18px']}
       variant="ghost"
       border="3px solid black"
       boxShadow="6px 6px #8080805e"
