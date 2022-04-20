@@ -1,18 +1,8 @@
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
-import React, { Fragment, useCallback, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { StaticBlog } from 'global';
-import {
-  Flex,
-  Tag,
-  Box,
-  Heading,
-  useColorMode,
-  Text,
-  Input,
-  Alert,
-  AlertIcon,
-} from '@chakra-ui/react';
+import { Flex, Tag, Box, Heading, Text, Input, Alert, AlertIcon } from '@chakra-ui/react';
 import LANGUAGE_TAGS from 'styles/languageTags';
 import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
 import { Article, ArticleTitle, Layout } from '@components/index';
