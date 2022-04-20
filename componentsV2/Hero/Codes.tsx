@@ -9,7 +9,7 @@ const Codes = () => {
         <Text color="#c0ad60" mr="8px">
           const
         </Text>
-        <Text> userInfo</Text> <Text>: {'{'} </Text>
+        <Text mr="8px"> userInfo = </Text> <Text> {' {'} </Text>
       </Flex>
       <Flex ml={['2rem', '2rem', '4rem', '4rem']}>
         <Text mr="5px">name: </Text> &#39;
@@ -29,13 +29,13 @@ const Codes = () => {
       <Flex ml={['2rem', '2rem', '4rem', '4rem']}>
         <Text mr="5px">technologies: </Text> <Text>{'['} </Text>
       </Flex>
-      <Flex ml={['0.8rem', '0.8rem', '1.5rem', '1.5rem']}>
+      <Flex ml={['4rem', '4rem', '6rem', '6rem']}>
         &#39;<Text color="rgba(253, 149, 90, 0.8)">Javascript</Text>&#39;,
       </Flex>
-      <Flex ml={['0.8rem', '0.8rem', '1.5rem', '1.5rem']}>
+      <Flex ml={['4rem', '4rem', '6rem', '6rem']}>
         &#39;<Text color="rgba(253, 149, 90, 0.8)">Typescript</Text>&#39;,
       </Flex>
-      <Flex ml={['0.8rem', '0.8rem', '1.5rem', '1.5rem']}>
+      <Flex ml={['4rem', '4rem', '6rem', '6rem']}>
         &#39;<Text color="rgba(253, 149, 90, 0.8)">React</Text>&#39;{' ]'}
       </Flex>
       <Flex>

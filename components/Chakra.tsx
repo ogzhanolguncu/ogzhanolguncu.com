@@ -1,14 +1,8 @@
 import React, { ReactChild } from 'react';
-import {
-  ChakraProvider,
-  cookieStorageManager,
-  localStorageManager,
-  useColorMode,
-} from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { Global, css } from '@emotion/react';
-import { NextApiRequest } from 'next';
 
-import { prismLightTheme, prismDarkTheme } from 'styles/prism';
+import { prismLightTheme } from 'styles/prism';
 import theme from 'styles/theme';
 
 type Props = {
@@ -17,13 +11,11 @@ type Props = {
 };
 
 const GlobalStyle = ({ children }: { children: ReactChild }) => {
-  const { colorMode } = useColorMode();
-
   return (
     <>
       <Global
         styles={css`
-          ${colorMode === 'light' ? prismLightTheme : prismDarkTheme};
+          ${prismLightTheme};
           ::selection {
             background-color: rgb(87, 62, 222);
             color: #fefefe;
@@ -46,24 +38,9 @@ const GlobalStyle = ({ children }: { children: ReactChild }) => {
 };
 
 export const Chakra = ({ cookies, children }: Props) => {
-  // b) Pass `colorModeManager` prop
-  const colorModeManager =
-    typeof cookies === 'string' ? cookieStorageManager(cookies) : localStorageManager;
-
   return (
-    <ChakraProvider theme={theme} colorModeManager={colorModeManager}>
+    <ChakraProvider theme={theme}>
       <GlobalStyle>{children}</GlobalStyle>
     </ChakraProvider>
   );
 };
-
-// also export a reusable function getServerSideProps
-export function getServerSideProps(req: NextApiRequest) {
-  return {
-    props: {
-      // first time users will not have any cookies and you may not return
-      // undefined here, hence ?? is necessary
-      cookies: req.headers.cookie ?? '',
-    },
-  };
-}
