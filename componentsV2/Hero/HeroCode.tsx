@@ -32,6 +32,7 @@ const HeroSectionCode = () => {
                 cursor: false,
                 speed: 50,
                 lifeLike: true,
+                loop: true,
               }}
             >
               <Codes />

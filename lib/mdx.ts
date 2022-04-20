@@ -40,7 +40,6 @@ export async function getFileBySlug(type: string, slug: string) {
   return {
     mdxSource,
     frontMatter: {
-      wordCount: content.split(/\s+/gu).length,
       readingTime: readingTime(content),
       slug: slug || null,
       ...data,
@@ -53,11 +52,12 @@ export async function getAllFilesFrontMatter(type: string) {
 
   const allPostsData: StaticBlog[] = files.reduce((allPosts: any, postSlug: string) => {
     const source = fs.readFileSync(path.join(root, 'data', type, postSlug), 'utf8');
-    const { data } = matter(source);
+    const { data, content } = matter(source);
     return [
       {
         ...data,
         id: postSlug.replace(/\.mdx$/, ''),
+        readingTime: readingTime(content).text.split('read')[0],
       },
       ...allPosts,
     ];

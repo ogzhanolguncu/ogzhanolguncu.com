@@ -4,9 +4,8 @@ import MDXComponents from '@components/MDXComponents';
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import SEO from 'next-seo.config';
-import { Chakra } from '@components/Chakra';
-import { CustomColorModeProvider } from '@contexts/CustomColorContext';
 import Script from 'next/script';
+import { Chakra } from 'componentsV2/Chakra';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -27,12 +26,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         `,
         }}
       />
-      <Chakra cookies={pageProps.cookies}>
+      <Chakra>
         <MDXProvider components={MDXComponents}>
-          <CustomColorModeProvider>
-            <DefaultSeo {...SEO} />
-            <Component {...pageProps} />
-          </CustomColorModeProvider>
+          <DefaultSeo {...SEO} />
+          <Component {...pageProps} />
         </MDXProvider>
       </Chakra>
     </>

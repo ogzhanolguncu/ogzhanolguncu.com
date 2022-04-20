@@ -21,6 +21,7 @@ const ArticleList = ({ articles }: Props) => {
           articleDate={article.publishedAt}
           articleTitle={article.title}
           languageTags={article.languageTags}
+          readingTime={article.readingTime}
         />
       ))}
     </Flex>

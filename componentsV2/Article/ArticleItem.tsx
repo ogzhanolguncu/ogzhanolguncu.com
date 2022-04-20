@@ -10,9 +10,16 @@ type Props = {
   articleTitle: string;
   languageTags: string[];
   articleId: string;
+  readingTime: string;
 };
 
-const ArticleItem = ({ articleDate, articleTitle, languageTags, articleId }: Props) => {
+const ArticleItem = ({
+  articleDate,
+  articleTitle,
+  languageTags,
+  articleId,
+  readingTime,
+}: Props) => {
   return (
     <Flex
       mt="35px"
@@ -25,7 +32,7 @@ const ArticleItem = ({ articleDate, articleTitle, languageTags, articleId }: Pro
         <Text fontSize="12px" fontWeight="bold" letterSpacing="0.05px">
           {articleDate}
         </Text>
-        <Flex>
+        <Flex flexDirection="column">
           <Heading
             as="h3"
             fontSize={['15px', '15px', '18px', '21px']}
@@ -36,6 +43,9 @@ const ArticleItem = ({ articleDate, articleTitle, languageTags, articleId }: Pro
               <Link href={`/blog/${articleId}`}>{articleTitle}</Link>
             </Underline>
           </Heading>
+          <Text fontSize="12px" fontWeight="bold" letterSpacing="0.05px" textAlign="start">
+            Reading Time: {readingTime}
+          </Text>
         </Flex>
       </Flex>
       <Flex gap="1rem" mt="8px" flexWrap={['wrap', 'wrap', 'nowrap', 'nowrap']}>

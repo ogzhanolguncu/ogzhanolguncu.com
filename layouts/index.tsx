@@ -9,7 +9,6 @@ import { ColorModeContext } from '@contexts/CustomColorContext';
 import { Layout } from '@components/index';
 import BlogSeo from '@components/BlogSeo';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BlogLayout({ children, frontMatter }: any) {
   const router = useRouter();
   const slug = frontMatter.slug;
