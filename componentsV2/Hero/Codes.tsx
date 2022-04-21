@@ -6,7 +6,7 @@ const Codes = () => {
   return (
     <>
       <Flex>
-        <Text color="#c0ad60" mr="8px">
+        <Text color="yellow.400" mr="8px">
           const
         </Text>
         <Text mr="8px"> userInfo = </Text> <Text> {' {'} </Text>

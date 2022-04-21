@@ -34,6 +34,9 @@ const HeroSectionCode = () => {
                 lifeLike: true,
                 loop: true,
                 loopDelay: 5000,
+                startDelete: true,
+                startDelay: 2000,
+                waitUntilVisible: true,
               }}
             >
               <Codes />

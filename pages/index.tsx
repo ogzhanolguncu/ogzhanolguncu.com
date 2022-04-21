@@ -7,6 +7,7 @@ import { getAllFilesFrontMatter } from 'lib/mdx';
 import ArticleList from 'componentsV2/Article/ArticleList';
 import Hero from 'componentsV2/Hero';
 import Layout from 'componentsV2/Layout';
+import Project from 'componentsV2/Projects';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -19,6 +20,8 @@ const Home = ({ blogPosts, popularPosts }: Props) => {
       <ArticleList articles={blogPosts} />
       <Box mt={['3rem', '3rem', '6rem', '6rem']} />
       <ArticleList articles={popularPosts} isPopular />
+      <Box mt={['6rem', '6rem', '12rem', '12rem']} />
+      <Project />
     </Layout>
   );
 };
