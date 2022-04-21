@@ -1,8 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import ProjectContainer from './ProjectContainer';
 
-const index = () => {
+const Projects = () => {
   return (
     <>
       <Flex alignItems="center" color="#000">
@@ -15,133 +15,78 @@ const index = () => {
         alignItems="flex-start"
         justifyContent="space-between"
         flexDirection={['column', 'column', 'column', 'row']}
-        gap="0 1.5rem"
+        gap="1rem 1.5rem"
       >
-        <Flex
-          flexDirection="column"
+        <ProjectContainer
           bgGradient="linear-gradient(45deg, yellow.300 0%, pink.100 100%);"
-          border="3px solid black"
-          boxShadow="8px 8px #8080805e"
-          borderRadius="10px"
-          padding="1rem"
-          width="30%"
-          height="300px"
-          gap="1.5rem"
+          title="Microfrontend with Module Federation, Typrescript and React"
+          link="#"
         >
-          <Heading
-            as="h3"
-            fontSize={['17px', '17px', '18px', '21px']}
-            fontWeight="bold"
-            letterSpacing="0.3px"
-            lineHeight="30px"
-          >
-            <Link href="#">Microfrontend with Module Federation, Typrescript and React</Link>
-          </Heading>
-          <Box lineHeight="30px">
-            Microfrontend project with
-            <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
-              React
+          Microfrontend project with
+          <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
+            React
+          </Text>
+          <Text as="span">, </Text>
+          <Box>
+            <Text as="span" color="#fff" background="#000" p="3px">
+              Typescript
             </Text>
             <Text as="span">, </Text>
-            <Box>
-              <Text as="span" color="#fff" background="#000" p="3px">
-                Typescript
-              </Text>
-              <Text as="span">, </Text>
-              and
-              <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
-                Module Federation
-              </Text>
-              , to bootstrap federated applications.
-            </Box>
-          </Box>
-        </Flex>
-
-        <Flex
-          flexDirection="column"
-          border="3px solid black"
-          boxShadow="8px 8px #8080805e"
-          borderRadius="10px"
-          padding="1rem"
-          width="30%"
-          height="300px"
-          gap="1.5rem"
-          as="section"
-        >
-          <Heading
-            as="h3"
-            fontSize={['17px', '17px', '18px', '21px']}
-            fontWeight="bold"
-            letterSpacing="0.3px"
-            lineHeight="30px"
-          >
-            <Link href="https://github.com/ogzhanolguncu/react-typescript-module-federation">
-              Microfrontend with Module Federation, Typrescript and React
-            </Link>
-          </Heading>
-          <Box lineHeight="30px">
-            Microfrontend project with
+            and
             <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
-              React
+              Module Federation
+            </Text>
+            <Text as="span"> to bootstrap federated applications.</Text>
+          </Box>
+        </ProjectContainer>
+
+        <ProjectContainer
+          title="Microfrontend with Module Federation, Typrescript and React"
+          link="#"
+        >
+          Microfrontend project with
+          <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
+            React
+          </Text>
+          <Text as="span">, </Text>
+          <Box>
+            <Text as="span" color="#fff" background="#000" p="3px">
+              Typescript
             </Text>
             <Text as="span">, </Text>
-            <Box>
-              <Text as="span" color="#fff" background="#000" p="3px">
-                Typescript
-              </Text>
-              <Text as="span">, </Text>
-              and
-              <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
-                Module Federation
-              </Text>
-              , to bootstrap federated applications.
-            </Box>
+            and
+            <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
+              Module Federation
+            </Text>
+            <Text as="span"> to bootstrap federated applications.</Text>
           </Box>
-        </Flex>
+        </ProjectContainer>
 
-        <Flex
-          flexDirection="column"
-          backgroundColor="pink.300"
+        <ProjectContainer
           bgGradient="linear-gradient(45deg, pink.100 0%, yellow.300 100%);"
-          border="3px solid black"
-          boxShadow="8px 8px #8080805e"
-          borderRadius="10px"
-          padding="1rem"
-          width="30%"
-          height="300px"
-          gap="1.5rem"
+          title="Microfrontend with Module Federation, Typrescript and React"
+          link="#"
         >
-          <Heading
-            as="h3"
-            fontSize={['17px', '17px', '18px', '21px']}
-            fontWeight="bold"
-            letterSpacing="0.3px"
-            lineHeight="30px"
-          >
-            <Link href="#">Microfrontend with Module Federation, Typrescript and React</Link>
-          </Heading>
-          <Box lineHeight="30px">
-            Microfrontend project with
-            <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
-              React
+          Microfrontend project with
+          <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
+            React
+          </Text>
+          <Text as="span">, </Text>
+          <Box>
+            <Text as="span" color="#fff" background="#000" p="3px">
+              Typescript
             </Text>
             <Text as="span">, </Text>
-            <Box>
-              <Text as="span" color="#fff" background="#000" p="3px">
-                Typescript
-              </Text>
-              <Text as="span">, </Text>
-              and
-              <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
-                Module Federation
-              </Text>
-              , to bootstrap federated applications.
-            </Box>
+            and
+            <Text as="span" color="#fff" background="#000" p="3px" ml="5px">
+              Module Federation
+            </Text>
+            <Text as="span"> to bootstrap federated applications.</Text>
           </Box>
-        </Flex>
+        </ProjectContainer>
       </Flex>
     </>
   );
 };
 
-export default index;
+export default Projects;
