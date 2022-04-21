@@ -3,7 +3,6 @@ import { Flex, Heading, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 
 import ArticleTag from './ArticleTag';
-import { Underline } from 'componentsV2/Article/Underline';
 
 type Props = {
   articleDate: Date | string;
@@ -39,9 +38,7 @@ const ArticleItem = ({
             fontWeight="bold"
             letterSpacing="0.05px"
           >
-            <Underline>
-              <Link href={`/blog/${articleId}`}>{articleTitle}</Link>
-            </Underline>
+            <Link href={`/blog/${articleId}`}>{articleTitle}</Link>
           </Heading>
           <Text fontSize="12px" fontWeight="bold" letterSpacing="0.05px" textAlign="start">
             Reading Time: {readingTime}

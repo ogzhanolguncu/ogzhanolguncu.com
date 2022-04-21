@@ -35,7 +35,8 @@ const HeroSectionCode = () => {
                 loop: true,
                 loopDelay: 5000,
                 startDelete: true,
-                startDelay: 2000,
+                startDelay: 1000,
+                deleteSpeed: 75,
                 waitUntilVisible: true,
               }}
             >
@@ -75,7 +76,7 @@ const HeroSectionCode = () => {
               <Text fontWeight="normal" color="#d4cecd">
                 Oğuzhan Olguncu
               </Text>
-              <Text color="#1f2334">Engineer, mentor, blogger.</Text>
+              <Text color="#1f2334">Engineer, mentor blogger.</Text>
             </Flex>
           </Flex>
         </Box>
