@@ -18,6 +18,10 @@ const ArticleTag = ({ text }: Props) => {
         backgroundColor: '#000',
         color: '#e9e2dd',
       }}
+      _active={{
+        color: '#000',
+        backgroundColor: 'transparent',
+      }}
     >
       {text}
     </Button>

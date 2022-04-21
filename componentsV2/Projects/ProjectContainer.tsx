@@ -1,6 +1,6 @@
-import { Heading, Flex, Box } from '@chakra-ui/react';
-import Link from 'next/link';
 import React, { PropsWithChildren } from 'react';
+import Link from 'next/link';
+import { Heading, Flex, Box } from '@chakra-ui/react';
 
 const ProjectContainer = ({
   children,

@@ -28,7 +28,7 @@ const HeroSectionTitle = () => {
         lineHeight="1.5"
         fontWeight="medium"
       >
-        You can read my blog, view my guides & blog,
+        You can read my blog, view my guides
         <Box as="br" /> or learn more about me.
       </Text>
       <Button
