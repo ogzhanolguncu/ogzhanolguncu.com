@@ -24,7 +24,6 @@ const HeroSectionCode = () => {
           padding="2rem"
           color="#fff"
           fontSize={['1.2rem', '1.5rem', '1.5rem', '1.5rem']}
-          fontFamily="Cabin"
         >
           <CodeContainer>
             <TypeIt
