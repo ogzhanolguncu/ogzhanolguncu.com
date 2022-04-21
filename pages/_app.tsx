@@ -10,13 +10,10 @@ import { Chakra } from 'componentsV2/Chakra';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-T9GGC8MHKK"
-        strategy="afterInteractive"
-      />
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-T9GGC8MHKK" strategy="worker" />
       <Script
         id="google-analytics"
-        strategy="afterInteractive"
+        strategy="worker"
         dangerouslySetInnerHTML={{
           __html: `
               window.dataLayer = window.dataLayer || [];

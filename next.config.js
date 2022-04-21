@@ -5,6 +5,7 @@ module.exports = {
   swcMinify: false,
   experimental: {
     scrollRestoration: true,
+    nextScriptWorkers: true,
   },
 
   webpack: (config, { dev, isServer }) => {

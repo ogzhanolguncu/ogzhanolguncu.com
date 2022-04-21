@@ -38,7 +38,8 @@
     "react-icons": "^4.1.0",
     "react-intersection-observer": "^8.31.0",
     "sharp": "^0.30.4",
-    "typeit-react": "^2.3.3"
+    "typeit-react": "^2.3.3",
+    "@builder.io/partytown": "^0.5.2"
   },
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.6",
