@@ -1,79 +1,27 @@
+import React from 'react';
 import { GetStaticProps } from 'next';
-import Link from 'next/link';
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { StaticBlog } from 'global';
-import { Flex, Tag, Box, Heading, Text, Input, Alert, AlertIcon } from '@chakra-ui/react';
+import { Flex, Box, Heading, Text } from '@chakra-ui/react';
 import LANGUAGE_TAGS from 'styles/languageTags';
-import { addTwoMonthToPublishedDate, compareDateWithTodaysDate } from 'utils/dateOperations';
-import { Article, ArticleTitle, Layout } from '@components/index';
 import groupBy from 'lodash.groupby';
-import Fuse from 'fuse.js';
-import debounce from 'lodash.debounce';
 import { NextSeo } from 'next-seo';
-import { useRouter } from 'next/router';
-import { ScaleBox } from '@components/ScaleBox';
 import { rand } from 'utils/utils';
 import { getAllFilesFrontMatter } from 'lib/mdx';
+import Layout from 'componentsV2/Layout';
+import ArticleList from 'componentsV2/Article/ArticleList';
+import ArticleTag from 'componentsV2/Article/ArticleTag';
+import { ScaleBox } from 'componentsV2/ScaleBox';
 
 type Props = {
   blogPosts: StaticBlog[];
   groupedBlogPosts: Record<number, StaticBlog[]>;
 };
 
-type FusedType = {
-  item: StaticBlog;
-};
-
-const options = {
-  includeScore: true,
-  keys: ['title', 'id'],
-};
-
 const url = 'https://ogzhanolguncu.com/blog';
 const title = 'Blog – Oğuzhan Olguncu';
-const description = 'Programming tutorials, guides and technical writings about web related stuff.';
+const description = 'Programming tutorials, guides and technical writing about web related stuff.';
 
-const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
-  const [fusedBlog, setFusedBlog] = useState<Record<number, StaticBlog[]>>(groupedBlogPosts);
-  const [input, setInput] = useState('');
-  const [currentSelectedTag, setCurrentSelectedTag] = useState('');
-  const fuse = new Fuse(blogPosts, options);
-  const router = useRouter();
-
-  const updateSearch = () => {
-    const results = fuse.search(input) as unknown as FusedType[];
-    const blogResults = results.map((res) => res.item);
-    const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
-    setFusedBlog(searchedBlogPosts);
-  };
-
-  const searchByTag = (tag: string) => {
-    setCurrentSelectedTag(tag);
-    const blogResults = blogPosts.filter((blog) => blog.languageTags.includes(tag));
-    const searchedBlogPosts = groupBy(blogResults, (x) => x.publishedAt.toString().slice(0, 4));
-    setFusedBlog(searchedBlogPosts);
-  };
-
-  const delayedSearch = useCallback(debounce(updateSearch, 400), [input]);
-
-  useEffect(() => {
-    if (input.length === 0) {
-      return setFusedBlog(groupedBlogPosts);
-    }
-    delayedSearch();
-    return delayedSearch.cancel; // If input state changes, it invokes delayedSearch so we no longer wait for old debounce instead we cancel it.
-  }, [delayedSearch, groupedBlogPosts, input.length]);
-
-  useEffect(() => {
-    if (router.query?.tag !== undefined) {
-      searchByTag(router.query?.tag as string);
-      window.scrollTo({
-        top: 100,
-        behavior: 'smooth',
-      });
-    }
-  }, [router]);
-
+const Blog = ({ groupedBlogPosts }: Props) => {
   return (
     <>
       <NextSeo
@@ -97,158 +45,45 @@ const Blog = ({ blogPosts, groupedBlogPosts }: Props) => {
           >
             Blog
           </Heading>
-          <Text textAlign="center" fontSize="1.3rem" color="#60656c" marginBottom="1.5rem">
+          <Text textAlign="center" fontSize="1.3rem" color="#000" marginBottom="1.5rem">
             Articles, tutorials, snippets, musings, and everything else.
           </Text>
-          <Input
-            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-              setInput(e.target.value);
-            }}
-            value={input}
-            variant="outline"
-            placeholder="Search..."
-            maxWidth="400px"
-          />
+
           <Box
+            bgGradient="linear-gradient(120deg, yellow.300 0%, pink.100 100%);"
+            boxShadow="8px 8px #8080805e"
+            borderRadius="16px"
+            padding="2rem"
             marginTop="1.3rem"
             d="flex"
             flexDirection="row"
             justifyContent="center"
             alignItems="center"
-            w={['100%', '90%', '75%', '65%']}
+            w={['100%', '90%', '75%', '75%']}
             flexWrap="wrap"
+            gap="1rem"
           >
-            {Object.keys(LANGUAGE_TAGS).map((tag: string, tagIndex: number) => {
-              const color = LANGUAGE_TAGS[tag.toLowerCase()];
-              return (
-                <Box key={tagIndex}>
-                  <ScaleBox duration={1} delayOrder={rand(1, 5)}>
-                    <Tag
-                      width="max-content"
-                      height="20px"
-                      minHeight="2rem"
-                      p=".3rem .5rem"
-                      fontSize=".8rem"
-                      borderRadius="16px"
-                      marginBottom="7px"
-                      marginRight=".5rem"
-                      color="#fff"
-                      backgroundColor={color?.color}
-                      _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
-                      onClick={() => searchByTag(tag)}
-                    >
-                      {tag}
-                    </Tag>
-                  </ScaleBox>
-                </Box>
-              );
-            })}
+            {Object.keys(LANGUAGE_TAGS).map((tag: string, tagIndex: number) => (
+              <Box key={tagIndex}>
+                <ScaleBox duration={1} delayOrder={rand(1, 5)}>
+                  <ArticleTag text={tag} />
+                </ScaleBox>
+              </Box>
+            ))}
           </Box>
-        </Flex>
-        <Flex alignItems="flex-start" justifyContent="center" flexDirection="column">
-          {Object.entries(fusedBlog).length > 0 ? (
-            Object.keys(fusedBlog)
-              .reverse()
-              .map((blog, index) => (
-                <Fragment key={index}>
-                  <Heading
-                    fontSize="1.5rem"
-                    marginTop={index !== 0 ? '2.7rem' : '0'}
-                    fontFamily="Inter"
-                    paddingX="1rem"
-                    marginBottom="1rem"
-                  >
-                    {blog}
-                  </Heading>
-                  {fusedBlog[blog as unknown as number].map((article) => (
-                    <Article
-                      key={`${blog}${article.id}`}
-                      justifyContent="space-between"
-                      alignItems="space-between"
-                    >
-                      <ArticleTitle w="100%">
-                        {compareDateWithTodaysDate(
-                          addTwoMonthToPublishedDate(article.publishedAt),
-                        ) ? (
-                          <Tag
-                            fontSize={['.7rem', '.7rem', '.8rem', '.7 rem']}
-                            p=".5rem"
-                            borderRadius=".3rem"
-                            m={[
-                              '1rem .4rem 1rem 0',
-                              '1rem .4rem 1rem 0',
-                              '1rem .4rem 1rem 0',
-                              '1rem 1rem 10px 0',
-                            ]}
-                            height="15px"
-                            fontWeight="700"
-                            width={['2.7rem', '2.7rem', '4rem', '4rem']}
-                            minWidth="4rem"
-                            justifyContent="center"
-                            minHeight="2rem"
-                          >
-                            New!
-                          </Tag>
-                        ) : null}
-                        <Box>
-                          <Text
-                            fontSize=".8rem"
-                            fontWeight="600"
-                            marginBottom={['1rem', '1rem', 0, 0]}
-                          >
-                            {article.publishedAt}
-                          </Text>
-                          <Heading
-                            fontSize={['1rem', '1.1rem', '1.15rem', '1.15rem']}
-                            w="100%"
-                            fontFamily="Inter"
-                          >
-                            <Link href={`/blog/${article.id}`}>{article.title}</Link>
-                          </Heading>
-                        </Box>
-                      </ArticleTitle>
-                      <Box
-                        d="flex"
-                        flexDirection={['row', 'row', 'row', 'row']}
-                        justifyContent={['flex-start', 'flex-start', 'flex-end', 'flex-end']}
-                        alignItems={['flex-start', 'center', 'center', 'center']}
-                        w="100%"
-                        flexWrap="wrap"
-                      >
-                        {article?.languageTags?.map((tag: string, tagIndex: number) => {
-                          const color = LANGUAGE_TAGS[tag.toLowerCase()];
-                          return (
-                            <Tag
-                              key={`${blog}${article.id}${tagIndex}`}
-                              width="max-content"
-                              height="20px"
-                              p=".3rem .5rem"
-                              minHeight="2rem"
-                              fontSize=".8rem"
-                              borderRadius="16px"
-                              marginBottom="7px"
-                              marginRight=".5rem"
-                              color="#fff"
-                              backgroundColor={color?.color}
-                              _hover={{ cursor: 'pointer', backgroundColor: color?.hover }}
-                              onClick={() => searchByTag(tag)}
-                            >
-                              {tag}
-                            </Tag>
-                          );
-                        })}
-                      </Box>
-                    </Article>
-                  ))}
-                </Fragment>
-              ))
-          ) : (
-            <Alert status="info" m="0 auto 40px auto" borderRadius="20px">
-              <AlertIcon />
-              Help me, Obi-Wan Kenobi. You’re my only hope.
-              <strong style={{ marginLeft: '3px' }}>{currentSelectedTag.toUpperCase()}</strong>
-            </Alert>
-          )}
+          <Box mt={['5rem', '5rem', '10rem', '10rem']} />
+
+          <Flex flexDirection="column">
+            {Object.entries(groupedBlogPosts).map(([year, blogPosts], index, arr) => (
+              <Flex flexDirection="column" key={year}>
+                <Heading fontSize={['20px', '20px', '24px', '30px']} fontWeight="bold" mr="45px">
+                  {year}
+                </Heading>
+                <ArticleList articles={blogPosts} />
+                <Box mt={['3rem', '3rem', '6rem', '6rem']} />
+              </Flex>
+            ))}
+          </Flex>
         </Flex>
       </Layout>
     </>

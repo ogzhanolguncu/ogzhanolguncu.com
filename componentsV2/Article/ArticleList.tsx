@@ -8,13 +8,15 @@ import type { StaticBlog } from 'global';
 type Props = {
   articles: StaticBlog[];
   isPopular?: boolean;
+  showHeader?: boolean;
+  limitCount?: boolean;
 };
 
-const ArticleList = ({ articles, isPopular }: Props) => {
+const ArticleList = ({ articles, isPopular, showHeader = false, limitCount = false }: Props) => {
   return (
     <Flex flexDirection="column" color="#000" as="section">
-      <ArticleHeader isPopular={isPopular} />
-      {articles.slice(0, 5).map((article) => (
+      {showHeader && <ArticleHeader isPopular={isPopular} />}
+      {articles.slice(0, limitCount ? 5 : -1).map((article) => (
         <ArticleItem
           key={article.id}
           articleId={article.id}

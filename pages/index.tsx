@@ -8,7 +8,6 @@ import ArticleList from 'componentsV2/Article/ArticleList';
 import Hero from 'componentsV2/Hero';
 import Layout from 'componentsV2/Layout';
 import Project from 'componentsV2/Projects';
-import Footer from 'componentsV2/Footer';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -18,13 +17,12 @@ const Home = ({ blogPosts, popularPosts }: Props) => {
       <Box mt={['5rem', '5rem', '10rem', '10rem']} />
       <Hero />
       <Box mt={['6rem', '6rem', '12rem', '12rem']} />
-      <ArticleList articles={blogPosts} />
+      <ArticleList articles={blogPosts} showHeader limitCount />
       <Box mt={['3rem', '3rem', '6rem', '6rem']} />
-      <ArticleList articles={popularPosts} isPopular />
+      <ArticleList articles={popularPosts} isPopular showHeader limitCount />
       <Box mt={['6rem', '6rem', '12rem', '12rem']} />
       <Project />
       <Box mt={['3rem', '3rem', '6rem', '6rem']} />
-      <Footer />
     </Layout>
   );
 };

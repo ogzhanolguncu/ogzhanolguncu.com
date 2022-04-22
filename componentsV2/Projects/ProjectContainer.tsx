@@ -18,6 +18,7 @@ const ProjectContainer = ({
       width={['100%', '100%', '100%', '30%']}
       height={['300px', '200px', '200px', '300px']}
       gap="1.5rem"
+      color="#000"
     >
       <Heading
         as="h3"

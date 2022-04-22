@@ -1,6 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import { Flex } from '@chakra-ui/react';
+
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 type Props = {
   title?: string;
@@ -21,6 +23,7 @@ const Layout = ({ children }: PropsWithChildren<Props>) => {
       >
         <Navbar />
         {children}
+        <Footer />
       </Flex>
     </Flex>
   );

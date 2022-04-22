@@ -38,7 +38,6 @@ export const ScaleBox = (props: Props) => {
       transition: transition,
     },
   };
-
   return (
     <motion.div
       ref={ref}
@@ -46,7 +45,6 @@ export const ScaleBox = (props: Props) => {
       animate={inView ? 'show' : 'hidden'}
       exit="hidden"
       variants={variants}
-      {...props}
     >
       {children}
     </motion.div>
