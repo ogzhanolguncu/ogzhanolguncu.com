@@ -1,6 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import Link from 'next/link';
-import { Heading, Flex, Box } from '@chakra-ui/react';
+import { Heading, Flex, Box, Link } from '@chakra-ui/react';
 
 const ProjectContainer = ({
   children,
@@ -27,7 +26,9 @@ const ProjectContainer = ({
         letterSpacing="0.3px"
         lineHeight="30px"
       >
-        <Link href={link}>{title}</Link>
+        <Link href={link} isExternal>
+          {title}
+        </Link>
       </Heading>
       <Box lineHeight="30px">{children}</Box>
     </Flex>
