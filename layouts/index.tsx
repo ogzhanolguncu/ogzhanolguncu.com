@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Flex, Heading, Stack, Tag, Text, Link } from '@chakra-ui/react';
-import LANGUAGE_TAGS from 'styles/languageTags';
+import { languageColorizer } from 'utils/languageColorizer';
 import { RiEdit2Line } from 'react-icons/ri';
 import dayjs from 'dayjs';
 
@@ -54,14 +54,14 @@ export default function BlogLayout({ children, frontMatter }: any) {
           </Flex>
           <Flex justifyContent="center" w="100%">
             {frontMatter.languageTags?.map((tag: string, index: number) => {
-              const color = LANGUAGE_TAGS[tag];
+              const color = languageColorizer()[tag];
               return (
                 <Tag
                   size={'md'}
                   key={index}
                   color="#fff"
-                  backgroundColor={color?.color}
-                  _hover={{ cursor: 'pointer', backgroundColor: color.hover }}
+                  backgroundColor={color}
+                  _hover={{ cursor: 'pointer', backgroundColor: 'transparent' }}
                   mr="5px"
                   onClick={() =>
                     router.push({

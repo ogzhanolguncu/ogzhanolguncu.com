@@ -1,4 +1,3 @@
-export { default as ArticleLists } from './ArticleLists';
 export { default as Layout } from './Layout';
 export { default as Card } from './Card';
 export { default as HeroSection } from './HeroSection';
