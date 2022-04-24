@@ -12,13 +12,13 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
-import CodeSandBox from '../components/CodeSandBox';
-import EventBubbling from '../components/EventPropagationExample/Bubbling';
-import EventCapturing from '../components/EventPropagationExample/Capturing';
-import AsyncWithtHook from '../components/CustomHookExample/AsyncWithHook';
-import ToggleWithHook from '../components/CustomHookExample/AsyncWithoutHook';
-import CounterExample from '../components/PrevState/CounterExample';
-import CounterPrevExample from '../components/PrevState/CounterPrevExample';
+import CodeSandBox from './CodeSandBox';
+import EventBubbling from './BlogExampleComponents/EventPropagationExample/Bubbling';
+import EventCapturing from './BlogExampleComponents/EventPropagationExample/Capturing';
+import AsyncWithtHook from './BlogExampleComponents/CustomHookExample/AsyncWithHook';
+import ToggleWithHook from './BlogExampleComponents/CustomHookExample/AsyncWithoutHook';
+import CounterExample from './BlogExampleComponents/PrevState/CounterExample';
+import CounterPrevExample from './BlogExampleComponents/PrevState/CounterPrevExample';
 
 const Table = (props: any) => (
   <Box overflowX="scroll" w="full">

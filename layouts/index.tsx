@@ -3,7 +3,7 @@ import { Flex, Heading, Stack, Text, Link, Box } from '@chakra-ui/react';
 import { languageColorizer } from 'utils/languageColorizer';
 import dayjs from 'dayjs';
 
-import BlogSeo from '@components/BlogSeo';
+import BlogSeo from 'componentsV2/BlogSeo';
 import Layout from 'componentsV2/Layout';
 import ArticleTag from 'componentsV2/Article/ArticleTag';
 
