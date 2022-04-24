@@ -6,6 +6,7 @@ import path from 'path';
 import readingTime from 'reading-time';
 import { serialize } from 'next-mdx-remote/serialize';
 import { StaticBlog } from 'global';
+import dayjs from 'dayjs';
 
 const root = process.cwd();
 
@@ -58,6 +59,7 @@ export async function getAllFilesFrontMatter(type: string) {
         ...data,
         id: postSlug.replace(/\.mdx$/, ''),
         readingTime: readingTime(content).text.split('read')[0],
+        year: dayjs(data.publishedAt).year(),
       },
       ...allPosts,
     ];

@@ -37,6 +37,11 @@ const ArticleItem = ({
             fontSize={['17px', '17px', '18px', '21px']}
             fontWeight="bold"
             letterSpacing="0.05px"
+            _hover={{
+              textDecorationThickness: '3px',
+              textUnderlineOffset: '2px',
+              textDecoration: 'underline',
+            }}
           >
             <Link href={`/blog/${articleId}`}>{articleTitle}</Link>
           </Heading>

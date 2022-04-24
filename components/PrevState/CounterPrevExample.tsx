@@ -8,6 +8,7 @@ const CounterPrevExample = () => {
     <Center flexDirection="column" gap="2rem" width="100%">
       <Text textAlign="center">Counter: {counter}</Text>
       <Button
+        backgroundColor="#fff"
         onClick={() => {
           setCounter((prevState) => prevState + 1);
           setCounter((prevState) => prevState + 2);

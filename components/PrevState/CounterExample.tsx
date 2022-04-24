@@ -8,6 +8,7 @@ const CounterExample = () => {
     <Center flexDirection="column" gap="2rem" width="100%">
       <Text textAlign="center">Counter: {counter}</Text>
       <Button
+        backgroundColor="#fff"
         onClick={() => {
           setCounter(counter + 1);
           setCounter(counter + 2);

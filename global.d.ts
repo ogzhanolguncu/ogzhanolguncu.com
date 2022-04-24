@@ -16,6 +16,7 @@ export type StaticBlog = {
   isPopular: boolean;
   guides: boolean;
   readingTime: string;
+  year: number;
 };
 
 export type ErrorProps = {

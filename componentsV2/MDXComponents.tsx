@@ -27,13 +27,7 @@ const Table = (props: any) => (
 );
 
 const THead = (props: any) => {
-  const { colorMode } = useColorMode();
-  const bg = {
-    light: 'gray.50',
-    dark: 'whiteAlpha.100',
-  };
-
-  return <Box as="th" bg={bg[colorMode]} fontWeight="semibold" p={2} fontSize="sm" {...props} />;
+  return <Box as="th" fontWeight="semibold" p={2} fontSize="sm" {...props} />;
 };
 
 const TData = (props: any) => (
@@ -51,24 +45,18 @@ const TData = (props: any) => (
 const TImage = (props: any) => <chakra.img shadow="md" borderRadius="16px" {...props} />;
 
 const CustomLink = (props: any) => {
-  const { colorMode } = useColorMode();
-  const color = {
-    light: 'hsl(208, 99%, 44%)',
-    dark: 'hsl(208, 95%, 68%)',
-  };
-
   const href = props.href;
   const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'));
 
   if (isInternalLink) {
     return (
       <NextLink href={href} passHref>
-        <Link color={color[colorMode]} {...props} />
+        <Link {...props} />
       </NextLink>
     );
   }
 
-  return <Link color={color[colorMode]} isExternal {...props} />;
+  return <Link isExternal {...props} />;
 };
 
 const Quote = (props: any) => {
@@ -139,33 +127,23 @@ const DocsHeading = (props: any) => (
 );
 
 const Hr = () => {
-  const { colorMode } = useColorMode();
-  const borderColor = {
-    light: 'gray.200',
-    dark: 'gray.600',
-  };
-
-  return <Divider borderColor={borderColor[colorMode]} my={4} w="100%" />;
+  return <Divider my={4} w="100%" />;
 };
 
-const Tstrong = (props: any) => (
-  <Text as="span" color="#fff" background="#000" p="3px" {...props} />
-);
+const Tstrong = (props: any) => <Text as="span" fontWeight="bold" {...props} />;
 
 const Tparagraph = (props: any) => {
-  const { colorMode } = useColorMode();
-
   return (
     <Text
       as="p"
       mt={4}
-      fontSize="17.5px"
+      fontSize="18px"
       lineHeight="1.7"
       css={{
         wordSpacing: '1.2px',
         letterSpacing: '0.1px',
       }}
-      fontWeight={colorMode === 'light' ? '500' : 'normal'}
+      fontWeight={500}
       {...props}
     />
   );
@@ -175,7 +153,7 @@ const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
   h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
   h3: (props: any) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
-  inlineCode: (props: any) => <Code colorScheme="teal" {...props} />,
+  inlineCode: (props: any) => <Code color="white" backgroundColor="black" {...props} />,
   kbd: Kbd,
   br: (props: any) => <Box height="24px" {...props} />,
   hr: Hr,
