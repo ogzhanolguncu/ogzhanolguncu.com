@@ -24,7 +24,6 @@
     "dayjs": "^1.10.7",
     "feed": "^4.2.2",
     "framer-motion": "^6.3.0",
-    "fuse.js": "3.4.3",
     "gray-matter": "^4.0.2",
     "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
@@ -59,5 +58,12 @@
     "remark-code-titles": "^0.1.1",
     "remark-slug": "^6.0.0",
     "typescript": "^4.3.2"
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 100,
+    "tabWidth": 2
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { InferGetStaticPropsType } from 'next';
 import { Flex, Box, Heading, Text } from '@chakra-ui/react';
 import groupBy from 'lodash.groupby';
@@ -20,6 +20,11 @@ const title = 'Blog – Oğuzhan Olguncu';
 const description = 'Programming tutorials, guides and technical writing about web related stuff.';
 
 const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
+  // const [searchValue, setSearchValue] = useState();
+  // const filteredBlogPosts = groupedBlogPosts.filter((post) =>
+  //   post.title.toLowerCase().includes(searchValue.toLowerCase()),
+  // );
+
   return (
     <>
       <NextSeo
@@ -54,9 +59,6 @@ const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
           </Text>
 
           <Box
-            border="3px solid black"
-            boxShadow="8px 8px #8080805e"
-            borderRadius="16px"
             padding={['1rem', '2rem', '2rem', '2rem']}
             marginTop="1.3rem"
             d="flex"

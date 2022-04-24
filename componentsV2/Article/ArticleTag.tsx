@@ -12,7 +12,7 @@ const ArticleTag = ({ text, bgColor }: Props) => {
       fontSize={['15px', '15px', '16px', '18px']}
       variant="ghost"
       border="3px solid black"
-      boxShadow="6px 6px #8080805e"
+      boxShadow="8px 8px #8080805e"
       borderRadius="10px"
       backgroundColor={bgColor}
       color={bgColor ? '#fff' : 'initial'}

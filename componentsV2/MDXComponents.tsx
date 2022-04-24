@@ -12,13 +12,13 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
-import CodeSandBox from './CodeSandBox';
-import EventBubbling from './EventPropagationExample/Bubbling';
-import EventCapturing from './EventPropagationExample/Capturing';
-import AsyncWithtHook from './CustomHookExample/AsyncWithHook';
-import ToggleWithHook from './CustomHookExample/AsyncWithoutHook';
-import CounterExample from './PrevState/CounterExample';
-import CounterPrevExample from './PrevState/CounterPrevExample';
+import CodeSandBox from '../components/CodeSandBox';
+import EventBubbling from '../components/EventPropagationExample/Bubbling';
+import EventCapturing from '../components/EventPropagationExample/Capturing';
+import AsyncWithtHook from '../components/CustomHookExample/AsyncWithHook';
+import ToggleWithHook from '../components/CustomHookExample/AsyncWithoutHook';
+import CounterExample from '../components/PrevState/CounterExample';
+import CounterPrevExample from '../components/PrevState/CounterPrevExample';
 
 const Table = (props: any) => (
   <Box overflowX="scroll" w="full">
@@ -148,15 +148,9 @@ const Hr = () => {
   return <Divider borderColor={borderColor[colorMode]} my={4} w="100%" />;
 };
 
-const Tstrong = (props: any) => {
-  const { colorMode } = useColorMode();
-  const textColor = {
-    light: '#1A202C',
-    dark: '#81e6d9',
-  };
-
-  return <Text as="strong" color={textColor[colorMode]} {...props} />;
-};
+const Tstrong = (props: any) => (
+  <Text as="span" color="#fff" background="#000" p="3px" {...props} />
+);
 
 const Tparagraph = (props: any) => {
   const { colorMode } = useColorMode();

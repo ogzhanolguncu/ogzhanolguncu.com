@@ -1,15 +1,14 @@
-import { useRouter } from 'next/router';
 import React from 'react';
-import { Flex, Heading, Stack, Tag, Text, Link } from '@chakra-ui/react';
+import { Flex, Heading, Stack, Text, Link, Box } from '@chakra-ui/react';
 import { languageColorizer } from 'utils/languageColorizer';
 import { RiEdit2Line } from 'react-icons/ri';
 import dayjs from 'dayjs';
 
-import { Layout } from '@components/index';
 import BlogSeo from '@components/BlogSeo';
+import Layout from 'componentsV2/Layout';
+import ArticleTag from 'componentsV2/Article/ArticleTag';
 
 export default function BlogLayout({ children, frontMatter }: any) {
-  const router = useRouter();
   const slug = frontMatter.slug;
 
   return (
@@ -44,35 +43,17 @@ export default function BlogLayout({ children, frontMatter }: any) {
             mb={4}
           >
             <Flex justifyContent="center" width="100%" my="1rem">
-              <Text fontSize="md">
-                {frontMatter.by}
-                {`Oğuzhan Olguncu\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0`}
-                {dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}
-                {`\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0 ${frontMatter.readingTime.text} `}
-              </Text>
+              <Box fontSize="md" fontWeight="500">
+                <Text>Oğuzhan Olguncu</Text>
+                <Text>{dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}</Text>
+                <Text>{frontMatter.readingTime.text}</Text>
+              </Box>
             </Flex>
           </Flex>
-          <Flex justifyContent="center" w="100%">
-            {frontMatter.languageTags?.map((tag: string, index: number) => {
+          <Flex justifyContent="center" w="100%" gap="1rem">
+            {frontMatter.languageTags?.map((tag: string) => {
               const color = languageColorizer()[tag];
-              return (
-                <Tag
-                  size={'md'}
-                  key={index}
-                  color="#fff"
-                  backgroundColor={color}
-                  _hover={{ cursor: 'pointer', backgroundColor: 'transparent' }}
-                  mr="5px"
-                  onClick={() =>
-                    router.push({
-                      pathname: '/blog/',
-                      query: { tag },
-                    })
-                  }
-                >
-                  {tag}
-                </Tag>
-              );
+              return <ArticleTag text={tag} bgColor={color} key={tag} />;
             })}
           </Flex>
         </Flex>

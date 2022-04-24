@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app';
 import { MDXProvider } from '@mdx-js/react';
-import MDXComponents from '@components/MDXComponents';
+import MDXComponents from 'componentsV2/MDXComponents';
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import SEO from 'next-seo.config';
