@@ -1,7 +1,6 @@
 import React from 'react';
 import { Flex, Heading, Stack, Text, Link, Box } from '@chakra-ui/react';
 import { languageColorizer } from 'utils/languageColorizer';
-import { RiEdit2Line } from 'react-icons/ri';
 import dayjs from 'dayjs';
 
 import BlogSeo from '@components/BlogSeo';
@@ -65,7 +64,6 @@ export default function BlogLayout({ children, frontMatter }: any) {
           isExternal
           href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/data/blog/${slug}.mdx`}
         >
-          <RiEdit2Line size={25} />
           <Text marginLeft=".5rem" marginTop="5px">
             Edit this page
           </Text>
