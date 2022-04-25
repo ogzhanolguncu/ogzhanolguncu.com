@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Flex, Heading, Stack, Text, Link, Box } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 
 import BlogSeo from 'componentsV2/BlogSeo';
 import Layout from 'componentsV2/Layout';
 import ArticleTag from 'componentsV2/Article/ArticleTag';
+import { useRouter } from 'next/router';
+import { FrontMatterTypes } from 'global';
 
-export default function BlogLayout({ children, frontMatter }: any) {
+export default function BlogLayout({
+  children,
+  frontMatter,
+}: PropsWithChildren<{
+  frontMatter: FrontMatterTypes;
+}>) {
+  const router = useRouter();
   const slug = frontMatter.slug;
 
   return (
     <Layout>
-      <Box mt={['3rem', '3rem', '6rem', '6rem']} />
       <BlogSeo url={`https://ogzhanolguncu.com/blog/${slug}`} {...frontMatter} />
       <Stack
         spacing={8}
@@ -31,7 +38,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
           w="100%"
           textAlign="center"
         >
-          <Heading letterSpacing="tight" mb={2} size="2xl" lineHeight="1.4">
+          <Heading letterSpacing="tight" mb={2} size="2xl" lineHeight="1.4" as="h1">
             {frontMatter.title}
           </Heading>
           <Flex
@@ -53,7 +60,18 @@ export default function BlogLayout({ children, frontMatter }: any) {
           </Flex>
           <Flex justifyContent="center" w="100%" gap="1rem">
             {frontMatter.languageTags?.map((tag: string) => {
-              return <ArticleTag text={tag} key={tag} />;
+              return (
+                <ArticleTag
+                  text={tag}
+                  key={tag}
+                  onClick={() =>
+                    router.push({
+                      pathname: '/blog/',
+                      query: { tag },
+                    })
+                  }
+                />
+              );
             })}
           </Flex>
         </Flex>

@@ -35,7 +35,13 @@ const About = () => {
       />
       <Layout>
         <Flex justifyContent="center" alignItems="center" margin="5rem 0" flexDirection="column">
-          <Heading textAlign="center" fontSize={['2rem', '2rem', '3rem', '3rem']}>
+          <Heading
+            as="h1"
+            fontSize={['2rem', '2rem', '3rem', '3rem']}
+            marginBottom="1rem"
+            fontWeight="bold"
+            lineHeight="1.4"
+          >
             About me
           </Heading>
           <Flex

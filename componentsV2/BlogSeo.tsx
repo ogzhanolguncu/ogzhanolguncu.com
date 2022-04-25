@@ -4,7 +4,7 @@ import { NextSeo, ArticleJsonLd } from 'next-seo';
 type Props = {
   title: string;
   summary: string;
-  publishedAt: string;
+  publishedAt: Date;
   url: string;
   image: string;
 };

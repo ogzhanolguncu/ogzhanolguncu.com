@@ -55,11 +55,11 @@ const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
       <Layout>
         <Flex justifyContent="center" alignItems="center" margin="5rem 0" flexDirection="column">
           <Heading
-            as="h2"
+            as="h1"
             fontSize={['2rem', '2rem', '3rem', '3rem']}
             marginBottom="1rem"
-            marginTop={['0.6rem', '0', '0', '0']}
             fontWeight="bold"
+            lineHeight="1.4"
           >
             Blog
           </Heading>
