@@ -3,6 +3,7 @@ import { Flex, Heading, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 
 import ArticleTag from './ArticleTag';
+import { useRouter } from 'next/router';
 
 type Props = {
   articleDate: Date | string;
@@ -19,6 +20,8 @@ const ArticleItem = ({
   articleId,
   readingTime,
 }: Props) => {
+  const router = useRouter();
+
   return (
     <Flex
       mt="35px"
@@ -53,7 +56,16 @@ const ArticleItem = ({
       </Flex>
       <Flex gap="1rem" mt="13px" flexWrap={['wrap', 'wrap', 'nowrap', 'nowrap']}>
         {languageTags.map((language) => (
-          <ArticleTag key={language} text={language} />
+          <ArticleTag
+            key={language}
+            text={language}
+            onClick={() =>
+              router.push({
+                pathname: '/blog/',
+                query: { tag: language },
+              })
+            }
+          />
         ))}
       </Flex>
     </Flex>

@@ -1,14 +1,14 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { InferGetStaticPropsType } from 'next';
 import { Flex, Box, Heading, Text, Input, Button } from '@chakra-ui/react';
 import { NextSeo } from 'next-seo';
-import { groupBy, rand } from 'utils/utils';
+import { useRouter } from 'next/router';
 
 import { getAllFilesFrontMatter } from 'lib/mdx';
-
 import Layout from 'componentsV2/Layout';
 import ArticleList from 'componentsV2/Article/ArticleList';
 import { ScaleBox } from 'componentsV2/ScaleBox';
+import { groupBy, rand } from 'utils';
 import { languageColorizer } from 'utils/languageColorizer';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -18,6 +18,8 @@ const title = 'Blog – Oğuzhan Olguncu';
 const description = 'Programming tutorials, guides and technical writing about web related stuff.';
 
 const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
+  const router = useRouter();
+
   const [searchValue, setSearchValue] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -39,6 +41,16 @@ const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
     filteredArticles.flatMap((posts) => posts),
     'year',
   );
+
+  useEffect(() => {
+    if (!router.query.tag) return;
+
+    setSelectedTags((prevState) => [...prevState, router.query.tag as string]);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  }, [router.query.tag]);
 
   return (
     <>
