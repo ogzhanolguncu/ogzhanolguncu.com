@@ -13,7 +13,6 @@ const Navbar = () => {
       width="100%"
       as="nav"
       mx="auto"
-      color="#000"
     >
       <Link href="/" passHref>
         <Button as="a" variant="ghost" _hover={{ bg: 'rgba(0,0,0,.07)' }} px="0.3rem">
@@ -24,7 +23,7 @@ const Navbar = () => {
         </Button>
       </Link>
 
-      <HStack spacing={['10px', '30px', '40px', '60px']}>
+      <HStack spacing={['10px', '30px', '40px', '40px']}>
         <NavbarButton LinkComponent={Link} href="/about" text="About" />
         <NavbarButton LinkComponent={Link} href="/blog" text="Blog" />
       </HStack>

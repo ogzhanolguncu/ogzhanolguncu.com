@@ -1,6 +1,5 @@
 import React from 'react';
 import { Flex, Heading, Stack, Text, Link, Box } from '@chakra-ui/react';
-import { languageColorizer } from 'utils/languageColorizer';
 import dayjs from 'dayjs';
 
 import BlogSeo from 'componentsV2/BlogSeo';
@@ -44,19 +43,16 @@ export default function BlogLayout({ children, frontMatter }: any) {
           >
             <Flex justifyContent="center" width="100%" my="1rem">
               <Box fontSize="md" fontWeight="500">
-                <Flex gap="1rem">
-                  <Box as="span">Oğuzhan Olguncu</Box>
-                  <Box as="span">-</Box>
-                  <Box as="span">{dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}</Box>
-                </Flex>
+                <Box as="span" fontWeight="bold">
+                  {dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}
+                </Box>
                 <Text mt="0.5rem">{frontMatter.readingTime.text}</Text>
               </Box>
             </Flex>
           </Flex>
           <Flex justifyContent="center" w="100%" gap="1rem">
             {frontMatter.languageTags?.map((tag: string) => {
-              const color = languageColorizer()[tag];
-              return <ArticleTag text={tag} bgColor={color} key={tag} />;
+              return <ArticleTag text={tag} key={tag} />;
             })}
           </Flex>
         </Flex>

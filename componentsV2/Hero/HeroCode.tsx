@@ -16,7 +16,7 @@ const HeroSectionCode = () => {
     >
       <Box position="relative">
         <Box
-          w={['300px', '400px', '400px', '400px']}
+          w={['300px', '400px', '400px', '500px']}
           height="450px"
           borderRadius="9px"
           background="black"

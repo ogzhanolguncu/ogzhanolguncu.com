@@ -5,7 +5,7 @@ import ProjectContainer from './ProjectContainer';
 const Projects = () => {
   return (
     <>
-      <Flex alignItems="center" color="#000">
+      <Flex alignItems="center">
         <Heading fontSize={['20px', '20px', '24px', '30px']} fontWeight="bold" mr="45px">
           Projects
         </Heading>

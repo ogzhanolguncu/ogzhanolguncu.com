@@ -15,7 +15,7 @@ type Props = {
 const ArticleList = ({ articles, isPopular, showHeader = false, limitCount = false }: Props) => {
   const articleList = limitCount ? articles.slice(0, 5) : articles;
   return (
-    <Flex flexDirection="column" color="#000" as="section">
+    <Flex flexDirection="column" as="section">
       {showHeader && <ArticleHeader isPopular={isPopular} />}
       {articleList.map((article) => (
         <ArticleItem

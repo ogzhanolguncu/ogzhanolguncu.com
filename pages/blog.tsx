@@ -53,13 +53,7 @@ const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
         }}
       />
       <Layout>
-        <Flex
-          justifyContent="center"
-          alignItems="center"
-          margin="5rem 0"
-          flexDirection="column"
-          color="#000"
-        >
+        <Flex justifyContent="center" alignItems="center" margin="5rem 0" flexDirection="column">
           <Heading
             as="h2"
             fontSize={['2rem', '2rem', '3rem', '3rem']}
@@ -69,7 +63,7 @@ const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
           >
             Blog
           </Heading>
-          <Text textAlign="center" fontSize="1.3rem" color="#000" marginBottom="1.5rem">
+          <Text textAlign="center" fontSize="1.3rem" marginBottom="1.5rem">
             Articles, tutorials, snippets, musings, and everything else.
           </Text>
 
@@ -83,7 +77,7 @@ const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
             backgroundColor="transparent"
             placeholder="Search articles"
             _placeholder={{
-              color: '#000',
+              color: '#1a202c',
             }}
             onChange={(e) => setSearchValue(e.currentTarget.value)}
           />

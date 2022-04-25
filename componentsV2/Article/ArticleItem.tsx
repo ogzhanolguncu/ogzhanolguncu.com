@@ -42,6 +42,7 @@ const ArticleItem = ({
               textUnderlineOffset: '2px',
               textDecoration: 'underline',
             }}
+            my="0.3rem"
           >
             <Link href={`/blog/${articleId}`}>{articleTitle}</Link>
           </Heading>
@@ -50,7 +51,7 @@ const ArticleItem = ({
           </Text>
         </Flex>
       </Flex>
-      <Flex gap="1rem" mt="8px" flexWrap={['wrap', 'wrap', 'nowrap', 'nowrap']}>
+      <Flex gap="1rem" mt="13px" flexWrap={['wrap', 'wrap', 'nowrap', 'nowrap']}>
         {languageTags.map((language) => (
           <ArticleTag key={language} text={language} />
         ))}

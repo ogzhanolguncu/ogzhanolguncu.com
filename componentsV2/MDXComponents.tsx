@@ -127,7 +127,7 @@ const DocsHeading = (props: any) => (
 );
 
 const Hr = () => {
-  return <Divider my={4} w="100%" />;
+  return <Divider my={4} w="100%" borderColor="#000" />;
 };
 
 const Tstrong = (props: any) => <Text as="span" fontWeight="bold" {...props} />;

@@ -13,9 +13,8 @@ const Footer = () => {
       width="100%"
       as="nav"
       mx="auto"
-      color="#000"
     >
-      <HStack spacing={['10px', '30px', '40px', '60px']}>
+      <HStack spacing={['10px', '30px', '40px', '40px']}>
         <NavigationButton LinkComponent={Link} href="/about" text="About" />
         <NavigationButton LinkComponent={Link} href="/blog" text="Blog" />
       </HStack>
