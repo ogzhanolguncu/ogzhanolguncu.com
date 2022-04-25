@@ -11,7 +11,7 @@ const Footer = () => {
       justifyContent="space-between"
       alignItems="center"
       width="100%"
-      as="nav"
+      as="footer"
       mx="auto"
     >
       <HStack spacing={['10px', '30px', '40px', '40px']}>

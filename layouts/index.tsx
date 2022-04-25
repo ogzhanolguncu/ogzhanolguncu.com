@@ -20,6 +20,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
         m="0 auto 4rem auto"
         maxWidth="800px"
         w="100%"
+        as="article"
       >
         <Flex
           margin="5rem 0"
