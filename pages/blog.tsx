@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { InferGetStaticPropsType } from 'next';
-import { Flex, Box, Heading, Text, Input } from '@chakra-ui/react';
+import { Flex, Box, Heading, Text, Input, Button } from '@chakra-ui/react';
 import { NextSeo } from 'next-seo';
 import { groupBy, rand } from 'utils/utils';
 
@@ -8,7 +8,6 @@ import { getAllFilesFrontMatter } from 'lib/mdx';
 
 import Layout from 'componentsV2/Layout';
 import ArticleList from 'componentsV2/Article/ArticleList';
-import ArticleTag from 'componentsV2/Article/ArticleTag';
 import { ScaleBox } from 'componentsV2/ScaleBox';
 import { languageColorizer } from 'utils/languageColorizer';
 
@@ -20,15 +19,24 @@ const description = 'Programming tutorials, guides and technical writing about w
 
 const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
   const [searchValue, setSearchValue] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const filteredItems = Object.entries(groupedBlogPosts).map(([year]) =>
-    groupedBlogPosts[year].filter((post) =>
-      post.title.toLowerCase().includes(searchValue.toLowerCase()),
-    ),
+  const articleList = useMemo(
+    () => Object.entries(groupedBlogPosts).map(([year]) => groupedBlogPosts[year]),
+    [],
+  );
+  const filteredTags = articleList.map((posts) =>
+    posts.filter((post) => selectedTags.some((x) => post.languageTags.includes(x))),
+  );
+  const isFilteredTagsEmpty = !filteredTags.flatMap((x) => x).length;
+  const articles = isFilteredTagsEmpty ? articleList : filteredTags;
+
+  const filteredArticles = articles.map((posts) =>
+    posts.filter((post) => post.title.toLowerCase().includes(searchValue.toLowerCase())),
   );
 
   const filteredData = groupBy(
-    filteredItems.flatMap((posts) => posts),
+    filteredArticles.flatMap((posts) => posts),
     'year',
   );
 
@@ -94,7 +102,34 @@ const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
             {Object.keys(languageTags).map((tag: string, tagIndex: number) => (
               <Box key={tagIndex}>
                 <ScaleBox duration={1} delayOrder={rand(1, 5)}>
-                  <ArticleTag text={tag} bgColor={languageTags[tag]} />
+                  <Button
+                    isActive={selectedTags.includes(tag)}
+                    fontSize={['15px', '15px', '16px', '18px']}
+                    variant="ghost"
+                    border="3px solid black"
+                    boxShadow="8px 8px #8080805e"
+                    borderRadius="10px"
+                    backgroundColor={languageTags[tag]}
+                    color={languageTags[tag] ? '#e9e2dd' : 'initial'}
+                    _hover={{
+                      bg: '#000',
+                      color: '#e9e2dd',
+                    }}
+                    _active={{
+                      color: '#e9e2dd',
+                      backgroundColor: '#000',
+                    }}
+                    onClick={() => {
+                      const tagAlreadyExist = selectedTags.includes(tag);
+                      setSelectedTags((prevState) =>
+                        tagAlreadyExist
+                          ? prevState.filter((article) => article !== tag)
+                          : [...prevState, tag],
+                      );
+                    }}
+                  >
+                    {tag}
+                  </Button>
                 </ScaleBox>
               </Box>
             ))}
