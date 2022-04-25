@@ -28,7 +28,7 @@ const GlobalStyle = ({ children }: { children: ReactChild }) => {
             flex-direction: column;
             min-height: 100vh;
             background-color: #101010;
-            color: '#000';
+            color: '#1A202C';
           }
         `}
       />
