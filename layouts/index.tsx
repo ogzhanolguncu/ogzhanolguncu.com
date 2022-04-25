@@ -12,6 +12,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
 
   return (
     <Layout>
+      <Box mt={['3rem', '3rem', '6rem', '6rem']} />
       <BlogSeo url={`https://ogzhanolguncu.com/blog/${slug}`} {...frontMatter} />
       <Stack
         spacing={8}
@@ -43,9 +44,12 @@ export default function BlogLayout({ children, frontMatter }: any) {
           >
             <Flex justifyContent="center" width="100%" my="1rem">
               <Box fontSize="md" fontWeight="500">
-                <Text>Oğuzhan Olguncu</Text>
-                <Text>{dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}</Text>
-                <Text>{frontMatter.readingTime.text}</Text>
+                <Flex gap="1rem">
+                  <Box as="span">Oğuzhan Olguncu</Box>
+                  <Box as="span">-</Box>
+                  <Box as="span">{dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}</Box>
+                </Flex>
+                <Text mt="0.5rem">{frontMatter.readingTime.text}</Text>
               </Box>
             </Flex>
           </Flex>
@@ -64,11 +68,10 @@ export default function BlogLayout({ children, frontMatter }: any) {
           isExternal
           href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/data/blog/${slug}.mdx`}
         >
-          <Text marginLeft=".5rem" marginTop="5px">
-            Edit this page
-          </Text>
+          <Text marginTop="5px">Edit this page</Text>
         </Link>
       </Stack>
+      <Box mt={['3rem', '3rem', '6rem', '6rem']} />
     </Layout>
   );
 }
