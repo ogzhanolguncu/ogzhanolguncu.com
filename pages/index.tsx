@@ -14,7 +14,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 const Home = ({ blogPosts, popularPosts }: Props) => {
   return (
     <Layout>
-      <Box mt={['5rem', '5rem', '10rem', '10rem']} />
+      <Box mt={['5rem', '5rem', '8rem', '8rem']} />
       <Hero />
       <Box mt={['6rem', '6rem', '12rem', '12rem']} />
       <ArticleList articles={blogPosts} showHeader limitCount />
