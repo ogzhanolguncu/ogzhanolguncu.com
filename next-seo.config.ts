@@ -14,7 +14,7 @@ const SEO = {
     description,
     images: [
       {
-        url: '/static/images/debounce-and-throttle-comprehensive-guide/02.png',
+        url: '/static/images/function-composition-javascript/pillars.webp',
         alt: title,
         width: 1200,
         height: 800,
