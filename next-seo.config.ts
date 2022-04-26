@@ -1,6 +1,6 @@
-const title = 'Oğuzhan Olguncu – Developer, writer, dedicated learner.';
+const title = 'Oğuzhan Olguncu – Engineer, mentor, blogger.';
 const description =
-  'A developer who likes to focus on building beautiful UI/UX designs. Loves using Typescript - Oğuzhan Olguncu';
+  'A developer who likes to hack things up. Dedicated learner, mentor and technical blogger - Oğuzhan Olguncu';
 
 const SEO = {
   title,
