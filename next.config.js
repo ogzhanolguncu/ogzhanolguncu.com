@@ -2,7 +2,11 @@
  * @type {import('next').NextConfig}
  */
 module.exports = {
-  reactStrictMode: true,
+  swcMinify: false,
+  experimental: {
+    scrollRestoration: true,
+    nextScriptWorkers: true,
+  },
 
   webpack: (config, { dev, isServer }) => {
     // Replace React with Preact only in client production build

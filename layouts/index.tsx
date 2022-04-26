@@ -1,24 +1,21 @@
-import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
-import { Flex, Heading, Stack, Tag, Text, useColorMode, Link } from '@chakra-ui/react';
-import LANGUAGE_TAGS from 'styles/languageTags';
-import { RiEdit2Line } from 'react-icons/ri';
+import React, { PropsWithChildren } from 'react';
+import { Flex, Heading, Stack, Text, Link, Box } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 
-import { ColorModeContext } from '@contexts/CustomColorContext';
-import { Layout } from '@components/index';
-import BlogSeo from '@components/BlogSeo';
+import BlogSeo from 'componentsV2/BlogSeo';
+import Layout from 'componentsV2/Layout';
+import ArticleTag from 'componentsV2/Article/ArticleTag';
+import { useRouter } from 'next/router';
+import { FrontMatterTypes } from 'global';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function BlogLayout({ children, frontMatter }: any) {
+export default function BlogLayout({
+  children,
+  frontMatter,
+}: PropsWithChildren<{
+  frontMatter: FrontMatterTypes;
+}>) {
   const router = useRouter();
   const slug = frontMatter.slug;
-  const { colorMode } = useColorMode();
-  const colorModeObj = useContext(ColorModeContext);
-  const textColor = {
-    light: 'gray.700',
-    dark: 'gray.400',
-  };
 
   return (
     <Layout>
@@ -30,6 +27,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
         m="0 auto 4rem auto"
         maxWidth="800px"
         w="100%"
+        as="article"
       >
         <Flex
           margin="5rem 0"
@@ -40,13 +38,7 @@ export default function BlogLayout({ children, frontMatter }: any) {
           w="100%"
           textAlign="center"
         >
-          <Heading
-            letterSpacing="tight"
-            mb={2}
-            size="2xl"
-            color={colorModeObj.titleColor[colorMode]}
-            lineHeight="1.4"
-          >
+          <Heading letterSpacing="tight" mb={2} size="2xl" lineHeight="1.4" as="h1">
             {frontMatter.title}
           </Heading>
           <Flex
@@ -58,34 +50,27 @@ export default function BlogLayout({ children, frontMatter }: any) {
             mb={4}
           >
             <Flex justifyContent="center" width="100%" my="1rem">
-              <Text fontSize="md" color={textColor[colorMode]}>
-                {frontMatter.by}
-                {`Oğuzhan Olguncu\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0`}
-                {dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}
-                {`\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0 ${frontMatter.readingTime.text} `}
-              </Text>
+              <Box fontSize="md" fontWeight="500">
+                <Box as="span" fontWeight="bold">
+                  {dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}
+                </Box>
+                <Text mt="0.5rem">{frontMatter.readingTime.text}</Text>
+              </Box>
             </Flex>
           </Flex>
-          <Flex justifyContent="center" w="100%">
-            {frontMatter.languageTags?.map((tag: string, index: number) => {
-              const color = LANGUAGE_TAGS[tag];
+          <Flex justifyContent="center" w="100%" gap="1rem">
+            {frontMatter.languageTags?.map((tag: string) => {
               return (
-                <Tag
-                  size={'md'}
-                  key={index}
-                  color="#fff"
-                  backgroundColor={color?.color}
-                  _hover={{ cursor: 'pointer', backgroundColor: color.hover }}
-                  mr="5px"
+                <ArticleTag
+                  text={tag}
+                  key={tag}
                   onClick={() =>
                     router.push({
                       pathname: '/blog/',
                       query: { tag },
                     })
                   }
-                >
-                  {tag}
-                </Tag>
+                />
               );
             })}
           </Flex>
@@ -98,12 +83,10 @@ export default function BlogLayout({ children, frontMatter }: any) {
           isExternal
           href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/data/blog/${slug}.mdx`}
         >
-          <RiEdit2Line size={25} />
-          <Text marginLeft=".5rem" marginTop="5px">
-            Edit this page
-          </Text>
+          <Text marginTop="5px">Edit this page</Text>
         </Link>
       </Stack>
+      <Box mt={['3rem', '3rem', '6rem', '6rem']} />
     </Layout>
   );
 }

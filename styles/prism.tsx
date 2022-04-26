@@ -20,9 +20,6 @@ const prismBaseTheme = css`
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
     hyphens: none;
     width: 100%;
   }
@@ -146,11 +143,11 @@ export const prismLightTheme = css`
   ${prismBaseTheme};
   code[class*='language-'],
   pre[class*='language-'] {
-    color: ${theme.colors.gray[800]};
+    color: white;
   }
   :not(pre) > code[class*='language-'],
   pre[class*='language-'] {
-    background: ${theme.colors.gray[50]};
+    background: #101010;
     border: 1px solid ${theme.colors.gray[200]};
   }
   :not(pre) > code[class*='language-bash'],
@@ -164,74 +161,5 @@ export const prismLightTheme = css`
   }
   .mdx-marker {
     background-color: hsla(204, 45%, 96%, 1);
-  }
-`;
-
-export const prismDarkTheme = css`
-  ${prismBaseTheme};
-  :not(pre) > code[class*='language-'] {
-    background: #011627;
-  }
-  .token.attr-name {
-    color: rgb(173, 219, 103);
-    font-style: italic;
-  }
-  .token.comment {
-    color: rgb(128, 147, 147);
-  }
-  .token.string,
-  .token.url {
-    color: rgb(173, 219, 103);
-  }
-  .token.variable {
-    color: rgb(214, 222, 235);
-  }
-  .token.builtin,
-  .token.char,
-  .token.constant,
-  .token.function {
-    color: rgb(130, 170, 255);
-  }
-  .token.punctuation {
-    color: #ffa7c4;
-  }
-  .token.selector,
-  .token.doctype {
-    color: rgb(199, 146, 234);
-    font-style: 'italic';
-  }
-  .token.class-name {
-    color: rgb(255, 203, 139);
-  }
-  .token.tag,
-  .token.operator,
-  .token.keyword {
-    color: #ffa7c4;
-  }
-  .token.boolean {
-    color: rgb(255, 88, 116);
-  }
-  .token.property {
-    color: rgb(128, 203, 196);
-  }
-  .token.namespace {
-    color: rgb(178, 204, 214);
-  }
-  code[class*='language-'],
-  pre[class*='language-'] {
-    color: ${theme.colors.gray[50]};
-  }
-  :not(pre) > code[class*='language-'],
-  pre[class*='language-'] {
-    background: ${theme.colors.gray[800]};
-    border: 1px solid ${theme.colors.gray[700]};
-  }
-  .mdx-marker {
-    background-color: ${theme.colors.gray[700]};
-  }
-  .remark-code-title {
-    background: ${theme.colors.gray[700]};
-    color: ${theme.colors.gray[100]};
-    border: 1px solid ${theme.colors.gray[700]};
   }
 `;

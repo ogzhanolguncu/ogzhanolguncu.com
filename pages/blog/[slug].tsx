@@ -2,8 +2,8 @@ import { MDXRemote } from 'next-mdx-remote';
 
 import { getFiles, getFileBySlug } from 'lib/mdx';
 import BlogLayout from 'layouts';
-import { MDXComponents } from 'components';
 import { FrontMatterTypes, MdxSource } from 'global';
+import MDXComponents from 'componentsV2/MDXComponents';
 
 type Props = {
   frontMatter: FrontMatterTypes;

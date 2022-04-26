@@ -1,40 +1,36 @@
-import { GetStaticProps } from 'next';
-import { Layout, Project, Newsletter, ArticleLists, HeroSection } from '@components/index';
+import React from 'react';
+import { Box } from '@chakra-ui/react';
+import { InferGetStaticPropsType } from 'next';
+
 import { getAllFilesFrontMatter } from 'lib/mdx';
 
-import { StaticBlog } from 'global';
-import React, { useRef } from 'react';
-import { generateRssFeed } from 'scripts/generate-rss';
+import ArticleList from 'componentsV2/Article/ArticleList';
+import Hero from 'componentsV2/Hero';
+import Layout from 'componentsV2/Layout';
+import Project from 'componentsV2/Projects';
 
-type Props = {
-  blogPosts: StaticBlog[];
-  popularPosts: StaticBlog[];
-};
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Home = ({ blogPosts, popularPosts }: Props) => {
-  const newsletterRef = useRef<HTMLInputElement>(null);
-  const gotoNewsletter = () => {
-    window.scrollTo({
-      top: newsletterRef.current?.offsetTop,
-      behavior: 'smooth',
-    });
-  };
   return (
     <Layout>
-      <HeroSection gotoNewsletter={gotoNewsletter} />
-      <ArticleLists blogs={blogPosts} />
-      <ArticleLists blogs={popularPosts} isPopular={true} />
+      <Box mt={['5rem', '5rem', '10rem', '10rem']} />
+      <Hero />
+      <Box mt={['6rem', '6rem', '12rem', '12rem']} />
+      <ArticleList articles={blogPosts} showHeader limitCount />
+      <Box mt={['3rem', '3rem', '6rem', '6rem']} />
+      <ArticleList articles={popularPosts} isPopular showHeader limitCount />
+      <Box mt={['6rem', '6rem', '12rem', '12rem']} />
       <Project />
-      <Newsletter ref={newsletterRef} />
+      <Box mt={['3rem', '3rem', '6rem', '6rem']} />
     </Layout>
   );
 };
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps = async () => {
   const blogPosts = await getAllFilesFrontMatter('blog');
-  await generateRssFeed(blogPosts);
 
   const popularPosts = blogPosts.filter((blog) => blog.isPopular);
   return {
