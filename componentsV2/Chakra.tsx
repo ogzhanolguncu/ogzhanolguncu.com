@@ -22,6 +22,7 @@ const GlobalStyle = ({ children }: { children: ReactChild }) => {
           html {
             min-width: 360px;
             scroll-behavior: smooth;
+            color: '#1A202C';
           }
           #__next {
             display: flex;

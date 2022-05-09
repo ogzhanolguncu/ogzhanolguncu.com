@@ -1,15 +1,4 @@
-import {
-  Box,
-  Alert,
-  Code,
-  Heading,
-  Kbd,
-  Link,
-  Text,
-  Divider,
-  useColorMode,
-  chakra,
-} from '@chakra-ui/react';
+import { Box, Alert, Code, Heading, Kbd, Link, Text, Divider, chakra } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
 import CodeSandBox from './CodeSandBox';
@@ -42,7 +31,9 @@ const TData = (props: any) => (
   />
 );
 
-const TImage = (props: any) => <chakra.img shadow="md" borderRadius="16px" {...props} />;
+const TImage = (props: any) => (
+  <chakra.img boxShadow="6px 6px #80808082" borderRadius="16px" {...props} />
+);
 
 const CustomLink = (props: any) => {
   const href = props.href;
@@ -56,22 +47,16 @@ const CustomLink = (props: any) => {
     );
   }
 
-  return <Link isExternal {...props} />;
+  return <Link isExternal {...props} color="blue.500" textDecoration="underline" />;
 };
 
 const Quote = (props: any) => {
-  const { colorMode } = useColorMode();
-  const bgColor = {
-    light: 'blue.50',
-    dark: 'blue.900',
-  };
-
   return (
     <Alert
       mt={4}
       w="98%"
-      bg={bgColor[colorMode]}
-      variant="left-accent"
+      bg="gray.800"
+      variant="solid"
       status="info"
       css={{
         '> *:first-of-type': {
@@ -130,8 +115,6 @@ const Hr = () => {
   return <Divider my={4} w="100%" borderColor="#000" />;
 };
 
-const Tstrong = (props: any) => <Text as="span" fontWeight="bold" {...props} />;
-
 const Tparagraph = (props: any) => {
   return (
     <Text
@@ -149,6 +132,7 @@ const Tparagraph = (props: any) => {
   );
 };
 
+const Tstrong = (props: any) => <Text as="span" fontWeight="bold" {...props} />;
 const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
   h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
