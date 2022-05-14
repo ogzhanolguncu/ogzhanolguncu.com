@@ -15,7 +15,7 @@ const ArticleTag = ({ text, bgColor, onClick }: Props) => {
       border="3px solid black"
       boxShadow="8px 8px #8080805e"
       borderRadius="10px"
-      color={bgColor ? '#fff' : 'initial'}
+      color={bgColor ? '#fff' : 'gray.800'}
       backgroundColor={bgColor}
       _hover={{ bg: '#000', color: '#e9e2dd' }}
       _active={{
