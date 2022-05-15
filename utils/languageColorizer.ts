@@ -5,10 +5,11 @@ export const randomColors = [
   'green.400',
   'pink.400',
   'teal.400',
+  '#ed8936d6',
 ];
 
 export const pickRandomColor = () => {
-  const randomNumber = Math.floor(Math.random() * 5);
+  const randomNumber = Math.floor(Math.random() * 7);
   return randomColors[randomNumber];
 };
 
@@ -21,7 +22,6 @@ export const LANGUAGE_TAGS: Record<string, string> = {
   react: '',
   tutorial: '',
   flutter: '',
-  react_native: '',
   design: '',
   html: '',
   nodejs: '',
@@ -34,6 +34,8 @@ export const LANGUAGE_TAGS: Record<string, string> = {
   microfrontend: '',
   functional_programming: '',
   solidity: '',
+  nextjs: '',
+  monorepo: '',
 };
 
 export const languageColorizer = () => {

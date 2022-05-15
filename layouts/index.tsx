@@ -83,7 +83,7 @@ export default function BlogLayout({
           isExternal
           href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/data/blog/${slug}.mdx`}
         >
-          <Text marginTop="5px">Edit this page</Text>
+          <Text marginTop="5px" fontWeight='medium'>Edit this page</Text>
         </Link>
       </Stack>
       <Box mt={['3rem', '3rem', '6rem', '6rem']} />
