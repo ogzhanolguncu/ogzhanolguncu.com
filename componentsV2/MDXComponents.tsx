@@ -54,8 +54,12 @@ const Quote = (props: any) => {
   return (
     <Alert
       mt={4}
+      textColor='gray.800'
       w="98%"
-      bg="gray.800"
+      bg="white.800"
+      boxShadow="8px 8px #8080805e"
+      borderRadius="10px"
+      backgroundImage="linear-gradient(45deg, var(--chakra-colors-pink-100) 0%, var(--chakra-colors-yellow-300) 100%)"
       variant="solid"
       status="info"
       css={{
