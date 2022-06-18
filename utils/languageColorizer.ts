@@ -36,6 +36,7 @@ export const LANGUAGE_TAGS: Record<string, string> = {
   solidity: '',
   nextjs: '',
   monorepo: '',
+  jotai: '',
 };
 
 export const languageColorizer = () => {
