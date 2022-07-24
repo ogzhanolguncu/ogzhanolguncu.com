@@ -1,0 +1,122 @@
+---
+title: 'Build Your Own SSR/SSG From Scratch with Vite and React'
+publishedAt: '2022-07-24'
+summary: 'Build your own server side rendering with Vite, React and Typescript. SSG Included.'
+image: '/static/images/react-ssr-ssg-from-scratch/cover.jpg'
+languageTags: ['javascript', 'typescript', 'ssr']
+---
+
+![Cover for SSR/SSG from scratch](/static/images/react-ssr-ssg-from-scratch/cover.jpg)
+
+Today, we'll try to uncover how NextJS, RemixJS and many other SSR frameworks work under the hood.
+Even though they are very complicated frameworks the fundemental idea is infact very straightforward.
+As an end-user, we can't really see the simple steps - _building SSR out of React components or just simple HTML and JS_ - due to lots of abstraction in the frameworks to make our lifes easier.
+But, today we will try to deep dive and see what hides beneath all the abstraction and explore the concept itself.
+
+## Table of Contents
+
+- [What is SSR](#what-is-ssr)
+- [Why we need SSR and why not use CSR instead](#why-we-need-ssr-and-why-not-use-csr-instead)
+- [What is Hydration and Why We Need It](#what-is-hydration-and-why-we-need-it)
+- Why Vite over Webpack(#why-vite-over-webpack)
+- Building the SSR
+- SSG on top of SSR
+
+### What is SSR
+
+Server Side Rendering has become so popular thanks to NextJS, but what is this SSR? Server Side Rendering, as already stated, actually renders your components in the server. It means server actually doing the heavy lifting before responding to the upcoming
+requests. If you are doing SSR with React you will need to invoke `ReactDOMServer.renderToString` in your server to render your components. There are some caveats if you go down that path.
+
+TTFB(Time To First Byte) will be slower than CSR, because your server now needs to render the components into a HTML file, and, then return it. But, unlike CSR, users don't need wait for
+whole JS bundle to be parsed - they can immediately see the pages - but they cannot interact with it until it gets **hydrated** - which we will later explain.
+
+### Why we need SSR and why not use CSR instead
+
+When you use CSR to build an app, you are not shipping any HTML files, instead they get created when user enters your site. Until user or search engine crawler enters your website, all
+they got is that famous `index.html` file:
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Example CSR</title>
+  </head>
+  <body>
+    <div id="root">---ENTIRE CONTENT WILL BE RENDERED IN HERE ON THE CLIENT---</div>
+  </body>
+</html>
+```
+
+Once someone enter your website, DOM elements gets created inside the `root` like this with the help of `React.createRoot` function.
+
+```html
+<div id="root">
+  <div>Text-1</div>
+  <div>Text-2</div>
+  <div>Text-3</div>
+</div>
+```
+
+All this dynamically happens when your site is invoked.
+
+So, how does a crawler understand your sites meta data - descriptions, titles, og tags, etc... ?
+Or, what if DOM elements like `Text-1`, `Text-2` are just static and does not need JS to be there?
+If you go with CSR, you are shipping everything with the JS bundle and neglecting SEO meta data.
+But if you go with SSR, you can generate those HTML elements and SEO tags beforehand to ship less JS code and make your site more open to crawlers.
+
+### What is Hydration and Why We Need It
+
+The Hydration is a process of supplying the JS code for server side generated pages. Let's elaborate. 
+
+When you render components on the backend with `ReactDOMServer.renderToString` it actually attaches all the event handlers and necessary imports for code to work. 
+
+Example SSR JS output: 
+
+```javascript
+import ReactDOMServer from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom/server.mjs';
+import * as jsxRuntime from 'react/jsx-runtime';
+import { useState } from 'react';
+import { Link, Routes, Route } from 'react-router-dom';
+const Fragment = jsxRuntime.Fragment;
+const jsx = jsxRuntime.jsx;
+const jsxs = jsxRuntime.jsxs;
+function About() {
+  return /* @__PURE__ */ jsx(Fragment, {
+    children: /* @__PURE__ */ jsx('h1', {
+      children: 'About',
+    }),
+  });
+}
+const __vite_glob_0_0 = /* @__PURE__ */ Object.freeze(
+  /* @__PURE__ */ Object.defineProperty(
+    {
+      __proto__: null,
+      default: About,
+    },
+    Symbol.toStringTag,
+    { value: 'Module' },
+  ),
+);
+```
+
+We have pretty much all we need, but with a caveat, we are missing React and ReactDOM in our `index.html` file. Our `useEffect`, `useState` or event handlers won't work without the React imports.
+
+![Page without Hydration](/static/images/react-ssr-ssg-from-scratch/sponge.webp)
+
+We can imagine the page as a dry sponge - all the `useEffect`, `useState`, handlers, listeners waiting for the hydration to work - then once we hydrate the page with parsed JS code, all the UI elements will be interactable.
+
+Reason I say parsed JS code couple of time throughout the article is to make a point. SSR is fast but it takes time to hydrate to page because all the JS code needs to be parsed to fully hydrate. 
+
+
+### Why Vite over Webpack

@@ -124,7 +124,7 @@ const Tparagraph = (props: any) => {
     <Text
       as="p"
       mt={4}
-      fontSize="18px"
+      fontSize="19px"
       lineHeight="1.7"
       css={{
         wordSpacing: '1.2px',
@@ -139,8 +139,10 @@ const Tparagraph = (props: any) => {
 const Tstrong = (props: any) => <Text as="span" fontWeight="bold" {...props} />;
 const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
-  h2: (props: any) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
-  h3: (props: any) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
+  h2: (props: any) => (
+    <DocsHeading as="h2" fontSize="35px"  fontWeight="bold"  {...props} />
+  ),
+  h3: (props: any) => <DocsHeading as="h3" fontSize="25px" fontWeight="bold" {...props} />,
   inlineCode: (props: any) => <Code color="white" backgroundColor="black" {...props} />,
   kbd: Kbd,
   br: (props: any) => <Box height="24px" {...props} />,
@@ -151,9 +153,9 @@ const MDXComponents = {
   a: CustomLink,
   img: TImage,
   p: Tparagraph,
-  ul: (props: any) => <Box as="ul" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
-  ol: (props: any) => <Box as="ol" pt={2} fontSize="17.5px" pl={4} ml={2} {...props} />,
-  li: (props: any) => <Box as="li" pb={1} fontSize="17.5px" {...props} />,
+  ul: (props: any) => <Box as="ul" pt={2} fontSize="19px" pl={4} ml={2} {...props} />,
+  ol: (props: any) => <Box as="ol" pt={2} fontSize="19px" pl={4} ml={2} {...props} />,
+  li: (props: any) => <Box as="li" pb={1} fontSize="19px" textDecor='underline' {...props} />,
   strong: Tstrong,
   CodeSandBox,
   EventBubbling,

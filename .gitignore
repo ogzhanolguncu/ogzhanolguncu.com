@@ -39,4 +39,6 @@ yarn-error.log*
 .mdx-data
 
 
+
 tsconfig.tsbuildinfo
+settings.json
