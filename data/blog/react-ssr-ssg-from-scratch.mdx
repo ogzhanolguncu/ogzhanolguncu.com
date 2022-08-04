@@ -224,9 +224,9 @@ export function SSRRender(url: string | Partial<Location>) {
 }
 ```
 
-In order to render our React application in node, we need to call `ReactDOMServer.renderToString` and instead of using [BrowserRouter](https://reactrouter.com/docs/en/v6/routers/browser-router) we need to call [StaticRouter](https://reactrouter.com/docs/en/v6/routers/static-router) with location to provide current location.
+To render our React application in node, we need to call `ReactDOMServer.renderToString`, and instead of using [BrowserRouter](https://reactrouter.com/docs/en/v6/routers/browser-router) we need to call [StaticRouter](https://reactrouter.com/docs/en/v6/routers/static-router) with location to provide current location.
 
-Time to get to most cruial part of our client side,
+Time to get to the most crucial part of our client side,
 
 ```typescript
 import { Link, Route, Routes } from 'react-router-dom';
@@ -266,8 +266,8 @@ export function App() {
 }
 ```
 
-We are going to follow the NextJS type of routing system, which creates routes based on folder structure. For that, we'll use Vite's `import.meta.glob`. This piece of code
-let us import multiple modules at a time. Output will be something like this:
+We'll follow the NextJS type of routing system, which creates routes based on the folder structure. For that, we'll use Vite's `import.meta.glob`. This piece of code
+let us import multiple modules at a time. The output will be something like this:
 
 ```javascript
 const modules = {
@@ -304,9 +304,9 @@ export default function About() {
 }
 ```
 
-These are just basic pages with some JSX on it. But, For `Home.tsx` we've sprinkled some React magic to test how `useState` acts without the hydration. We'll do that in a minute.
+These are just basic pages with some JSX in them. But, For `Home.tsx`, we've sprinkled some React magic to test how `useState` acts without hydration. We'll do that in a minute.
 
-Now, with the help of expressJS and Vite, we will serve our SSR app over a server.
+Now, with the help of ExpressJS and Vite, we will serve our SSR app over a server.
 
 #### server.js
 
@@ -353,16 +353,16 @@ createServer().then(({ app }) =>
 );
 ```
 
-We'll first read our `index.html` to replace rendered components inside the root id. Then, we'll call `SSRRender` function in our `entry-server.js` and pass the initial url - in our case it's homepage.
+We'll first read our `index.html` to replace rendered components inside the root id. Then, we'll call the `SSRRender` function in our `entry-server.js` and pass the initial URL. In our case, it's a homepage.
 Finally, we replace `<!--app-html-->` with rendered content.
 
-Pretty simple, eh? That's how most of the modern SSR frameworks work under the hood. Of course, they add myriad of features and optimizations in those frameworks to improve the workflow.
+Pretty simple, eh? That's how most of the modern SSR frameworks work under the hood. Of course, they add all kinds of features and optimizations to those frameworks to improve the workflow.
 
-Let's try building and serving our application. But, first we need to create a package.json file.
+Let's try building and serving our application. But, first, we need to create a package.json file.
 
 ```json
 {
-  "name": "test-ssr-react",
+  "name": "ssr-react",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -371,7 +371,7 @@ Let's try building and serving our application. But, first we need to create a p
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "generate": "vite build --outDir dist/static && npm run build:server && node prerender",
-    "serve": "cross-env NODE_ENV=production node server",
+    "serve": "cross-env NODE_ENV=production node server"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -399,7 +399,7 @@ Now,
 npm run build && npm run serve
 ```
 
-There we go. We got ourselves a brand new SSR app. Now to understand why people making so many fuzz about hydration, we'll see how would SSR work without client side javascript files.
+There we go. We got ourselves a brand new SSR app. Now to understand why people making so much fuzz about hydration, we'll discover how SSR work without client-side Javascript files.
 
 Go to `dist\client\index.html` file and try deleting script file.
 
@@ -410,18 +410,58 @@ Go to `dist\client\index.html` file and try deleting script file.
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SSR React/Typescript App</title>
-    <script type="module" crossorigin src="/assets/index.6581eae8.js"></script> --> Delete this
+    <script type="module" crossorigin src="/assets/index.6581eae8.js"></script>
+    --> Delete this
   </head>
   <body>
     <div id="app"><!--app-html--></div>
   </body>
 </html>
 ```
-Now, try to serve you application again and see if your counter button - button we've used with `useState` - works. Go ahead. I'm not going anywhere 'till you have an 'aha' moment.
 
-That's right without client side logic - hydration. Pages would be completely static without any interactions. But, what if we already know pages will be static and we want to render
-each page individually? That's right we need prerender - SSG.
+Now, try to serve your application again and see if your counter button - the button we've used with `useState` - works. Go ahead. I'm not going anywhere 'till you have an 'aha' moment.
+
+That's right, without client-side logic - hydration. Pages would be entirely static without any interactions. But what if we already know that pages will be static and want to render each page individually? That's right. We need prerender - SSG.
 
 ## SSG on top of SSR
 
 Since we already the concepts by now this will be a walk in the park.
+
+#### prerender.js
+
+```javascript
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const toAbsolute = (p) => path.resolve(__dirname, p);
+
+const template = fs.readFileSync(toAbsolute('dist/static/index.html'), 'utf-8');
+const render = (await import('./dist/server/entry-server.js')).SSRRender;
+
+// determine routes to pre-render from src/pages
+const routesToPrerender = fs.readdirSync(toAbsolute('src/pages')).map((file) => {
+  const name = file.replace(/\.tsx$/, '').toLowerCase();
+  return name === 'home' ? `/` : `/${name}`;
+});
+
+(async () => {
+  // pre-render each route...
+  for (const url of routesToPrerender) {
+    const appHtml = render(url);
+
+    const html = template.replace(`<!--app-html-->`, appHtml);
+
+    const filePath = `dist/static${url === '/' ? '/index' : url}.html`;
+    fs.writeFileSync(toAbsolute(filePath), html);
+  }
+})();
+```
+
+This function uses the same logic as SSR and creates separate files for each page that are known ahead of time, but we won't be able to change anything after the build phase. That's why it is called 'Static'.
+Following that approach is extremely valuable for sites like blogs, documentation sites, E-commerce product listing. Basically things that does not change often. 
+
+I hope we've uncovered some of the underlying logic of SSR and SSG and helped you understand the thought processes better. 
+
+Stay tuned.
