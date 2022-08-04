@@ -458,9 +458,21 @@ const routesToPrerender = fs.readdirSync(toAbsolute('src/pages')).map((file) => 
   }
 })();
 ```
-
 This function uses the same logic as SSR and creates separate files for each page that are known ahead of time, but we won't be able to change anything after the build phase. That's why it is called 'Static'.
 Following that approach is extremely valuable for sites like blogs, documentation sites, E-commerce product listing. Basically things that does not change often. 
+
+
+To run this code,
+
+```bash
+npm run generate
+```
+
+Then, use a tool like [Serve](https://www.npmjs.com/package/serve) to run generated code,
+
+```bash
+serve dist/static
+```
 
 I hope we've uncovered some of the underlying logic of SSR and SSG and helped you understand the thought processes better. 
 
