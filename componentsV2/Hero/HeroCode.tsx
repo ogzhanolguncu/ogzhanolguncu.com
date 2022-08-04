@@ -29,13 +29,13 @@ const HeroSectionCode = () => {
             <TypeIt
               options={{
                 cursor: false,
-                speed: 50,
+                speed: 35,
                 lifeLike: true,
                 loop: true,
                 loopDelay: 5000,
                 startDelete: true,
                 startDelay: 1000,
-                deleteSpeed: 75,
+                deleteSpeed: 35,
                 waitUntilVisible: true,
               }}
             >
