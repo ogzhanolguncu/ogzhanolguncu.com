@@ -17,7 +17,7 @@ We'll create a Weather App with,
 - Geolocation API to detect current position - latitude and longitude
 - [OpenWeather Api](https://openweathermap.org/) to get current weather data
 
-Before we dive into the code there are couple of things we need to setup.
+We need to setup a couple of things before we start coding.
 
 We need,
 
@@ -59,21 +59,20 @@ That's the output of selected options:
 
 [🔴 Live Example](https://anima-weather-app.vercel.app/)
 
-Let's create our app with Vite and Typescript. By the way, the reason why we go with Vite instead of CRA purely optional, but Vite gives us incredible Hot Module Replacement (HMR) and instant server starts thanks to native ESM.
-And, Typescript to make our app type-safe and error-prone.
+Let's create our app with Vite and Typescript. By the way, the reason why we go with Vite instead of CRA is purely optional, but Vite gives us incredible Hot Module Replacement (HMR) and the instant server starts thanks to native ESM. And, Typescript to make our app type-safe and error-prone.
 
 ```bash
 npm create vite@latest weather-app --template react-ts
 npm i
 ```
 
-In the beginning of the article we've said we were going to use React Query, so let's install that along side with couple of other dependencies.
+At the beginning of the article, we said we were going to use React Query, so let's install that alongside a couple of other dependencies.
 
 ```bash
 npm install axios react-hook-geolocation styled-components @tanstack/react-query @types/styled-components
 ```
 
-Since, we've pretty much completed our setup we can start building the app. This is how our file structure will be:
+Since almost finished our setup, we can start building the app. That's  how our file structure will be:
 
 ```bash
 📦src
@@ -157,7 +156,7 @@ Then, create a `sun.svg` in your assets folder and copy this:
 </svg>
 ```
 
-And to organize our code, we will create another file called `styled.ts` and copy every styled component from Anima to our file. End result will be like this:
+And to organize our code, we will create another file called `styled.ts` and copy every styled component from Anima to our file. The result will be like this:
 
 ```typescript
 import styled, { css } from 'styled-components';
@@ -398,7 +397,7 @@ First, we need to wrap our App with React Query Provider and give `queryClient`
 const queryClient = new QueryClient();
 ```
 
-Then, we need to define a function get data from OpenWeather with given lat, long and API_KEY - to get a API KEY we need to sign up for an account [OpenWeather](https://home.openweathermap.org/users/sign_in)
+Then, we need to define a function to get data from OpenWeather with given lat, long and API_KEY - to get an API KEY we need to sign up for an account [OpenWeather](https://home.openweathermap.org/users/sign_in)
 
 ```typescript
 type WeatherResponse = {
@@ -421,8 +420,8 @@ const getCurrentWeather = async (lat: number, long: number) =>
   );
 ```
 
-Of course, to make it type-safe we also need to define response type. Those are the types that we going to use.
-Now to make our async function work we need to integrate it with React Query.
+Of course, to make it type-safe, we also need to define the corresponding response type. Those are the types that we're going to use.
+To make the async function work, we need to integrate it with React Query.
 
 ```typescript
 const geolocation = useGeolocation();
@@ -432,10 +431,10 @@ const { isLoading, error, data } = useQuery(
 );
 ```
 
-React Query accepts, array-like queryKey just like `useEffect` to listen changes in the component. That means, whenever `geolocation.latitude` or `geolocation.longitude` changes, it will fire a new `getCurrentWeather` function
+React Query accepts an array-like queryKey just like `useEffect` to listen to changes in the component. That means that whenever `geolocation.latitude` or `geolocation.longitude` changes, it will fire a new `getCurrentWeather` function
 to fetch the data. While doing so gives us `isLoading`, `error`, `data` states to track the changes.
 
-Now all we need to do is stitch the data with components.
+Now, all we need to do is stitch the data with components.
 
 ```typescript
 if (error || isLoading) return <div>Loading!!!</div>;
