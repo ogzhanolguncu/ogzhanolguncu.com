@@ -1,0 +1,468 @@
+---
+title: 'Let`s make a Weather App with Anima, React and Typescript'
+publishedAt: '2022-08-16'
+summary: 'Create app a Weather App with Anima, React and Typescripts with little to no styling'
+image: '/static/images/weather-app-anima/cover.jpg'
+languageTags: ['typescript', 'tutorial', 'react']
+isPopular: false
+---
+
+![Let`s make a Weather App with Anima, React and Typescript](/static/images/weather-app-anima/cover.jpg)
+
+Today, we will learn how to create a React app with Anima without wasting time writing Styled Components or CSS.
+We'll create a Weather App with,
+
+- [React Query](https://tanstack.com/query/v4/?from=reactQueryV3&original=https://react-query-v3.tanstack.com/) to fetch data eloquently,
+- Typescript to make app type-safe,
+- Geolocation API to detect current position - latitude and longitude
+- [OpenWeather Api](https://openweathermap.org/) to get current weather data
+
+We need to setup a couple of things before we start coding.
+
+We need,
+
+- To Sign up to [Anima](https://projects.animaapp.com/team/oguzhans-team-drgv3it/)
+- A [Figma](https://www.figma.com/login) account
+- An Anima [plugin for Figma](https://www.figma.com/community/plugin/857346721138427857/Anima---Export-Figma-to-HTML%2C-React-%26-Vue-code)
+
+Let's start with getting our design from one of the community templates:
+
+![Get your template copy from figma](/static/images/weather-app-anima/get-copy.png)
+
+All we need to do is click on **Get Copy**. This will redirect us to Figma canvas.
+
+Then,
+
+![Open Anima plugin in Figma canvas](/static/images/weather-app-anima/open-pluginf.gif)
+
+Then,
+
+![Create new project on Figma for Anima](/static/images/weather-app-anima/create-new-project.gif)
+
+And, finally we will generate codes for React.
+
+![Generate code for React](/static/images/weather-app-anima/get-code.gif)
+
+Once, we click on **Open Code Mode** it will take us to Anima. Then, we will select some options to get our styled components.
+
+![Get styled component output](/static/images/weather-app-anima/styled-component.png)
+
+There are couple of options to choose from, but we opted for Styled Components and React.
+
+That's the output of selected options:
+
+![Generate code for React](/static/images/weather-app-anima/generated-code.gif)
+
+## Building the App
+
+[🔗 Project's Github address](https://github.com/ogzhanolguncu/anima-weather-app)
+
+[🔴 Live Example](https://anima-weather-app.vercel.app/)
+
+Let's create our app with Vite and Typescript. By the way, the reason why we go with Vite instead of CRA is purely optional, but Vite gives us incredible Hot Module Replacement (HMR) and the instant server starts thanks to native ESM. And, Typescript to make our app type-safe and error-prone.
+
+```bash
+npm create vite@latest weather-app --template react-ts
+npm i
+```
+
+At the beginning of the article, we said we were going to use React Query, so let's install that alongside a couple of other dependencies.
+
+```bash
+npm install axios react-hook-geolocation styled-components @tanstack/react-query @types/styled-components
+```
+
+Since almost finished our setup, we can start building the app. That's  how our file structure will be:
+
+```bash
+📦src
+ ┣ 📂assets
+ ┃ ┗ 📜sun.svg
+ ┣ 📜App.tsx
+ ┣ 📜index.css
+ ┣ 📜main.tsx
+ ┣ 📜styled.tsx
+ ┗ 📜vite-env.d.ts
+```
+
+Now, open up your `index.css` and copy those code.
+
+![Css files](/static/images/weather-app-anima/css.png)
+
+This is how it will look like after you copied.
+
+```css
+@import url('https://fonts.googleapis.com/css?family=Inter:700,600');
+
+.screen a {
+  display: contents;
+  text-decoration: none;
+}
+
+.container-center-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  pointer-events: none;
+  width: 100%;
+}
+
+.container-center-horizontal > * {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.weatherforecast {
+  align-items: center;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 720px;
+  padding: 158px 0;
+  width: 1280px;
+}
+
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --bunting: rgba(14, 32, 77, 1);
+  --elephant: rgba(15, 50, 61, 1);
+  --navy-blue: rgba(26, 136, 216, 1);
+  --bay-of-many: rgba(33, 61, 130, 1);
+  --astral: rgba(53, 130, 155, 1);
+  --masala: rgba(60, 60, 60, 1);
+  --gravel: rgba(75, 75, 75, 1);
+  --bracken: rgba(77, 42, 0, 1);
+  --rusty-nail: rgba(137, 79, 8, 1);
+  --seashell: rgba(241, 241, 241, 1);
+  --desert-storm: rgba(248, 248, 248, 1);
+
+  --font-size-m: 14px;
+  --font-size-l: 16px;
+  --font-size-xl: 42px;
+  --font-size-xxl: 46px;
+
+  --font-family-inter: 'Inter';
+}
+```
+
+Then, create a `sun.svg` in your assets folder and copy this:
+
+```html
+<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M21.15 63.75L18.4875 66.4125C17.7891 67.1151 17.397 68.0655 17.397 69.0562C17.397 70.0469 17.7891 70.9974 18.4875 71.7C19.1901 72.3984 20.1406 72.7905 21.1312 72.7905C22.1219 72.7905 23.0724 72.3984 23.775 71.7L26.4375 69.0375C27.0518 68.3201 27.3729 67.3973 27.3364 66.4535C27.3 65.5098 26.9087 64.6145 26.2409 63.9466C25.573 63.2788 24.6777 62.8875 23.7339 62.8511C22.7902 62.8146 21.8674 63.1356 21.15 63.75V63.75ZM18.75 45C18.75 44.0054 18.3549 43.0516 17.6516 42.3483C16.9484 41.6451 15.9946 41.25 15 41.25H11.25C10.2554 41.25 9.30161 41.6451 8.59835 42.3483C7.89509 43.0516 7.5 44.0054 7.5 45C7.5 45.9946 7.89509 46.9484 8.59835 47.6516C9.30161 48.3549 10.2554 48.75 11.25 48.75H15C15.9946 48.75 16.9484 48.3549 17.6516 47.6516C18.3549 46.9484 18.75 45.9946 18.75 45ZM45 18.75C45.9946 18.75 46.9484 18.3549 47.6516 17.6516C48.3549 16.9484 48.75 15.9946 48.75 15V11.25C48.75 10.2554 48.3549 9.30161 47.6516 8.59835C46.9484 7.89509 45.9946 7.5 45 7.5C44.0054 7.5 43.0516 7.89509 42.3483 8.59835C41.6451 9.30161 41.25 10.2554 41.25 11.25V15C41.25 15.9946 41.6451 16.9484 42.3483 17.6516C43.0516 18.3549 44.0054 18.75 45 18.75ZM21.15 26.4375C21.8485 27.1303 22.7912 27.5209 23.775 27.525C24.2685 27.5279 24.7578 27.4333 25.2146 27.2466C25.6715 27.06 26.0871 26.7851 26.4375 26.4375C27.1359 25.7349 27.528 24.7844 27.528 23.7937C27.528 22.803 27.1359 21.8526 26.4375 21.15L23.775 18.4875C23.0576 17.8731 22.1348 17.5521 21.191 17.5886C20.2473 17.625 19.352 18.0163 18.6841 18.6841C18.0163 19.352 17.625 20.2473 17.5886 21.191C17.5521 22.1348 17.8731 23.0576 18.4875 23.775L21.15 26.4375ZM66.15 27.525C67.1338 27.5209 68.0765 27.1303 68.775 26.4375L71.4375 23.775C71.83 23.4388 72.1489 23.0251 72.374 22.5599C72.599 22.0946 72.7255 21.5879 72.7455 21.0714C72.7654 20.555 72.6784 20.04 72.4899 19.5588C72.3013 19.0776 72.0154 18.6405 71.6499 18.2751C71.2845 17.9096 70.8474 17.6236 70.3662 17.4351C69.885 17.2466 69.37 17.1596 68.8535 17.1795C68.3371 17.1995 67.8303 17.3259 67.3651 17.551C66.8999 17.7761 66.4862 18.0949 66.15 18.4875L63.75 21.15C63.0515 21.8526 62.6595 22.803 62.6595 23.7937C62.6595 24.7844 63.0515 25.7349 63.75 26.4375C64.4111 27.0951 65.2935 27.4828 66.225 27.525H66.15ZM78.75 41.25H75C74.0054 41.25 73.0516 41.6451 72.3483 42.3483C71.6451 43.0516 71.25 44.0054 71.25 45C71.25 45.9946 71.6451 46.9484 72.3483 47.6516C73.0516 48.3549 74.0054 48.75 75 48.75H78.75C79.7445 48.75 80.6984 48.3549 81.4016 47.6516C82.1049 46.9484 82.5 45.9946 82.5 45C82.5 44.0054 82.1049 43.0516 81.4016 42.3483C80.6984 41.6451 79.7445 41.25 78.75 41.25ZM45 71.25C44.0054 71.25 43.0516 71.6451 42.3483 72.3483C41.6451 73.0516 41.25 74.0054 41.25 75V78.75C41.25 79.7445 41.6451 80.6984 42.3483 81.4016C43.0516 82.1049 44.0054 82.5 45 82.5C45.9946 82.5 46.9484 82.1049 47.6516 81.4016C48.3549 80.6984 48.75 79.7445 48.75 78.75V75C48.75 74.0054 48.3549 73.0516 47.6516 72.3483C46.9484 71.6451 45.9946 71.25 45 71.25ZM68.85 63.75C68.1375 63.3537 67.3154 63.2004 66.508 63.3133C65.7006 63.4261 64.952 63.799 64.3755 64.3755C63.799 64.952 63.4261 65.7006 63.3133 66.508C63.2004 67.3154 63.3537 68.1375 63.75 68.85L66.4125 71.5125C67.1151 72.2109 68.0655 72.603 69.0562 72.603C70.0469 72.603 70.9974 72.2109 71.7 71.5125C72.3984 70.8099 72.7905 69.8594 72.7905 68.8687C72.7905 67.878 72.3984 66.9276 71.7 66.225L68.85 63.75ZM45 24.375C40.9208 24.375 36.9331 25.5846 33.5414 27.8509C30.1496 30.1172 27.506 33.3384 25.945 37.1071C24.3839 40.8759 23.9755 45.0229 24.7713 49.0237C25.5671 53.0246 27.5315 56.6996 30.4159 59.5841C33.3004 62.4685 36.9754 64.4329 40.9763 65.2287C44.9771 66.0245 49.1241 65.6161 52.8928 64.055C56.6616 62.4939 59.8827 59.8504 62.149 56.4586C64.4154 53.0669 65.625 49.0792 65.625 45C65.6151 39.5329 63.4389 34.2927 59.5731 30.4269C55.7073 26.5611 50.467 24.3849 45 24.375ZM45 58.125C42.4041 58.125 39.8665 57.3552 37.7081 55.913C35.5497 54.4708 33.8675 52.421 32.8741 50.0227C31.8807 47.6244 31.6208 44.9854 32.1272 42.4394C32.6336 39.8934 33.8837 37.5548 35.7192 35.7192C37.5548 33.8837 39.8934 32.6336 42.4394 32.1272C44.9854 31.6208 47.6244 31.8807 50.0227 32.8741C52.421 33.8675 54.4708 35.5497 55.913 37.7081C57.3552 39.8665 58.125 42.4041 58.125 45C58.125 48.481 56.7422 51.8194 54.2808 54.2808C51.8194 56.7422 48.481 58.125 45 58.125V58.125Z"
+    fill="#EEA049"
+  />
+</svg>
+```
+
+And to organize our code, we will create another file called `styled.ts` and copy every styled component from Anima to our file. The result will be like this:
+
+```typescript
+import styled, { css } from 'styled-components';
+
+export const InterBoldBracken14px = css`
+  color: var(--bracken);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-m);
+  font-weight: 700;
+  font-style: normal;
+`;
+
+export const InterBoldRustyNail14px = css`
+  color: var(--rusty-nail);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-m);
+  font-weight: 700;
+  font-style: normal;
+`;
+
+export const Border3pxGravel = css`
+  border: 3px solid var(--gravel);
+`;
+
+export const Border2pxSeashell = css`
+  border: 2px solid var(--seashell);
+`;
+
+export const Place = styled.h1`
+  min-height: 51px;
+  margin-right: 479px;
+  min-width: 167px;
+  font-family: var(--font-family-inter);
+  font-weight: 700;
+  color: #181818;
+  font-size: var(--font-size-xl);
+  letter-spacing: 0;
+`;
+
+export const Place1 = styled.div`
+  min-height: 19px;
+  margin-top: 5px;
+  margin-right: 581px;
+  min-width: 65px;
+  font-family: var(--font-family-inter);
+  font-weight: 600;
+  color: #d1d1d1;
+  font-size: var(--font-size-l);
+  letter-spacing: 0;
+`;
+
+export const OverlapGroup = styled.div`
+  width: 760px;
+  margin-top: 52px;
+  display: flex;
+  flex-direction: column;
+  padding: 51px 50px;
+  align-items: center;
+  min-height: 277px;
+  background-color: var(--desert-storm);
+  border-radius: 14px;
+`;
+
+export const FlexRow = styled.div`
+  height: 90px;
+  position: relative;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  min-width: 188px;
+`;
+
+export const Number = styled.div`
+  min-height: 56px;
+  margin-left: 21px;
+  margin-bottom: 2px;
+  min-width: 62px;
+  font-family: var(--font-family-inter);
+  font-weight: 700;
+  color: var(--gravel);
+  font-size: var(--font-size-xxl);
+  text-align: center;
+  letter-spacing: 0;
+`;
+
+export const Ellipse1 = styled.div`
+  ${Border3pxGravel}
+  width: 12px;
+  height: 12px;
+  margin-left: 3px;
+  margin-bottom: 24px;
+  border-radius: 6px;
+`;
+
+export const OverlapGroup1 = styled.div`
+  ${Border2pxSeashell}
+  height: 30px;
+  margin-top: 34px;
+  margin-left: 2px;
+  display: flex;
+  padding: 3px 14px;
+  align-items: flex-start;
+  min-width: 648px;
+  border-radius: 10px;
+`;
+
+export const Nem = styled.div`
+  ${InterBoldBracken14px}
+  width: 153px;
+  min-height: 17px;
+  letter-spacing: 0;
+`;
+
+export const Number1 = styled.div`
+  ${InterBoldRustyNail14px}
+  width: 75px;
+  min-height: 17px;
+  margin-left: 388px;
+  text-align: right;
+  letter-spacing: 0;
+`;
+
+export const FlexRow1 = styled.div`
+  height: 17px;
+  margin-top: 4px;
+  margin-left: 2px;
+  display: flex;
+  align-items: flex-start;
+  min-width: 616px;
+`;
+
+export const Rzgar = styled.div`
+  ${InterBoldBracken14px}
+  width: 228px;
+  min-height: 17px;
+  letter-spacing: 0;
+`;
+
+export const Address = styled.div`
+  ${InterBoldRustyNail14px}
+  width: 202px;
+  min-height: 17px;
+  margin-left: 186px;
+  text-align: right;
+  letter-spacing: 0;
+`;
+
+export const IconBrightness = styled.img`
+  width: 90px;
+  height: 90px;
+`;
+```
+
+Now, all we have to do is copy this part:
+
+![Functional component Anima](/static/images/weather-app-anima/functional-componentt.png)
+
+Let's smash everthing together. Don't worry, we will go line by line.
+
+```typescript
+import SunIcon from './assets/sun.svg';
+
+const queryClient = new QueryClient();
+
+type WeatherResponse = {
+  main: {
+    temp: number;
+    feels_like: number;
+    humidity: number;
+  };
+  name: string;
+  sys: {
+    country: string;
+  };
+  wind: { speed: number };
+};
+
+const API_KEY = 'INSERT_Y0UR_API_KEY_HERE';
+const getCurrentWeather = async (lat: number, long: number) =>
+  axios
+    .get<WeatherResponse>(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${API_KEY}`,
+    )
+    .then((x) => x.data);
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <WeatherForecast />
+    </QueryClientProvider>
+  );
+}
+
+export default App;
+
+function WeatherForecast() {
+  const geolocation = useGeolocation();
+  const { isLoading, error, data } = useQuery(
+    ['weatherData', geolocation.latitude, geolocation.longitude],
+    () => getCurrentWeather(geolocation.latitude, geolocation.longitude),
+  );
+
+  if (error || isLoading) return <div>Loading!!!</div>;
+
+  return (
+    <div className="container-center-horizontal">
+      <div className="weatherforecastscreen">
+        <Place>{data?.sys.country}</Place>
+        <Place1>{data?.name}</Place1>
+        <OverlapGroup>
+          <FlexRow>
+            <X8725703CloudShowersHeavyIcon1 />
+            <Number>{data?.main.feels_like}</Number>
+            <Ellipse1></Ellipse1>
+          </FlexRow>
+          <OverlapGroup1 style={{ width: '100%' }}>
+            <Nem>Humidity</Nem>
+            <Number1>{data?.main.humidity}</Number1>
+          </OverlapGroup1>
+          <FlexRow1 style={{ width: '100%' }}>
+            <Rzgar>Wind</Rzgar>
+            <Address>{data?.wind.speed}</Address>
+          </FlexRow1>
+        </OverlapGroup>
+      </div>
+    </div>
+  );
+}
+
+function X8725703CloudShowersHeavyIcon1() {
+  return <IconBrightness src={SunIcon} />;
+}
+```
+
+First, we need to wrap our App with React Query Provider and give `queryClient`
+
+```javascript
+const queryClient = new QueryClient();
+```
+
+Then, we need to define a function to get data from OpenWeather with given lat, long and API_KEY - to get an API KEY we need to sign up for an account [OpenWeather](https://home.openweathermap.org/users/sign_in)
+
+```typescript
+type WeatherResponse = {
+  main: {
+    temp: number;
+    feels_like: number;
+    humidity: number;
+  };
+  name: string;
+  sys: {
+    country: string;
+  };
+  wind: { speed: number };
+};
+
+const API_KEY = 'INSERT_Y0UR_API_KEY_HERE';
+const getCurrentWeather = async (lat: number, long: number) =>
+  axios.get<WeatherResponse>`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${API_KEY}`.then(
+    (x) => x.data,
+  );
+```
+
+Of course, to make it type-safe, we also need to define the corresponding response type. Those are the types that we're going to use.
+To make the async function work, we need to integrate it with React Query.
+
+```typescript
+const geolocation = useGeolocation();
+const { isLoading, error, data } = useQuery(
+  ['weatherData', geolocation.latitude, geolocation.longitude],
+  () => getCurrentWeather(geolocation.latitude, geolocation.longitude),
+);
+```
+
+React Query accepts an array-like queryKey just like `useEffect` to listen to changes in the component. That means that whenever `geolocation.latitude` or `geolocation.longitude` changes, it will fire a new `getCurrentWeather` function
+to fetch the data. While doing so gives us `isLoading`, `error`, `data` states to track the changes.
+
+Now, all we need to do is stitch the data with components.
+
+```typescript
+if (error || isLoading) return <div>Loading!!!</div>;
+
+  return (
+    <div className="container-center-horizontal">
+      <div className="weatherforecastscreen">
+        <Place>{data?.sys.country}</Place>
+        <Place1>{data?.name}</Place1>
+        <OverlapGroup>
+          <FlexRow>
+            <X8725703CloudShowersHeavyIcon1 />
+            <Number>{data?.main.feels_like}</Number>
+            <Ellipse1></Ellipse1>
+          </FlexRow>
+          <OverlapGroup1 style={{ width: '100%' }}>
+            <Nem>Humidity</Nem>
+            <Number1>{data?.main.humidity}</Number1>
+          </OverlapGroup1>
+          <FlexRow1 style={{ width: '100%' }}>
+            <Rzgar>Wind</Rzgar>
+            <Address>{data?.wind.speed}</Address>
+          </FlexRow1>
+        </OverlapGroup>
+      </div>
+    </div>
+  );
+```
+We got ourselves a Weather App. 
+
+Thanks for reading. Stay tuned for more Anima generated Apps. 
