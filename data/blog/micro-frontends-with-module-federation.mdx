@@ -26,6 +26,8 @@ This a POC(Proof of Concept) project it may not look great, but that's not the p
 
 [🔴Live Example](http://ogz-microfrontend-container.s3-website.eu-central-1.amazonaws.com/)
 
+> [Lerna](https://lerna.js.org/), a monorepo manager, was used in the POC project, but for the sake of simplicity, it's not required for this tutorial.
+
 ## Module Federation
 
 The **Module Federation** is actually part of Webpack config. This config enables us to expose or receive different parts of the CRA to another CRA project.
@@ -63,20 +65,21 @@ Let's add our dependencies
 yarn add html-webpack-plugin serve ts-loader webpack webpack-cli webpack-dev-server @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^5
 ```
 
-We need to make some changes. Create a file called `bootstrap.tsx` and move `index.ts` into `bootstrap.tsx`.
+We need to make some changes. Firstly, rename `index.tsx` to `index.ts`, then create a file called `bootstrap.tsx` and move `index.ts` into `bootstrap.tsx`.
 
 ### bootstrap.tsx
 
 ```typescript
 import App from './App';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
+import { ChakraProvider } from "@chakra-ui/react";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+root.render(
   <ChakraProvider>
     <App />
-  </ChakraProvider>,
-  document.getElementById('root'),
+  </ChakraProvider>
 );
 ```
 
@@ -87,6 +90,15 @@ And add those into `index.ts`
 ```typescript
 import('./bootstrap');
 ```
+
+The TypeScript compiler might throw an '--isolatedModules' error on this file, if it does, add the following line to resolve it:
+
+```typescript
+import('./bootstrap');
+export {};
+```
+
+Alternatively, you can set the 'isolatedModules' property to 'true' into 'tsconfig.json' file.
 
 And, finally add those into `app.tsx` for future use. We will discuss them later.
 
@@ -172,6 +184,8 @@ const webpack = require('webpack'); // only add this if you don't have yet
 const { ModuleFederationPlugin } = webpack.container;
 const deps = require('./package.json').dependencies;
 
+const buildDate = new Date().toLocaleString();
+
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
   console.log({ isProduction });
@@ -244,6 +258,7 @@ Update your `tsconfig` as follows:
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "./",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -261,6 +276,17 @@ Update your `tsconfig` as follows:
   "include": ["src"]
 }
 ```
+Create a `.env` in the project root folder:
+
+```bash
+DEV_APP1="app1@http://localhost:3001/remoteEntry.js"
+DEV_APP2="app2@http://localhost:3002/remoteEntry.js"
+
+PROD_APP1="app1@http://YOUR_APPLICATION_PRODUCTION_URL_HERE/remoteEntry.js"
+PROD_APP2="app2@http://YOUR_APPLICATION_PRODUCTION_URL_HERE/remoteEntry.js"
+```
+
+> You don't need to configure the PROD_APP1 and PROD_APP2 environment variables as long as you're running the project on localhost, but make sure to replace your application production URL when it's ready to deploy and add the `.env` file into `.gitignore`. Check the [POC Github repository](https://github.com/ogzhanolguncu/react-typescript-module-federation) to view how it's configured on the example project.
 
 And to avoid type issues with remotes - federated parts such as app1 and app2 - we need to define `.d.ts` file.
 
@@ -337,13 +363,14 @@ Just like we did in Container app we'll setup `bootstrap.tsx`, `index.ts` and `a
 ```typescript
 import App from './App';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
+import { ChakraProvider } from "@chakra-ui/react";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+root.render(
   <ChakraProvider>
     <App />
-  </ChakraProvider>,
-  document.getElementById('root'),
+  </ChakraProvider>
 );
 ```
 
@@ -471,6 +498,7 @@ Update your `tsconfig` as follows:
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "./",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -557,7 +585,7 @@ const Counter = () => {
   return (
     <Flex gap="1rem" direction="column">
       <Text>
-        Add by one each click <strong>APP-1</strong>
+        Add by one each click <strong>APP-2/strong>
       </Text>
       <Text>Your click count : {count} </Text>
       <Button onClick={() => setCount((prevState) => prevState * 2)}>Click me</Button>
@@ -638,6 +666,7 @@ Update your `tsconfig` as follows:
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "./",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
