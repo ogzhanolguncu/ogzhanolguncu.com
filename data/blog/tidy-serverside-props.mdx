@@ -176,7 +176,7 @@ export const bounceUsersIfCredentialsHaveNotMet = (cb: Callback, options?: Optio
   return async (ctx: GetServerSidePropsWithInjectedProps) => {
     const userIsAuthenticated = ctx.req.auth.user.id;
 
-    if (options?.kickUser && userIsAuthenticated) {
+    if (options?.kickUser && !userIsAuthenticated) {
       return {
         redirect: {
           permanent: false,
