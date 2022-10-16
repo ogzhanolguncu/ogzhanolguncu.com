@@ -136,7 +136,7 @@ const Tparagraph = (props: any) => {
   );
 };
 
-const Tstrong = (props: any) => <Text as="span" fontWeight="bold" {...props} />;
+const Tstrong = (props: any) => <Text as="span" fontWeight="bold" color='red.500' {...props} />;
 const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
   h2: (props: any) => (

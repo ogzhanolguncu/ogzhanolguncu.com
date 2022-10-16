@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import Link from 'next/link';
 
 const HeroSectionTitle = () => {
   return (
@@ -31,26 +32,28 @@ const HeroSectionTitle = () => {
         You can read my blog, view my guides
         <Box as="br" /> or learn more about me.
       </Text>
-      <Button
-        width={['300px', '400px', '400px', '233px']}
-        mt={['50px', '50px', '110px', '110px']}
-        mb={['50px', '50px', '50px', '0']}
-        bgColor="black"
-        color="#fff"
-        px="55px"
-        py="30px"
-        fontWeight="bold"
-        fontSize="16px"
-        boxShadow="6px 6px #8080805e"
-        _hover={{
-          backgroundColor: 'black',
-        }}
-        _active={{
-          backgroundColor: 'black',
-        }}
-      >
-        Join Newsletter
-      </Button>
+      <Link href='/about'>
+        <Button
+          width={['300px', '400px', '400px', '233px']}
+          mt={['50px', '50px', '110px', '110px']}
+          mb={['50px', '50px', '50px', '0']}
+          bgColor="black"
+          color="#fff"
+          px="55px"
+          py="30px"
+          fontWeight="bold"
+          fontSize="16px"
+          boxShadow="6px 6px #8080805e"
+          _hover={{
+            backgroundColor: 'black',
+          }}
+          _active={{
+            backgroundColor: 'black',
+          }}
+        >
+          Contact me!
+        </Button>
+      </Link>
     </Flex>
   );
 };
