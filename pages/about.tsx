@@ -62,7 +62,7 @@ const About = () => {
             gap="1rem"
           >
             <CustomText>
-              Hi! I'm Oğuzhan Olguncu. I currently work full-time as a Frontend Developer, and I
+              Hi! I'm Oğuzhan Olguncu. I currently work full-time as a Software Engineer, and I
               build
               <Text as="span" backgroundColor="#000" color="#fff" p="0.2rem" mx="0.3rem">
                 open-source projects
