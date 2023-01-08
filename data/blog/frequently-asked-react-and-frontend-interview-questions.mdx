@@ -202,7 +202,7 @@ people.reduce((acc, person) => {
 }, []);
 ```
 
-As you can see, our first `reducer` returned `48`, second one returned `{id: "1", name: "John", age: 18}` and third one returned **[{id: "1", name: "John", age: 18}, {id: "2", name: "Smith", age: 35}]**.
+As you can see, our first `reducer` returned `48`, second one returned `{id: "1", name: "John", age: 18}` and third one returned `**[{id: "1", name: "John", age: 18}, {id: "2", name: "Smith", age: 35}]**`.
 If I have to explain how it works `reduce` works like a `recursive function`.
 The first parameter behaves as an accumulator basically holds our total value.
 So, each time reducer works it iterates over person ages and adds them to accumulator then finally returns the sum of the total.

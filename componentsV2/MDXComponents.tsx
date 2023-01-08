@@ -41,7 +41,7 @@ const CustomLink = (props: any) => {
 
   if (isInternalLink) {
     return (
-      <NextLink href={href} passHref>
+      <NextLink href={href} passHref legacyBehavior>
         <Link {...props} />
       </NextLink>
     );
@@ -97,7 +97,7 @@ const DocsHeading = (props: any) => (
     <Box pointerEvents="auto">
       {props.children}
       {props.id && (
-        <NextLink href={`#${props.id}`}>
+        <NextLink href={`#${props.id}`} passHref legacyBehavior>
           <chakra.a
             aria-label="anchor"
             color="transparent"

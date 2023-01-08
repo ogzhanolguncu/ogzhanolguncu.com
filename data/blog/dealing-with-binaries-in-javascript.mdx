@@ -133,8 +133,8 @@ There are several operators:
 - Bitwise OR (|)
 - Bitwise XOR (^)
 - Bitwise NOT (~)
-- Bitwise Left Shift (<<)
-- Bitwise Right Shift (>>)
+- Bitwise Left Shift `(<<)`
+- Bitwise Right Shift `(>>)`
 
 ### Bitwise AND (&)
 
@@ -211,9 +211,9 @@ Result:        0 0 0 1  // if only one of two bits is 1, then set bit to 1
 In Javascript: ~0b1110 // Returns -15
 ```
 
-### Bitwise Left Shift (<<)
+### Bitwise Left Shift
 
-The `Left Shift` operator(`<<`) simply adds 0s to right of your binary by shifting others to left. This is generally used when we want to make room at the end of
+The `Left Shift` operator`(<<)` simply adds 0s to right of your binary by shifting others to left. This is generally used when we want to make room at the end of
 our binary.
 
 ```javascript
@@ -227,7 +227,7 @@ In Javascript: 0b11100000 << 8 // Returns 57344
 
 Every shift left also multiplies your number as much as you shift left. If you shift `0b1110` `<<` `1` this will give us 28 since `0b1110` was 14.
 
-### Bitwise Right Shift (>>)
+### Bitwise Right Shift
 
 The `Right Shift` operator(`>>`) deletes from right as much as your shift value.
 

@@ -32,7 +32,7 @@ const ArticleItem = ({
     >
       <Flex flexDirection="column">
         <Text fontSize="12px" fontWeight="bold" letterSpacing="0.05px">
-          {articleDate}
+          {articleDate.toString()}
         </Text>
         <Flex flexDirection="column">
           <Heading
