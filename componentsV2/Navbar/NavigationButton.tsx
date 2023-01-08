@@ -10,8 +10,8 @@ type NavbarProps = {
 
 const NavigationButton = ({ LinkComponent, text, href }: NavbarProps) => {
   return (
-    <LinkComponent href={href} passHref>
-      <Button as="a" variant="ghost" _hover={{ bg: 'rgba(0,0,0,.07)' }}>
+    <LinkComponent href={href} passHref legacyBehavior>
+      <Button as="a" variant="ghost" _hover={{ bg: "rgba(0,0,0,.07)" }}>
         <NavbarText>{text}</NavbarText>
       </Button>
     </LinkComponent>

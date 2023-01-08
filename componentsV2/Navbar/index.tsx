@@ -14,7 +14,7 @@ const Navbar = () => {
       as="nav"
       mx="auto"
     >
-      <Link href="/" passHref>
+      <Link href="/" passHref legacyBehavior>
         <Button as="a" variant="ghost" _hover={{ bg: 'rgba(0,0,0,.07)' }} px="0.3rem">
           <Text fontSize={['lg', '2xl', '2xl', '3xl']} mr={['3px', '5px', '7px', '10px']}>
             🦉

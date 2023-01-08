@@ -3,9 +3,9 @@ import { MDXProvider } from '@mdx-js/react';
 import MDXComponents from 'componentsV2/MDXComponents';
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
-import SEO from 'next-seo.config';
 import Script from 'next/script';
 import { Chakra } from 'componentsV2/Chakra';
+import SEO from 'next-seo.config';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

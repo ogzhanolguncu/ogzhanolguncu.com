@@ -97,7 +97,7 @@ const Blog = ({ groupedBlogPosts, languageTags }: Props) => {
           <Box
             padding={['1rem', '2rem', '2rem', '2rem']}
             marginTop="1.3rem"
-            d="flex"
+            display="flex"
             flexDirection="row"
             justifyContent="flex-start"
             alignItems="flex-start"
