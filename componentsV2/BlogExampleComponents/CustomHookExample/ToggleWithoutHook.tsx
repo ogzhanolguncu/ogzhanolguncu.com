@@ -5,7 +5,7 @@ function ToggleWithoutHook() {
   const [on, toggle] = React.useState(false);
   return (
     <Flex flexDirection="column" boxShadow="outline" rounded="md" width="50%" padding="1rem">
-      <Alert status="success" d="flex" justifyContent="center">
+      <Alert status="success" display="flex" justifyContent="center">
         <Text>{on ? 'ON' : 'OFF'}</Text>
       </Alert>
       <Button onClick={() => toggle((prevState) => !prevState)}>TOGGLE</Button>

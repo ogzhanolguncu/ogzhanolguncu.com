@@ -24,7 +24,7 @@ function AsyncWithoutHook() {
       setJoke(data);
       setIsLoading(false);
     } catch (error) {
-      setError(error);
+      setError(error as any);
       setIsLoading(false);
     }
   };
@@ -33,7 +33,7 @@ function AsyncWithoutHook() {
     fetchAJoke();
   }, []);
 
-  if (error) return <Flex>{error}</Flex>;
+  if (error) return <Flex>{error as any}</Flex>;
   if (isLoading) return <Flex>Loading...</Flex>;
 
   return (

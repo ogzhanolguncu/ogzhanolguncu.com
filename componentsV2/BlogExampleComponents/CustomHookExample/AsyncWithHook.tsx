@@ -16,7 +16,7 @@ function AsyncWithoutHook() {
     'https://api.chucknorris.io/jokes/random',
   );
 
-  if (error) return <Flex>{error}</Flex>;
+  if (error) return <Flex>{error.message}</Flex>;
   if (isLoading) return <Flex>Loading...</Flex>;
 
   return (

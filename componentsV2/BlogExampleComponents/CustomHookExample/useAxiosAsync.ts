@@ -13,7 +13,7 @@ const useAxiosAsync = <T>(url: string) => {
       setJoke(data);
       setIsLoading(false);
     } catch (error) {
-      setError(error);
+      setError(error as any);
       setIsLoading(false);
     }
   }, [url]);
