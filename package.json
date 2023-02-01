@@ -6,8 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap --config next-sitemap.config.js",
-    "prepare": "husky install"
+    "postbuild": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
     "@builder.io/partytown": "^0.5.2",
