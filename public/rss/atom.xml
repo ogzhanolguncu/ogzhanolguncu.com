@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2022-02-20T22:09:55.928Z</updated>
+    <updated>2023-02-01T21:22:42.064Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -12,14 +12,176 @@
     <link rel="self" href="https://ogzhanolguncu.com/rss/atom.xml"/>
     <logo>https://ogzhanolguncu.com/logo.svg</logo>
     <icon>https://ogzhanolguncu.com/favicon.png</icon>
-    <rights>All rights reserved 2022, Oguzhan Olguncu</rights>
+    <rights>All rights reserved 2023, Oguzhan Olguncu</rights>
     <entry>
-        <title type="html"><![CDATA[How Does "prevState" Works Under the Hood]]></title>
+        <title type="html"><![CDATA[Async Local Storage with Examples in NextJS/Typescript]]></title>
+        <id>https://ogzhanolguncu.com/blog/als-with-examples</id>
+        <link href="https://ogzhanolguncu.com/blog/als-with-examples"/>
+        <updated>2023-01-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.]]></summary>
+        <content type="html"><![CDATA[There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,nodejs,nextjs"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2023-01-21T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Recursion made easy with Javascript]]></title>
+        <id>https://ogzhanolguncu.com/blog/recursion-made-easy</id>
+        <link href="https://ogzhanolguncu.com/blog/recursion-made-easy"/>
+        <updated>2022-11-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[We`ll be learning recursion with Javascript, but without Fibonacci. We`ll also explore Haversine formula to calculate distance between coordinates.]]></summary>
+        <content type="html"><![CDATA[We`ll be learning recursion with Javascript, but without Fibonacci. We`ll also explore Haversine formula to calculate distance between coordinates.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="javascript,tutorial"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-11-20T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Tidying up getServerSideProps(Server-Side Rendering) with Higher Order Functions]]></title>
+        <id>https://ogzhanolguncu.com/blog/tidy-serverside-props</id>
+        <link href="https://ogzhanolguncu.com/blog/tidy-serverside-props"/>
+        <updated>2022-10-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Using higher order functions to compose getServerSideProps to achieve cleaner and more organized code.]]></summary>
+        <content type="html"><![CDATA[Using higher order functions to compose getServerSideProps to achieve cleaner and more organized code.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="nextjs,typescript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-10-16T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Let`s make a Weather App with Anima, React and Typescript]]></title>
+        <id>https://ogzhanolguncu.com/blog/weather-app-anima</id>
+        <link href="https://ogzhanolguncu.com/blog/weather-app-anima"/>
+        <updated>2022-08-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Create app a Weather App with Anima, React and Typescripts with little to no styling]]></summary>
+        <content type="html"><![CDATA[Create app a Weather App with Anima, React and Typescripts with little to no styling]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,tutorial,react"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-08-16T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Build Your Own SSR/SSG From Scratch with Vite and React]]></title>
+        <id>https://ogzhanolguncu.com/blog/react-ssr-ssg-from-scratch</id>
+        <link href="https://ogzhanolguncu.com/blog/react-ssr-ssg-from-scratch"/>
+        <updated>2022-08-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Build your own server side rendering with Vite, React and Typescript. SSG Included.]]></summary>
+        <content type="html"><![CDATA[Build your own server side rendering with Vite, React and Typescript. SSG Included.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="javascript,typescript,ssr"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-08-04T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[You can actually mutate imports in Javascript]]></title>
+        <id>https://ogzhanolguncu.com/blog/mutable-imports</id>
+        <link href="https://ogzhanolguncu.com/blog/mutable-imports"/>
+        <updated>2022-07-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Do you know you can actually mutate an imported object in JS? Today, we will see how to mutate and avoid mutation for imported objects.]]></summary>
+        <content type="html"><![CDATA[Do you know you can actually mutate an imported object in JS? Today, we will see how to mutate and avoid mutation for imported objects.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="javascript"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-07-03T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Up & Running with Jotai, Typescript and NextJS]]></title>
+        <id>https://ogzhanolguncu.com/blog/up-and-running-with-jotai</id>
+        <link href="https://ogzhanolguncu.com/blog/up-and-running-with-jotai"/>
+        <updated>2022-06-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Simple, elegant state management with Jotai and type-safety with Typescript. Today we will learn how to use them together.]]></summary>
+        <content type="html"><![CDATA[Simple, elegant state management with Jotai and type-safety with Typescript. Today we will learn how to use them together.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,tutorial,react,nextjs,jotai"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-06-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Monorepo with Turborepo]]></title>
+        <id>https://ogzhanolguncu.com/blog/monorepo-with-turborepo</id>
+        <link href="https://ogzhanolguncu.com/blog/monorepo-with-turborepo"/>
+        <updated>2022-05-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Setting up monorepo with Turborepo to manage all your React, NextJS and Express projects.]]></summary>
+        <content type="html"><![CDATA[Setting up monorepo with Turborepo to manage all your React, NextJS and Express projects.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,nextjs,monorepo"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-05-15T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Add Authentication in Seconds with ClerkJS]]></title>
+        <id>https://ogzhanolguncu.com/blog/auth-with-clerk</id>
+        <link href="https://ogzhanolguncu.com/blog/auth-with-clerk"/>
+        <updated>2022-05-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Adding auth to NextJS has never been so easy thanks to Clerk]]></summary>
+        <content type="html"><![CDATA[Adding auth to NextJS has never been so easy thanks to Clerk]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="typescript,nextjs"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2022-05-10T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How does prevState in React work under the hood?]]></title>
         <id>https://ogzhanolguncu.com/blog/how-does-prevstate-works-under-the-hood</id>
         <link href="https://ogzhanolguncu.com/blog/how-does-prevstate-works-under-the-hood"/>
         <updated>2022-02-21T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[We take a peek at the React to see how prevState works under the hood to access the latest state.]]></summary>
-        <content type="html"><![CDATA[We take a peek at the React to see how prevState works under the hood to access the latest state.]]></content>
+        <summary type="html"><![CDATA[We take a look at React to see how prevState works under the hood to access the latest state.]]></summary>
+        <content type="html"><![CDATA[We take a look at React to see how prevState works under the hood to access the latest state.]]></content>
         <author>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -421,24 +583,6 @@
             <email>ogzhan11@gmail.com</email>
         </author>
         <category label="javascript,tutorial,computerscience"/>
-        <contributor>
-            <name>Oguzhan Olguncu</name>
-            <email>ogzhan11@gmail.com</email>
-        </contributor>
-        <published>2020-10-23T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[React Crash Course: Building React App using Hooks, Mobx, Typescript and much more]]></title>
-        <id>https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more</id>
-        <link href="https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more"/>
-        <updated>2020-10-23T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.]]></summary>
-        <content type="html"><![CDATA[Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.]]></content>
-        <author>
-            <name>Oguzhan Olguncu</name>
-            <email>ogzhan11@gmail.com</email>
-        </author>
-        <category label="javascript,tutorial,react,typescript"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>

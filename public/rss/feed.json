@@ -9,11 +9,155 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/als-with-examples",
+            "content_html": "There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.",
+            "url": "https://ogzhanolguncu.com/blog/als-with-examples",
+            "title": "Async Local Storage with Examples in NextJS/Typescript",
+            "summary": "There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.",
+            "image": "https://ogzhanolguncu.com/static/images/als-with-examples/cover.webp",
+            "date_modified": "2023-01-21T00:00:00.000Z",
+            "date_published": "2023-01-21T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,nodejs,nextjs"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/recursion-made-easy",
+            "content_html": "We`ll be learning recursion with Javascript, but without Fibonacci. We`ll also explore Haversine formula to calculate distance between coordinates.",
+            "url": "https://ogzhanolguncu.com/blog/recursion-made-easy",
+            "title": "Recursion made easy with Javascript",
+            "summary": "We`ll be learning recursion with Javascript, but without Fibonacci. We`ll also explore Haversine formula to calculate distance between coordinates.",
+            "image": "https://ogzhanolguncu.com/static/images/recursion-made-easy/labirenth.jpg",
+            "date_modified": "2022-11-20T00:00:00.000Z",
+            "date_published": "2022-11-20T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "javascript,tutorial"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/tidy-serverside-props",
+            "content_html": "Using higher order functions to compose getServerSideProps to achieve cleaner and more organized code.",
+            "url": "https://ogzhanolguncu.com/blog/tidy-serverside-props",
+            "title": "Tidying up getServerSideProps(Server-Side Rendering) with Higher Order Functions",
+            "summary": "Using higher order functions to compose getServerSideProps to achieve cleaner and more organized code.",
+            "image": "https://ogzhanolguncu.com/static/images/tidy-serverside-props/bg.jpg",
+            "date_modified": "2022-10-16T00:00:00.000Z",
+            "date_published": "2022-10-16T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "nextjs,typescript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/weather-app-anima",
+            "content_html": "Create app a Weather App with Anima, React and Typescripts with little to no styling",
+            "url": "https://ogzhanolguncu.com/blog/weather-app-anima",
+            "title": "Let`s make a Weather App with Anima, React and Typescript",
+            "summary": "Create app a Weather App with Anima, React and Typescripts with little to no styling",
+            "image": "https://ogzhanolguncu.com/static/images/weather-app-anima/cover.jpg",
+            "date_modified": "2022-08-16T00:00:00.000Z",
+            "date_published": "2022-08-16T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,tutorial,react"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/react-ssr-ssg-from-scratch",
+            "content_html": "Build your own server side rendering with Vite, React and Typescript. SSG Included.",
+            "url": "https://ogzhanolguncu.com/blog/react-ssr-ssg-from-scratch",
+            "title": "Build Your Own SSR/SSG From Scratch with Vite and React",
+            "summary": "Build your own server side rendering with Vite, React and Typescript. SSG Included.",
+            "image": "https://ogzhanolguncu.com/static/images/react-ssr-ssg-from-scratch/cover.jpg",
+            "date_modified": "2022-08-04T00:00:00.000Z",
+            "date_published": "2022-08-04T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "javascript,typescript,ssr"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/mutable-imports",
+            "content_html": "Do you know you can actually mutate an imported object in JS? Today, we will see how to mutate and avoid mutation for imported objects.",
+            "url": "https://ogzhanolguncu.com/blog/mutable-imports",
+            "title": "You can actually mutate imports in Javascript",
+            "summary": "Do you know you can actually mutate an imported object in JS? Today, we will see how to mutate and avoid mutation for imported objects.",
+            "image": "https://ogzhanolguncu.com/static/images/mutable-imports/mutable-import.jpg",
+            "date_modified": "2022-07-03T00:00:00.000Z",
+            "date_published": "2022-07-03T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "javascript"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/up-and-running-with-jotai",
+            "content_html": "Simple, elegant state management with Jotai and type-safety with Typescript. Today we will learn how to use them together.",
+            "url": "https://ogzhanolguncu.com/blog/up-and-running-with-jotai",
+            "title": "Up & Running with Jotai, Typescript and NextJS",
+            "summary": "Simple, elegant state management with Jotai and type-safety with Typescript. Today we will learn how to use them together.",
+            "image": "https://ogzhanolguncu.com/static/images/up-and-running-with-jotai/jotai.jpg",
+            "date_modified": "2022-06-18T00:00:00.000Z",
+            "date_published": "2022-06-18T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,tutorial,react,nextjs,jotai"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/monorepo-with-turborepo",
+            "content_html": "Setting up monorepo with Turborepo to manage all your React, NextJS and Express projects.",
+            "url": "https://ogzhanolguncu.com/blog/monorepo-with-turborepo",
+            "title": "Monorepo with Turborepo",
+            "summary": "Setting up monorepo with Turborepo to manage all your React, NextJS and Express projects.",
+            "image": "https://ogzhanolguncu.com/static/images/monorepo-with-turborepo/container-cover.jpg",
+            "date_modified": "2022-05-15T00:00:00.000Z",
+            "date_published": "2022-05-15T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,nextjs,monorepo"
+            ]
+        },
+        {
+            "id": "https://ogzhanolguncu.com/blog/auth-with-clerk",
+            "content_html": "Adding auth to NextJS has never been so easy thanks to Clerk",
+            "url": "https://ogzhanolguncu.com/blog/auth-with-clerk",
+            "title": "Add Authentication in Seconds with ClerkJS",
+            "summary": "Adding auth to NextJS has never been so easy thanks to Clerk",
+            "image": "https://ogzhanolguncu.com/static/images/auth-with-clerk/simple-cover.jpg",
+            "date_modified": "2022-05-10T00:00:00.000Z",
+            "date_published": "2022-05-10T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "typescript,nextjs"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/how-does-prevstate-works-under-the-hood",
-            "content_html": "We take a peek at the React to see how prevState works under the hood to access the latest state.",
+            "content_html": "We take a look at React to see how prevState works under the hood to access the latest state.",
             "url": "https://ogzhanolguncu.com/blog/how-does-prevstate-works-under-the-hood",
-            "title": "How Does \"prevState\" Works Under the Hood",
-            "summary": "We take a peek at the React to see how prevState works under the hood to access the latest state.",
+            "title": "How does prevState in React work under the hood?",
+            "summary": "We take a look at React to see how prevState works under the hood to access the latest state.",
             "image": "https://ogzhanolguncu.com/static/images/how-does-prevstate-works/prevstate.webp",
             "date_modified": "2022-02-21T00:00:00.000Z",
             "date_published": "2022-02-21T00:00:00.000Z",
@@ -374,22 +518,6 @@
             },
             "tags": [
                 "javascript,tutorial,computerscience"
-            ]
-        },
-        {
-            "id": "https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more",
-            "content_html": "Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.",
-            "url": "https://ogzhanolguncu.com/blog/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more",
-            "title": "React Crash Course: Building React App using Hooks, Mobx, Typescript and much more",
-            "summary": "Introduction  Today we will be building Note taking app using React.  Tagged with react, tutorial, typescript, javascript.",
-            "image": "https://ogzhanolguncu.com/static/images/react-crash-course-building-react-app-using-hooks-mobx-typescript-and-much-more/mobx.png",
-            "date_modified": "2020-10-23T00:00:00.000Z",
-            "date_published": "2020-10-23T00:00:00.000Z",
-            "author": {
-                "name": "Oguzhan Olguncu"
-            },
-            "tags": [
-                "javascript,tutorial,react,typescript"
             ]
         },
         {
