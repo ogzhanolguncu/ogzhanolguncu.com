@@ -10,10 +10,11 @@ languageTags: ["tutorial", "typescript", "nodejs"]
 
 ## Table of Contents
 
-1.  [Working example](#working-example)
-1.  [Full code](#full-code)
-1.  [Extracting data out of URL](#extracting-data-out-of-url)
-1.  [Signing the URL](#signing-the-url)
+- [Working example](#working-example)
+- [Full code](#full-code)
+- [Extracting data out of URL](#extracting-data-out-of-url)
+- [Signing the URL](#signing-the-url)
+- [Summary](#summary)
 
 Signing a URL is an important security measure that helps to prevent unauthorized access to sensitive information. By signing a URL on our end with a secret key and then verifying it again on our end with the same key, we can ensure that only those who are authorized to access the page are able to do so. Without this security measure, it would be easy for anyone to access the page and view sensitive information that was not intended for them.
 
@@ -29,7 +30,7 @@ We can sign the page URL on our end with a secret key, stored safely in our `env
 
 <URLSigner />
 
-Let's move onto the code.
+Let's move on to the code.
 
 We should first start by defining our types:
 
@@ -71,7 +72,7 @@ export class Signature {
 }
 ```
 
-This section is quite simple. We start by creating an instance of our class using the provided options. As mentioned earlier, the hash function is responsible for most of the work. It utilizes the built-in (Crypto API)[https://nodejs.org/api/crypto.html] to securely hash the given input with a secret key that is stored in our env file.
+This section is quite simple. We start by creating an instance of our class using the provided options. As mentioned earlier, the hash function is responsible for most of the work. It utilizes the built-in [Crypto API](https://nodejs.org/api/crypto.html) to securely hash the given input with a secret key that is stored in our env file.
 
 > Note that secret key shouldn't expose itself to outside and should be a secure long string.
 
@@ -202,7 +203,13 @@ public verify(url: string): boolean {
 
 We begin by invoking our previously defined functions and dividing the URL into parts. This ensures that any attempt to modify the URL will trigger a failure prior to reaching the expiration check, which is desirable.
 Next, we validate the integrity of the URL and its `hash` value using our `Crypto API`. Since `crypto.hash()` is deterministic and produces the same results every time it is called, we simply call hash with the secret key and compare it to the sign from the URL. If these values match, we may proceed with the expiration check.
-Finally, we inspect the expiration date and verify that it is set for a future date. If not, the process has failed. If all conditions are met, we return `true`. Always keep your URLs safe.
+Finally, we inspect the expiration date and verify that it is set for a future date. If not, the process has failed. If all conditions are met, we return `true`.
+
+## Summary
+
+- Do not expose private URLs to the outside without securing them.
+- Keep your secret-key in your env file.
+- If you are dealing with sensitive data, always keep security in mind.
 
 ## Full code
 
@@ -290,9 +297,7 @@ export class Signature {
   public verify(url: string): boolean {
     const [urlWithoutSignature, sign] = this.extractSignature(url);
     this.checkStringSignature(urlWithoutSignature, sign);
-    const [originalUrl, data] = this.extractSignatureData(
-      urlWithoutSignature
-    );
+    const [originalUrl, data] = this.extractSignatureData(urlWithoutSignature);
 
     if (data.exp && data.exp < Date.now()) {
       throw new Error("Expired");

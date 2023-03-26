@@ -28,15 +28,7 @@ const Table = (props: any) => (
 );
 
 const THead = (props: any) => {
-  return (
-    <Box
-      as="th"
-      fontWeight="semibold"
-      p={2}
-      fontSize="sm"
-      {...props}
-    />
-  );
+  return <Box as="th" fontWeight="semibold" p={2} fontSize="sm" {...props} />;
 };
 
 const TData = (props: any) => (
@@ -62,8 +54,7 @@ const TImage = (props: any) => (
 
 const CustomLink = (props: any) => {
   const href = props.href;
-  const isInternalLink =
-    href && (href.startsWith("/") || href.startsWith("#"));
+  const isInternalLink = href && (href.startsWith("/") || href.startsWith("#"));
 
   if (isInternalLink) {
     return (
@@ -74,12 +65,7 @@ const CustomLink = (props: any) => {
   }
 
   return (
-    <Link
-      isExternal
-      {...props}
-      color="blue.500"
-      textDecoration="underline"
-    />
+    <Link isExternal {...props} color="blue.500" textDecoration="underline" />
   );
 };
 
@@ -178,31 +164,16 @@ const Tstrong = (props: any) => (
 const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
   h2: (props: any) => (
-    <DocsHeading
-      as="h2"
-      fontSize="35px"
-      fontWeight="bold"
-      {...props}
-    />
+    <DocsHeading as="h2" fontSize="35px" fontWeight="bold" {...props} />
   ),
   h3: (props: any) => (
-    <DocsHeading
-      as="h3"
-      fontSize="25px"
-      fontWeight="bold"
-      {...props}
-    />
+    <DocsHeading as="h3" fontSize="25px" fontWeight="bold" {...props} />
   ),
   inlineCode: (props: any) => (
     <Code color="red" backgroundColor="purple" {...props} />
   ),
   code: (props: any) => (
-    <Code
-      color="#fff"
-      backgroundColor="purple"
-      borderRadius="md"
-      {...props}
-    />
+    <Code color="#fff" backgroundColor="purple" borderRadius="md" {...props} />
   ),
   kbd: Kbd,
   br: (props: any) => <Box height="24px" {...props} />,
@@ -224,7 +195,12 @@ const MDXComponents = {
       as="li"
       pb={1}
       fontSize="19px"
-      textDecor="underline"
+      lineHeight="1.7"
+      fontWeight="500"
+      css={{
+        wordSpacing: "1.2px",
+        letterSpacing: "0.1px",
+      }}
       {...props}
     />
   ),
