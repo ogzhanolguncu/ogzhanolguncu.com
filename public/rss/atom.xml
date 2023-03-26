@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2023-02-01T21:22:42.064Z</updated>
+    <updated>2023-03-26T14:13:26.671Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -13,6 +13,24 @@
     <logo>https://ogzhanolguncu.com/logo.svg</logo>
     <icon>https://ogzhanolguncu.com/favicon.png</icon>
     <rights>All rights reserved 2023, Oguzhan Olguncu</rights>
+    <entry>
+        <title type="html"><![CDATA[Sign URLs with Node and Typescript for Improved Web App Security: A Step-by-Step Guide with Code Samples]]></title>
+        <id>https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples</id>
+        <link href="https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples"/>
+        <updated>2023-03-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Learn how to sign URLs using Node and Typescript for improved security and reliability of your web apps. Step-by-step guide with code samples.]]></summary>
+        <content type="html"><![CDATA[Learn how to sign URLs using Node and Typescript for improved security and reliability of your web apps. Step-by-step guide with code samples.]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="tutorial,typescript,nodejs"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2023-03-26T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Async Local Storage with Examples in NextJS/Typescript]]></title>
         <id>https://ogzhanolguncu.com/blog/als-with-examples</id>

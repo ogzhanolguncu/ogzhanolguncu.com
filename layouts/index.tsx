@@ -1,12 +1,19 @@
-import React, { PropsWithChildren } from 'react';
-import { Flex, Heading, Stack, Text, Link, Box } from '@chakra-ui/react';
-import dayjs from 'dayjs';
+import React, { PropsWithChildren } from "react";
+import {
+  Flex,
+  Heading,
+  Stack,
+  Text,
+  Link,
+  Box,
+} from "@chakra-ui/react";
+import dayjs from "dayjs";
 
-import BlogSeo from 'componentsV2/BlogSeo';
-import Layout from 'componentsV2/Layout';
-import ArticleTag from 'componentsV2/Article/ArticleTag';
-import { useRouter } from 'next/router';
-import { FrontMatterTypes } from 'global';
+import BlogSeo from "componentsV2/BlogSeo";
+import Layout from "componentsV2/Layout";
+import ArticleTag from "componentsV2/Article/ArticleTag";
+import { useRouter } from "next/router";
+import { FrontMatterTypes } from "global";
 
 export default function BlogLayout({
   children,
@@ -19,7 +26,10 @@ export default function BlogLayout({
 
   return (
     <Layout>
-      <BlogSeo url={`https://ogzhanolguncu.com/blog/${slug}`} {...frontMatter} />
+      <BlogSeo
+        url={`https://ogzhanolguncu.com/blog/${slug}`}
+        {...frontMatter}
+      />
       <Stack
         spacing={8}
         justifyContent="center"
@@ -38,13 +48,19 @@ export default function BlogLayout({
           w="100%"
           textAlign="center"
         >
-          <Heading letterSpacing="tight" mb={2} size="2xl" lineHeight="1.4" as="h1">
+          <Heading
+            letterSpacing="tight"
+            mb={2}
+            size="2xl"
+            lineHeight="1.4"
+            as="h1"
+          >
             {frontMatter.title}
           </Heading>
           <Flex
             justifyContent="space-between"
-            align={['initial', 'center']}
-            direction={['column', 'row']}
+            align={["initial", "center"]}
+            direction={["column", "row"]}
             mt={2}
             w="100%"
             mb={4}
@@ -52,9 +68,13 @@ export default function BlogLayout({
             <Flex justifyContent="center" width="100%" my="1rem">
               <Box fontSize="md" fontWeight="500">
                 <Box as="span" fontWeight="bold">
-                  {dayjs(frontMatter.publishedAt).format('MMMM D, YYYY')}
+                  {dayjs(frontMatter.publishedAt).format(
+                    "MMMM D, YYYY"
+                  )}
                 </Box>
-                <Text mt="0.5rem">{frontMatter.readingTime.text}</Text>
+                <Text mt="0.5rem">
+                  {frontMatter.readingTime.text}
+                </Text>
               </Box>
             </Flex>
           </Flex>
@@ -66,7 +86,7 @@ export default function BlogLayout({
                   key={tag}
                   onClick={() =>
                     router.push({
-                      pathname: '/blog/',
+                      pathname: "/blog/",
                       query: { tag },
                     })
                   }
@@ -83,10 +103,12 @@ export default function BlogLayout({
           isExternal
           href={`https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/data/blog/${slug}.mdx`}
         >
-          <Text marginTop="5px" fontWeight='medium'>Edit this page</Text>
+          <Text marginTop="5px" fontWeight="medium">
+            Edit this page
+          </Text>
         </Link>
       </Stack>
-      <Box mt={['3rem', '3rem', '6rem', '6rem']} />
+      <Box mt={["3rem", "3rem", "6rem", "6rem"]} />
     </Layout>
   );
 }

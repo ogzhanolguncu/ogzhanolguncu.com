@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Wed, 01 Feb 2023 21:22:42 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 26 Mar 2023 14:13:26 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -14,6 +14,17 @@
             <link>https://ogzhanolguncu.com</link>
         </image>
         <copyright>All rights reserved 2023, Oguzhan Olguncu</copyright>
+        <item>
+            <title><![CDATA[Sign URLs with Node and Typescript for Improved Web App Security: A Step-by-Step Guide with Code Samples]]></title>
+            <link>https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples</link>
+            <guid>https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples</guid>
+            <pubDate>Sun, 26 Mar 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to sign URLs using Node and Typescript for improved security and reliability of your web apps. Step-by-step guide with code samples.]]></description>
+            <content:encoded><![CDATA[Learn how to sign URLs using Node and Typescript for improved security and reliability of your web apps. Step-by-step guide with code samples.]]></content:encoded>
+            <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
+            <category domain="Web development/Javascript/Typescript">tutorial,typescript,nodejs</category>
+            <enclosure url="https://ogzhanolguncu.com/static/images/sign-urls-node-typescript-improved-web-app-security-guide-code-samples/document-sign.webp" length="0" type="image/webp"/>
+        </item>
         <item>
             <title><![CDATA[Async Local Storage with Examples in NextJS/Typescript]]></title>
             <link>https://ogzhanolguncu.com/blog/als-with-examples</link>

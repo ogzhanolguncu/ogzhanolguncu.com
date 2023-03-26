@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples",
+            "content_html": "Learn how to sign URLs using Node and Typescript for improved security and reliability of your web apps. Step-by-step guide with code samples.",
+            "url": "https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples",
+            "title": "Sign URLs with Node and Typescript for Improved Web App Security: A Step-by-Step Guide with Code Samples",
+            "summary": "Learn how to sign URLs using Node and Typescript for improved security and reliability of your web apps. Step-by-step guide with code samples.",
+            "image": "https://ogzhanolguncu.com/static/images/sign-urls-node-typescript-improved-web-app-security-guide-code-samples/document-sign.webp",
+            "date_modified": "2023-03-26T00:00:00.000Z",
+            "date_published": "2023-03-26T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "tutorial,typescript,nodejs"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/als-with-examples",
             "content_html": "There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.",
             "url": "https://ogzhanolguncu.com/blog/als-with-examples",
