@@ -14,6 +14,7 @@ languageTags: ["tutorial", "typescript", "nodejs"]
 - [Full code](#full-code)
 - [Extracting data out of URL](#extracting-data-out-of-url)
 - [Signing the URL](#signing-the-url)
+- [Verifying the URL](#verifying-the-url)
 - [Summary](#summary)
 
 Signing a URL is an important security measure that helps to prevent unauthorized access to sensitive information. By signing a URL on our end with a secret key and then verifying it again on our end with the same key, we can ensure that only those who are authorized to access the page are able to do so. Without this security measure, it would be easy for anyone to access the page and view sensitive information that was not intended for them.
@@ -178,6 +179,8 @@ Again, we check the integrity of the URL, then simply break into two pieces.
 ```
 
 Let's move onto the last part.
+
+## Verifying the URL
 
 ```typescript
 private checkStringSignature(str: string, sign: string): void {
