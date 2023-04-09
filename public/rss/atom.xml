@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2023-04-09T14:43:31.618Z</updated>
+    <updated>2023-04-09T17:00:25.706Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -24,7 +24,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </author>
-        <category label="javascript,tutorial,computerscience"/>
+        <category label="computerscience"/>
         <contributor>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>

@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Sun, 26 Mar 2023 19:20:39 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 09 Apr 2023 17:00:25 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -22,7 +22,7 @@
             <description><![CDATA[Learn from Fred Brooks' classic on software project management, productivity, and team dynamics. Boost your skills with key takeaways for maximum efficiency]]></description>
             <content:encoded><![CDATA[Learn from Fred Brooks' classic on software project management, productivity, and team dynamics. Boost your skills with key takeaways for maximum efficiency]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
-            <category domain="Web development/Javascript/Typescript">javascript,tutorial,computerscience</category>
+            <category domain="Web development/Javascript/Typescript">computerscience</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/mythical-man-month/bg.webp" length="0" type="image/webp"/>
         </item>
         <item>
