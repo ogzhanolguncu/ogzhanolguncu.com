@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2023-03-26T14:13:26.671Z</updated>
+    <updated>2023-04-09T14:43:31.618Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -13,6 +13,24 @@
     <logo>https://ogzhanolguncu.com/logo.svg</logo>
     <icon>https://ogzhanolguncu.com/favicon.png</icon>
     <rights>All rights reserved 2023, Oguzhan Olguncu</rights>
+    <entry>
+        <title type="html"><![CDATA[Lazy Developer's Handbook: Essential Lessons from The Mythical Man-Month Summarized]]></title>
+        <id>https://ogzhanolguncu.com/blog/mythical-man-month</id>
+        <link href="https://ogzhanolguncu.com/blog/mythical-man-month"/>
+        <updated>2023-04-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Learn from Fred Brooks' classic on software project management, productivity, and team dynamics. Boost your skills with key takeaways for maximum efficiency]]></summary>
+        <content type="html"><![CDATA[Learn from Fred Brooks' classic on software project management, productivity, and team dynamics. Boost your skills with key takeaways for maximum efficiency]]></content>
+        <author>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </author>
+        <category label="javascript,tutorial,computerscience"/>
+        <contributor>
+            <name>Oguzhan Olguncu</name>
+            <email>ogzhan11@gmail.com</email>
+        </contributor>
+        <published>2023-04-09T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Sign URLs with Node and Typescript for Improved Web App Security: A Step-by-Step Guide with Code Samples]]></title>
         <id>https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples</id>

@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/mythical-man-month",
+            "content_html": "Learn from Fred Brooks' classic on software project management, productivity, and team dynamics. Boost your skills with key takeaways for maximum efficiency",
+            "url": "https://ogzhanolguncu.com/blog/mythical-man-month",
+            "title": "Lazy Developer's Handbook: Essential Lessons from The Mythical Man-Month Summarized",
+            "summary": "Learn from Fred Brooks' classic on software project management, productivity, and team dynamics. Boost your skills with key takeaways for maximum efficiency",
+            "image": "https://ogzhanolguncu.com/static/images/mythical-man-month/bg.webp",
+            "date_modified": "2023-04-09T00:00:00.000Z",
+            "date_published": "2023-04-09T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "javascript,tutorial,computerscience"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples",
             "content_html": "Learn how to sign URLs using Node and Typescript for improved security and reliability of your web apps. Step-by-step guide with code samples.",
             "url": "https://ogzhanolguncu.com/blog/sign-urls-node-typescript-improved-web-app-security-guide-code-samples",

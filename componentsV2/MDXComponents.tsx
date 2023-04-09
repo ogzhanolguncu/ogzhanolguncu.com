@@ -166,7 +166,7 @@ const Tparagraph = (props: any) => {
         wordSpacing: "1.2px",
         letterSpacing: "0.1px",
       }}
-      fontWeight={500}
+      fontWeight={400}
       {...props}
     />
   );
@@ -220,13 +220,7 @@ const MDXComponents = {
     <Box as="ol" pt={2} fontSize="19px" pl={4} ml={2} {...props} />
   ),
   li: (props: any) => (
-    <Box
-      as="li"
-      pb={1}
-      fontSize="19px"
-      textDecor="underline"
-      {...props}
-    />
+    <Box as="li" pb={1} fontSize="19px" {...props} />
   ),
   strong: Tstrong,
   CodeSandBox,
