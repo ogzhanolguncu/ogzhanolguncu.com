@@ -69,11 +69,7 @@ export const URLSigner = () => {
           shadow="sm"
         >
           <AlertDescription>
-            <Text
-              fontSize="1rem"
-              fontWeight="600"
-              color="blackAlpha.800"
-            >
+            <Text fontSize="1rem" fontWeight="600" color="blackAlpha.800">
               {signedUrl && signedUrl}
             </Text>
           </AlertDescription>
@@ -108,13 +104,13 @@ export const URLSigner = () => {
         Current TTL: {TTLVal}
       </Text>
       <Input
-        variant="outline"
+        variant="filled"
         placeholder="Custom TTL Value"
         onChange={(e) => setTTLVal(Number(e.target.value))}
       />
       <Flex gap="1rem">
         <Input
-          variant="outline"
+          variant="filled"
           placeholder="Give me any URL and I'll sign it"
           onChange={(e) => setUrl(e.currentTarget.value)}
         />
@@ -122,7 +118,7 @@ export const URLSigner = () => {
       </Flex>
       <Flex gap="1rem">
         <Input
-          variant="outline"
+          variant="filled"
           placeholder="Give me any URL and I'll verify it"
           onChange={(e) => setUrl(e.currentTarget.value)}
         />

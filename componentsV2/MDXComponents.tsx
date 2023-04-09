@@ -220,7 +220,18 @@ const MDXComponents = {
     <Box as="ol" pt={2} fontSize="19px" pl={4} ml={2} {...props} />
   ),
   li: (props: any) => (
-    <Box as="li" pb={1} fontSize="19px" {...props} />
+    <Box
+      as="li"
+      pb={1}
+      fontSize="19px"
+      lineHeight="1.7"
+      fontWeight="500"
+      css={{
+        wordSpacing: "1.2px",
+        letterSpacing: "0.1px",
+      }}
+      {...props}
+    />
   ),
   strong: Tstrong,
   CodeSandBox,
