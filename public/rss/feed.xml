@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Sun, 21 May 2023 17:57:18 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 21 May 2023 18:00:17 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -23,7 +23,7 @@
             <content:encoded><![CDATA[Enhance robust JavaScript coding with Neverthrow. Utilize Rust-like error handling for exception resilience and reliable code.]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
             <category domain="Web development/Javascript/Typescript">javascript,typescript,nodejs</category>
-            <enclosure url="https://ogzhanolguncu.com/static/images/rust-like-error-handling-with-neverthrow/rust-bg.jpg" length="0" type="image/jpg"/>
+            <enclosure url="https://ogzhanolguncu.com/static/images/rust-like-error-handling-with-neverthrow/rust-bg.webp" length="0" type="image/webp"/>
         </item>
         <item>
             <title><![CDATA[Lazy Developer's Handbook: Essential Lessons from The Mythical Man-Month Summarized]]></title>
