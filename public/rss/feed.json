@@ -9,6 +9,22 @@
     },
     "items": [
         {
+            "id": "https://ogzhanolguncu.com/blog/rust-like-error-handling-with-neverthrow",
+            "content_html": "Enhance robust JavaScript coding with Neverthrow. Utilize Rust-like error handling for exception resilience and reliable code.",
+            "url": "https://ogzhanolguncu.com/blog/rust-like-error-handling-with-neverthrow",
+            "title": "Improving Javascript Error Handling using Neverthrow for Rust-like Robustness",
+            "summary": "Enhance robust JavaScript coding with Neverthrow. Utilize Rust-like error handling for exception resilience and reliable code.",
+            "image": "https://ogzhanolguncu.com/static/images/rust-like-error-handling-with-neverthrow/rust-bg.jpg",
+            "date_modified": "2023-05-21T00:00:00.000Z",
+            "date_published": "2023-05-21T00:00:00.000Z",
+            "author": {
+                "name": "Oguzhan Olguncu"
+            },
+            "tags": [
+                "javascript,typescript,nodejs"
+            ]
+        },
+        {
             "id": "https://ogzhanolguncu.com/blog/mythical-man-month",
             "content_html": "Learn from Fred Brooks' classic on software project management, productivity, and team dynamics. Boost your skills with key takeaways for maximum efficiency",
             "url": "https://ogzhanolguncu.com/blog/mythical-man-month",

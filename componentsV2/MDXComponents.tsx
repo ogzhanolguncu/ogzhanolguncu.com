@@ -54,7 +54,7 @@ const TData = (props: any) => (
 const TImage = (props: any) => (
   <Image
     marginTop="-2rem"
-    boxShadow="6px 6px #80808082"
+    boxShadow="6px 6px #80808035"
     borderRadius="16px"
     {...props}
   />
@@ -173,7 +173,7 @@ const Tparagraph = (props: any) => {
 };
 
 const Tstrong = (props: any) => (
-  <Text as="span" fontWeight="bold" color="red.500" {...props} />
+  <Text as="span" fontWeight="700" color="#000" {...props} />
 );
 const MDXComponents = {
   h1: (props: any) => <Heading as="h1" size="xl" my={4} {...props} />,
