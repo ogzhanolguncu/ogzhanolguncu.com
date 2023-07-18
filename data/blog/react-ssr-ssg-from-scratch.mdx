@@ -9,8 +9,8 @@ languageTags: ['javascript', 'typescript', 'ssr']
 ![Cover for SSR/SSG from scratch](/static/images/react-ssr-ssg-from-scratch/cover.jpg)
 
 Today, we'll try to uncover how NextJS, RemixJS and many other SSR frameworks work under the hood.
-Even though they are very complicated frameworks the fundemental idea is infact very straightforward.
-As an end-user, we can't really see the simple steps - _building SSR out of React components or just simple HTML and JS_ - due to lots of abstraction in the frameworks to make our lifes easier.
+Even though they are very complicated frameworks the fundamental idea is in fact very straightforward.
+As an end-user, we can't really see the simple steps - _building SSR out of React components or just simple HTML and JS_ - due to lots of abstraction in the frameworks to make our lives easier.
 But, today we will try to deep dive and see what hides beneath all the abstraction and explore the concept itself.
 
 ## Table of Contents
@@ -24,16 +24,16 @@ But, today we will try to deep dive and see what hides beneath all the abstracti
 
 ### What is SSR
 
-Server Side Rendering has become so popular thanks to NextJS, but what is this SSR? Server Side Rendering, as already stated, actually renders your components in the server. It means server actually doing the heavy lifting before responding to the upcoming
+Server Side Rendering has become so popular thanks to NextJS, but what is this SSR? Server Side Rendering, as already stated, actually renders your components in the server. It means the server actually doing the heavy lifting before responding to the upcoming
 requests. If you are doing SSR with React you will need to invoke `ReactDOMServer.renderToString` in your server to render your components. There are some caveats if you go down that path.
 
-TTFB(Time To First Byte) will be slower than CSR, because your server now needs to render the components into a HTML file, and, then return it. But, unlike CSR, users don't need wait for
+TTFB(Time To First Byte) will be slower than CSR, because your server now needs to render the components into a HTML file, and, then return it. But, unlike CSR, users don't need to wait for
 whole JS bundle to be parsed - they can immediately see the pages - but they cannot interact with it until it gets **hydrated** - which we will later explain.
 
-### Why we need SSR and why not use CSR instead
+### Why do we need SSR and why not use CSR instead
 
-When you use CSR to build an app, you are not shipping any HTML files, instead they get created when user enters your site. Until user or search engine crawler enters your website, all
-they got is that famous `index.html` file:
+When you use CSR to build an app, you are not shipping any HTML files, instead, they get created when the user enters your site. Until the user or search engine, crawler enters your website, all
+they get is that famous `index.html` file:
 
 ```HTML
 <!DOCTYPE html>
@@ -57,7 +57,7 @@ they got is that famous `index.html` file:
 </html>
 ```
 
-Once someone enter your website, DOM elements gets created inside the `root` like this with the help of `React.createRoot` function.
+Once someone enters your website, DOM elements get created inside the `root` like this with the help of `React.createRoot` function.
 
 ```html
 <div id="root">
@@ -71,14 +71,14 @@ All this dynamically happens when your site is invoked.
 
 So, how does a crawler understand your sites meta data - descriptions, titles, og tags, etc... ?
 Or, what if DOM elements like `Text-1`, `Text-2` are just static and does not need JS to be there?
-If you go with CSR, you are shipping everything with the JS bundle and neglecting SEO meta data.
+If you go with CSR, you are shipping everything with the JS bundle and neglecting SEO metadata.
 But if you go with SSR, you can generate those HTML elements and SEO tags beforehand to ship less JS code and make your site more open to crawlers.
 
-### What is Hydration and Why We Need It
+### What is Hydration and Why do We Need It
 
-The Hydration is a process of supplying the JS code for server side generated pages. Let's elaborate.
+The Hydration is a process of supplying the JS code for server-side generated pages. Let's elaborate.
 
-When you render components on the backend with `ReactDOMServer.renderToString` it actually attaches all the event handlers and necessary imports for code to work.
+When you render components on the backend with `ReactDOMServer.renderToString` it actually attaches all the event handlers and necessary imports for the code to work.
 
 Example SSR JS output:
 
@@ -116,12 +116,12 @@ We have pretty much all we need, but with a caveat, we are missing React and Rea
 
 We can imagine the page as a dry sponge - all the `useEffect`, `useState`, handlers, and listeners waiting for the hydration to work. Then once we hydrate the page with parsed JS code, all the UI elements will be interactable. Just like turning a dry sponge into a watery sponge because a sponge is quite useless - without water, it won't work, just like our page.
 
-Reason I say parsed JS code couple of time throughout the article is to make a point. SSR is fast but it takes time to hydrate to page because all the JS code needs to be parsed to fully hydrate.
+The reason I say parsed JS code a couple of times throughout the article is to make a point. SSR is fast but it takes time to hydrate to page because all the JS code needs to be parsed to fully hydrate.
 
 ### Why Vite over Webpack
 
 Vite was created by the same person who created VueJS to increase the DX. It uses `esbuild` for development under to hood to bundle the code faster. Thanks to esbuild we get incredibly fast
-Hot Module Replacement (HMR), fast server starts compared to Javascript based bundlers like Webpack. Also, uses Rollup for production builds, since it's more mature than esbuild in same manners.
+Hot Module Replacement (HMR), fast server starts compared to Javascript-based bundlers like Webpack. Also, uses Rollup for production builds, since it's more mature than esbuild in some manners.
 
 Overall,
 
@@ -140,7 +140,7 @@ npm i --save-dev @types/react @types/react-dom @vitejs/plugin-react compression 
 
 [🔗 Project's Github address](https://github.com/ogzhanolguncu/ssr-react-typescript-vite)
 
-Before moving forward with the server side we need to configure Vite. Luckly all it takes is few lines.
+Before moving forward with the server side we need to configure Vite. Luckily all it takes is a few lines.
 
 #### vite.config.js
 
@@ -173,7 +173,7 @@ And, will create a index.html file to run all the JS code.
 </html>
 ```
 
-Just like a regular React app, we will create a `src` folder constists of,
+Just like a regular React app, we will create a `src` folder consists of,
 
 ```bash
 src
@@ -425,7 +425,7 @@ That's right, without client-side logic - hydration. Pages would be entirely sta
 
 ## SSG on top of SSR
 
-Since we already the concepts by now this will be a walk in the park.
+Since we already know the concepts by now this will be a walk in the park.
 
 #### prerender.js
 
@@ -459,7 +459,7 @@ const routesToPrerender = fs.readdirSync(toAbsolute('src/pages')).map((file) => 
 })();
 ```
 This function uses the same logic as SSR and creates separate files for each page that are known ahead of time, but we won't be able to change anything after the build phase. That's why it is called 'Static'.
-Following that approach is extremely valuable for sites like blogs, documentation sites, E-commerce product listing. Basically things that does not change often. 
+Following that approach is extremely valuable for sites like blogs, documentation sites, E-commerce product listings. Basically, things that do not change often. 
 
 
 To run this code,
