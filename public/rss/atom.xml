@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ogzhanolguncu.com</id>
     <title>Articles by Oguzhan Olguncu</title>
-    <updated>2023-07-19T12:36:33.042Z</updated>
+    <updated>2023-07-19T13:57:51.655Z</updated>
     <generator>Feed for Node.js</generator>
     <author>
         <name>Oguzhan Olguncu</name>
@@ -17,9 +17,9 @@
         <title type="html"><![CDATA[Write Your Own JSON Parser with Node and Typescript]]></title>
         <id>https://ogzhanolguncu.com/blog/write-your-own-json-parser</id>
         <link href="https://ogzhanolguncu.com/blog/write-your-own-json-parser"/>
-        <updated>2023-07-18T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.]]></summary>
-        <content type="html"><![CDATA[There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.]]></content>
+        <updated>2023-07-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Let's write our very own JSON Parser from scratch]]></summary>
+        <content type="html"><![CDATA[Let's write our very own JSON Parser from scratch]]></content>
         <author>
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
@@ -29,7 +29,7 @@
             <name>Oguzhan Olguncu</name>
             <email>ogzhan11@gmail.com</email>
         </contributor>
-        <published>2023-07-18T00:00:00.000Z</published>
+        <published>2023-07-19T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Improving Javascript Error Handling using Neverthrow for Rust-like Robustness]]></title>

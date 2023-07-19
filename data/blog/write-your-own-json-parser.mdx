@@ -1,7 +1,7 @@
 ---
 title: "Write Your Own JSON Parser with Node and Typescript"
-publishedAt: "2023-07-18"
-summary: "There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS."
+publishedAt: "2023-07-19"
+summary: "Let's write our very own JSON Parser from scratch"
 image: "/static/images/write-your-own-json-parser/json-parser-bg.jpg"
 languageTags: ["typescript", "nodejs"]
 isPopular: false
@@ -9,19 +9,17 @@ isPopular: false
 
 ![Write Your Own JSON Parser with Node and Typescript - Cover](/static/images/write-your-own-json-parser/json-parser-bg.jpg)
 
-Hey, today we will write our own JSON parser from scratch. Before we begin, I'd like to thank John Crickett for inspiring this [blog post](https://codingchallenges.fyi/challenges/challenge-json-parser).
+JSON parsers are everywhere in today's development landscape. For example, even in VS Code, a JSON parser is built-in. You can test this by copying and pasting a valid or invalid JSON into a new file in VS Code. It will immediately pick up the file, parse it, and highlight any errors. Go ahead, try it out!
 
-Okay, where were we? Yeah, JSON parsers are pretty much everywhere we work or use nowadays. For example, a JSON parser is actually built into VS Code. You can test this by copying and pasting a valid or invalid JSON into a new file in VS Code. It will immediately pick up the file, parse it, and highlight it. Go ahead, try it!"
-
-There are some key concepts that we need to check before writing our actual code.
+Now, let's delve into some key concepts we need to understand before diving into the code.
 
 ## Lexical Analysis a.k.a Tokenizing
 
-If you are writing your own interpreter or compiler, tokenizing is always the first step. Even your favorite prettiers tokenize the entire file before prettifying it. Tokenizing involves breaking the code or input into smaller, understandable parts. This is essential because it allows the parser to determine where to start and stop during the parsing process.
+Tokenizing is always the first step when writing your own interpreter or compiler. Even your favorite prettifiers tokenize the entire file before prettifying it. Tokenizing involves breaking the code or input into smaller, understandable parts. This is essential because it allows the parser to determine where to start and stop during the parsing process.
 
-Tokenizing helps in understanding the structure of the code or input being processed. By breaking it down into tokens, such as keywords, symbols, and literals, we gain insight into the underlying components. Additionally, tokenizing plays a crucial role in error handling. By identifying and categorizing tokens, we can detect and handle syntax errors more effectively.
+Tokenizing helps us understand the structure of the code or input being processed. By breaking it down into tokens, such as keywords, symbols, and literals, we gain insight into the underlying components. Additionally, tokenizing plays a crucial role in error handling. By identifying and categorizing tokens, we can detect and handle syntax errors more effectively.
 
-In the upcoming sections of this blog post, we will dive deeper into the process of tokenizing. We will provide a step-by-step guide on how to implement tokenizing in your own JSON parser. So, let's get started!"
+In the upcoming sections of this blog post, we will dive deeper into the process of tokenizing. We will provide a step-by-step guide on how to implement tokenizing in your own JSON parser. So, let's get started!
 
 Let's imagine we have a JSON like this:
 
@@ -35,8 +33,6 @@ Let's imagine we have a JSON like this:
 }
 ```
 
-What do you see? Don't just look at key-value pairs. Try to see rules that governs JSON.
-
 For example:
 
 - Opening brace
@@ -46,7 +42,7 @@ For example:
 - Open bracket and close bracket
 - Boolean value and null value
 
-If we had to come up with an Type for this in Typescript, it would be something similar to this.
+If we had to come up with a Type for this in TypeScript, it would be something similar to this:
 
 ```ts
 export type TokenType =
@@ -70,7 +66,7 @@ export interface Token {
 }
 ```
 
-It make sense, right? Now let's try to conver this into a array of tokens manually before writing the actual tokenizer to see how it would actually look in the end.
+Does it make sense? Now let's manually convert this into an array of tokens before we write the actual tokenizer, to see how it will look in the end. This way, we can better understand the process step by step.
 
 ```ts
 [
@@ -99,10 +95,9 @@ It make sense, right? Now let's try to conver this into a array of tokens manual
 ];
 ```
 
-So, when tokenizer finishes tokenizing we wanna end up with this.
+When the tokenizer finishes tokenizing, we want to end up with the array of tokens we manually created earlier.
 
-Let's write our first piece of code. I assume already setup a Node, Typescript dev environment for yourself and created a entry file called `main.ts`.
-Withing the same directory as `main.ts`, let's create a file called `types.ts` and dump those inside.
+Let's take the first step and write our initial code. Assuming you have already set up a Node.js and TypeScript development environment for yourself, create an entry file called main.ts within the same directory. Additionally, let's create a file called types.ts and place the token type definitions inside it.
 
 ```ts
 export type TokenType =
@@ -135,9 +130,11 @@ export const tokenizer = (input: string): Token[] => {
 };
 ```
 
-Now, let's think about how to iterate over the JSON string and get tokens as we iterate through.
+Alright, let's think about how we can go through the JSON string to get our tokens.
 
-One way to do it would be having a variable to track where we are and increase its value by one or more depending on the situation, and keep iterating until variable is equal to JSON string length.
+One way to do it is by using a variable to track our current position in the JSON string. We'll keep increasing its value until we cover the entire string length.
+
+By doing this, we'll be able to process each character one by one and identify the corresponding tokens. This step-by-step approach will lay the foundation for our tokenizer, ensuring we extract the necessary information from the JSON data.
 
 ```ts
 export const tokenizer = (input: string): Token[] => {
@@ -151,7 +148,7 @@ export const tokenizer = (input: string): Token[] => {
 };
 ```
 
-Okay, since we fixed that issue now we need another variable to hold the tokens, right? Let's add this as well.
+Alright, now that we've addressed that, we need another variable to store the tokens, right? Let's go ahead and add that.
 
 ```ts
 export const tokenizer = (input: string): Token[] => {
@@ -165,7 +162,7 @@ export const tokenizer = (input: string): Token[] => {
 };
 ```
 
-In our JSON example
+In our JSON example:
 
 ```json
 {
@@ -177,7 +174,7 @@ In our JSON example
 }
 ```
 
-First thing to token here is open brace. Let's add this.
+First thing to token here is `BraceOpen`. Let's add this.
 
 ```ts
 export const tokenizer = (input: string): Token[] => {
@@ -244,7 +241,7 @@ export const tokenizer = (input: string): Token[] => {
 };
 ```
 
-It's time to implement the trickest of all, `String`. I'm not going copy entire function over and over from now on, I'll just show new ones.
+It's time to implement the trickiest part of all: handling String. Instead of copying the entire function repeatedly, I'll just show you the new ones.
 
 ```ts
 if (char === '"') {
@@ -260,10 +257,13 @@ if (char === '"') {
 }
 ```
 
-The thing about `String` is, it's not a single char like `Comma` or `Colon` thats why when we find a `Quote` we have to iterate through until we find the closing `Quote`. This is what this function is doing.
-If it's not an ending `Quote` we slowly keep building an string by appending new chars to `value` variable.
+The unique aspect of String values is that they are not single characters like Comma or Colon. When we encounter a Quote, our task is to iterate through the JSON string until we find the closing Quote. This function handles that process.
 
-Rest is pretty simple
+If we haven't reached the ending Quote yet, we continue building the string gradually by appending new characters to the value variable.
+
+The rest of the process is relatively straightforward, and we can proceed smoothly with handling other token types.
+
+Let's keep up the momentum and move forward!
 
 ```ts
 // For number, boolean and null values
@@ -286,9 +286,11 @@ if (/[\d\w]/.test(char)) {
 }
 ```
 
-We apply the same technique that we used for `String` and build a char array for `null`,`true`,`false` or `number`. Then, simply check for different data types. And, just incase if none of them match we will throw an `Unexpected value` error.
+We apply a similar technique that we used for handling String values to build a character array for `null`, `true`, `false`, or `number` data types. By doing so, we can systematically examine each character and identify the respective data types.
 
-Here are the utilies for them.
+As we parse the characters and recognize the data type, we proceed accordingly. If none of these data types match, we handle the situation by throwing an `Unexpected value` error.
+
+Here are the utilies for them:
 
 ```ts
 //utils.ts
@@ -671,3 +673,19 @@ console.log(
   )
 );
 ```
+
+## Conclusion
+
+And that's it! Today, we embarked on the journey of creating our very own JSON parser from scratch. It's been a thrilling ride, and we owe a huge shoutout to John Crickett for inspiring this adventure.
+
+We learned about the crucial concept of tokenizing, breaking down the code into smaller, understandable parts. This sets the foundation for the parser to work its magic.
+
+Our tokenizer expertly handles JSON strings and produces an array of tokens that capture the essence of the data structure.
+
+Moving on to the parser, we built an Abstract Syntax Tree (AST) that neatly organizes the key-value pairs and nested structures of the JSON data.
+
+It's incredible how much power we've packed into this parser, enabling us to handle various JSON data types and their complexities.
+
+So, with our tokenizer and parser working hand in hand, we can confidently say that we've successfully crafted our very own JSON parser!
+
+Now go forth and experiment with your newfound knowledge. Keep tinkering and exploring the fascinating world of programming. Until next time, happy coding! 🚀😄

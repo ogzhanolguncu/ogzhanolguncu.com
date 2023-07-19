@@ -10,13 +10,13 @@
     "items": [
         {
             "id": "https://ogzhanolguncu.com/blog/write-your-own-json-parser",
-            "content_html": "There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.",
+            "content_html": "Let's write our very own JSON Parser from scratch",
             "url": "https://ogzhanolguncu.com/blog/write-your-own-json-parser",
             "title": "Write Your Own JSON Parser with Node and Typescript",
-            "summary": "There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.",
+            "summary": "Let's write our very own JSON Parser from scratch",
             "image": "https://ogzhanolguncu.com/static/images/write-your-own-json-parser/json-parser-bg.jpg",
-            "date_modified": "2023-07-18T00:00:00.000Z",
-            "date_published": "2023-07-18T00:00:00.000Z",
+            "date_modified": "2023-07-19T00:00:00.000Z",
+            "date_published": "2023-07-19T00:00:00.000Z",
             "author": {
                 "name": "Oguzhan Olguncu"
             },

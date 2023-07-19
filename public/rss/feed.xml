@@ -4,7 +4,7 @@
         <title>Articles by Oguzhan Olguncu</title>
         <link>https://ogzhanolguncu.com</link>
         <description></description>
-        <lastBuildDate>Wed, 19 Jul 2023 12:36:33 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 19 Jul 2023 13:57:51 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>en-us</language>
@@ -18,9 +18,9 @@
             <title><![CDATA[Write Your Own JSON Parser with Node and Typescript]]></title>
             <link>https://ogzhanolguncu.com/blog/write-your-own-json-parser</link>
             <guid>https://ogzhanolguncu.com/blog/write-your-own-json-parser</guid>
-            <pubDate>Tue, 18 Jul 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.]]></description>
-            <content:encoded><![CDATA[There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS.]]></content:encoded>
+            <pubDate>Wed, 19 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[Let's write our very own JSON Parser from scratch]]></description>
+            <content:encoded><![CDATA[Let's write our very own JSON Parser from scratch]]></content:encoded>
             <author>ogzhan11@gmail.com (Oguzhan Olguncu)</author>
             <category domain="Web development/Javascript/Typescript">typescript,nodejs</category>
             <enclosure url="https://ogzhanolguncu.com/static/images/write-your-own-json-parser/json-parser-bg.jpg" length="0" type="image/jpg"/>
