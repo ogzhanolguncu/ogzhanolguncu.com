@@ -1,0 +1,673 @@
+---
+title: "Write Your Own JSON Parser with Node and Typescript"
+publishedAt: "2023-07-18"
+summary: "There is way to persist some states within NodeJS without passing parameters around. Today we will discover how to use Async Local Storage with Typescript within NextJS."
+image: "/static/images/write-your-own-json-parser/json-parser-bg.jpg"
+languageTags: ["typescript", "nodejs"]
+isPopular: false
+---
+
+![Write Your Own JSON Parser with Node and Typescript - Cover](/static/images/write-your-own-json-parser/json-parser-bg.jpg)
+
+Hey, today we will write our own JSON parser from scratch. Before we begin, I'd like to thank John Crickett for inspiring this [blog post](https://codingchallenges.fyi/challenges/challenge-json-parser).
+
+Okay, where were we? Yeah, JSON parsers are pretty much everywhere we work or use nowadays. For example, a JSON parser is actually built into VS Code. You can test this by copying and pasting a valid or invalid JSON into a new file in VS Code. It will immediately pick up the file, parse it, and highlight it. Go ahead, try it!"
+
+There are some key concepts that we need to check before writing our actual code.
+
+## Lexical Analysis a.k.a Tokenizing
+
+If you are writing your own interpreter or compiler, tokenizing is always the first step. Even your favorite prettiers tokenize the entire file before prettifying it. Tokenizing involves breaking the code or input into smaller, understandable parts. This is essential because it allows the parser to determine where to start and stop during the parsing process.
+
+Tokenizing helps in understanding the structure of the code or input being processed. By breaking it down into tokens, such as keywords, symbols, and literals, we gain insight into the underlying components. Additionally, tokenizing plays a crucial role in error handling. By identifying and categorizing tokens, we can detect and handle syntax errors more effectively.
+
+In the upcoming sections of this blog post, we will dive deeper into the process of tokenizing. We will provide a step-by-step guide on how to implement tokenizing in your own JSON parser. So, let's get started!"
+
+Let's imagine we have a JSON like this:
+
+```json
+{
+  "id": "647ceaf3657eade56f8224eb",
+  "index": 0,
+  "something": [],
+  "boolean": true,
+  "nullValue": null
+}
+```
+
+What do you see? Don't just look at key-value pairs. Try to see rules that governs JSON.
+
+For example:
+
+- Opening brace
+- Then, string key "id"
+- Then, a colon
+- Then, string value "647ceaf3657eade56f8224eb"
+- Open bracket and close bracket
+- Boolean value and null value
+
+If we had to come up with an Type for this in Typescript, it would be something similar to this.
+
+```ts
+export type TokenType =
+  | "BraceOpen"
+  | "BraceClose"
+  | "BracketOpen"
+  | "BracketClose"
+  | "String"
+  | "Number"
+  | "Comma"
+  | "Colon"
+  | "True"
+  | "False"
+  | "Null";
+
+//And a token object would look like this
+
+export interface Token {
+  type: TokenType;
+  value: string;
+}
+```
+
+It make sense, right? Now let's try to conver this into a array of tokens manually before writing the actual tokenizer to see how it would actually look in the end.
+
+```ts
+[
+  { type: "BraceOpen", value: "{" },
+  { type: "String", value: "id" },
+  { type: "Colon", value: ":" },
+  { type: "String", value: "647ceaf3657eade56f8224eb" },
+  { type: "Comma", value: "," },
+  { type: "String", value: "index" },
+  { type: "Colon", value: ":" },
+  { type: "Number", value: "0" },
+  { type: "Comma", value: "," },
+  { type: "String", value: "something" },
+  { type: "Colon", value: ":" },
+  { type: "BracketOpen", value: "[" },
+  { type: "BracketClose", value: "]" },
+  { type: "Comma", value: "," },
+  { type: "String", value: "boolean" },
+  { type: "Colon", value: ":" },
+  { type: "True", value: "true" },
+  { type: "Comma", value: "," },
+  { type: "String", value: "nullValue" },
+  { type: "Colon", value: ":" },
+  { type: "Null", value: "null" },
+  { type: "BraceClose", value: "}" },
+];
+```
+
+So, when tokenizer finishes tokenizing we wanna end up with this.
+
+Let's write our first piece of code. I assume already setup a Node, Typescript dev environment for yourself and created a entry file called `main.ts`.
+Withing the same directory as `main.ts`, let's create a file called `types.ts` and dump those inside.
+
+```ts
+export type TokenType =
+  | "BraceOpen"
+  | "BraceClose"
+  | "BracketOpen"
+  | "BracketClose"
+  | "String"
+  | "Number"
+  | "Comma"
+  | "Colon"
+  | "True"
+  | "False"
+  | "Null";
+
+export interface Token {
+  type: TokenType;
+  value: string;
+}
+```
+
+Now, go ahead and create another file called `tokenizer.ts`.
+
+```ts
+//tokenizer.ts
+import { Token } from "./types.js";
+
+export const tokenizer = (input: string): Token[] => {
+  return [];
+};
+```
+
+Now, let's think about how to iterate over the JSON string and get tokens as we iterate through.
+
+One way to do it would be having a variable to track where we are and increase its value by one or more depending on the situation, and keep iterating until variable is equal to JSON string length.
+
+```ts
+export const tokenizer = (input: string): Token[] => {
+  let current = 0;
+
+  while (current < input.length) {
+    let char = input[current];
+
+    current++;
+  }
+};
+```
+
+Okay, since we fixed that issue now we need another variable to hold the tokens, right? Let's add this as well.
+
+```ts
+export const tokenizer = (input: string): Token[] => {
+  let current = 0;
+  const tokens: Token[] = []; //Since we know the type of token we can make sure this array only accepts type Token.
+  while (current < input.length) {
+    let char = input[current];
+
+    current++;
+  }
+};
+```
+
+In our JSON example
+
+```json
+{
+  "id": "647ceaf3657eade56f8224eb",
+  "index": 0,
+  "something": [],
+  "boolean": true,
+  "nullValue": null
+}
+```
+
+First thing to token here is open brace. Let's add this.
+
+```ts
+export const tokenizer = (input: string): Token[] => {
+  let current = 0;
+  const tokens: Token[] = [];
+
+  while (current < input.length) {
+    let char = input[current];
+
+    if (char === "{") {
+      tokens.push({ type: "BraceOpen", value: char });
+      current++;
+      continue;
+    }
+  }
+};
+```
+
+So, if char is `BraceOpen`, we simply push it to `tokens` array and increment the current. Same goes for `BraceClose`,`BracketOpen`,`BracketClose`,`Colon` and `Comma` so let's add those as well.
+
+```ts
+export const tokenizer = (input: string): Token[] => {
+  let current = 0;
+  const tokens: Token[] = [];
+
+  while (current < input.length) {
+    let char = input[current];
+
+    if (char === "{") {
+      tokens.push({ type: "BraceOpen", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === "}") {
+      tokens.push({ type: "BraceClose", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === "[") {
+      tokens.push({ type: "BracketOpen", value: char });
+      current++;
+      continue;
+    }
+    if (char === "]") {
+      tokens.push({ type: "BracketClose", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === ":") {
+      tokens.push({ type: "Colon", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === ",") {
+      tokens.push({ type: "Comma", value: char });
+      current++;
+      continue;
+    }
+  }
+};
+```
+
+It's time to implement the trickest of all, `String`. I'm not going copy entire function over and over from now on, I'll just show new ones.
+
+```ts
+if (char === '"') {
+  let value = "";
+  char = input[++current];
+  while (char !== '"') {
+    value += char;
+    char = input[++current];
+  }
+  current++;
+  tokens.push({ type: "String", value });
+  continue;
+}
+```
+
+The thing about `String` is, it's not a single char like `Comma` or `Colon` thats why when we find a `Quote` we have to iterate through until we find the closing `Quote`. This is what this function is doing.
+If it's not an ending `Quote` we slowly keep building an string by appending new chars to `value` variable.
+
+Rest is pretty simple
+
+```ts
+// For number, boolean and null values
+if (/[\d\w]/.test(char)) {
+  // if it's a number or a word character
+  let value = "";
+  while (/[\d\w]/.test(char)) {
+    value += char;
+    char = input[++current];
+  }
+
+  if (isNumber(value)) tokens.push({ type: "Number", value });
+  else if (isBooleanTrue(value)) tokens.push({ type: "True", value });
+  else if (isBooleanFalse(value))
+    tokens.push({ type: "False", value });
+  else if (isNull(value)) tokens.push({ type: "Null", value });
+  else throw new Error("Unexpected value: " + value);
+
+  continue;
+}
+```
+
+We apply the same technique that we used for `String` and build a char array for `null`,`true`,`false` or `number`. Then, simply check for different data types. And, just incase if none of them match we will throw an `Unexpected value` error.
+
+Here are the utilies for them.
+
+```ts
+//utils.ts
+
+export const isBooleanTrue = (value: string): boolean =>
+  value === "true";
+export const isBooleanFalse = (value: string): boolean =>
+  value === "false";
+export const isNull = (value: string): boolean => value === "null";
+export const isNumber = (value: string): boolean =>
+  !isNaN(Number(value));
+```
+
+Let's finish off with whitespace skipping and default condition to handle unknown/unexpected chars.
+
+```ts
+// Skip whitespace
+if (/\s/.test(char)) {
+  current++;
+  continue;
+}
+
+throw new Error("Unexpected character: " + char);
+```
+
+Finished version of `tokenizer.ts`
+
+```ts
+import { Token } from "./types.js";
+import {
+  isNumber,
+  isBooleanTrue,
+  isBooleanFalse,
+  isNull,
+} from "./utils.js";
+
+export const tokenizer = (input: string): Token[] => {
+  let current = 0;
+  const tokens: Token[] = [];
+
+  while (current < input.length) {
+    let char = input[current];
+
+    if (char === "{") {
+      tokens.push({ type: "BraceOpen", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === "}") {
+      tokens.push({ type: "BraceClose", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === "[") {
+      tokens.push({ type: "BracketOpen", value: char });
+      current++;
+      continue;
+    }
+    if (char === "]") {
+      tokens.push({ type: "BracketClose", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === ":") {
+      tokens.push({ type: "Colon", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === ",") {
+      tokens.push({ type: "Comma", value: char });
+      current++;
+      continue;
+    }
+
+    if (char === '"') {
+      let value = "";
+      char = input[++current];
+      while (char !== '"') {
+        value += char;
+        char = input[++current];
+      }
+      current++;
+      tokens.push({ type: "String", value });
+      continue;
+    }
+
+    // For number, boolean and null values
+    if (/[\d\w]/.test(char)) {
+      // if it's a number or a word character
+      let value = "";
+      while (/[\d\w]/.test(char)) {
+        value += char;
+        char = input[++current];
+      }
+
+      if (isNumber(value)) tokens.push({ type: "Number", value });
+      else if (isBooleanTrue(value))
+        tokens.push({ type: "True", value });
+      else if (isBooleanFalse(value))
+        tokens.push({ type: "False", value });
+      else if (isNull(value)) tokens.push({ type: "Null", value });
+      else throw new Error("Unexpected value: " + value);
+
+      continue;
+    }
+
+    // Skip whitespace
+    if (/\s/.test(char)) {
+      current++;
+      continue;
+    }
+
+    throw new Error("Unexpected character: " + char);
+  }
+
+  return tokens;
+};
+```
+
+Let's move on to Parser.
+
+## Parser
+
+The parser is where we make sense out of our tokens. Now we have to build our Abstract Syntax Tree (AST).
+The AST represents the structure and meaning of the code in a hierarchical tree-like structure. It captures the relationships between different elements of the code, such as statements, expressions, and declarations.
+
+I highly suggest you to check this website to learn more about [AST](https://rajasegar.github.io/ast-builder/).
+
+Every language or format you can think of uses some form of AST based on grammar rules of the programming language or data format being parsed. So, we will do that together now.
+
+It's actually pretty similar to [tokenizer](#tokenizer). We will iterate over our tokens and form a tree depending on that value type.
+
+Let's start by defining our type first in the `types.ts` file
+
+```ts
+//types.ts
+export type ASTNode =
+  | { type: "Object"; value: { [key: string]: ASTNode } }
+  | { type: "Array"; value: ASTNode[] }
+  | { type: "String"; value: string }
+  | { type: "Number"; value: number }
+  | { type: "Boolean"; value: boolean }
+  | { type: "Null" };
+```
+
+Now, our `parser.ts` file.
+
+```ts
+//parser.ts
+export const parser = (tokens: Token[]): ASTNode => {
+  if (!tokens.length) {
+    throw new Error("Nothing to parse. Exiting!");
+  }
+  let current = 0;
+
+  function advance() {
+    return tokens[++current];
+  }
+};
+```
+
+If token list is empty, we simply throw error. And, in order to iterate through our tokens we need a counter variable and a function to increment it.
+
+Let's start by parsing simple values first.
+
+```ts
+//parser.ts
+function parseValue(): ASTNode {
+  const token = tokens[current];
+  switch (token.type) {
+    case "String":
+      return { type: "String", value: token.value };
+    case "Number":
+      return { type: "Number", value: Number(token.value) };
+    case "True":
+      return { type: "Boolean", value: true };
+    case "False":
+      return { type: "Boolean", value: false };
+    case "Null":
+      return { type: "Null" };
+    case "BraceOpen":
+      return parseObject(); //Will be implemented soon
+    case "BracketOpen":
+      return parseArray(); //Will be implemented soon
+    default:
+      throw new Error(`Unexpected token type: ${token.type}`);
+  }
+}
+```
+
+The provided code snippet is relatively straightforward and handles basic data types like strings, numbers, booleans, and null using a simple switch statement.
+
+However, when encountering a `BraceOpen` or `BracketOpen`, the parser needs to handle the nested objects and arrays recursively. This means calling `parseValue()` within `parseObject()` or `parseArray()` until all the inner key-value pairs or elements are evaluated.
+
+For instance, when parsing an object represented by the following JSON data:
+
+```json
+{
+  "id": "647ceaf3657eade56f8224eb",
+  "index": 0,
+  "person": {
+    "name": "Oz",
+    "address": "Somewhere magical"
+  },
+  "boolean": true,
+  "nullValue": null
+}
+```
+
+The parser needs to iterate through the object and call `parseValue()` for each key-value pair, handling nested objects and arrays recursively.
+
+Let's add our `parseObject()`
+
+```ts
+//parser.ts
+function parseObject() {
+  const node: ASTNode = { type: "Object", value: {} };
+  let token = advance(); // Eat '{'
+  // Iterate through the tokens until we reach a BraceClose (end of object)
+  while (token.type !== "BraceClose") {
+    // Ensure that the token represents a valid string key
+    if (token.type === "String") {
+      const key = token.value;
+      token = advance(); // Eat key
+      if (token.type !== "Colon")
+        throw new Error("Expected : in key-value pair");
+      token = advance(); // Eat ':'
+      const value = parseValue(); // Recursively parse the value
+      node.value[key] = value;
+    } else {
+      throw new Error(
+        `Expected String key in object. Token type: ${token.type}`
+      );
+    }
+    token = advance(); // Eat value or ','
+    // Check for a comma to handle multiple key-value pairs
+    if (token.type === "Comma") token = advance(); // Eat ',' if present
+  }
+
+  return node;
+}
+```
+
+In this code, we expect the ASTNode to represent an object, and we iterate through the tokens until we encounter a `BraceClose`, which marks the end of the object.
+
+Within the loop, we check if the current token type is `String` to ensure that we are processing a key-value pair and not encountering another object. If it's a valid string key, we move forward by consuming the token and then expect to find a colon ":" separating the key from the value.
+
+Once we find the colon, we recursively call `parseValue()` to parse the value of the key-value pair. This is important because the value might be another object or array, and we need to handle nested structures correctly.
+
+We continue this process iteratively, consuming tokens and parsing key-value pairs until we reach the end of the object (marked by the `BraceClose` token). Along the way, we might encounter commas (",") between key-value pairs, and we skip them as they separate multiple key-value pairs within the object.
+
+By repeating this process recursively, we can successfully parse all the inner objects and nested structures present in the JSON data.
+
+Let's move onto `parseArray()`
+
+```ts
+//parser.ts
+function parseArray() {
+  const node: ASTNode = { type: "Array", value: [] };
+  let token = advance(); // Eat '['
+
+  while (token.type !== "BracketClose") {
+    const value = parseValue();
+    node.value.push(value);
+
+    token = advance(); // Eat value or ','
+    if (token.type === "Comma") token = advance(); // Eat ',' if present
+  }
+
+  return node;
+}
+```
+
+This works in a similar fashion, as we parse new values we simply push them to array store in node object.
+
+We actually finished our parser here is the full code:
+
+```ts
+//parser.ts
+export const parser = (tokens: Token[]): ASTNode => {
+  if (!tokens.length) {
+    throw new Error("Nothing to parse. Exiting!");
+  }
+  let current = 0;
+
+  function advance() {
+    return tokens[++current];
+  }
+
+  function parseValue(): ASTNode {
+    const token = tokens[current];
+    switch (token.type) {
+      case "String":
+        return { type: "String", value: token.value };
+      case "Number":
+        return { type: "Number", value: Number(token.value) };
+      case "True":
+        return { type: "Boolean", value: true };
+      case "False":
+        return { type: "Boolean", value: false };
+      case "Null":
+        return { type: "Null" };
+      case "BraceOpen":
+        return parseObject();
+      case "BracketOpen":
+        return parseArray();
+      default:
+        throw new Error(`Unexpected token type: ${token.type}`);
+    }
+  }
+
+  function parseObject() {
+    const node: ASTNode = { type: "Object", value: {} };
+    let token = advance(); // Eat '{'
+
+    while (token.type !== "BraceClose") {
+      if (token.type === "String") {
+        const key = token.value;
+        token = advance(); // Eat key
+        if (token.type !== "Colon")
+          throw new Error("Expected : in key-value pair");
+        token = advance(); // Eat ':'
+        const value = parseValue(); // Recursively parse the value
+        node.value[key] = value;
+      } else {
+        throw new Error(
+          `Expected String key in object. Token type: ${token.type}`
+        );
+      }
+      token = advance(); // Eat value or ','
+      if (token.type === "Comma") token = advance(); // Eat ',' if present
+    }
+
+    return node;
+  }
+
+  function parseArray() {
+    const node: ASTNode = { type: "Array", value: [] };
+    let token = advance(); // Eat '{'
+
+    while (token.type !== "BracketClose") {
+      const value = parseValue();
+      node.value.push(value);
+
+      token = advance(); // Eat value or ','
+      if (token.type === "Comma") token = advance(); // Eat ',' if present
+    }
+
+    return node;
+  }
+
+  const AST = parseValue();
+
+  return AST;
+};
+```
+
+Now, in your `main.ts` you can do this to test it:
+
+```ts
+//parser.ts
+
+import { parser } from "./parser.js";
+import { tokenizer } from "./tokenizer.js";
+
+console.log(
+  parser(
+    tokenizer(`{
+  "id": "647ceaf3657eade56f8224eb",
+  "index": 0,
+  "anArray": [],
+  "boolean": true,
+  "nullValue": null
+}
+`)
+  )
+);
+```
