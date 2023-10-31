@@ -124,7 +124,7 @@ export const selectBookList = (state: RootState) => state.book.bookList;
 export default bookSlice.reducer;
 ```
 
-I've updated ``ids` of `initalState`, previously it was `uuid()` which was getting generated randomly. But we need a constant id for testing. I usually make a fixture file to
+I've updated `ids` of `initalState`, previously it was `uuid()` which was getting generated randomly. But we need a constant id for testing. I usually make a fixture file to
 place those constant variables, but I did not want to make things complicated.
 
 ### AddBook.tsx
