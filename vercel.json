@@ -1,9 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/static/images/(.*)",
-      "headers": { "cache-control": "s-maxage=604800" },
-      "dest": "/images/$1"
-    }
-  ]
-}
