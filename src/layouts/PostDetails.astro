@@ -15,24 +15,13 @@ export interface Props {
 
 const { post } = Astro.props;
 
-const {
-  title,
-  author,
-  description,
-  ogImage,
-  canonicalURL,
-  pubDatetime,
-  modDatetime,
-  tags,
-} = post.data;
+const { title, author, description, ogImage, canonicalURL, pubDatetime, modDatetime, tags } =
+  post.data;
 
 const { Content } = await post.render();
 
 const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
-const ogUrl = new URL(
-  ogImageUrl ?? `/posts/${slugifyStr(title)}.png`,
-  Astro.url.origin
-).href;
+const ogUrl = new URL(ogImageUrl ?? `/blog/${slugifyStr(title)}.png`, Astro.url.origin).href;
 
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
@@ -59,20 +48,13 @@ const layoutProps = {
       onclick="(() => (history.length === 1) ? window.location = '/' : history.back())()"
     >
       <svg xmlns="http://www.w3.org/2000/svg"
-        ><path
-          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
-        ></path>
+        ><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
       </svg><span>Go back</span>
     </button>
   </div>
   <main id="main-content">
     <h1 transition:name={slugifyStr(title)} class="post-title">{title}</h1>
-    <Datetime
-      pubDatetime={pubDatetime}
-      modDatetime={modDatetime}
-      size="lg"
-      className="my-2"
-    />
+    <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} size="lg" className="my-2" />
     <article id="article" role="article" class="prose mx-auto mt-8 max-w-3xl">
       <Content />
     </article>
@@ -84,14 +66,9 @@ const layoutProps = {
     <div
       class="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row-reverse sm:items-end sm:gap-4"
     >
-      <button
-        id="back-to-top"
-        class="focus-outline whitespace-nowrap py-1 hover:opacity-75"
-      >
+      <button id="back-to-top" class="focus-outline whitespace-nowrap py-1 hover:opacity-75">
         <svg xmlns="http://www.w3.org/2000/svg" class="rotate-90">
-          <path
-            d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
-          ></path>
+          <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
         </svg>
         <span>Back to Top</span>
       </button>
@@ -117,8 +94,7 @@ const layoutProps = {
   function createProgressBar() {
     // Create the main container div
     const progressContainer = document.createElement("div");
-    progressContainer.className =
-      "progress-container fixed top-0 z-10 h-1 w-full bg-skin-fill";
+    progressContainer.className = "progress-container fixed top-0 z-10 h-1 w-full bg-skin-fill";
 
     // Create the progress bar div
     const progressBar = document.createElement("div");
@@ -136,11 +112,8 @@ const layoutProps = {
   /** Update the progress bar
    *  when user scrolls */
   function updateScrollProgress() {
-    const winScroll =
-      document.body.scrollTop || document.documentElement.scrollTop;
-    const height =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (winScroll / height) * 100;
     if (document) {
       const myBar = document.getElementById("myBar");

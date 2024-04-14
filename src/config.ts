@@ -5,7 +5,7 @@ export const SITE: Site = {
   author: "Oguzhan Olguncu",
   desc: "A developer who likes to hack things up. Dedicated learner, mentor and technical blogger - Oğuzhan Olguncu",
   title: "Oğuzhan Olguncu",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "pillars.webp",
   lightAndDarkMode: true,
   postPerPage: 10,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
