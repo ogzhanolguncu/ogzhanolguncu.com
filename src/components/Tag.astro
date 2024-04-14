@@ -9,7 +9,7 @@ const { tag, size = "sm" } = Astro.props;
 
 <li class={`inline-block ${size === "sm" ? "my-1 underline-offset-4" : "my-1 underline-offset-8"}`}>
   <a
-    href={`/tags/${tag}/`}
+    href={`/tags/${tag}`}
     transition:name={tag}
     class={`${size === "sm" ? "text-sm" : "text-lg"} pr-2 group`}
   >
@@ -24,7 +24,7 @@ const { tag, size = "sm" } = Astro.props;
 
 <style>
   a {
-    @apply relative underline decoration-dashed hover:-top-0.5 hover:text-skin-accent focus-visible:p-1;
+    @apply relative underline decoration-dashed hover:text-skin-accent focus-visible:p-1;
   }
   a svg {
     @apply -mr-5 h-6 w-6 scale-95 text-skin-base opacity-80 group-hover:fill-skin-accent;
