@@ -10,8 +10,6 @@ tags:
 description: In order to make your Next.js project robust and maintainable, you should be using ESLint, Typescript, Husky and Prettier.
 ---
 
-![How to Setup a Bulletproof Next.js Project with Typescript, ESLint, Prettier, Babel and Husky](/static/images/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky/husky-eslint-prettier.png)
-
 There is only one way to make sure you have consistent code across developers;
 you need to setup a well structured base project with **_ESLint_** to enforce rules, **_Prettier_** to be sure all the codes consistently formatted, **_Typescript_** to have type-safety
 and of course **_Husky_** to run automated tasks during commiting and pushing code via hooks. So, lets get started.
@@ -172,8 +170,6 @@ For this we need a package called module resolver, let's add it by typing `yarn 
 Time to combine all of this.
 
 ## Husky
-
-![husky-git-hook](/static/images/how-to-setup-a-bulletproof-nextjs-project-with-typescript-eslint-prettier-babel-and-husky/husky.jpg)
 
 Husky let us run a predefined set of commands before we commit or push our code, and these are called **_hooks_**. Before we dive into hooks, let's first install the dependencies.
 Type `yarn add --dev lint-staged husky`. By the way, setting Husky up is actually pretty simple, just add these configs into your `

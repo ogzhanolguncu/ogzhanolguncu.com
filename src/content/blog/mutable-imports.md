@@ -15,7 +15,7 @@ E.g, you cannot expect to have the same outcome when you import a file **catList
 
 Let's elaborate.
 
-![Mutating cat file](/static/images/mutable-imports/diagram.png)
+![Mutating cat file](/blog-images/mutable-imports/diagram.png)
 
 You can imagine this diagram as a backend application. An API endpoint imports an object and mutates it, then, maybe returns a JSON object as a result. Then, another file tries to
 imports the `cat.js`, but instead of getting an array of objects with full of cats, gets an empty array as result. Why? Due to Javascript's nature, objects are not immutable by default and
@@ -24,11 +24,11 @@ imports do not restart their states after being called.
 In order to understand this behaviour we need to get a level deeper. These days, we use bundlers such as Webpack or SWC to run and customize our codes. What they do is, they boil down all the code
 into a single file and let them share the same/common lexical scope - so we don't have to download each file individually when we requested a website. Let's try to reproduce the scenario above.
 
-![Bundling them together](/static/images/mutable-imports/bundle.png)
+![Bundling them together](/blog-images/mutable-imports/bundle.png)
 
 Even though we think we work in different files, in reality we are actually working in a single file at the end. But, preventing this behaviour is actually pretty easy.
 
-![Bundling them together](/static/images/mutable-imports/bundler-without-mutation.png)
+![Bundling them together](/blog-images/mutable-imports/bundler-without-mutation.png)
 
 As you can see once we copied the `CatList` into different variable, `console.log` and `pop()`, they both reference the different objects.
 

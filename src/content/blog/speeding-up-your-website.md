@@ -27,7 +27,7 @@ blogs, portfolios to increase user experience. And, I'm wickedly obsessed when i
 reducing bundle sizes, optimizing google fonts, using different bundles for the development environment and production environment, tricks to utilize for custom fonts.
 Finally, here we're, on an optimized website. Let's first see the _**GTmetrix**_ score.
 
-![gtmetrix-site-performance](/static/images/speeding-up-your-website/gtmetrix.png)
+![gtmetrix-site-performance](/blog-images/speeding-up-your-website/gtmetrix.png)
 
 As can be seen, there isn't much to squeeze out in terms of performance. Now, we will dissect these process step-by-step and see how to achieve a score like this.
 
@@ -136,7 +136,7 @@ webpack: (config, { dev, isServer }) => {
 
 Apart from that example, you also analyze your packages through Google Lighthouse, which offers alternative smaller packages for current ones.
 
-![recommend-alternative-package](/static/images/speeding-up-your-website/alternative-package.jpg)
+![recommend-alternative-package](/blog-images/speeding-up-your-website/alternative-package.jpg)
 
 ## Unused Dependencies
 

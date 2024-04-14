@@ -28,7 +28,7 @@ There are some steps in Solidity development:
 
 We will start off with the first one. Navigate to [Remix](https://remix.ethereum.org/) follow the steps below.
 
-![Smart Contracts in Ethereum](/static/images/mystical-world-of-solidity/create-contract.gif)
+![Smart Contracts in Ethereum](/blog-images/mystical-world-of-solidity/create-contract.gif)
 
 Then, paste this Solidity codes and we go over each line and explain what it does.
 
@@ -230,11 +230,11 @@ the money in the contract to the winner via `transfer()`. And for reusability, w
 
 Now that we have completed our contract it's time to compile it.
 
-![Compiled Contract](/static/images/mystical-world-of-solidity/compile-contract.gif)
+![Compiled Contract](/blog-images/mystical-world-of-solidity/compile-contract.gif)
 
 Everything is ready for the test in fake [EVM](https://ethereum.org/en/developers/docs/evm/)(Ethereum Virtual Machine).
 
-![Deployed and Tested Contract](/static/images/mystical-world-of-solidity/deployed-contract.webp)
+![Deployed and Tested Contract](/blog-images/mystical-world-of-solidity/deployed-contract.webp)
 
 We've deployed our contract from an account, then made three different contract calls and sent one ether from each account. In the end, one of the accounts received the prize sum.
 I purposely didn't show all the functionalities of our contract. Like, testing out `getBalance()` to check if the caller is the owner or `pickWinner()` without at least three players.

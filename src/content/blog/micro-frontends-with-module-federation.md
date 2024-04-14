@@ -703,7 +703,7 @@ Edit `index.html`.
 Now go to each project and run `yarn start` and navigate to localhost:3000. If you head over to sources tab in your
 developer console, you'll see that each app comes from different port.
 
-![Apps coming from different ports](/static/images/micro-frontends-with-module-federation/app-from.png)
+![Apps coming from different ports](/blog-images/micro-frontends-with-module-federation/app-from.png)
 
 ## Roundup
 

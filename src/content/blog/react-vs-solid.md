@@ -153,7 +153,7 @@ The performance tab shows an overall breakdown of CPU activity into four categor
 - Rendering: Style and layout calculations
 - Painting: Painting, compositing, resizing and decoding images
 
-![Function Composition in Javascript](/static/images/react-vs-solid/compare-two-performance.webp)
+![Function Composition in Javascript](/blog-images/react-vs-solid/compare-two-performance.webp)
 
 The left side is React, and the right is Solid. As you can see Scripting part is almost 3x faster, Rendering almost 2x faster, Painting part is abnormally faster.
 
@@ -161,11 +161,11 @@ If we went down a level deep on the scripting part, we see why.
 
 ### React
 
-![react-performance-detail](/static/images/react-vs-solid/react-performance-detail.webp)
+![react-performance-detail](/blog-images/react-vs-solid/react-performance-detail.webp)
 
 ### Solid
 
-![solid-performance-detail](/static/images/react-vs-solid/solid-performance-details.webp)
+![solid-performance-detail](/blog-images/react-vs-solid/solid-performance-details.webp)
 
 React first makes a Function Call which evaluates and commits VDOM into DOM, then makes the XHR calls. Since Solid does not have to deal with VDOM to DOM, it skips that part and starts requests right away.
 By the way, if you are wondering about what Functional Call and XHR Load, means you can check this site [Event References](https://developer.chrome.com/docs/devtools/evaluate-performance/performance-reference/).
@@ -174,11 +174,11 @@ Bundle sizes of apps:
 
 ### React
 
-![react-performance-detail](/static/images/react-vs-solid/react-bundle.webp)
+![react-performance-detail](/blog-images/react-vs-solid/react-bundle.webp)
 
 ### Solid
 
-![solid-performance-detail](/static/images/react-vs-solid/bundle-solid.webp)
+![solid-performance-detail](/blog-images/react-vs-solid/bundle-solid.webp)
 
 ## Conclusion
 

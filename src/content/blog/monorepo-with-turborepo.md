@@ -30,7 +30,7 @@ Turborepo recently acquired by Vercel and it's going even better since, thanks t
 - Tasks can depend on eachother. E.g Lint -> Test -> Build -> Deploy. Can change the order with help of _turbo.json_.
 - Parallel execution to use all the CPU cores and finish the tasks faster. Not a single core wasted.
 
-![turbo-vs-lerna-execution](/static/images/monorepo-with-turborepo/turbo-vs-lerna-execution.png)
+![turbo-vs-lerna-execution](/blog-images/monorepo-with-turborepo/turbo-vs-lerna-execution.png)
 
 This image taken from Turborepo's website to show you how powerful Turborepo is. Since **A** and **C** dependent on **B**, **B** first tries to build for other repos to start building meanwhile **A** and **C** doing their own linting and testing.
 But in conventional monorepos all the tasks gets executed in parallel, then, after task is completed they start doing the important stuff. Meanwhile all other CPU's in our computers desperately waits.

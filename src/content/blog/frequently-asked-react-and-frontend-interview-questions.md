@@ -421,7 +421,7 @@ First, I wanna talk about class component lifecycle methods, then I'll explain i
 
 ### Class Component Lifecycles
 
-![lifecycle-methods](/static/images/frequently-asked-react-and-frontend-interview-questions/lifecycles.png)
+![lifecycle-methods](/blog-images/frequently-asked-react-and-frontend-interview-questions/lifecycles.png)
 
 As you can see, there are some commonly used lifecycle methods.
 
@@ -546,7 +546,7 @@ On the other hand **Redux** is popular statement management library favored by l
 
 ## Redux Flow
 
-![Redux-Flow](/static/images/frequently-asked-react-and-frontend-interview-questions/redux-flow.gif)
+![Redux-Flow](/blog-images/frequently-asked-react-and-frontend-interview-questions/redux-flow.gif)
 
 This beautiful GIF taken from --> [Redux Data Flow](https://github.com/reduxjs/redux/issues/653).
 

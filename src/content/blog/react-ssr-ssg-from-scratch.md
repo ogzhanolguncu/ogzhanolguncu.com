@@ -114,7 +114,7 @@ const __vite_glob_0_0 = /* @__PURE__ */ Object.freeze(
 
 We have pretty much all we need, but with a caveat, we are missing React and ReactDOM in our `index.html` file. Our `useEffect`, `useState` or event handlers won't work without the React imports.
 
-![Page without Hydration](/static/images/react-ssr-ssg-from-scratch/sponge.webp)
+![Page without Hydration](/blog-images/react-ssr-ssg-from-scratch/sponge.webp)
 
 We can imagine the page as a dry sponge - all the `useEffect`, `useState`, handlers, and listeners waiting for the hydration to work. Then once we hydrate the page with parsed JS code, all the UI elements will be interactable. Just like turning a dry sponge into a watery sponge because a sponge is quite useless - without water, it won't work, just like our page.
 
