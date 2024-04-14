@@ -30,7 +30,7 @@ let tags = getUniqueTags(posts);
       {tags.map(({ tag }) => <Tag {tag} size="lg" />)}
     </ul>
     <ul>
-      {paginatedPosts.map(({ data, slug }) => <Card href={`/blog/${slug}/`} frontmatter={data} />)}
+      {paginatedPosts.map(({ data, slug }) => <Card href={`/blog/${slug}`} frontmatter={data} />)}
     </ul>
   </Main>
 
