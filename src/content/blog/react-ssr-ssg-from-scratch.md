@@ -15,15 +15,6 @@ Even though they are very complicated frameworks the fundamental idea is in fact
 As an end-user, we can't really see the simple steps - _building SSR out of React components or just simple HTML and JS_ - due to lots of abstraction in the frameworks to make our lives easier.
 But, today we will try to deep dive and see what hides beneath all the abstraction and explore the concept itself.
 
-## Table of Contents
-
-- [What is SSR](#what-is-ssr)
-- [Why we need SSR and why not use CSR instead](#why-we-need-ssr-and-why-not-use-csr-instead)
-- [What is Hydration and Why We Need It](#what-is-hydration-and-why-we-need-it)
-- [Why Vite over Webpack](#why-vite-over-webpack)
-- [Building the SSR](#building-the-ssr)
-- [SSG on top of SSR](#ssg-on-top-of-ssr)
-
 ### What is SSR
 
 Server Side Rendering has become so popular thanks to NextJS, but what is this SSR? Server Side Rendering, as already stated, actually renders your components in the server. It means the server actually doing the heavy lifting before responding to the upcoming
