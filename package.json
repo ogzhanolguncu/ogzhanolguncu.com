@@ -12,7 +12,8 @@
     "format:check": "prettier --check . --plugin=prettier-plugin-astro",
     "format": "prettier --write . --plugin=prettier-plugin-astro",
     "prepare": "husky install",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "preview:cf": "wrangler pages dev ./dist"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
@@ -47,7 +48,8 @@
     "prettier-plugin-astro": "^0.13.0",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "wrangler": "^3.51.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,mdx,json,astro}": [

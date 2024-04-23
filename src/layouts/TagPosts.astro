@@ -28,15 +28,15 @@ const { currentPage, totalPages, paginatedPosts, tag, tagName } = Astro.props;
   >
     <h1 slot="title" transition:name={tag}>{`Tag:${tag}`}</h1>
     <ul>
-      {paginatedPosts.map(({ data, slug }) => <Card href={`/blog/${slug}`} frontmatter={data} />)}
+      {paginatedPosts.map(({ data, slug }) => <Card href={`/blog/${slug}/`} frontmatter={data} />)}
     </ul>
   </Main>
 
   <Pagination
     {currentPage}
     {totalPages}
-    prevUrl={`/tags/${tag}${currentPage - 1 !== 1 ? "/" + (currentPage - 1) : ""}`}
-    nextUrl={`/tags/${tag}/${currentPage + 1}`}
+    prevUrl={`/tags/${tag}${currentPage - 1 !== 1 ? "/" + (currentPage - 1) : ""}/`}
+    nextUrl={`/tags/${tag}/${currentPage + 1}/`}
   />
 
   <Footer noMarginTop={totalPages > 1} />
