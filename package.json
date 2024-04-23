@@ -13,7 +13,8 @@
     "format": "prettier --write . --plugin=prettier-plugin-astro",
     "prepare": "husky install",
     "lint": "eslint .",
-    "preview:cf": "wrangler pages dev ./dist"
+    "preview:cf": "wrangler pages dev ./dist",
+    "deploy:cf": "pnpm run build && wrangler pages deploy dist"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
