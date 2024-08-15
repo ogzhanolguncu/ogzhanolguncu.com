@@ -10,6 +10,9 @@ import mdx from "@astrojs/mdx";
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  redirects: {
+    "/blog/react-redux-toolkit-with-typescript": "/blog/react-redux-toolkit-with-typescript/",
+  },
   integrations: [
     tailwind({
       applyBaseStyles: false,
