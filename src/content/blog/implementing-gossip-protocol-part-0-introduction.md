@@ -35,13 +35,52 @@ This simple act of random information exchange, when repeated over time, ensures
 
 ### Gossip Strategies
 
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
+Systems implement different strategies when using gossip protocol to spread information across distributed networks.
+Some systems prioritize consistency and focus on state conflict resolution and reliability, while others optimize for high throughput and speed.
+Each strategy reflects different trade-offs: a social media feed might favor speed over perfect consistency, while a distributed database might prioritize data accuracy over immediate updates.
+
+#### Push Based Approach
+
+![push-based](/blog-images/implementing-gossip-protocol-part-0/push-based.png)
+
+In a push-based approach, nodes actively send updates to their peers without checking the recipients' current version. A recipient refuses the update if it has a higher version number and accepts it otherwise. This creates network overhead due to redundant pushes, especially when recipient nodes are offline or experiencing network congestion.
+
+The image above shows how Node 2 unnecessarily pushes updates to Node 3 without checking its state first. This inefficiency becomes more significant in large networks - imagine 2,000 nodes pushing updates to each other without state verification.
+
+This doesn't mean push-based approach is bad, it has it's own use cases.
+
+If we are dealing with:
+
+- Short-lived data: Information that quickly becomes outdated, like real-time stock prices or game state updates, where speed matters more than perfect consistency
+- Real-time updates: Scenarios requiring immediate data propagation, such as live chat messages or multiplayer game positions, where minimal delay is crucial
+- Lightweight updates: Small pieces of information like status changes or simple notifications that don't consume significant bandwidth
+
+The ideal conditions for push-based gossip are:
+
+- Low network latency requirements: Networks where messages can be delivered quickly and reliably, typically within the same data center or region
+- High probability of update relevance: Environments where most pushed updates are likely to be newer than the recipient's current state, reducing wasted transmissions
+- Small update sizes: Messages that are compact and don't strain network resources, like configuration changes or simple state updates
+- Stable network conditions: Networks with minimal packet loss and consistent connectivity, ensuring reliable message delivery
+- Tolerance for occasional missed updates: Systems that can function correctly even if some updates aren't received, like social media feeds
+
+#### Pull Based Approach
+
+![pull-based](/blog-images/implementing-gossip-protocol-part-0/pull-based.png)
+
+In a pull-based approach, nodes request data at their own pace. They can slow down polling when they are busy, which provides natural load balancing and reduces redundant message transmission since nodes don't push updates immediately upon receiving data.
+
+If we are dealing with:
+
+- Long-lived data: Information that remains relevant for extended periods, like configuration settings
+- Non-time-critical updates: Updates where immediate propagation isn't crucial, such as background synchronization tasks
+- Resource-constrained systems: Environments where nodes need to manage their processing and network bandwidth carefully
+
+The ideal conditions for pull-based gossip are:
+
+- High network latency tolerance: Systems that can handle delayed updates without compromising functionality
+- Variable load patterns: Networks where nodes experience fluctuating workloads and need to control their update rates
+
+#### Hybrid Approach
 
 ### Failure Handling
 
