@@ -9,20 +9,28 @@ tags:
 description: Implementing gossip protocol with golang
 ---
 
-Gossip protocol is actually a pretty old concept dates back to 60's, and it's being used heavily since then by Cassandra, DynamoDB, Ethereum(ETH) and many others. They are all relying on gossip protocol for different reasons
+This is the first in a series of posts about implementing gossip protocol in Go:
+
+- Part 0: Introduction (you are here)
+- Part 1: Distributed Counter
+- Part 2: Node Discovery and Membership
+- Part 3: Version Control with Lamport Clocks
+- Part 4: Phi Accrual Failure Detection
+
+Gossip protocol is actually a pretty old concept dating back to the 60's, and it's being used heavily since then by Cassandra, DynamoDB, Ethereum(ETH) and many others. They are all relying on gossip protocol for different reasons
 such as failure detection, peer discovery, transaction propagation, data replication and etc... Since it's one of those concepts that powering our world, it's fun and educative to learn from it.
 
-A little history before we delve into the details; original paper that got Gossip protocol famous was [Epidemic Algorithms for Replicated Database
-Maintenance](http://bitsavers.informatik.uni-stuttgart.de/pdf/xerox/parc/techReports/CSL-89-1_Epidemic_Algorithms_for_Replicated_Database_Maintenance.pdf). The Xerox had multiple offices and they needed to
+A little bit of history before we delve into the details; the original paper that made Gossip protocol famous was [Epidemic Algorithms for Replicated Database
+Maintenance](http://bitsavers.informatik.uni-stuttgart.de/pdf/xerox/parc/techReports/CSL-89-1_Epidemic_Algorithms_for_Replicated_Database_Maintenance.pdf). Xerox had multiple offices and they needed to
 maintain replicated data about users, printers, and other network resources.
 
-Imagine trying to keep multiple copies of a database synchronized across different locations when your network connections are unstable. Now imagine doing this in the 1980s, when distributed systems were in their infancy. This was exactly the challenge that led to one of distributed computing's most elegant solutions: the Epidemic algorithm, later referred to as the gossip protocol.
+Imagine trying to keep multiple copies of a database synchronized across different locations - continents, Xerox had offices all around the world - when your network connections are unstable. Now consider doing this in the 1980s, when distributed systems were in their infancy. This was exactly the challenge that led to one of distributed computing's most elegant solution: the Epidemic algorithm, later referred to as the gossip protocol.
 
 This nature-inspired name derives from how viruses spread in biology. Imagine a closed room, such as a closed network of computers. Now imagine every computer in that room as a human. If you infect one of them and wait long enough, since the room is closed, everyone in that room will **_eventually_** get infected - this is also the reason why this algorithm achieves eventual consistency.
 
 ## Why Replicate our State Though?
 
-It's crucial for several reasons. Let's look at this situation with a concrete example. Imagine we are operating a website and storing everything in our database, and one day our database stops for an unknown reason and might take 5 minutes to restart. What should we tell our users?
+It's crucial for several reasons. Let's look at this situation with a concrete example. Suppose we are operating a website and storing everything in our database, and one day our database stops for an unknown reason and might take 5 minutes to restart. What should we tell our users?
 All they see is a weird connection timeout issue because our server cannot establish a reliable connection with the database (here, database represents any arbitrary data store). This creates a poor user experience, right?
 
 What else could we do about that? We could save our data into different databases to overcome this issue. Now if we experience an outage, we can failover to other databases.
@@ -41,13 +49,10 @@ Each strategy reflects different trade-offs: a social media feed might favor spe
 
 #### Push Based Approach
 
-![push-based](/blog-images/implementing-gossip-protocol-part-0/push-based.png)
-
 In a push-based approach, nodes actively send updates to their peers without checking the recipients' current version. A recipient refuses the update if it has a higher version number and accepts it otherwise. This creates network overhead due to redundant pushes, especially when recipient nodes are offline or experiencing network congestion.
 
-The image above shows how Node 2 unnecessarily pushes updates to Node 3 without checking its state first. This inefficiency becomes more significant in large networks - imagine 2,000 nodes pushing updates to each other without state verification.
-
-This doesn't mean push-based approach is bad, it has it's own use cases.
+![push-based](/blog-images/implementing-gossip-protocol-part-0/push.png)
+This doesn't mean push-based approach is bad, it has its own use cases.
 
 If we are dealing with:
 
@@ -65,9 +70,9 @@ The ideal conditions for push-based gossip are:
 
 #### Pull Based Approach
 
-![pull-based](/blog-images/implementing-gossip-protocol-part-0/pull-based.png)
-
 In a pull-based approach, nodes request data at their own pace. They can slow down polling when they are busy, which provides natural load balancing and reduces redundant message transmission since nodes don't push updates immediately upon receiving data.
+
+![pull-based](/blog-images/implementing-gossip-protocol-part-0/pull.png)
 
 If we are dealing with:
 
@@ -80,8 +85,87 @@ The ideal conditions for pull-based gossip are:
 - High network latency tolerance: Systems that can handle delayed updates without compromising functionality
 - Variable load patterns: Networks where nodes experience fluctuating workloads and need to control their update rates
 
-#### Hybrid Approach
+#### Push-Pull Approach
 
-### Failure Handling
+In a push-pull approach, nodes combine both strategies to optimize information exchange. When two nodes interact, they first exchange version information and then bidirectionally sync data only if necessary, which minimizes network overhead and ensures efficient propagation.
+
+![pull-push-based](/blog-images/implementing-gossip-protocol-part-0/push-pull.png)
+
+If we are dealing with:
+
+- Complex distributed systems: Environments where nodes need to maintain eventual consistency while managing resources efficiently
+
+The ideal conditions for push-pull gossip are:
+
+- Moderate network conditions: Networks with varying latency and reliability characteristics
+
+### Use Cases
+
+Just like there are strategies for many different cases, there are many use cases for gossip protocol. Due to its flexibility and simple implementation, it's been adapted for various purposes. Here are some famous examples:
+
+#### Distributed Databases
+
+- **Cassandra**: Uses gossip for cluster membership and failure detection. Each node periodically exchanges state information about itself and other nodes it knows about, helping maintain an eventually consistent view of the cluster state.
+- **DynamoDB**: Employs gossip for maintaining membership information across its storage nodes, enabling efficient request routing and load balancing.
+
+#### Blockchain Networks
+
+- **Ethereum**: Relies on gossip protocols for transaction and block propagation. When a node receives a new transaction or block, it "gossips" this information to its peers, ensuring rapid propagation across the network.
+
+#### Service Discovery
+
+- **Kubernetes**: Uses a gossip-like mechanism in some CNI (Container Network Interface) implementations for service discovery and network overlay management.
+
+#### Load Balancing
+
+- **NGINX Plus**: Implements gossip-based state sharing for dynamic reconfiguration without service interruption.
+
+#### Monitoring and Metrics
+
+- **Prometheus**: Some service discovery mechanisms use gossip-based approaches to maintain an up-to-date view of targets to monitor.
+
+#### Content Distribution
+
+- **IPFS (InterPlanetary File System)**: Uses gossip-like protocols for content routing and discovery in its peer-to-peer network.
+
+The versatility of gossip protocols makes them particularly valuable in scenarios where:
+
+- Systems need to scale horizontally with minimal configuration
+- Network conditions are unpredictable or unreliable
+- Eventual consistency is acceptable
+- Decentralized operation is required
+- Real-time state propagation is needed without central coordination
 
 ### Speed of Gossip
+
+The speed at which information propagates through a gossip-based system follows an mathematical pattern. Understanding this helps us predict system behavior and make informed design decisions.
+
+#### Exponential Propagation
+
+In a gossip network of n nodes, information typically spreads in an exponential fashion. Here's how it works:
+
+- In round 1: 1 node has the information
+- In round 2: 2 nodes have it
+- In round 3: 4 nodes have it
+- In round 4: 8 nodes have it
+  And so on, following a 2^k pattern (where k is the round number)
+
+This exponential growth means that in a network of n nodes, information typically propagates to all nodes in O(log n) rounds. However, this is the idealized case, and real-world factors can affect this rate.
+
+#### Factors Affecting Propagation Speed
+
+- **Network Topology**: The connection pattern between nodes can significantly impact propagation speed. Dense networks typically propagate faster than sparse ones.
+- **Message Loss**: Network failures or congestion can cause messages to be lost, slowing down propagation.
+- **Node Selection Strategy**: How nodes choose their gossip partners affects spread efficiency:
+  - Random selection provides robust but potentially slower propagation
+  - Deterministic selection can be faster but less resilient to failures
+
+#### Network Load Considerations
+
+The frequency of gossip rounds presents a trade-off:
+
+- Higher frequency leads to faster propagation but increases network load
+- Lower frequency reduces network overhead but slows down information spread
+- A typical compromise is to gossip every 1-2 seconds in stable networks
+
+### Why Go
