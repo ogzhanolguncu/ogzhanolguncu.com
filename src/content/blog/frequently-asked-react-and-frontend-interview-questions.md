@@ -177,7 +177,7 @@ I intentionally left two **Johns** there to show that `find()` method returns th
 
 ### Reduce
 
-`reduce()` is extremely versetile method. You can do pretty much everything you can do with `map()`. I'll go over with some examples.
+`reduce()` is extremely versatile method. You can do pretty much everything you can do with `map()`. I'll go over with some examples.
 
 ```javascript
 const people = [
