@@ -519,3 +519,50 @@ func (n *Node) startTransport() error {
 	return nil
 }
 ```
+
+The `transport.Listen` method allows us to pass a callback that gives us access to the caller's `addr` and the incoming data.
+We then decode this data using our `protocol.DecodeMessage` function that we defined earlier.
+The `select` statement is a crucial part of this method - without it, the code would work synchronously and block the entire thread.
+Finally, we send the decoded message to our event loop for processing.
+
+Let's take a closer look at the `eventLoop``, which is the beating heart of our node's message processing system.
+
+```go
+func (n *Node) eventLoop() {
+	for {
+		select {
+		case <-n.ctx.Done():
+			log.Printf("[Node %s] Shutting down with version=%d and counter=%d",
+				n.config.Addr, n.state.version.Load(), n.state.counter.Load())
+			return
+
+		case msg := <-n.incomingMsg:
+			n.handleIncMsg(msg)
+
+		case msg := <-n.outgoingMsg:
+			assertions.Assert(msg.addr != "", "outgoing addr cannot be empty")
+			assertions.AssertEqual(protocol.MessageSize, len(msg.message.Encode()), fmt.Sprintf("formatted message cannot be smaller than %d", protocol.MessageSize))
+
+			if err := n.transport.Send(msg.addr, msg.message.Encode()); err != nil {
+				log.Printf("[Node %s] Failed to send message to %s: %v",
+					n.config.Addr, msg.addr, err)
+			}
+
+		case <-n.syncTick:
+			n.pullState()
+		}
+	}
+}
+```
+
+This `eventLoop` functions like a central router for our node, controlling the flow of all messages and actions. It runs continuously in a `for` loop and uses Go's `select` statement to handle multiple channels concurrently. Here's what each case does:
+
+1. When `n.ctx.Done()` receives a signal (when the node is being shut down), it logs the final state and exits the loop.
+
+2. When a message arrives on the `incomingMsg` channel, it calls `handleIncMsg()` to process it.
+
+3. When a message appears on the `outgoingMsg` channel, it first validates the message (checking that the address isn't empty and the message size is correct), then sends it to the target node using the transport layer. If sending fails, it logs the error but continues running.
+
+4. When the `syncTick` timer fires (based on our configured interval), it calls `pullState()` to request updates from other nodes.
+
+This event-driven approach keeps our node responsive and non-blocking. And, later if we want, we can easily add better logging since this is a centralized piece of our node.
