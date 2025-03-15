@@ -20,9 +20,9 @@ In this series of posts, we are going to build a "Distributed Counter" from scra
 
 ### Why Distributed Counter and Why This Series
 
-I've been trying to understand how Gossip Protocol is used in real-world distributed systems. To address that interest, I needed to find a simple problem to solve so I could focus on the Gossip Protocol itself instead of spending countless hours on some other topic I wasn't familiar with.
+I've been trying to understand how Gossip Protocol is used in real-world distributed systems. To scratch that itch, I needed to find a simple problem to solve so I could focus on the Gossip Protocol itself instead of spending countless hours on some other topic I wasn't familiar with.
 
-So I decided to build a simple counter where you can increment or decrement a number. Since the actual problem is really easy to solve without the distributed part, I could focus on the distributed concepts like:
+So I decided to build a simple counter where you can increment or decrement a number. Since the actual problem is really easy to solve without the distributed part, this allowed me to concentrate on the distributed concepts like:
 
 - How data propagates through the system
 - How information persists across nodes
@@ -45,7 +45,7 @@ So I thought I ought to make one to help others in their journeys. Then I decide
 
 ### Understanding CAP in Our Distributed Counter
 
-In our distributed counter we'll mainly focus on **AP** (Availability and Partition tolerance) parts of CAP. Why not Consistency you may ask? In the CAP theorem, consistency specifically refers to linearizability (sometimes called strong consistency), which is about all nodes seeing the same data at the same time. We don't need this strong consistency for our counter; we need **eventual** consistency. Our primary concern is ensuring that all nodes (counters) in our cluster (a bunch of counters) converge to the same final value, regardless of the order in which operations occur.
+In our distributed counter we'll mainly focus on **AP** (Availability and Partition tolerance) parts of CAP. Why not Consistency you may ask? In the CAP theorem, consistency specifically refers to linearizability (sometimes called strong consistency), which is about all nodes seeing the same data at the same time. We don't need this strong consistency for our counter; we need _eventual_ consistency. Our primary concern is ensuring that all nodes (counters) in our cluster (a bunch of counters) converge to the same final value, regardless of the order in which operations occur.
 
 Since the precise operation order isn't critical for a counter - does it really matter if increments and decrements happen in the sequence **4-3-2-1-6**? No. What matters is that all nodes eventually reach the same consistent state.
 
@@ -172,7 +172,7 @@ The reason for these assertions is if something unexpected happens we wanna fail
 
 Before we move on to the node implementation let's first take a look at our payload structure and protocol details.
 
-We have two types of messages one for sending and one for receiving. In the gossip protocol jargo they are called `pull` and `push`.
+We have two types of messages one for sending and one for receiving. In the gossip protocol jargon they are called `pull` and `push`.
 Since they are nothing more than identifier about message type 1 byte is quite enough.
 
 ```go
@@ -182,7 +182,7 @@ const (
 )
 ```
 
-Our payload will be 13 bytes in total. 1 byte for message type, 4 bytes for version, 8 bytes for our counter value.
+Our payload will be 13 bytes in total: 1 byte for message type, 4 bytes for version, 8 bytes for our counter value.
 
 Let's define it.
 
@@ -201,7 +201,7 @@ type Message struct {
 }
 ```
 
-Now, we need a way to encode and decode these messages before we read or write to TCP. To deterministically parse the []byte, we'll use BigEndian notation. Consistent byte order ensures we'll read and write the same data each time we process it.
+Now, we need a way to encode and decode these messages before we read or write to TCP. To deterministically parse the []byte, we'll use big-endian notation. Consistent byte order ensures we'll read and write the same data each time we process it.
 
 ```go
 func (m *Message) Encode() []byte {
@@ -419,7 +419,7 @@ func (n *Node) GetPeers() []string {
 }
 ```
 
-These are pretty straightforward; they allow us to access peer's information. Only critical part is
+These are pretty straightforward; they allow us to access peers' information. Only critical part is
 locking. Without it we might access inconsistent state data. And since it's read more than it's written we use `RWMutex`.
 
 Let's create our node constructor.
@@ -460,8 +460,8 @@ func NewNode(config Config, transport protocol.Transport) (*Node, error) {
 }
 ```
 
-Notice how we are asserting stuff to make sure they are in the boundaries or exists?
-When we call our constructor we have to make sure of two things. First, we have to start listining incoming traffic without blocking.
+Notice how we are asserting stuff to make sure they are in the boundaries or exist?
+When we call our constructor we have to make sure of two things. First, we have to start listening incoming traffic without blocking.
 Second, we need a way to control of the flow of our node. There are many ways to do it, but in our case we'll do it with channels.
 
 This is how our `eventLoop` works in a nutshell.
@@ -522,10 +522,15 @@ func (n *Node) startTransport() error {
 
 The `transport.Listen` method allows us to pass a callback that gives us access to the caller's `addr` and the incoming data.
 We then decode this data using our `protocol.DecodeMessage` function that we defined earlier.
-The `select` statement is a crucial part of this method - without it, the code would work synchronously and block the entire thread.
-Finally, we send the decoded message to our event loop for processing.
+The `select` statement with a `default` case makes the channel send non-blocking:
 
-Let's take a closer look at the `eventLoop``, which is the beating heart of our node's message processing system.
+- If the channel has space: the message is sent
+- If the channel is full: execution falls through to the `default` case and drops the message
+
+Without this pattern, the send operation would block until space becomes available in the channel, potentially freezing the transport layer's ability to receive new messages.
+The decoded message is then sent to the channel, where it will be picked up by the event loop for processing.
+
+Let's take a closer look at the `eventLoop`, which is the beating heart of our node's message processing system.
 
 ```go
 func (n *Node) eventLoop() {
