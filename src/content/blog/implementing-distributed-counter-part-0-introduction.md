@@ -45,7 +45,7 @@ So I thought I ought to make one to help others in their journeys. Then I decide
 
 ### Understanding CAP in Our Distributed Counter
 
-In our distributed counter we'll mainly focus on **AP** (Availability and Partition tolerance) parts of CAP. Why not Consistency you may ask? In the CAP theorem, consistency specifically refers to linearizability (sometimes called strong consistency), which is about all nodes seeing the same data at the same time. We don't need this strong consistency for our counter; we need _eventual_ consistency. Our primary concern is ensuring that all nodes (counters) in our cluster (a bunch of counters) converge to the same final value, regardless of the order in which operations occur.
+In our distributed counter we'll mainly focus on **AP** (Availability and Partition tolerance) parts of CAP. Why not strong Consistency you may ask? In the CAP theorem, consistency specifically refers to linearizability (sometimes called strong consistency), which is about all nodes seeing the same data at the same time. We don't need this strong consistency for our counter; we need _eventual_ consistency. Our primary concern is ensuring that all nodes (counters) in our cluster (a bunch of counters) converge to the same final value, regardless of the order in which operations occur.
 
 Since the precise operation order isn't critical for a counter - does it really matter if increments and decrements happen in the sequence **4-3-2-1-6**? No. What matters is that all nodes eventually reach the same consistent state.
 
@@ -173,7 +173,7 @@ The reason for these assertions is if something unexpected happens we wanna fail
 Before we move on to the node implementation let's first take a look at our payload structure and protocol details.
 
 We have two types of messages one for sending and one for receiving. In the gossip protocol jargon they are called `pull` and `push`.
-Since they are nothing more than identifier about message type 1 byte is quite enough.
+Since they are nothing more than an identifier about message type, 1 byte is quite enough.
 
 ```go
 const (
@@ -396,7 +396,7 @@ type Node struct {
 `Node` struct glues everything together. And defines some essential stuff such as `ctx` for handling cancellation and graceful shutdown,
 channels to handle incoming and outgoing traffic and `syncTick` for periodic pull of the state of other nodes. And, finally some helpers for handle peer management which we'll move to separate pkg later on.
 
-> The main reason for `atomic`'s in our `State` for counter and version is I had basically two options for thread safety either go with a lock or use atomics. Atomics are more efficient for simple operations like counters and version numbers. They allow multiple goroutines to safely access and modify these values without the overhead of acquiring and releasing locks. When all you need is to increment, read, or update a single value, atomics provide thread safety with better performance, especially in high-contention scenarios where many goroutines might be trying to access the state simultaneously.
+> The main reason for using `atomic`'s in our `State` for counter and version is that I had basically two options for thread safety: either go with a lock or use atomics. Atomics are more efficient for simple operations like counters and version numbers. They allow multiple goroutines to safely access and modify these values without the overhead of acquiring and releasing locks. When all you need is to increment, read, or update a single value, atomics provide thread safety with better performance, especially in high-contention scenarios where many goroutines might be trying to access the state simultaneously.
 
 Let's first define our peer management helpers.
 
@@ -422,7 +422,7 @@ func (n *Node) GetPeers() []string {
 ```
 
 These are pretty straightforward; they allow us to access peers' information. Only critical part is
-locking. Without it we might access inconsistent state data. And since it's read more than it's written we use `RWMutex`.
+locking. Without it we might access inconsistent state data. And since it's read more than it's written, we use `RWMutex`.
 
 Let's create our node constructor.
 
@@ -903,3 +903,306 @@ The implementation follows these steps:
 > **⚠️ Performance Warning**
 >
 > Unlike `pullState`, this method broadcasts to ALL peers, not just a subset. This can create significant network traffic in large clusters. For production systems with many nodes, consider modifying this to use the same random subset approach as `pullState` or implementing one of the optimization strategies mentioned earlier.
+
+Before we finalize this section let's write some tests to cover critical parts of our node.
+
+Remember the interface we defined earlier for protocol?
+
+```go
+type Transport interface {
+	Send(addr string, data []byte) error
+	Listen(handler func(addr string, data []byte) error) error
+	Close() error
+}
+```
+
+Now, we'll implement an in-memory version of this for testing so we don't have to couple the node implementation with the actual TCP implementation.
+
+```go
+// node/node_test.go
+type MemoryTransport struct {
+	addr    string
+	handler func(addr string, data []byte) error
+	mu      sync.RWMutex
+}
+
+func NewMemoryTransport(addr string) *MemoryTransport {
+	return &MemoryTransport{
+		addr: addr,
+	}
+}
+
+func (t *MemoryTransport) Send(addr string, data []byte) error {
+	time.Sleep(10 * time.Millisecond) // Prevent message flood
+	tmu.RLock()
+	transport, exists := transports[addr]
+	tmu.RUnlock()
+	if !exists {
+		return fmt.Errorf("transport not found for address: %s", addr)
+	}
+	return transport.handler(t.addr, data)
+}
+
+func (t *MemoryTransport) Listen(handler func(addr string, data []byte) error) error {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	t.handler = handler
+	tmu.Lock()
+	transports[t.addr] = t
+	tmu.Unlock()
+	return nil
+}
+
+func (t *MemoryTransport) Close() error {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	tmu.Lock()
+	delete(transports, t.addr)
+	tmu.Unlock()
+	return nil
+}
+
+var (
+	transports = make(map[string]*MemoryTransport)
+	tmu        sync.RWMutex
+)
+```
+
+Let's create a couple of more helpers that will help us throughout this series.
+
+```go
+func waitForConvergence(t *testing.T, nodes []*Node, expectedCounter uint64, expectedVersion uint32, timeout time.Duration) {
+	deadline := time.Now().Add(timeout)
+	for time.Now().Before(deadline) {
+		allConverged := true
+		for _, n := range nodes {
+			if n.state.counter.Load() != expectedCounter || n.state.version.Load() != expectedVersion {
+				allConverged = false
+				break
+			}
+		}
+		if allConverged {
+			return
+		}
+		time.Sleep(50 * time.Millisecond)
+	}
+	t.Fatalf("nodes did not converge within timeout. Expected counter=%d, version=%d",
+		expectedCounter, expectedVersion)
+}
+
+func createTestNode(t *testing.T, addr string, syncInterval time.Duration) *Node {
+	transport := NewMemoryTransport(addr)
+	config := Config{
+		Addr:         addr,
+		SyncInterval: syncInterval,
+		MaxSyncPeers: 2,
+	}
+
+	node, err := NewNode(config, transport)
+	require.NoError(t, err)
+	return node
+}
+```
+
+These helpers ensure that all nodes in a test converge to the same value within a specified time limit. The `createTestNode` function simplifies test setup by providing a standard way to create nodes for testing.
+
+So, there are some critical cases we have to cover:
+
+1. If nodes can converge to a same value in a very basic form
+2. What happens when concurrent updates happen? (Testing conflict resolution)
+3. What happens if we send more messages to channels than the node can handle? Are we dropping messages successfully?
+4. How well does the system handle more complex network topologies?
+
+```go
+func TestNodeBasicOperation(t *testing.T) {
+	node1 := createTestNode(t, "node1", 100*time.Millisecond)
+	node2 := createTestNode(t, "node2", 100*time.Millisecond)
+	node3 := createTestNode(t, "node3", 100*time.Millisecond)
+
+	node1.SetPeers([]string{"node2", "node3"})
+	node2.SetPeers([]string{"node1", "node3"})
+	node3.SetPeers([]string{"node1", "node2"})
+
+	node1.state.counter.Store(42)
+	node1.state.version.Store(1)
+
+	waitForConvergence(t, []*Node{node1, node2, node3}, 42, 1, 2*time.Second)
+
+	node1.Close()
+	node2.Close()
+	node3.Close()
+	time.Sleep(200 * time.Millisecond)
+}
+```
+
+This test verifies basic eventual consistency. We create 3 nodes, update only the first node, and wait for all nodes to converge to the same value, confirming that state propagates correctly through the network.
+
+```go
+func TestConcurrentUpdates(t *testing.T) {
+	node1 := createTestNode(t, "node1", 100*time.Millisecond)
+	node2 := createTestNode(t, "node2", 100*time.Millisecond)
+	node3 := createTestNode(t, "node3", 100*time.Millisecond)
+
+	node1.SetPeers([]string{"node2", "node3"})
+	node2.SetPeers([]string{"node1", "node3"})
+	node3.SetPeers([]string{"node1", "node2"})
+
+	var wg sync.WaitGroup
+	wg.Add(3)
+
+	go func() {
+		defer wg.Done()
+		node1.state.counter.Store(100)
+		node1.state.version.Store(1)
+	}()
+
+	go func() {
+		defer wg.Done()
+		node2.state.counter.Store(200)
+		node2.state.version.Store(2)
+	}()
+
+	go func() {
+		defer wg.Done()
+		node3.state.counter.Store(300)
+		node3.state.version.Store(3)
+	}()
+
+	wg.Wait()
+	waitForConvergence(t, []*Node{node1, node2, node3}, 300, 3, 2*time.Second)
+
+	node1.Close()
+	node2.Close()
+	node3.Close()
+
+	time.Sleep(200 * time.Millisecond)
+}
+```
+
+This test specifically examines our conflict resolution strategy. We create 3 nodes, then concurrently update each with different values and version numbers, simulating conflicting updates in a distributed system. By checking that all nodes eventually converge to the state with the highest version number (300 with version 3), we verify that our version-based conflict resolution correctly handles simultaneous updates. This is critical in distributed systems where nodes may make conflicting changes without coordination.
+
+```go
+func TestMessageDropping(t *testing.T) {
+	node1 := createTestNode(t, "node1", 100*time.Millisecond)
+	node2 := createTestNode(t, "node2", 100*time.Millisecond)
+
+	node1.SetPeers([]string{"node2"})
+	node2.SetPeers([]string{"node1"})
+
+	// Fill up the message buffer to force drops
+	for range defaultChannelBuffer + 10 {
+		node1.incomingMsg <- MessageInfo{
+			message: protocol.Message{
+				Type:    protocol.MessageTypePush,
+				Version: 1,
+				Counter: 100,
+			},
+			addr: "node2",
+		}
+	}
+
+	node1.state.counter.Store(500)
+	node1.state.version.Store(5)
+
+	waitForConvergence(t, []*Node{node1, node2}, 500, 5, 2*time.Second)
+
+	node1.Close()
+	node2.Close()
+	time.Sleep(200 * time.Millisecond)
+}
+```
+
+This test verifies the channel overflow handling by intentionally exceeding the buffer capacity. We confirm that the system properly drops excess messages and still achieves eventual consistency when a new state update occurs. This is critical for system stability under heavy message loads.
+
+```go
+func TestRingTopology(t *testing.T) {
+	numNodes := 10
+	nodes := make([]*Node, numNodes)
+
+	for i := range numNodes {
+		addr := fmt.Sprintf("node%d", i)
+		transport := NewMemoryTransport(addr)
+		config := Config{
+			Addr:         addr,
+			SyncInterval: 100 * time.Millisecond,
+			MaxSyncPeers: numNodes / 2, // To make it converge faster
+		}
+
+		node, err := NewNode(config, transport)
+		require.NoError(t, err)
+		nodes[i] = node
+	}
+
+	for i := range numNodes {
+		prev := (i - 1 + numNodes) % numNodes
+		next := (i + 1) % numNodes
+		nodes[i].SetPeers([]string{
+			fmt.Sprintf("node%d", prev),
+			fmt.Sprintf("node%d", next),
+		})
+	}
+
+	nodes[0].state.counter.Store(42)
+	nodes[0].state.version.Store(1)
+
+	waitForConvergence(t, nodes, 42, 1, 3*time.Second)
+
+	for i := range numNodes {
+		nodes[i].Close()
+	}
+}
+```
+
+This is quite interesting because it tests information propagation through a challenging network topology:
+
+```
+                node0
+               /      \
+              /        \
+         node9          node1
+        /                  \
+       /                    \
+   node8                    node2
+    /                         \
+   /                           \
+node7                         node3
+   \                           /
+    \                         /
+   node6                    node4
+       \                    /
+        \                  /
+         node5 ----------
+```
+
+In this ring topology:
+
+- Each node connects only to its immediate neighbors (predecessor and successor)
+- node0 connects to node9 and node1
+- node1 connects to node0 and node2
+- ...and so on, forming a complete ring
+- node9 connects back to node0, closing the loop
+- Information must propagate around the circle through these peer-to-peer connections
+
+This is a challenging topology for distributed systems since information must hop through multiple nodes to reach the opposite side of the ring, and it tests the eventual consistency mechanism effectively. In real-world networks, this verifies that our gossip protocol can handle partial connectivity and still achieve system-wide consistency.
+
+## Conclusion
+
+This marks the end of Part 0 in our distributed counter implementation series. Let's summarize what we've accomplished:
+
+1. We've designed a simple but effective protocol for our gossip-based distributed counter
+2. We've implemented the core node logic with proper state management and conflict resolution
+3. We've created a transport abstraction that will allow us to easily switch between in-memory and TCP implementations
+4. We've written comprehensive tests that verify the system's eventual consistency and fault tolerance
+
+We now have a functioning distributed counter that works within a single process using our in-memory transport. In Part 1, we'll move beyond the in-memory implementation and tackle the TCP and network layer, allowing our nodes to communicate across different processes and machines.
+
+Stay tuned for "Part 1: TCP and Network Layer" where we'll build on this foundation and create a truly distributed counter!
+
+---
+
+## References
+
+- [The Gossip Protocol Explained](https://highscalability.com/gossip-protocol-explained/) - A great introduction to gossip protocols and their applications
+- [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem) - More information about the tradeoffs in distributed systems
+
+_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter)._
