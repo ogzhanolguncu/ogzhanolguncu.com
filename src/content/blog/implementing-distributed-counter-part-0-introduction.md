@@ -51,11 +51,11 @@ Since the precise operation order isn't critical for a counter - does it really 
 
 ### Implementation Approach
 
-I'll be implementing this distributed counter in Go, which is well-suited for building networked systems due to its excellent concurrency support.
+We'll be implementing this distributed counter in Go, which is well-suited for building networked systems due to its excellent concurrency support.
 Its standard library also provides robust networking packages that we'll use throughout this series.
 Even if you're not familiar with Go, the concepts we'll explore apply broadly to distributed systems development in any language.
 
-We'll also use a bit of [DBC](https://en.wikipedia.org/wiki/Design_by_contract) (Design By Contract), basically we'll do some before and after assertion for our operations.
+We'll also use a bit of [DbC](https://en.wikipedia.org/wiki/Design_by_contract) (Design By Contract), basically we'll do some before and after assertion for our operations.
 
 An example:
 
@@ -73,7 +73,7 @@ func (n *Node) Increment() {
 }
 ```
 
-#### Final system architecture
+#### Final system architecture at end of this series
 
 ```
                 GOSSIP PROTOCOL ARCHITECTURE
@@ -111,12 +111,12 @@ func (n *Node) Increment() {
 ```
 
 This will be our final architecture and in each post, we'll work towards that goal.
-The first part is all about getting our nodes up and running with static configuration so they can start talking with each other.
+The first part is all about getting our nodes up and running with static configuration so they can start talking to each other.
 Since we don't want to complicate things, we'll run everything in-memory and see how things work.
 
 ### Let's Get Started
 
-This will be our end result at the end of this post.
+This will be our end result file structure at the end of this part.
 
 ```sh
 .
@@ -393,8 +393,10 @@ type Node struct {
 - `State` is the current state of our node.
 - `MessageInfo` is the payload + address of the node that we send to or receive from
 
-`Node` struct glues everything together. And defines some essential stuff such as ctx for handling cancellation and graceful shutdown,
+`Node` struct glues everything together. And defines some essential stuff such as `ctx` for handling cancellation and graceful shutdown,
 channels to handle incoming and outgoing traffic and `syncTick` for periodic pull of the state of other nodes. And, finally some helpers for handle peer management which we'll move to separate pkg later on.
+
+> The main reason for `atomic`'s in our `State` for counter and version is I had basically two options for thread safety either go with a lock or use atomics. Atomics are more efficient for simple operations like counters and version numbers. They allow multiple goroutines to safely access and modify these values without the overhead of acquiring and releasing locks. When all you need is to increment, read, or update a single value, atomics provide thread safety with better performance, especially in high-contention scenarios where many goroutines might be trying to access the state simultaneously.
 
 Let's first define our peer management helpers.
 
@@ -467,7 +469,7 @@ Second, we need a way to control of the flow of our node. There are many ways to
 This is how our `eventLoop` works in a nutshell.
 
 ```sh
-┌────────────────── EVENT LOOP ──────────────────┐
+┌────────────────── EVENT LOOP FLOW ─────────────┐
 │                                                │
 │   ctx.Done ─────────────► shutdown             │
 │                                                │
@@ -563,11 +565,341 @@ func (n *Node) eventLoop() {
 This `eventLoop` functions like a central router for our node, controlling the flow of all messages and actions. It runs continuously in a `for` loop and uses Go's `select` statement to handle multiple channels concurrently. Here's what each case does:
 
 1. When `n.ctx.Done()` receives a signal (when the node is being shut down), it logs the final state and exits the loop.
-
 2. When a message arrives on the `incomingMsg` channel, it calls `handleIncMsg()` to process it.
-
 3. When a message appears on the `outgoingMsg` channel, it first validates the message (checking that the address isn't empty and the message size is correct), then sends it to the target node using the transport layer. If sending fails, it logs the error but continues running.
-
 4. When the `syncTick` timer fires (based on our configured interval), it calls `pullState()` to request updates from other nodes.
 
 This event-driven approach keeps our node responsive and non-blocking. And, later if we want, we can easily add better logging since this is a centralized piece of our node.
+
+Before moving on to the `handleIncMsg` or `pullState` methods, let's first discuss how we handle conflict resolution and later operations.
+
+```
+Scenario 1: Pull Message (Node B wants data from Node A)
+----------------------------------------------------
+
+Node B                                 Node A
+  |                                      |
+  |  -------- PULL v=5, c=10 -------->   |  B sends PULL with its version
+  |                                      |  A compares versions
+  |                                      |  If B's version > A's version:
+  |                                      |    A updates its state
+  |                                      |    A broadcasts update to others
+  |  <------- PUSH v=7, c=15 ---------   |  A responds with PUSH (its version)
+  |                                      |
+  | If A's version > B's version:        |
+  | B updates its state                  |
+  | B broadcasts update to others        |
+  |                                      |
+```
+
+```
+Scenario 2: Push Message (Node A pushes data to Node B)
+----------------------------------------------------
+
+Node A                                 Node B
+  |                                      |
+  |  -------- PUSH v=7, c=15 -------->   |  A sends PUSH with its version
+  |                                      |  B compares versions
+  |                                      |  If A's version > B's version:
+  |                                      |    B updates its state
+  |                                      |    B broadcasts update to others
+  |                                      |  If A's version <= B's version:
+  |                                      |    B does nothing (ignores the push)
+  |                                      |
+```
+
+The resolution logic is straightforward:
+
+1. If an incoming message has a higher version than the local state, we update our local state and broadcast the update.
+2. If an incoming message has a lower or equal version, we keep our current state.
+
+Key points about our implementation:
+
+- Version is the primary factor in conflict resolution
+- The counter value is updated along with the version
+- For PULL messages, a node always responds with a PUSH containing its current state
+- For PUSH messages, a node silently updates if needed
+- After any state update, the node broadcasts to all peers to maintain eventual consistency
+
+With these concepts in mind, let's see how we implement the `handleIncMsg` method:
+
+```go
+func (n *Node) handleIncMsg(inc MessageInfo) {
+    assertions.Assert(inc.message.Type == protocol.MessageTypePull ||
+        inc.message.Type == protocol.MessageTypePush,
+        "invalid message type")
+
+    log.Printf("[Node %s] Received message from %s type=%d, version=%d, counter=%d",
+        n.config.Addr, inc.addr, inc.message.Type, inc.message.Version, inc.message.Counter)
+
+    switch inc.message.Type {
+    case protocol.MessageTypePull:
+        if inc.message.Version > n.state.version.Load() {
+            oldVersion := n.state.version.Load()
+            n.state.version.Store(inc.message.Version)
+            n.state.counter.Store(inc.message.Counter)
+            assertions.Assert(n.state.version.Load() > oldVersion, "version must increase after update")
+            n.broadcastUpdate()
+        }
+
+        log.Printf("[Node %s] Sent message to %s type=%d, version=%d, counter=%d",
+            n.config.Addr, inc.addr, protocol.MessageTypePush, n.state.version.Load(), n.state.counter.Load())
+        n.outgoingMsg <- MessageInfo{
+            message: protocol.Message{
+                Type:    protocol.MessageTypePush,
+                Version: n.state.version.Load(),
+                Counter: n.state.counter.Load(),
+            },
+            addr: inc.addr,
+        }
+    case protocol.MessageTypePush:
+        if inc.message.Version > n.state.version.Load() {
+            oldVersion := n.state.version.Load()
+            n.state.version.Store(inc.message.Version)
+            n.state.counter.Store(inc.message.Counter)
+            assertions.Assert(n.state.version.Load() > oldVersion, "version must increase after update")
+            n.broadcastUpdate()
+        }
+    }
+}
+```
+
+The implementation follows these steps:
+
+1. First, we verify the message type to prevent malformed payloads from causing panics in our node.
+2. Based on the message type, we handle it appropriately:
+   - If it's a PULL or PUSH with a higher version than our local state, we update our state and broadcast the change to other nodes for faster convergence.
+   - If it's a PULL message (regardless of version), we always respond with our current state.
+   - If it's a PUSH with a lower or equal version, we simply ignore it.
+
+> **⚠️ Performance Warning**
+>
+> The broadcast after updates is optional but helps the network converge faster. However, in large clusters, **you should carefully consider limiting this behavior** to prevent overwhelming the network with updates. Imagine hundreds of nodes sending updates to each other each time a counter changes - this could quickly saturate your network bandwidth.
+>
+> Consider these alternatives for large deployments:
+>
+> - Implement a delayed broadcast mechanism
+> - Use a gossip protocol with exponential backoff
+> - Only broadcast to a random subset of peers
+> - Apply rate limiting to update broadcasts
+
+Let's add our helper methods before moving on to `pullState` and `broadcastUpdate`:
+
+```go
+func (n *Node) Increment() {
+	assertions.AssertNotNil(n.state, "node state cannot be nil")
+	oldCounter := n.state.counter.Load()
+	oldVersion := n.state.version.Load()
+	n.state.counter.Add(1)
+	n.state.version.Add(1)
+	assertions.Assert(oldCounter < n.state.counter.Load(), "counter must increase after Increment")
+	assertions.Assert(oldVersion < n.state.version.Load(), "version must increase after Increment")
+	n.broadcastUpdate()
+}
+func (n *Node) Decrement() {
+	assertions.AssertNotNil(n.state, "node state cannot be nil")
+	oldCounter := n.state.counter.Load()
+	oldVersion := n.state.version.Load()
+	n.state.counter.Add(^uint64(0))
+	n.state.version.Add(1)
+	assertions.Assert(oldCounter > n.state.counter.Load(), "counter must decrease after Decrease")
+	assertions.Assert(oldVersion < n.state.version.Load(), "version must increase after Increment")
+	n.broadcastUpdate()
+}
+func (n *Node) GetCounter() uint64 {
+	assertions.AssertNotNil(n.state, "node state cannot be nil")
+	return n.state.counter.Load()
+}
+func (n *Node) GetVersion() uint32 {
+	assertions.AssertNotNil(n.state, "node state cannot be nil")
+	return n.state.version.Load()
+}
+func (n *Node) GetAddr() string {
+	assertions.Assert(n.config.Addr != "", "node addr cannot be empty")
+	return n.config.Addr
+}
+func (n *Node) Close() error {
+	assertions.AssertNotNil(n.cancel, "cancel function cannot be nil")
+	assertions.AssertNotNil(n.transport, "transport cannot be nil")
+	n.cancel()
+	return n.transport.Close()
+}
+```
+
+These are simple helper methods that provide the core functionality of our distributed counter:
+
+- `Increment()` and `Decrement()` modify the counter value while updating version numbers
+- Getter methods (`GetCounter()`, `GetVersion()`, `GetAddr()`) safely access node state
+- `Close()` gracefully shuts down the node
+
+Each method includes assertions to ensure data integrity and proper state transitions.
+
+The fun part begins, here's a visual representation of how the periodic state pull works:
+
+```
+              PULL STATE FLOW
+            ===================
+
+Node A                                 Other Nodes
+  |                                       |
+  |--- Timer triggers pullState() ---|    |
+  |                                  |    |
+  |--- 1. Get available peers -------|    |
+  |                                  |    |
+  |--- 2. Pick random subset --------|    |
+  |    (limited by MaxSyncPeers)     |    |
+  |                                  |    |
+  |--- 3. For each selected peer: ---|    |
+  |      Create concurrent tasks     |    |
+  |                                  |    |
+  |--- 4. Send PULL requests ------->|    |
+  |                                  |    |
+  |                                  |    | Each peer processes the PULL
+  |                                  |    | and responds with a PUSH
+  |                                  |    | (handled by handleIncMsg)
+  |<-- 5. Receive PUSH responses ----+    |
+  |                                  |    |
+  |--- 6. Update state if needed ----|    |
+  |    (handled by handleIncMsg)     |    |
+  |                                  |    |
+```
+
+The `pullState` method follows a simple but effective approach:
+
+1. It selects a random subset of peers to query, rather than contacting every node in the network
+2. It sends PULL messages to these selected peers in parallel using goroutines
+3. Each peer will respond with a PUSH message containing their current state
+4. If any peer has a newer version, the node will update itself (handled by `handleIncMsg`)
+
+> **📌 Design Note**: Selecting random peers rather than contacting every node significantly improves network efficiency. This approach reduces overall traffic, distributes load, and makes the system more resilient to failures - core benefits of gossip protocols that enable them to scale to thousands of nodes while maintaining eventual consistency.
+
+Key points about this implementation:
+
+- Random peer selection prevents network hotspots and distributes load
+- Concurrent requests ensure efficient synchronization
+- Built-in timeout prevents blocking if peers are unresponsive
+- The number of peers contacted per sync is configurable via `MaxSyncPeers`
+- This periodic synchronization ensures eventual consistency across the network
+
+Let's see the implementation:
+
+```go
+func (n *Node) pullState() {
+	n.peersMu.RLock()
+	peers := n.peers
+	n.peersMu.RUnlock()
+
+	if len(peers) == 0 {
+		log.Printf("[Node %s] No peers available for sync", n.config.Addr)
+		return
+	}
+
+	numPeers := min(n.config.MaxSyncPeers, len(peers))
+	assertions.Assert(numPeers > 0, "number of peers to sync with must be positive")
+
+	selectedPeers := make([]string, len(peers))
+	copy(selectedPeers, peers)
+	rand.Shuffle(len(selectedPeers), func(i, j int) {
+		selectedPeers[i], selectedPeers[j] = selectedPeers[j], selectedPeers[i]
+	})
+
+	ctx, cancel := context.WithTimeout(n.ctx, n.config.SyncInterval/2)
+	defer cancel()
+
+	g, ctx := errgroup.WithContext(ctx)
+
+	for _, peer := range selectedPeers[:numPeers] {
+		peerAddr := peer // Shadow the variable for goroutine
+		g.Go(func() error {
+			log.Printf("[Node %s] Sent message to %s type=%d, version=%d, counter=%d",
+				n.config.Addr, peerAddr, protocol.MessageTypePull, n.state.version.Load(), n.state.counter.Load())
+
+			select {
+			case n.outgoingMsg <- MessageInfo{
+				message: protocol.Message{
+					Type:    protocol.MessageTypePull,
+					Version: n.state.version.Load(),
+					Counter: n.state.counter.Load(),
+				},
+				addr: peerAddr,
+			}:
+				return nil
+			case <-ctx.Done():
+				return ctx.Err()
+			}
+		})
+	}
+
+	if err := g.Wait(); err != nil {
+		log.Printf("[Node %s] Sync round failed: %v", n.config.Addr, err)
+	}
+}
+```
+
+The implementation follows these steps:
+
+1. First, we safely retrieve the current peer list using a read lock to avoid race conditions.
+2. We select a random subset of peers to query, limited by `MaxSyncPeers`. This involves:
+   - Creating a copy of the peers list
+   - Shuffling the copy randomly
+   - Taking only the first `numPeers` elements
+3. We create a timeout context that will expire after half the sync interval, ensuring we don't block indefinitely if peers are unresponsive.
+4. For each selected peer, we create a goroutine (using errgroup for coordination) that:
+   - Sends a PULL message containing our current version and counter value
+5. Finally, we wait for all goroutines to complete and log any errors that occurred during the sync round.
+
+> Consider these optimizations for very large deployments:
+>
+> - Implement adaptive peer selection based on network topology
+> - Use biased sampling to prefer nodes that haven't been contacted recently
+> - Apply exponential backoff for repeatedly unresponsive peers
+> - Adjust MaxSyncPeers dynamically based on cluster size and network conditions
+> - Implement priority-based synchronization where nodes with suspected newer state are contacted first
+
+Let's finalize the node implementation for this part with our `broadcastUpdate`:
+
+```go
+func (n *Node) broadcastUpdate() {
+	ctx, cancel := context.WithTimeout(n.ctx, n.config.SyncInterval/2)
+	defer cancel()
+	g, ctx := errgroup.WithContext(ctx)
+	n.peersMu.RLock()
+	peers := n.peers
+	n.peersMu.RUnlock()
+	for _, peerAddr := range peers {
+		peerAddr := peerAddr // Shadow the variable for goroutine
+		g.Go(func() error {
+			log.Printf("[Node %s] Sent message to %s type=%d, version=%d, counter=%d",
+				n.config.Addr, peerAddr, protocol.MessageTypePush, n.state.version.Load(), n.state.counter.Load())
+			select {
+			case n.outgoingMsg <- MessageInfo{
+				message: protocol.Message{
+					Type:    protocol.MessageTypePush,
+					Version: n.state.version.Load(),
+					Counter: n.state.counter.Load(),
+				},
+				addr: peerAddr,
+			}:
+				return nil
+			case <-ctx.Done():
+				return ctx.Err()
+			}
+		})
+	}
+	if err := g.Wait(); err != nil {
+		log.Printf("[Node %s] Broadcast update failed: %v", n.config.Addr, err)
+	}
+}
+```
+
+The implementation follows these steps:
+
+1. First, we create a timeout context that will expire after half the sync interval, ensuring operations won't block indefinitely.
+2. We safely retrieve the current peer list.
+3. For each peer in the list, we create a goroutine that:
+   - Sends a PUSH message containing our current version and counter value
+4. Finally, we wait for all goroutines to complete and log any errors that occurred during the broadcast.
+
+> **⚠️ Performance Warning**
+>
+> Unlike `pullState`, this method broadcasts to ALL peers, not just a subset. This can create significant network traffic in large clusters. For production systems with many nodes, consider modifying this to use the same random subset approach as `pullState` or implementing one of the optimization strategies mentioned earlier.
