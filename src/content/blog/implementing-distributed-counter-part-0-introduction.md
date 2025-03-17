@@ -76,32 +76,33 @@ func (n *Node) Increment() {
 #### Final system architecture at end of this series
 
 ```
-                GOSSIP PROTOCOL ARCHITECTURE
-                ===========================
-                    +----------------+
-                    |    Client      |
-                    +--------+-------+
-                             |
-                             | HTTP
-                             v
-                    +----------------+
-                    |  API Gateway   |
-                    |----------------|
-                    | Load Balancer  |
-                    | Reverse Proxy  |
-                    |----------------|
-                    | Endpoints:     |
-                    | GET  /counter  |
-                    | POST /increment|
-                    | POST /decrement|
-                    | GET  /nodes    |
-                    | GET  /health   |
-                    +--------+-------+
-                             |
-                             | HTTP
-                    +--------+--------+
-                    |                 |
-
+                         GOSSIP PROTOCOL ARCHITECTURE
+                         ============================
+                              +----------------+
+                              |    Client      |
+                              +--------+-------+
+                                      |
+                                      | HTTP
+                                      v
+                              +----------------+
+                              |  API Gateway   |
+                              |----------------|
+                              | Load Balancer  |
+                              | Reverse Proxy  |
+                              |----------------|
+                              | Endpoints:     |
+                              | GET  /counter  |
+                              | POST /increment|
+                              | POST /decrement|
+                              | GET  /nodes    |
+                              | GET  /health   |
+                              +--------+-------+
+                                       |
+                                       | HTTP
+        +--------+---------------------+----------------------------+
+        |                              |                            |
+        |                              |                            |
+        v                              v                            v
 +---------------+             +---------------+             +---------------+
 |    Node 1     |             |    Node 2     |             |    Node 3     |
 |---------------|             |---------------|             |---------------|
