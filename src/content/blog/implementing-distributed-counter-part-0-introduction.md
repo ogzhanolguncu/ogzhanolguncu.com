@@ -78,6 +78,29 @@ func (n *Node) Increment() {
 ```
                 GOSSIP PROTOCOL ARCHITECTURE
                 ===========================
+                    +----------------+
+                    |    Client      |
+                    +--------+-------+
+                             |
+                             | HTTP
+                             v
+                    +----------------+
+                    |  API Gateway   |
+                    |----------------|
+                    | Load Balancer  |
+                    | Reverse Proxy  |
+                    |----------------|
+                    | Endpoints:     |
+                    | GET  /counter  |
+                    | POST /increment|
+                    | POST /decrement|
+                    | GET  /nodes    |
+                    | GET  /health   |
+                    +--------+-------+
+                             |
+                             | HTTP
+                    +--------+--------+
+                    |                 |
 
 +---------------+             +---------------+             +---------------+
 |    Node 1     |             |    Node 2     |             |    Node 3     |
@@ -1156,22 +1179,19 @@ func TestRingTopology(t *testing.T) {
 This is quite interesting because it tests information propagation through a challenging network topology:
 
 ```
-                node0
-               /      \
-              /        \
-         node9          node1
-        /                  \
-       /                    \
-   node8                    node2
-    /                         \
-   /                           \
-node7                         node3
-   \                           /
-    \                         /
-   node6                    node4
-       \                    /
-        \                  /
-         node5 ----------
+         node0
+           o
+          / \
+   node9 o   o node1
+        /     \
+node8 o         o node2
+     |           |
+node7 o         o node3
+     |           |
+node6 o         o node4
+        \     /
+         o---o
+         node5
 ```
 
 In this ring topology:
