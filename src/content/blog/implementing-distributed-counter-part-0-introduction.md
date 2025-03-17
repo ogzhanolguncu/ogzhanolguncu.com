@@ -379,17 +379,21 @@ Now that we have our protocol sorted out, let's tackle the node implementation w
 ```go
 const defaultChannelBuffer = 100
 
+// Config is required to bootstrap our node.
 type Config struct {
 	Addr         string
 	SyncInterval time.Duration
 	MaxSyncPeers int
 }
 
+// State is the current state of our node.
 type State struct {
 	counter atomic.Uint64
 	version atomic.Uint32
 }
 
+
+// MessageInfo is the payload + address of the node that we send to or receive from
 type MessageInfo struct {
 	message protocol.Message
 	addr    string
@@ -411,10 +415,6 @@ type Node struct {
 	syncTick    <-chan time.Time
 }
 ```
-
-- `Config` is required to bootstrap our node.
-- `State` is the current state of our node.
-- `MessageInfo` is the payload + address of the node that we send to or receive from
 
 `Node` struct glues everything together. And defines some essential stuff such as `ctx` for handling cancellation and graceful shutdown,
 channels to handle incoming and outgoing traffic and `syncTick` for periodic pull of the state of other nodes. And, finally some helpers for handle peer management which we'll move to separate pkg later on.
