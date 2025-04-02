@@ -1,5 +1,5 @@
 ---
-pubDatetime: 2025-02-16
+pubDatetime: 2025-04-02
 title: "Implementing Distributed Counter: Part 0: Introduction"
 slug: implementing-distributed-counter-part-0-introduction
 tags:
