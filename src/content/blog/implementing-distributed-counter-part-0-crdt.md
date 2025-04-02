@@ -1,12 +1,12 @@
 ---
 pubDatetime: 2025-04-02
-title: "Implementing Distributed Counter: Part 0: Introduction"
-slug: implementing-distributed-counter-part-0-introduction
+title: "Implementing Distributed Counter: Part 0 - CRDT"
+slug: implementing-distributed-counter-part-0-crdt
 tags:
   - go
   - distributed
   - network_programming
-description: Implementing gossip protocol with golang
+description: Learn how to build a distributed counter from scratch using Go and CRDT (Conflict-free Replicated Data Types).
 ---
 
 This is the first of a series of posts about implementing a distributed counter in Go.
