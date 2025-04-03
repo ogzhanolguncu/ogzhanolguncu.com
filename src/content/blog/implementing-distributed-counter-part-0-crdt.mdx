@@ -52,9 +52,10 @@ Now that we understand why we're building this distributed counter, let's look a
 
 ## What's Gossip Protocol?
 
-Imagine nodes in a network are people in a closed room. When one person gets information (an "infection"), they don't shout it to everyone. Instead, they randomly tell (gossip to) a few nearby people. Those people then randomly tell a few others. Like an infection spreading, this random P2P sharing eventually ensures everyone in the room (the network) gets the information. This leads to **eventual consistency**. Systems like Cassandra [[1]](https://cassandra.apache.org/doc/latest/cassandra/operating/gossip.html), Consul [[2]](https://developer.hashicorp.com/consul/docs/architecture/gossip) use Gossip protocol for maintaining cluster membership and exchanging state information between nodes.
+Imagine nodes in a network are people in a closed room. When one person gets information (an "infection"), they don't shout it to everyone. Instead, they randomly tell (gossip to) a few nearby people. Those people then randomly tell a few others. Like an infection spreading, this random P2P sharing eventually ensures everyone in the room (the network) gets the information. This leads to **eventual consistency**. Systems like Cassandra [<a href="#ref1">1</a>], Consul [<a href="#ref2">2</a>] use Gossip protocol [<a href="#ref3">3</a>] for maintaining cluster membership and exchanging state information between nodes.
 
-```ascii
+```sh
+
 * = Informed Node, O = Uninformed Node
 
 Time 1: Start        Time 2: Spreading      Time 3: Eventual Consistency
@@ -71,11 +72,11 @@ Understanding how Gossip propagates state eventually is key. But **eventually** 
 
 ## Understanding CAP in Our Distributed Counter
 
-In our distributed counter we'll mainly focus on **AP** (Availability and Partition tolerance) parts of CAP. Why not strong Consistency you may ask? In the CAP theorem, consistency specifically refers to linearizability (sometimes called strong consistency), which is about all nodes seeing the same data at the same time. We don't need this strong consistency for our counter; we need _eventual_ consistency. Our primary concern is ensuring that all nodes (counters) in our cluster (a bunch of counters) converge to the same final value, regardless of the order in which operations occur.
+In our distributed counter we'll mainly focus on **AP** (Availability and Partition tolerance) parts of CAP [4]. Why not strong Consistency you may ask? In the CAP theorem, consistency specifically refers to linearizability (sometimes called strong consistency), which is about all nodes seeing the same data at the same time. We don't need this strong consistency for our counter; we need _eventual_ consistency. Our primary concern is ensuring that all nodes (counters) in our cluster (a bunch of counters) converge to the same final value, regardless of the order in which operations occur.
 
 Since the precise operation order isn't critical for a counter - does it really matter if increments and decrements happen in the sequence **4-3-2-1-6**? No. What matters is that all nodes eventually reach the same consistent state.
 
-So, how do we ensure our counter value converges correctly across all nodes even with network partitions and concurrent updates? This is where Conflict-free Replicated Data Types (CRDTs) come in...
+So, how do we ensure our counter value converges correctly across all nodes even with network partitions and concurrent updates? This is where Conflict-free Replicated Data Types (CRDTs) [5] come in...
 
 ## CRDT
 
@@ -246,7 +247,7 @@ type (
 )
 ```
 
-Let's discuss the whats and whys of **CoW**(Copy-on-Write), **CAS**(Compare and Swap), Object Pooling and Ref Counting. I know we've discussed quite a bit of theory but, bear with me, we just need a bit more.
+Let's discuss the whats and whys of **CoW**(Copy-on-Write) [7], **CAS**(Compare and Swap) [6], Object Pooling and Ref Counting. I know we've discussed quite a bit of theory but, bear with me, we just need a bit more.
 
 First question we have to ask: why do we bother dealing with all these when we could just use locks and maps? Well, since our app is going to be highly concurrent, locking around increments, decrements, or merges would serialize all write access. Only one goroutine could modify the counter state at a time. Imagine we have 100 nodes talking to each other, updating and reading - due to high contention our app would slow down (in theory). So, that's why we'll implement a lock-free design using atomics.
 
@@ -470,7 +471,7 @@ Object pooling is a technique to create temporary objects for temporary uses to 
 
 In our implementation, it will be required for creating temporary increment and decrement maps when doing CoW. Remember the `Copy` of CoW? We have to make new copies of maps before swapping their pointers. If CAS fails, we have to put them back in the pool and let another goroutine use it. If CAS succeeds, we'll let GC clean up the old map.
 
-```ascii
+```sh
             SYNC.POOL RECYCLING MECHANISM
             =============================
 
@@ -531,7 +532,7 @@ In our implementation, it will be required for creating temporary increment and 
 
 Reference counting is a technique we use to safely manage shared resources in our lock-free implementation. Each `RefCountedMap` has an atomic counter that tracks how many operations are currently using it.
 
-```ascii
+```sh
             REFERENCE COUNTING LIFECYCLE
             ===========================
 
@@ -764,15 +765,11 @@ func (p *PNCounter) Increment(nodeId string) int64 {
 }
 ```
 
-Here's the breakdown of the Increment logic, performed within a retry loop:
+**Here's the breakdown of the Increment:**
 
-1.  **[Step 1] Load Current Map Pointer:** We first atomically load the pointer (`p.increments.Load()`) that currently points to the increments map.
-2.  **[Step 2] Get Reusable Map:** Then, we get a temporary map instance (`newMap`) from our object pool (`p.mapPool.Get()`).
-3.  **[Step 3] Copy Data (The "Copy" in CoW):** We copy the data from the map we loaded in Step 1 (`currentMap`) into our temporary map (`newMap`). This is the essential **Copy** part of the **Copy-on-Write** pattern.
-4.  **[Step 4] Apply Increment:** We perform the increment operation for the specified `nodeId` directly on the `newMap` (our copy).
-5.  **[Step 5] Attempt Atomic Swap (The "Write" via CAS):** We try to atomically swap the main pointer (`p.increments`) using **Compare-and-Swap** (`CompareAndSwap`). This operation checks if `p.increments` still points to `currentMap` (the pointer from Step 1) and, if so, updates it to point to `newMap`.
-    - **[Step 5a - Success]:** If the CAS succeeds, our `newMap` is now the active increments map. We call `Release()` on the `currentMap` (the old map) to decrement its reference count, allowing it to be garbage collected later when no longer referenced. The increment operation is complete.
-    - **[Step 5b - Failure]:** If the CAS fails, it means another concurrent operation updated the `p.increments` pointer between our Step 1 and Step 5. Our `newMap` is now based on outdated information. We return this unused `newMap` back to the pool (`p.mapPool.Put(newMap)`) and signal that this attempt failed.
+First, we get a pointer to the current increments map. Then, we grab a temporary map from our map pool. We copy the data from the current map into our temporary one, leaving the original untouched for now. We apply the increment operation on this temporary map.
+
+If the CAS succeeds, we release our hold on the old map (which is essential for our reference counting mechanism, allowing it to be garbage collected later) and the increment is successful. The beauty here is that if the CAS fails (likely because another concurrent operation completed first), nothing has been corrupted; the original map is still intact, and we simply return our unused temporary map to the pool before the operation retries.
 
 ```go
 // Decrement atomically increments the *decrement* count for the specified node using CoW and CAS.
@@ -816,15 +813,7 @@ func (p *PNCounter) Decrement(nodeId string) int64 {
 }
 ```
 
-Here's how the Decrement function works inside its retry loop:
-
-1.  **[Step 1] Load Pointer:** First, we atomically load the current pointer to the **decrements** map (`p.decrements.Load()`).
-2.  **[Step 2] Get Temporary Map:** Then, we get a reusable map instance (`newMap`) from our object pool (`p.mapPool.Get()`).
-3.  **[Step 3] Copy Data (CoW):** We copy all values from the map pointed to by `currentMap` (the current decrements map) into `newMap`. This is the **Copy** step in our **Copy-on-Write** strategy.
-4.  **[Step 4] Apply "Decrement" (by Incrementing N):** We apply the _decrement_ operation by **incrementing** the count associated with the given `nodeId` within the `newMap` (the copy). Remember, the `decrements` map tracks the _total_ number of decrements attributed to each node; increasing this count effectively decreases the counter's overall value (`Value = P - N`).
-5.  **[Step 5] Attempt Swap (CAS):** We try the atomic **Compare-and-Swap** (`p.decrements.CompareAndSwap`) on the decrements pointer. This operation checks if `p.decrements` still points to `currentMap` and, if so, updates it to point to `newMap`.
-    - **[Step 5a - Success]:** If the CAS succeeds, our `newMap` is now the active decrements map. We call `Release()` on the `currentMap` (the old map) to decrement its reference count, making it eligible for garbage collection eventually. The decrement operation is complete.
-    - **[Step 5b - Failure]:** If the CAS fails due to a concurrent update by another thread, we discard our `newMap` by returning it to the pool (`p.mapPool.Put(newMap)`) and signal that the operation needs to be retried.
+This is almost identical to `Increment` method with minor differences. Instead of incrementing the increments map, we increment the decrements map. The rest of the operations are the same.
 
 Before moving on to the other `CRDT` methods let's define our `Retry`:
 
@@ -989,16 +978,29 @@ func (p *PNCounter) MergeIncrements(other PNMap) bool {
 }
 ```
 
-This function merges incoming increment counts (`other` map) into the local counter's increments map, running inside a retry loop:
+Here's the breakdown of `MergeIncrements`, which shares similarities with `Increment`/`Decrement` as it's also a write operation:
 
-1.  **[Step 1] Load Pointer:** Atomically load the pointer to the current local **increments** map (`p.increments.Load()`).
-2.  **[Step 2] Check if Merge Needed:** Quickly check if the `other` map contains any counts higher than the `currentMap`. If not, no merge is necessary, and the function exits early (returning `false`).
-3.  **[Step 3] Get Temporary Map:** If a merge is needed, get a reusable map (`newMap`) from the pool.
-4.  **[Step 4] Copy Data (CoW):** Copy data from `currentMap` into `newMap` (Copy-on-Write).
-5.  **[Step 5] Apply Merge Logic:** Iterate through the `other` map. For each entry, update `newMap` only if the incoming count (`otherValue`) is greater than the existing count. This ensures we always store the maximum value seen for each node's **increment** count, following the CRDT merge rule.
-6.  **[Step 6] Attempt Swap (CAS):** Try to atomically swap the `p.increments` pointer from `currentMap` to `newMap`.
-    - **[Step 6a - Success]:** If CAS succeeds, the merged state (`newMap`) is now live for increments. `Release()` the old map and return `true` (update occurred).
-    - **[Step 6b - Failure]:** If CAS fails, return the unused `newMap` to the pool (`p.mapPool.Put`) and signal the retry mechanism to try again.
+Like before, we start by getting a pointer to the current `increments` map. However, since we're merging data from another counter (`other PNMap`), we have an opportunity for optimization _before_ doing any copying or swapping. We check if the incoming map actually contains any information that would change our current state (i.e., if it has counts for nodes we don't know, or higher counts for nodes we do know). If no update is needed based on this check, we can return early, saving unnecessary work – a nice optimization.
+
+If an update _is_ required, we proceed with CoW. Now, the core merge logic specific to CRDT PN-Counters happens: we iterate through the incoming `other` map and update our temporary map by taking the **maximum** value seen for each node ID. This ensures that we preserve the highest count observed across both maps, which is key to convergence.
+
+Here’s a simple illustration of the "take the max" rule for three nodes:
+
+```sh
+   Merge Logic Example (Taking Max):
+
+   Local Map (Current State)      Incoming Map (Other State)      Resulting Merged Map (In Temp Map)
+   +---------+                    +---------+                     +------------------+
+   | NodeA: 5|                    | NodeA: 4|                     | NodeA: max(5, 4) = 5 |
+   | NodeB: 2|  <-- Merge Rule -->| NodeB: 6|  -------->          | NodeB: max(2, 6) = 6 |
+   | NodeC: 7|                    | NodeC: 7|                     | NodeC: max(7, 7) = 7 |
+   +---------+                    +---------+                     +------------------+
+```
+
+Finally, we attempt CAS to make our merged temporary map the new current `increments` map. Just like with `Increment`:
+
+- **If the CAS succeeds:** We release our hold on the old map and return `true`
+- **If the CAS fails:** Another concurrent operation likely finished first. We return our unused temporary map to the pool and signal that the operation needs to be retried
 
 ```go
 // MergeDecrements merges incoming decrement counts (other PNMap) into the local counter.
@@ -1057,16 +1059,7 @@ func (p *PNCounter) MergeDecrements(other PNMap) bool {
 }
 ```
 
-This function merges incoming **decrement** counts (`other` map) into the local counter's decrements map, running inside a retry loop:
-
-1.  **[Step 1] Load Pointer:** Atomically load the pointer to the current local **decrements** map (`p.decrements.Load()`).
-2.  **[Step 2] Check if Merge Needed:** Quickly check if the `other` map contains any counts higher than the `currentMap`. If not, no merge is necessary, and the function exits early (returning `false`).
-3.  **[Step 3] Get Temporary Map:** If a merge is needed, get a reusable map (`newMap`) from the pool.
-4.  **[Step 4] Copy Data (CoW):** Copy data from `currentMap` into `newMap` (Copy-on-Write).
-5.  **[Step 5] Apply Merge Logic:** Iterate through the `other` map. For each entry, update `newMap` only if the incoming count (`otherValue`) is greater than the existing count. This ensures we always store the maximum value seen for each node's **decrement** count, following the CRDT merge rule.
-6.  **[Step 6] Attempt Swap (CAS):** Try to atomically swap the `p.decrements` pointer from `currentMap` to `newMap`.
-    - **[Step 6a - Success]:** If CAS succeeds, the merged state (`newMap`) is now live for decrements. `Release()` the old map and return `true` (update occurred).
-    - **[Step 6b - Failure]:** If CAS fails, return the unused `newMap` to the pool (`p.mapPool.Put`) and signal the retry mechanism to try again.
+Same logic but this time for decrements map.
 
 And, finally `Merge`:
 
@@ -1078,25 +1071,16 @@ func (p *PNCounter) Merge(other *PNCounter) bool {
 	// [Step 1] Get the increment and decrement maps from the other counter.
 	otherIncrements, otherDecrements := other.Counters()
 
-	// [Step 2] Merge the increment maps using the dedicated merge function.
+	// [Step 2] Merge the increment maps using the dedicated merge method.
 	incUpdated := p.MergeIncrements(otherIncrements)
 
-	// [Step 3] Merge the decrement maps using the dedicated merge function.
+	// [Step 3] Merge the decrement maps using the dedicated merge method.
 	decUpdated := p.MergeDecrements(otherDecrements)
 
 	// [Step 4] Return true if either merge caused an update, false otherwise.
 	return incUpdated || decUpdated
 }
 ```
-
-This top-level `Merge` function combines the state from another counter (`other`) into the current counter (`p`).
-
-1.  **[Step 1] Get Other State:** It first gets the increment and decrement count maps from the `other` counter.
-2.  **[Step 2] Merge Increments:** It calls `p.MergeIncrements` to merge the incoming increments, taking the maximum count for each node.
-3.  **[Step 3] Merge Decrements:** It then calls `p.MergeDecrements` to do the same for the decrement counts.
-4.  **[Step 4] Report Change:** It returns `true` if _either_ the increments _or_ the decrements map was updated locally during the merge. If both maps were already up-to-date, it returns `false`.
-
-Essentially, it ensures the current counter reflects the maximum counts seen across both itself and the `other` counter by delegating to the specific `MergeIncrements` and `MergeDecrements` functions.
 
 The CRDT implementation is finally done. Now, we need to ensure it works as expected, especially under concurrent conditions, by writing a couple of tests.
 
@@ -1270,10 +1254,22 @@ Remember that the principles we've explored here apply to many other distributed
 
 ## References
 
-1.  [Apache Cassandra Documentation](https://cassandra.apache.org/doc/latest/cassandra/operating/gossip.html). _Details on its use of the Gossip Protocol._
-2.  [HashiCorp Consul Documentation](https://developer.hashicorp.com/consul/docs/architecture/gossip). _Details on its use of the Gossip Protocol._
-3.  [The Gossip Protocol Explained](https://highscalability.com/gossip-protocol-explained/) - A great introduction to gossip protocols and their applications.
-4.  [CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem) - More information about the tradeoffs in distributed systems.
-5.  [CRDT](https://pages.lip6.fr/Marc.Shapiro/papers/RR-7687.pdf) - Paper that explains mathematical properties that make CRDTs work reliably
+1. <a id="ref1"></a>[Apache Cassandra
+   Documentation](https://cassandra.apache.org/doc/latest/cassandra/operating/gossip.html). _Details
+   on its use of the Gossip Protocol._
+2. <a id="ref2"></a>[HashiCorp Consul
+   Documentation](https://developer.hashicorp.com/consul/docs/architecture/gossip). _Details on its
+   use of the Gossip Protocol._
+3. <a id="ref3"></a>[The Gossip Protocol
+   Explained](https://highscalability.com/gossip-protocol-explained/) - A great introduction to
+   gossip protocols and their applications.
+4. <a id="ref4"></a>[CAP Theorem](https://en.wikipedia.org/wiki/CAP_theorem) - More information
+   about the tradeoffs in distributed systems.
+5. <a id="ref5"></a>[CRDT](https://pages.lip6.fr/Marc.Shapiro/papers/RR-7687.pdf) - Paper that
+   explains mathematical properties that make CRDTs work reliably
+6. <a id="ref6"></a>[Compare-and-swap - Wikipedia](https://en.wikipedia.org/wiki/Compare-and-swap).
+   _Provides a good overview of the CAS atomic operation._
+7. <a id="ref7"></a>[Copy-on-write - Wikipedia](https://en.wikipedia.org/wiki/Copy-on-write).
+   _Explains the CoW optimization technique._
 
 _If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter)._
