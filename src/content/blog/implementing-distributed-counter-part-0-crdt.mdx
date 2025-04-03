@@ -72,11 +72,11 @@ Understanding how Gossip propagates state eventually is key. But **eventually** 
 
 ## Understanding CAP in Our Distributed Counter
 
-In our distributed counter we'll mainly focus on **AP** (Availability and Partition tolerance) parts of CAP [4]. Why not strong Consistency you may ask? In the CAP theorem, consistency specifically refers to linearizability (sometimes called strong consistency), which is about all nodes seeing the same data at the same time. We don't need this strong consistency for our counter; we need _eventual_ consistency. Our primary concern is ensuring that all nodes (counters) in our cluster (a bunch of counters) converge to the same final value, regardless of the order in which operations occur.
+In our distributed counter we'll mainly focus on **AP** (Availability and Partition tolerance) parts of CAP[<a href="#ref4">4</a>]. Why not strong Consistency you may ask? In the CAP theorem, consistency specifically refers to linearizability (sometimes called strong consistency), which is about all nodes seeing the same data at the same time. We don't need this strong consistency for our counter; we need _eventual_ consistency. Our primary concern is ensuring that all nodes (counters) in our cluster (a bunch of counters) converge to the same final value, regardless of the order in which operations occur.
 
 Since the precise operation order isn't critical for a counter - does it really matter if increments and decrements happen in the sequence **4-3-2-1-6**? No. What matters is that all nodes eventually reach the same consistent state.
 
-So, how do we ensure our counter value converges correctly across all nodes even with network partitions and concurrent updates? This is where Conflict-free Replicated Data Types (CRDTs) [5] come in...
+So, how do we ensure our counter value converges correctly across all nodes even with network partitions and concurrent updates? This is where Conflict-free Replicated Data Types (CRDTs)[<a href="#ref5">5</a>] come in...
 
 ## CRDT
 
@@ -247,7 +247,7 @@ type (
 )
 ```
 
-Let's discuss the whats and whys of **CoW**(Copy-on-Write) [7], **CAS**(Compare and Swap) [6], Object Pooling and Ref Counting. I know we've discussed quite a bit of theory but, bear with me, we just need a bit more.
+Let's discuss the whats and whys of **CoW**(Copy-on-Write)[<a href="#ref7">7</a>], **CAS**(Compare and Swap)[<a href="#ref6">6</a>], Object Pooling and Ref Counting. I know we've discussed quite a bit of theory but, bear with me, we just need a bit more.
 
 First question we have to ask: why do we bother dealing with all these when we could just use locks and maps? Well, since our app is going to be highly concurrent, locking around increments, decrements, or merges would serialize all write access. Only one goroutine could modify the counter state at a time. Imagine we have 100 nodes talking to each other, updating and reading - due to high contention our app would slow down (in theory). So, that's why we'll implement a lock-free design using atomics.
 
