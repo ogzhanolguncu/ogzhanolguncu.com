@@ -1,5 +1,5 @@
 ---
-pubDatetime: 2025-04-02
+pubDatetime: 2025-07-02
 title: "Implementing Distributed Counter: Part 0 - CRDT"
 slug: implementing-distributed-counter-part-0-crdt
 tags:
@@ -58,12 +58,12 @@ Imagine nodes in a network are people in a closed room. When one person gets inf
 
 * = Informed Node, O = Uninformed Node
 
-Time 1: Start        Time 2: Spreading      Time 3: Eventual Consistency
-+-------+            +-------+            +-------+
-| O O O |            | O * O |            | * * * |
-| O * O |            | * * * |            | * * * |
-| O O O |            | O * O |            | * * * |
-+-------+            +-------+            +-------+
+Time 1: Start       Time 2: Spreading   Time 3: Eventual Consistency
++-------+           +-------+           +-------+
+| O O O |           | O * O |           | * * * |
+| O * O | --------> | * * * | --------> | * * * |
+| O O O |           | O * O |           | * * * |
++-------+           +-------+           +-------+
 ```
 
 This shows how information (`*`) starts at one node and gradually spreads through random interactions until all nodes are informed.
@@ -77,6 +77,39 @@ In our distributed counter we'll mainly focus on **AP** (Availability and Partit
 Since the precise operation order isn't critical for a counter - does it really matter if increments and decrements happen in the sequence **4-3-2-1-6**? No. What matters is that all nodes eventually reach the same consistent state.
 
 So, how do we ensure our counter value converges correctly across all nodes even with network partitions and concurrent updates? This is where Conflict-free Replicated Data Types (CRDTs)[<a href="#ref5">5</a>] come in...
+
+---
+
+### Lesson Learned: Why Simple Versioning Isn't Enough (Why CRDTs?)
+
+I initially attempted to build the distributed counter by just replicating the `counter` value along with a basic incrementing `version` number for conflict resolution.
+
+The naive idea was:
+
+1. Each node holds a `(value, version)` pair.
+2. When a node increments, it increases both its local `value` and its `version`.
+3. Nodes exchange these pairs.
+4. If Node A receives `(v, ver)` from Node B, and `ver` is greater than Node A's current version, Node A adopts Node B's `value` and `version`.
+
+Not gonna lie that seemed okay for simple cases or strictly sequential updates. Then, I quickly discovered this approach fundamentally breaks down under concurrent operations across multiple nodes.
+
+**Consider this scenario:**
+
+- We have Node A and Node B, both starting at `(value: 0, version: 0)`.
+- **Concurrently**, a client sends 100 increment requests to Node A, and another client sends 100 increment requests to Node B.
+- Node A diligently processes its requests, ending up in state `(value: 100, version: 100)`.
+- Node B _also_ diligently processes its requests, _also_ ending up in state `(value: 100, version: 100)`.
+- Now, Node A and Node B exchange their states via gossip.
+  - Node A receives `(100, 100)` from B. Since B's version (100) is not greater than A's version (100), A keeps its state.
+  - Node B receives `(100, 100)` from A. Since A's version (100) is not greater than B's version (100), B keeps its state.
+
+Both nodes converge to a final value of 100. But the _actual_ number of increment operations across the system was 200! We completely lost half the operations.
+
+This simple versioning only tells us _which node saw the latest update_ according to its local version counter. It **fails to capture and combine the effects of concurrent operations** that happened independently on different nodes based on the _same_ earlier state. There's no mechanism here to _merge_ the distinct sets of increments performed by A and B; the nodes just overwrite based on a version number that doesn't reflect the combined history.
+
+This realization directly motivated the use of CRDTs, like the PN-Counter, which mathematically guarantee convergence to the correct state by defining how to merge concurrent updates properly.
+
+---
 
 ## CRDT
 
@@ -134,77 +167,12 @@ The key idea is that each node tracks the P (Positive) and N (Negative) counts o
 
 After merging, the current value of the counter is calculated by summing up all the known P counts from all nodes and subtracting the sum of all the known N counts from all nodes. This process ensures all contributions are counted exactly once, leading to the correct final value even with concurrent updates.
 
-## Implementation Approach
-
 We'll be implementing this distributed counter in Go, which is well-suited for building networked systems due to its excellent concurrency support.
 
 Its standard library also provides robust networking packages that we'll use throughout this series.
 Even if you're not familiar with Go, the concepts we'll explore apply broadly to distributed systems development in any language.
 
-### Final system architecture at end of this series
-
-```
-                 DISTRIBUTED COUNTER ARCHITECTURE (Final)
-                 ========================================
-                          +----------------+
-                          |    Client      |
-                          +--------+-------+
-                                   |
-                                   | HTTP
-                                   v
-                          +----------------+
-                          |  API Gateway   |
-                          |----------------|
-                          | Load Balancer  |
-                          | Reverse Proxy  |
-                          |----------------|
-                          | Endpoints:     |
-                          | GET  /counter  |
-                          | POST /increment|
-                          | POST /decrement|
-                          | GET  /nodes    |
-                          | GET  /health   |
-                          +--------+-------+
-                                   |
-                                   | HTTP
-                 +-----------------+-----------------+
-                 |                                   |
-                 v                                   v
-+----------------------+<-- DigestPull/Ack/Push -->+----------------------+
-|       Node 1         |      (State Sync)        |       Node 2         |
-|----------------------|                          |----------------------|
-| PNCounter            |                          | PNCounter            |
-|  - Increments: {...} |                          |  - Increments: {...} |
-|  - Decrements: {...} |                          |  - Decrements: {...} |
-| PeerManager          |                          | PeerManager          |
-| TCPTransport         |                          | TCPTransport         |
-| WAL                  |                          | WAL                  |
-+--------+-------------+                          +--------+-------------+
-         ^   |                                              ^   |
-         |   | HTTP                                         |   | HTTP
-         |   v                                              |   v
-+--------+-------------+                          +--------+-------------+
-| DiscoveryClient      |                          | DiscoveryClient      |
-+----------------------+                          +----------------------+
-         |   ^                                              |   ^
-         |   | Register                                     |   | Register
-         |   | Heartbeat                                    |   | Heartbeat
-         |   | GetPeers                                     |   | GetPeers
-         v   |                                              v   |
-+--------------------------------------------------------------------------+
-|                            Discovery Server                              |
-|--------------------------------------------------------------------------|
-| - knownPeers: {"node1_addr": {LastSeen}, "node2_addr": {LastSeen}}       |
-| - Endpoints:                                                             |
-|   * POST /register                                                       |
-|   * POST /heartbeat                                                      |
-|   * GET /peers                                                           |
-+--------------------------------------------------------------------------+
-```
-
-This will be our final architecture and in each post, we'll work towards that goal.
-
-Okay, with the concepts and the final architecture in mind, let's dive into the first piece of code.
+Okay, with the concepts in mind, let's dive into the first piece of code.
 
 ## PN-Counter Implementation in Go
 
@@ -214,899 +182,269 @@ Let's setup our directory structure first.
  crdt/
  ├─ crdt.go
  ├─ crdt_test.go
- ├─ retry.go
 ```
 
-We'll start with CRDT implementation.
+### Core Data Structures
+
+Here's the core structure of our PNCounter. We use two separate `RWMutexes` to potentially allow concurrent increments and decrements if they happen simultaneously.
 
 ```go
 // crdt/crdt.go
-const maxRetryCount = 50
+package crdt
+
+import (
+	"maps"
+	"sync"
+)
 
 type (
+	// PNMap stores node IDs and their corresponding counts.
 	PNMap map[string]uint64
 
-	// RefCountedMap wraps a PNMap with reference counting for Copy-on-Write operations
-	RefCountedMap struct {
-		data     PNMap
-		refCount int32 // Using atomic operations for thread-safe reference counting
-	}
-
-	// MapPool provides recycling of maps to reduce allocation pressure
-	MapPool struct {
-		pool sync.Pool
-	}
-
-	// PNCounter (Positive-Negative Counter) is a conflict-free replicated data type (CRDT)
-	// that allows both incrementing and decrementing a counter in a distributed system.
+	// PNCounter (Positive-Negative Counter) using separate RWMutexes
+	// for increments and decrements to potentially increase concurrency
+	// between increment and decrement operations.
 	PNCounter struct {
-		increments atomic.Pointer[RefCountedMap]
-		decrements atomic.Pointer[RefCountedMap]
-		mapPool    *MapPool
+		incMu      sync.RWMutex
+		decMu      sync.RWMutex
+		increments PNMap
+		decrements PNMap
 	}
 )
 ```
 
-Let's discuss the whats and whys of **CoW**(Copy-on-Write)[<a href="#ref7">7</a>], **CAS**(Compare and Swap)[<a href="#ref6">6</a>], Object Pooling and Ref Counting. I know we've discussed quite a bit of theory but, bear with me, we just need a bit more.
+---
 
-First question we have to ask: why do we bother dealing with all these when we could just use locks and maps? Well, since our app is going to be highly concurrent, locking around increments, decrements, or merges would serialize all write access. Only one goroutine could modify the counter state at a time. Imagine we have 100 nodes talking to each other, updating and reading - due to high contention our app would slow down (in theory). So, that's why we'll implement a lock-free design using atomics.
+### Lesson Learned: Why These Simple Locks?
 
-### Compare and Swap
+> Okay, so you see those plain `sync.RWMutex` fields right there? Let me confess. When I first started this CRDT part, seeing simple mutexes like this felt... well, boring. Like many engineers, I got tempted by the shiny, complex stuff.
+>
+> So, I went down a rabbit hole. I mean, _really_ went for it: Copy-on-Write, atomic pointers doing Compare-and-Swap, reference counting, object pooling... the works. (You can dig through the `part0` commit history if you enjoy seeing someone willingly inflict pain upon themselves). I basically spent a bunch of time making things way more complicated than they needed to be, chasing some theoretical performance dragon.
+>
+> And, what happened? After building this intricate beast and running benchmarks... the plain, "boring" `RWMutex` version was **faster**. Yep. All that extra complexity, all those hoops I jumped through? Turned out to be pretty much pointless _for this specific problem_. My guess is juggling whole maps with atomics and all that jazz just adds too much overhead compared to a simple lock.
+>
+> Why bore you with my war story? Because it's a classic trap! **Don't build complicated shit just because it sounds cool or you think you _should_.** Test the simple way first. It might just save you a ton of time and headache, and sometimes, it's even faster.
 
-CAS is an atomic operation used in concurrent programming to ensure thread-safe updates without using locks. Here's how it works:
+---
 
-#### Basic Concept of CAS
+Right, so that's the "why" behind sticking with the trusty `RWMutex`. Now, let's see how we actually put this `PNCounter` struct and its locks to work, starting with the constructor and read operations.
 
-CAS takes three parameters:
+### Constructor and Read Operations
 
-1. Memory location (address)
-2. Expected value
-3. New value
-
-The operation atomically:
-
-- Checks if the memory location contains the expected value
-- If it does, replaces it with the new value and returns true
-- If it doesn't, returns false (the operation fails)
-
-#### Successful CAS Operation
-
-```
-Memory Address X initially holds value 100
-
-Thread wants to change value from 100 to 200 using CAS(X, 100, 200)
-
-Step 1: Read memory location
-┌───────────────┐
-│ Memory Addr X │
-├───────────────┤
-│      100      │
-└───────────────┘
-
-Step 2: Compare current value (100) with expected value (100)
-┌───────────────┐    ┌───────────────┐
-│ Memory Addr X │    │ Expected Value│
-├───────────────┤ == ├───────────────┤  ✓ They match!
-│      100      │    │      100      │
-└───────────────┘    └───────────────┘
-
-Step 3: Since they match, update to new value (atomic operation)
-┌───────────────┐
-│ Memory Addr X │
-├───────────────┤
-│      200      │ ← Updated!
-└───────────────┘
-
-Result: CAS returns true, operation successful
-```
-
-#### Failed CAS Operation
-
-```
-Memory Address X initially holds value 101
-
-Thread wants to change value from 100 to 200 using CAS(X, 100, 200)
-
-Step 1: Read memory location
-┌───────────────┐
-│ Memory Addr X │
-├───────────────┤
-│      101      │
-└───────────────┘
-
-Step 2: Compare current value (101) with expected value (100)
-┌───────────────┐    ┌───────────────┐
-│ Memory Addr X │    │ Expected Value│
-├───────────────┤ != ├───────────────┤  ✗ They don't match!
-│      101      │    │      100      │
-└───────────────┘    └───────────────┘
-
-Step 3: No update performed, memory remains unchanged
-┌───────────────┐
-│ Memory Addr X │
-├───────────────┤
-│      101      │ ← Unchanged
-└───────────────┘
-
-Result: CAS returns false, operation failed
-```
-
-Benefits are entire operation is atomic(indivisible unit), if a thread fails CAS can immediately go back to other work and no deadlocks. Trade off is a bit more tricky to get it right and set up.
-
-### Copy-on-Write
-
-The copy-on-write approach is a strategy for concurrent data structure modifications that avoids locking while ensuring consistency. Here's how it works:
-
-Instead of modifying data in place (which would require locks), you:
-
-1. Create a complete copy of the data
-2. Make changes to the copy
-3. Atomically swap the reference to point to the new copy with CAS as we explained above.
-
-#### Example with PNCounter
-
-Let's imagine a simplified counter with two nodes "A" and "B":
-
-```
-Initial state:
-┌─────────────────┐
-│ Pointer         │──┐
-└─────────────────┘  │
-                     ▼
-                   ┌─────────────┐
-                   │ Map         │
-                   │ "A": 5      │
-                   │ "B": 3      │
-                   └─────────────┘
-```
-
-#### Thread 1 wants to increment node "A"
-
-```
-Step 1: Read current map
-┌─────────────────┐
-│ Pointer         │──┐
-└─────────────────┘  │
-                     ▼
-                   ┌─────────────┐
-                   │ Map         │
-                   │ "A": 5      │
-                   │ "B": 3      │
-                   └─────────────┘
-
-Step 2: Create a new copy with changes
-┌─────────────────┐
-│ Pointer         │──┐
-└─────────────────┘  │
-                     ▼
-                   ┌─────────────┐     ┌─────────────┐
-                   │ Map         │     │ New Map     │
-                   │ "A": 5      │     │ "A": 6      │
-                   │ "B": 3      │     │ "B": 3      │
-                   └─────────────┘     └─────────────┘
-
-Step 3: Atomically swap pointer
-┌─────────────────┐
-│ Pointer         │──┐
-└─────────────────┘  │
-                     │                 ┌─────────────┐
-                     │                 │ Map (old)   │
-                     │                 │ "A": 5      │
-                     │                 │ "B": 3      │
-                     │                 └─────────────┘
-                     ▼
-                   ┌─────────────┐
-                   │ New Map     │
-                   │ "A": 6      │
-                   │ "B": 3      │
-                   └─────────────┘
-```
-
-#### When Concurrent Updates Happen
-
-Let's say Thread 2 is also trying to increment node "B" at the same time:
-
-```
-Thread 1 and Thread 2 both read the initial state
-┌─────────────────┐
-│ Pointer         │──┐
-└─────────────────┘  │
-                     ▼
-                   ┌─────────────┐
-                   │ Map         │
-                   │ "A": 5      │
-                   │ "B": 3      │
-                   └─────────────┘
-
-Thread 1 creates a new map         Thread 2 creates a new map
-┌─────────────┐                    ┌─────────────┐
-│ New Map T1  │                    │ New Map T2  │
-│ "A": 6      │                    │ "A": 5      │
-│ "B": 3      │                    │ "B": 4      │
-└─────────────┘                    └─────────────┘
-
-Thread 1 succeeds with CAS
-┌─────────────────┐
-│ Pointer         │──┐
-└─────────────────┘  │
-                     ▼
-                   ┌─────────────┐
-                   │ New Map T1  │
-                   │ "A": 6      │
-                   │ "B": 3      │
-                   └─────────────┘
-
-Thread 2's CAS fails (pointer changed)
-```
-
-Since Thread 2's CAS fails, it must:
-
-```
-1. Read the current state again
-┌─────────────────┐
-│ Pointer         │──┐
-└─────────────────┘  │
-                     ▼
-                   ┌─────────────┐
-                   │ Map         │
-                   │ "A": 6      │ ← (Thread 1's update)
-                   │ "B": 3      │
-                   └─────────────┘
-
-2. Create another new map
-┌─────────────┐
-│ New Map T2  │
-│ "A": 6      │ ← (Preserves Thread 1's update)
-│ "B": 4      │ ← (Thread 2's update)
-└─────────────┘
-
-3. Try CAS again
-```
-
-### Object Pooling
-
-Object pooling is a technique to create temporary objects for temporary uses to reduce memory footprint of the program.
-
-> Any item stored in the Pool may be removed automatically at any time without notification. If the Pool holds the only reference when this happens, the item might be deallocated.
-
-In our implementation, it will be required for creating temporary increment and decrement maps when doing CoW. Remember the `Copy` of CoW? We have to make new copies of maps before swapping their pointers. If CAS fails, we have to put them back in the pool and let another goroutine use it. If CAS succeeds, we'll let GC clean up the old map.
-
-```sh
-            SYNC.POOL RECYCLING MECHANISM
-            =============================
-
-┌───────────────────────────────────────────────────┐
-│                    Application                    │
-└───────────┬─────────────────────────┬─────────────┘
-            │                         │
-            │ Get                     │ Put
-            │                         │
-            ▼                         │
-┌───────────────────┐       ┌─────────────────────┐
-│   Need a Map?     │       │   Done with Map?    │
-└───────┬───────────┘       └──────────┬──────────┘
-        │                              │
-        ▼                              │
-┌───────────────────┐                  │
-│  sync.Pool.Get()  │                  │
-└───────┬───────────┘                  │
-        │                              │
-        ▼                              │
-┌───────────────────┐                  │
-│ Check Pool Cache  │                  │
-└───────┬───────────┘                  │
-        │                              │
-        ▼                              │
-┌───────────────────┐ No     ┌─────────────────────┐
-│   Map Available?  ├────────►  Allocate New Map   │
-└───────┬───────────┘        └──────────┬──────────┘
-        │ Yes                           │
-        │                               │
-        ▼                               │
-┌───────────────────┐                   │
-│ Return Cached Map │                   │
-└───────┬───────────┘                   │
-        │                               │
-        │                               │
-        │      ┌─────────────────────┐  │
-        └─────►│   Use Map in App    │◄─┘
-               └──────────┬──────────┘
-                          │
-                          │
-                          ▼
-               ┌─────────────────────┐
-               │ sync.Pool.Put(map)  │
-               └──────────┬──────────┘
-                          │
-                          ▼
-               ┌─────────────────────┐
-               │ Add to Pool Cache   │ ─┐
-               └─────────────────────┘  │
-                          ▲             │
-                          │             │
-                          └─────────────┘
-                         (Ready for reuse)
-```
-
-### Reference Counting
-
-Reference counting is a technique we use to safely manage shared resources in our lock-free implementation. Each `RefCountedMap` has an atomic counter that tracks how many operations are currently using it.
-
-```sh
-            REFERENCE COUNTING LIFECYCLE
-            ===========================
-
-Initial State (refCount = 1)
-┌─────────────────────────────┐
-│ Map (refCount = 1)          │◄───── Pointer
-│                             │
-│ - Only owner is the pointer │
-└─────────────────────────────┘
-
-
-During Read Operations (Acquire)
-┌─────────────────────────────┐
-│ Map (refCount = 3)          │◄───── Pointer
-│                             │
-│ - Pointer reference         │       ┌─────────────┐
-│ - Reader 1                  │◄──────┤ Reader 1    │
-│ - Reader 2                  │◄──────┤ Reader 2    │
-└─────────────────────────────┘       └─────────────┘
-
-
-During Update (CoW)
-┌─────────────────────────────┐        ┌─────────────────────────────┐
-│ Old Map (refCount = 3)      │        │ New Map (refCount = 1)      │
-│                             │        │                             │
-│ - Old pointer reference     │        │                             │
-│ - Reader 1                  │◄─────  │                             │
-│ - Reader 2                  │◄─────  │                             │
-└─────────────────────────────┘        └─────────────────────────────┘
-        ▲                                        ▲
-        │                                        │
-        │                                        │
-        └── Old Pointer                          └── New Pointer
-                                                    (After CAS)
-
-
-After Readers Complete (Release)
-┌─────────────────────────────┐        ┌─────────────────────────────┐
-│ Old Map (refCount = 0)      │        │ New Map (refCount = 1)      │
-│                             │        │                             │
-│ - No more references        │        │ - Pointer reference         │
-│ - Ready for GC              │        │                             │
-└─────────────────────────────┘        └─────────────────────────────┘
-                                                    ▲
-                                                    │
-                                                    │
-                                                    └── Current Pointer
-```
-
-When readers need to access the map's data, they increment the reference count to prevent the map from being destroyed while they're using it. After they finish, they decrement the count.
-
-During updates, we create a new map and swap the pointer to it. The old map isn't immediately destroyed - it remains alive until all readers are done with it. Once its reference count reaches zero and no pointers point to it, the garbage collector can reclaim its memory.
-
-## Enough theory, let's code already!
-
-Now that we understand the core concepts behind our distributed counter (CRDT, CAS, CoW, Object Pooling, and Reference Counting), let's implement the PNCounter in Go.
-
-Let's define our `RefCountedMap` first:
+Now we can define the constructor and the read operations for `PNCounter`.
 
 ```go
-// NewRefCountedMap creates a new map with an initial reference count of 1
-func NewRefCountedMap() *RefCountedMap {
-	return &RefCountedMap{
-		data:     make(PNMap),
-		refCount: 1, // Start with 1 reference
-	}
-}
-
-// Acquire increments the reference count
-func (r *RefCountedMap) Acquire() { atomic.AddInt32(&r.refCount, 1) }
-
-// Release decrements the reference count
-func (r *RefCountedMap) Release() {
-	atomic.AddInt32(&r.refCount, -1) // GC will collect the map when refCount is zero and it's unreachable.
-}
-```
-
-When operations read the map, they call `Acquire()` to ensure the map isn't cleaned up while they're using it. After they're done, they call `Release()`. When we swap pointers in our CAS operations, the old map's reference count eventually drops to zero when all readers finish, allowing it to be garbage collected.
-
-> Note the use of `atomic` operations for incrementing and decrementing the reference count. These ensure that our reference counting operations are thread-safe without requiring locks - maintaining our lock-free design philosophy throughout the implementation. Without atomics, concurrent Acquire/Release operations could lead to race conditions where the count might be incorrectly tracked.
-
-Now, let's add our `MapPool`:
-
-```go
-// NewMapPool creates a new map pool
-func NewMapPool() *MapPool {
-	return &MapPool{
-		pool: sync.Pool{
-			New: func() any {
-				return &RefCountedMap{
-					data:     make(PNMap),
-					refCount: 1,
-				}
-			},
-		},
-	}
-}
-
-// Get retrieves a map from the pool or creates a new one
-func (p *MapPool) Get() *RefCountedMap {
-	return p.pool.Get().(*RefCountedMap)
-}
-
-// Put returns a map to the pool for reuse, ensuring it's cleaned first.
-func (p *MapPool) Put(m *RefCountedMap) {
-    // CRITICAL: Clear the map data before returning to the pool.
-    // sync.Pool might reuse this map later, and we don't want stale data.
-    clear(m.data) // Keeps the underlying allocated memory but removes entries.
-
-    // CRITICAL: Reset the reference count. When Get retrieves this,
-    // it should have a fresh refCount of 1, representing the new owner.
-    atomic.StoreInt32(&m.refCount, 1)
-
-    // Return the cleaned map to the pool.
-    p.pool.Put(m)
-}
-```
-
-One crucial detail when using `sync.Pool` with objects that hold state is cleaning them up before putting them back. In our `Put` method, we must `clear(m.data)` to remove any old key-value pairs. Otherwise, the next time `Get` retrieves this map instance, it might contain stale data from a previous operation. Equally important is resetting the `refCount` to 1 using `atomic.StoreInt32`, ensuring that any map retrieved from the pool starts with the correct initial reference count for its new temporary owner.
-
-Let's define our constructor for `PNCounter`:
-
-```go
-// New creates a new PNCounter with the provided node ID
+// New creates a new PNCounter with the provided node ID,
+// initializing separate maps and mutexes.
 func New(nodeId string) *PNCounter {
-	c := &PNCounter{
-		mapPool: NewMapPool(),
+	// Initialize maps directly
+	incMap := make(PNMap)
+	incMap[nodeId] = 0
+
+	decMap := make(PNMap)
+	decMap[nodeId] = 0
+
+	return &PNCounter{
+		increments: incMap,
+		decrements: decMap,
 	}
-
-	incMap := NewRefCountedMap()
-	incMap.data[nodeId] = 0
-	c.increments.Store(incMap)
-
-	decMap := NewRefCountedMap()
-	decMap.data[nodeId] = 0
-	c.decrements.Store(decMap)
-
-	return c
 }
-```
 
-Let's define our retrieval functions:
-
-```go
-// Value returns the current value of the counter (increments - decrements)
+// Value returns the current value of the counter (increments - decrements).
+// It acquires read locks on both increment and decrement maps.
 func (p *PNCounter) Value() int64 {
-	increments := p.increments.Load()
-	increments.Acquire()
-	defer increments.Release()
+	// Acquire locks in a consistent order (inc then dec)
+	p.incMu.RLock()
+	defer p.incMu.RUnlock() // Ensure inc unlock happens
 
-	decrements := p.decrements.Load()
-	decrements.Acquire()
-	defer decrements.Release()
+	p.decMu.RLock()
+	defer p.decMu.RUnlock() // Ensure dec unlock happens
 
 	var incSum, decSum uint64
-	for _, v := range increments.data {
+	for _, v := range p.increments {
 		incSum += v
 	}
-	for _, v := range decrements.data {
+	for _, v := range p.decrements {
 		decSum += v
 	}
 
 	return int64(incSum) - int64(decSum)
 }
 
-// LocalValue returns the net value for a specific node
+// LocalValue returns the net value for a specific node.
+// It acquires read locks on both increment and decrement maps.
 func (p *PNCounter) LocalValue(nodeId string) int64 {
-	increments := p.increments.Load()
-	increments.Acquire()
-	defer increments.Release()
+	// Acquire locks in a consistent order
+	p.incMu.RLock()
+	defer p.incMu.RUnlock()
 
-	decrements := p.decrements.Load()
-	decrements.Acquire()
-	defer decrements.Release()
+	p.decMu.RLock()
+	defer p.decMu.RUnlock()
 
-	var incSum, decSum uint64
-	if val, ok := increments.data[nodeId]; ok {
-		incSum = val
+	var incVal, decVal uint64
+	// Direct access within the locks
+	if val, ok := p.increments[nodeId]; ok {
+		incVal = val
+	}
+	if val, ok := p.decrements[nodeId]; ok {
+		decVal = val
 	}
 
-	if val, ok := decrements.data[nodeId]; ok {
-		decSum = val
-	}
-
-	return int64(incSum) - int64(decSum)
+	return int64(incVal) - int64(decVal)
 }
 ```
 
-These two functions are highly similar: `Value()` returns the counter's overall total value, while `LocalValue()` returns the net value contributed by a specific node. The crucial aspect in both is the use of `Acquire()` and `Release()` when accessing the internal maps. This prevents race conditions that might otherwise cause reads of inconsistent or stale data if another thread concurrently modifies the counter's state.
+### Implementing Increment and Decrement
 
-Let's implement our `Increment` and `Decrement`:
+Now, let's implement `Increment` and `Decrement`.
 
 ```go
-// Increment atomically increments the counter for the specified node using CoW and CAS.
-func (p *PNCounter) Increment(nodeId string) int64 {
-	// Setup retry logic (implementation details omitted for now)
-	retry := &Retry[int64]{
-		MaxAttempts: maxRetryCount,
-		Delay:       1 * time.Millisecond,
+// Increment increments the counter for the specified node.
+// It acquires a write lock only on the increments map.
+func (p *PNCounter) Increment(nodeId string) {
+	p.incMu.Lock() // Acquire increments write lock
+	defer p.incMu.Unlock()
+
+	// Direct modification within the lock
+	if _, exists := p.increments[nodeId]; !exists {
+		p.increments[nodeId] = 0 // Initialize if node is new
 	}
+	p.increments[nodeId]++
+}
 
-	// Execute the increment logic within the retry loop
-	return retry.Do(func() RetryResult[int64] {
-		// [Step 1]
-		currentMap := p.increments.Load() // Atomically load the pointer
+// Decrement increments the decrement counter for the specified node.
+// It acquires a write lock only on the decrements map.
+func (p *PNCounter) Decrement(nodeId string) {
+	p.decMu.Lock() // Acquire decrements write lock
+	defer p.decMu.Unlock()
 
-		// [Step 2]
-		newMap := p.mapPool.Get() // Get a map from the pool
-
-		// [Step 3]
-		maps.Copy(newMap.data, currentMap.data) // Copy data (CoW)
-
-		// [Step 4]
-		if _, exists := newMap.data[nodeId]; !exists {
-			newMap.data[nodeId] = 0
-		}
-		newMap.data[nodeId]++ // Apply increment to the new map
-
-		// [Step 5]
-		if p.increments.CompareAndSwap(currentMap, newMap) { // Attempt atomic swap (CAS)
-			// [Step 5a - Success]
-			currentMap.Release() // Release pointer's hold on the old map
-			return RetryResult[int64]{Value: p.Value(), Done: true}
-		}
-
-		// [Step 5b - Failure]
-		p.mapPool.Put(newMap) // Return unused map to the pool
-		return RetryResult[int64]{Value: p.Value(), Done: false}
-	}) // Retry mechanism handles looping if Done == false
+	// Direct modification within the lock
+	if _, exists := p.decrements[nodeId]; !exists {
+		p.decrements[nodeId] = 0 // Initialize if node is new
+	}
+	p.decrements[nodeId]++ // PNCounter increments the *decrement* map
 }
 ```
 
-**Here's the breakdown of the Increment:**
+The `Increment` method acquires an exclusive lock `(incMu.Lock())` to safely update the `increments` map for the given `nodeId`, initializing it if necessary before incrementing. `Decrement` follows the identical pattern for the `decrements` map using `decMu`.
 
-First, we get a pointer to the current increments map. Then, we grab a temporary map from our map pool. We copy the data from the current map into our temporary one, leaving the original untouched for now. We apply the increment operation on this temporary map.
+Crucially, using separate `RWMutexes` for increments and decrements allows these operations to potentially run concurrently without blocking each other, as they lock distinct resources. Operations requiring access to both maps, like `Value()`, will naturally need to acquire both corresponding read locks.
 
-If the CAS succeeds, we release our hold on the old map (which is essential for our reference counting mechanism, allowing it to be garbage collected later) and the increment is successful. The beauty here is that if the CAS fails (likely because another concurrent operation completed first), nothing has been corrupted; the original map is still intact, and we simply return our unused temporary map to the pool before the operation retries.
+### Helper for Merging: Counters
 
-```go
-// Decrement atomically increments the *decrement* count for the specified node using CoW and CAS.
-func (p *PNCounter) Decrement(nodeId string) int64 {
-	// Setup retry logic
-	retry := &Retry[int64]{
-		MaxAttempts: maxRetryCount, // Define this constant elsewhere (e.g., 3)
-		Delay:       1 * time.Millisecond,
-	}
-
-	// Execute the decrement logic within the retry loop
-	return retry.Do(func() RetryResult[int64] {
-		// [Step 1]
-		currentMap := p.decrements.Load() // Atomically load the pointer to the *decrements* map
-
-		// [Step 2]
-		newMap := p.mapPool.Get() // Get a map from the pool
-
-		// [Step 3]
-		maps.Copy(newMap.data, currentMap.data) // Copy data (CoW)
-
-		// [Step 4]
-		if _, exists := newMap.data[nodeId]; !exists {
-			newMap.data[nodeId] = 0
-		}
-		// Apply *increment* to the *decrement* count on the new map
-		newMap.data[nodeId]++
-
-		// [Step 5]
-		// Attempt atomic swap (CAS) on the *decrements* pointer
-		if p.decrements.CompareAndSwap(currentMap, newMap) {
-			// [Step 5a - Success]
-			currentMap.Release() // Release pointer's hold on the old map
-			return RetryResult[int64]{Value: p.Value(), Done: true} // Signal success.
-		}
-
-		// [Step 5b - Failure]
-		p.mapPool.Put(newMap) // Return unused map to the pool
-		return RetryResult[int64]{Value: p.Value(), Done: false} // Signal retry needed.
-	}) // Retry mechanism handles looping if Done == false
-}
-```
-
-This is almost identical to `Increment` method with minor differences. Instead of incrementing the increments map, we increment the decrements map. The rest of the operations are the same.
-
-Before moving on to the other `CRDT` methods let's define our `Retry`:
+This helper function safely retrieves copies of the internal maps, useful when sending state to another node or preparing for a merge.
 
 ```go
-package crdt
-
-import (
-	"math/rand"
-	"time"
-)
-
-// Retry provides configuration for retrying an operation.
-type Retry[T any] struct {
-	MaxAttempts int           // Maximum number of times to attempt the operation.
-	Delay       time.Duration // Initial delay between attempts.
-}
-
-// RetryResult wraps the result of one attempt and indicates if it was successful.
-type RetryResult[T any] struct {
-	Value T    // The value computed by the attempt (may be partial or final).
-	Done  bool // True if the operation succeeded and no more retries are needed.
-}
-
-// Do executes the provided function 'fn' repeatedly until it succeeds (returns Done: true)
-// or the maximum number of attempts is reached. It uses exponential backoff with jitter.
-func (r *Retry[T]) Do(fn func() RetryResult[T]) T {
-	var result RetryResult[T]
-	attempts := 0
-	// Start with the base delay.
-	currentDelay := r.Delay
-	// Cap the backoff delay to avoid excessively long waits.
-	maxBackoff := 100 * time.Millisecond // Example cap
-
-	for attempts < r.MaxAttempts {
-		// Execute the function representing one attempt.
-		result = fn()
-		// If the attempt succeeded, return the final value immediately.
-		if result.Done {
-			return result.Value
-		}
-
-		// Increment attempt counter.
-		attempts++
-		// If we've reached the max attempts, break the loop.
-		if attempts >= r.MaxAttempts {
-			break
-		}
-
-		// Calculate next delay using exponential backoff with jitter:
-		// 1. Calculate jitter: random duration up to the *current* base delay.
-		jitter := time.Duration(rand.Int63n(int64(currentDelay)))
-		// 2. Calculate next base delay: double the current delay.
-		newBaseDelay := currentDelay * 2
-		// 3. Cap the base delay if it exceeds the maximum backoff.
-		if newBaseDelay > maxBackoff {
-			newBaseDelay = maxBackoff
-		}
-		// 4. Set the actual delay for the next sleep: next base delay + jitter.
-		// Update currentDelay for the *next* iteration's jitter calculation.
-		currentDelay = newBaseDelay
-		sleepDuration := currentDelay + jitter
-
-		// Wait before the next attempt.
-		time.Sleep(sleepDuration)
-	}
-
-	// If the loop finished due to max attempts reached, return the value
-	// from the *last* attempt, even though it wasn't successful (Done == false).
-	// NOTE: This means the operation ultimately failed.
-	return result.Value
-}
-```
-
-This `Retry` helper function manages repeated attempts for operations, like our CAS, which can fail due to concurrent access.
-
-Instead of a simple busy-loop that could waste CPU, it uses **exponential backoff with jitter**. This means it waits progressively longer between failed attempts and adds randomness, reducing contention and resource usage.
-
-It limits the total number of retries (`MaxAttempts`). If the operation hasn't succeeded after all attempts, this implementation **drops the update** (e.g., the increment or decrement) for that specific request on this node and returns the last known value.
-
-**The Key Trade-off:** This approach prevents excessive CPU usage under high contention but accepts that some updates might be lost locally. Eventual consistency through CRDT merges will ensure _successful_ updates converge across nodes, but it **will not** recover updates that were dropped here due to retry limits being hit. Whether dropping occasional updates is acceptable depends on the specific needs of the application.
-
-Let's define our `Counters` this will be useful when we merge two counters together:
-
-```go
-// Counters returns copies of the increment and decrement counter maps
+// Counters returns copies of the increment and decrement counter maps.
+// It acquires read locks on both maps.
 func (p *PNCounter) Counters() (PNMap, PNMap) {
-	increments := p.increments.Load()
-	increments.Acquire()
-	defer increments.Release()
+	// Acquire locks in a consistent order
+	p.incMu.RLock()
+	defer p.incMu.RUnlock()
 
-	decrements := p.decrements.Load()
-	decrements.Acquire()
-	defer decrements.Release()
+	p.decMu.RLock()
+	defer p.decMu.RUnlock()
 
-	// Create independent copies
-	incCopy := make(PNMap, len(increments.data))
-	decCopy := make(PNMap, len(decrements.data))
+	// Create independent copies while holding the locks
+	incCopy := make(PNMap, len(p.increments))
+	decCopy := make(PNMap, len(p.decrements))
 
-	maps.Copy(incCopy, increments.data)
-	maps.Copy(decCopy, decrements.data)
+	maps.Copy(incCopy, p.increments)
+	maps.Copy(decCopy, p.decrements)
 
 	return incCopy, decCopy
 }
 ```
 
-Here comes the most important methods of our CRDT:
+### Merging Counter State (CRDT Merge Operation)
 
-```go
-// MergeIncrements merges incoming increment counts (other PNMap) into the local counter.
-// It uses the CRDT merge rule (take the max value for each node) with CoW/CAS semantics.
-// Returns true if the local state was updated, false otherwise (or if retries failed).
-func (p *PNCounter) MergeIncrements(other PNMap) bool {
-	retry := &Retry[bool]{ // Retry returns bool indicating if merge happened
-		MaxAttempts: maxRetryCount,
-		Delay:       1 * time.Millisecond,
-	}
-
-	return retry.Do(func() RetryResult[bool] {
-		// [Step 1] Load current increments map pointer.
-		currentMap := p.increments.Load() // Target increments
-
-		// [Step 2] Check if any update is needed (Optimization).
-		updatedNeeded := false
-		for nodeID, otherValue := range other {
-			currentValue, exists := currentMap.data[nodeID]
-			// Update needed if other map has a node we don't, or its value is higher.
-			if (!exists && otherValue > 0) || (exists && otherValue > currentValue) {
-				updatedNeeded = true
-				break
-			}
-		}
-
-		// If current map already reflects or exceeds the other map's state, no merge needed.
-		if !updatedNeeded {
-			return RetryResult[bool]{Value: false, Done: true} // Indicate no update occurred.
-		}
-
-		// [Step 3] Get a temporary map from the pool.
-		newMap := p.mapPool.Get()
-		// [Step 4] Copy current data into the new map (CoW).
-		maps.Copy(newMap.data, currentMap.data)
-
-		// [Step 5] Merge 'other' map into 'newMap' by taking the max value for each node.
-		for nodeID, otherValue := range other {
-			currentValue := newMap.data[nodeID] // Check value in newMap
-			if otherValue > currentValue {      // Apply CRDT merge rule: take the max.
-				newMap.data[nodeID] = otherValue
-			}
-		}
-
-		// [Step 6] Attempt atomic swap (CAS) on the increments pointer.
-		if p.increments.CompareAndSwap(currentMap, newMap) { // Target increments
-			// [Step 6a - Success] Merge successful.
-			currentMap.Release() // Release pointer's hold on the old map.
-			return RetryResult[bool]{Value: true, Done: true} // Indicate update occurred.
-		}
-
-		// [Step 6b - Failure] CAS failed due to concurrent update.
-		p.mapPool.Put(newMap) // Return unused map to the pool.
-		return RetryResult[bool]{Value: false, Done: false} // Signal retry needed.
-	}) // Retry mechanism loops if Done == false. Returns last Value on failure (false).
-}
-```
-
-Here's the breakdown of `MergeIncrements`, which shares similarities with `Increment`/`Decrement` as it's also a write operation:
-
-Like before, we start by getting a pointer to the current `increments` map. However, since we're merging data from another counter (`other PNMap`), we have an opportunity for optimization _before_ doing any copying or swapping. We check if the incoming map actually contains any information that would change our current state (i.e., if it has counts for nodes we don't know, or higher counts for nodes we do know). If no update is needed based on this check, we can return early, saving unnecessary work – a nice optimization.
-
-If an update _is_ required, we proceed with CoW. Now, the core merge logic specific to CRDT PN-Counters happens: we iterate through the incoming `other` map and update our temporary map by taking the **maximum** value seen for each node ID. This ensures that we preserve the highest count observed across both maps, which is key to convergence.
-
-Here’s a simple illustration of the "take the max" rule for three nodes:
+Here comes the most important method of our CRDT: `Merge`. It combines the state from another counter into the local one according to the PN-Counter rules.
+For PN-Counters, merging involves taking the **maximum** count observed for each node ID across both the local and incoming maps, independently for increments and decrements.
 
 ```sh
-   Merge Logic Example (Taking Max):
+    Merge Logic Example (Taking Max):
 
-   Local Map (Current State)      Incoming Map (Other State)      Resulting Merged Map (In Temp Map)
-   +---------+                    +---------+                     +------------------+
-   | NodeA: 5|                    | NodeA: 4|                     | NodeA: max(5, 4) = 5 |
-   | NodeB: 2|  <-- Merge Rule -->| NodeB: 6|  -------->          | NodeB: max(2, 6) = 6 |
-   | NodeC: 7|                    | NodeC: 7|                     | NodeC: max(7, 7) = 7 |
-   +---------+                    +---------+                     +------------------+
+    Local Map (Current State)     Incoming Map (Other State)      Resulting Merged Map (In Temp Map)
+    +---------+                   +---------+                     +------------------+
+    | NodeA: 5|                   | NodeA: 4|                     | NodeA: max(5, 4) = 5 |
+    | NodeB: 2| <-- Merge Rule -->| NodeB: 6| -------->         | NodeB: max(2, 6) = 6 |
+    | NodeC: 7|                   | NodeC: 7|                     | NodeC: max(7, 7) = 7 |
+    +---------+                   +---------+                     +------------------+
 ```
 
-Finally, we attempt CAS to make our merged temporary map the new current `increments` map. Just like with `Increment`:
-
-- **If the CAS succeeds:** We release our hold on the old map and return `true`
-- **If the CAS fails:** Another concurrent operation likely finished first. We return our unused temporary map to the pool and signal that the operation needs to be retried
+Let's implement `MergeIncrements` and `MergeDecrements`.
 
 ```go
-// MergeDecrements merges incoming decrement counts (other PNMap) into the local counter.
-// It uses the CRDT merge rule (take the max value for each node) with CoW/CAS semantics.
-// Returns true if the local state was updated, false otherwise (or if retries failed).
-func (p *PNCounter) MergeDecrements(other PNMap) bool {
-	retry := &Retry[bool]{ // Retry returns bool indicating if merge happened
-		MaxAttempts: maxRetryCount,
-		Delay:       1 * time.Millisecond,
+// MergeIncrements merges external increment values with the local counter.
+// It acquires a write lock only on the increments map.
+func (p *PNCounter) MergeIncrements(other PNMap) bool {
+	p.incMu.Lock() // Acquire increments write lock
+	defer p.incMu.Unlock()
+
+	updated := false
+	for nodeID, otherValue := range other {
+		currentValue, exists := p.increments[nodeID]
+		// Merge condition: take the max value
+		if (!exists && otherValue > 0) || otherValue > currentValue {
+			p.increments[nodeID] = otherValue
+			updated = true
+		}
 	}
-
-	return retry.Do(func() RetryResult[bool] {
-		// [Step 1] Load current decrements map pointer.
-		currentMap := p.decrements.Load() // Target decrements
-
-		// [Step 2] Check if any update is needed (Optimization).
-		updatedNeeded := false
-		for nodeID, otherValue := range other {
-			currentValue, exists := currentMap.data[nodeID]
-			// Update needed if other map has a node we don't, or its value is higher.
-			if (!exists && otherValue > 0) || (exists && otherValue > currentValue) {
-				updatedNeeded = true
-				break
-			}
-		}
-
-		// If current map already reflects or exceeds the other map's state, no merge needed.
-		if !updatedNeeded {
-			return RetryResult[bool]{Value: false, Done: true} // Indicate no update occurred.
-		}
-
-		// [Step 3] Get a temporary map from the pool.
-		newMap := p.mapPool.Get()
-		// [Step 4] Copy current data into the new map (CoW).
-		maps.Copy(newMap.data, currentMap.data)
-
-		// [Step 5] Merge 'other' map into 'newMap' by taking the max value for each node.
-		for nodeID, otherValue := range other {
-			currentValue := newMap.data[nodeID] // Check value in newMap
-			if otherValue > currentValue {      // Apply CRDT merge rule: take the max.
-				newMap.data[nodeID] = otherValue
-			}
-		}
-
-		// [Step 6] Attempt atomic swap (CAS) on the decrements pointer.
-		if p.decrements.CompareAndSwap(currentMap, newMap) { // Target decrements
-			// [Step 6a - Success] Merge successful.
-			currentMap.Release() // Release pointer's hold on the old map.
-			return RetryResult[bool]{Value: true, Done: true} // Indicate update occurred.
-		}
-
-		// [Step 6b - Failure] CAS failed due to concurrent update.
-		p.mapPool.Put(newMap) // Return unused map to the pool.
-		return RetryResult[bool]{Value: false, Done: false} // Signal retry needed.
-	}) // Retry mechanism loops if Done == false. Returns last Value on failure (false).
+	return updated
 }
-```
 
-Same logic but this time for decrements map.
+// MergeDecrements merges external decrement values with the local counter.
+// It acquires a write lock only on the decrements map.
+func (p *PNCounter) MergeDecrements(other PNMap) bool {
+	p.decMu.Lock() // Acquire decrements write lock
+	defer p.decMu.Unlock()
 
-And, finally `Merge`:
+	updated := false
+	for nodeID, otherValue := range other {
+		currentValue, exists := p.decrements[nodeID]
+		// Merge condition: take the max value
+		if (!exists && otherValue > 0) || otherValue > currentValue {
+			p.decrements[nodeID] = otherValue
+			updated = true
+		}
+	}
+	return updated
+}
 
-```go
-// Merge combines the state of the 'other' PNCounter into this one ('p').
-// It merges both the increment and decrement counts independently.
-// Returns true if the merge resulted in any change to the local state, false otherwise.
+// Merge combines this counter with another counter's state.
+// It acquires write locks on the local counter via MergeIncrements/MergeDecrements
+// and read locks on the other counter via its Counters() method.
 func (p *PNCounter) Merge(other *PNCounter) bool {
-	// [Step 1] Get the increment and decrement maps from the other counter.
+	// Get copies of the other counter's state (acquires RLock on 'other' maps)
 	otherIncrements, otherDecrements := other.Counters()
 
-	// [Step 2] Merge the increment maps using the dedicated merge method.
+	// Merge into the local counter (acquires Lock on 'p' maps respectively)
 	incUpdated := p.MergeIncrements(otherIncrements)
-
-	// [Step 3] Merge the decrement maps using the dedicated merge method.
 	decUpdated := p.MergeDecrements(otherDecrements)
 
-	// [Step 4] Return true if either merge caused an update, false otherwise.
 	return incUpdated || decUpdated
 }
 ```
 
+The `MergeIncrements` and `MergeDecrements` methods implement this: each acquires the appropriate local write lock (`incMu` or `decMu`) and updates the local map entries by taking the max compared to the corresponding entries in the `other` map.
+
+The main `Merge` function orchestrates this efficiently:
+
+1.  It first obtains a consistent snapshot of the `other` counter's state by calling `other.Counters()` (which uses read locks on the `other` counter).
+2.  It then calls the local `MergeIncrements` and `MergeDecrements` methods, passing in the copied state. These methods handle acquiring the necessary _write_ locks on the _local_ counter (`p`) to safely integrate the received state.
+
+This ensures read operations on the source counter are separated from write operations on the destination counter during the merge.
+
 The CRDT implementation is finally done. Now, we need to ensure it works as expected, especially under concurrent conditions, by writing a couple of tests.
 
-First, let's verify that concurrent operations within a _single_ counter instance yield the correct result. This test ensures our lock-free CAS/CoW logic handles simultaneous updates correctly.
+### Testing Concurrent Operations
+
+First, let's verify that concurrent operations within a _single_ counter instance yield the correct result. This test ensures our logic handles simultaneous updates correctly.
 
 ```go
 // /crdt/crdt_test.go
-package crdt
-
-import (
-	"fmt"
-	"maps" // Assuming needed based on previous code
-	"sync"
-	"testing"
-	"time" // Assuming needed based on previous code
-
-	"github.com/stretchr/testify/require"
-)
-
-// Assume New calls NewPNCounter()
-func New(id string) *PNCounter {
-	return NewPNCounter()
-}
-
 func TestPNCounter_ConcurrentOperations(t *testing.T) {
-	counter := New("shared") // Creates a new PNCounter
+	counter := New("shared")
 
 	// Number of concurrent operations
 	concurrency := 100
@@ -1139,19 +477,20 @@ func TestPNCounter_ConcurrentOperations(t *testing.T) {
 	require.Equal(t, int64(0), counter.Value(), "Value should be 0 after equal increments and decrements on different nodes")
 
 	// Check the specific count for the incremented node
-	incMap, _ := counter.Counters() // Helper to get maps might be needed, or use LocalValue
+	incMap, _ := counter.Counters() // Helper to get maps
 	require.Equal(t, uint64(concurrency), incMap["node-inc"], "node-inc count should be concurrency")
-	// Or using LocalValue if available and correct:
-	// require.Equal(t, int64(concurrency), counter.LocalValue("node-inc"), "node-inc should have value equal to concurrency")
-
 
 	// Check the specific count for the decremented node
 	_, decMap := counter.Counters()
 	require.Equal(t, uint64(concurrency), decMap["node-dec"], "node-dec count should be concurrency")
-	// Or using LocalValue:
-	// require.Equal(t, int64(-concurrency), counter.LocalValue("node-dec"), "node-dec should have value equal to -concurrency")
+
+	// Check LocalValue too
+	require.Equal(t, int64(concurrency), counter.LocalValue("node-inc"), "node-inc local value check")
+	require.Equal(t, int64(-concurrency), counter.LocalValue("node-dec"), "node-dec local value check")
 }
 ```
+
+### Testing Concurrent Merges
 
 Now, let's test how concurrent **merges** behave when combining state from multiple different counters into one. This ensures the CRDT merge logic (taking the maximum value for each node ID) works correctly even when multiple merges happen simultaneously.
 
@@ -1162,8 +501,9 @@ func TestPNCounter_ConcurrentMerges(t *testing.T) {
 	// Create several source counters with different operations
 	sources := make([]*PNCounter, 10)
 	for i := 0; i < 10; i++ {
-		sources[i] = New(fmt.Sprintf("source-%d", i))
-		nodeID := fmt.Sprintf("node-%d", i) // Unique ID for increments per source
+		nodeIdSuffix := fmt.Sprintf("%d", i)
+		sources[i] = New("source-" + nodeIdSuffix) // Use defined constructor
+		nodeID := "node-" + nodeIdSuffix // Unique ID for increments per source
 
 		// Apply i+1 increments for nodeID
 		for j := 0; j < i+1; j++ {
@@ -1172,7 +512,7 @@ func TestPNCounter_ConcurrentMerges(t *testing.T) {
 
 		// Apply i/2 decrements for a different nodeID if i is even
 		if i%2 == 0 {
-			decNodeID := fmt.Sprintf("dec-node-%d", i)
+			decNodeID := "dec-node-" + nodeIdSuffix
 			for j := 0; j < i/2; j++ {
 				_ = sources[i].Decrement(decNodeID)
 			}
@@ -1199,7 +539,7 @@ func TestPNCounter_ConcurrentMerges(t *testing.T) {
 			defer wg.Done()
 			// Try multiple merges per source to increase contention chances
 			for i := 0; i < 3; i++ {
-				main.Merge(source)
+				main.Merge(source) // Use the Merge method
 			}
 		}(src)
 	}
@@ -1220,15 +560,14 @@ func TestPNCounter_ConcurrentMerges(t *testing.T) {
 
 	expectedValue := int64(expectedInc) - int64(expectedDec)
 
-	// --- Assertion ---
 	require.Equal(t, expectedValue, main.Value(),
 		"Value should reflect all increments and decrements after concurrent merges")
 
-	// Optional: Add checks for specific node values in 'main' if needed
 	mainIncMap, mainDecMap := main.Counters()
 	require.Equal(t, uint64(10), mainIncMap["node-9"], "Check node-9 increment count") // Example check
     require.Equal(t, uint64(1<<32), mainIncMap["large-inc"], "Check large-inc count") // Example check
     require.Equal(t, uint64(4), mainDecMap["dec-node-8"], "Check dec-node-8 count") // Example check
+    require.Equal(t, uint64(1<<31), mainDecMap["large-dec"], "Check large-dec count") // Example check
 }
 ```
 
@@ -1238,8 +577,7 @@ There are more detailed tests available in the [companion repository](https://gi
 
 ## Conclusion
 
-We've explored key concepts like Gossip Protocol and CRDTs, particularly focusing on implementing a PN-Counter in Go. We've seen how techniques like Copy-on-Write, Compare-and-Swap operations, object pooling, and reference counting enable us to create a thread-safe, lock-free implementation that can handle concurrent operations efficiently.
-
+We've explored key concepts like Gossip Protocol and CRDTs, particularly focusing on implementing a PN-Counter in Go.
 Through our implementation, we've addressed some of the fundamental challenges in distributed systems, including:
 
 - How to represent state that can be safely merged across nodes
@@ -1248,7 +586,71 @@ Through our implementation, we've addressed some of the fundamental challenges i
 
 The PN-Counter we've built forms the core component that will enable our distributed counter to maintain consistent state across multiple nodes, even in the face of network partitions and concurrent updates. In the upcoming parts of this series, we'll build on this foundation to create a complete distributed system with networking, peer discovery, persistence, and an API gateway.
 
-Remember that the principles we've explored here apply to many other distributed systems beyond our counter example. The techniques of CRDTs, gossip protocols, and lock-free programming are powerful tools in your distributed systems toolbox.
+Remember that the principles we've explored here apply to many other distributed systems beyond our counter example.
+The techniques of CRDTs, gossip protocols, and safe concurrency patterns are powerful tools in your distributed systems toolbox.
+
+## Final system architecture at end of this series
+
+```go
+              DISTRIBUTED COUNTER ARCHITECTURE (Final)
+              ========================================
+                      +----------------+
+                      |    Client      |
+                      +--------+-------+
+                               |
+                               | HTTP
+                               v
+                      +----------------+
+                      |  API Gateway   |
+                      |----------------|
+                      | Load Balancer  |
+                      | Reverse Proxy  |
+                      |----------------|
+                      | Endpoints:     |
+                      | GET  /counter  |
+                      | POST /increment|
+                      | POST /decrement|
+                      | GET  /nodes    |
+                      | GET  /health   |
+                      +--------+-------+
+                               |
+                               | HTTP
+               +-----------------+-----------------+
+               |                                   |
+               v                                   v
++----------------------+<-- DigestPull/Ack/Push -->+---------------------+
+|       Node 1         |     (State Sync)         |       Node 2         |
+|----------------------|                          |----------------------|
+| PNCounter            |                          | PNCounter            |
+|  - Increments: {...} |                          |  - Increments: {...} |
+|  - Decrements: {...} |                          |  - Decrements: {...} |
+| PeerManager          |                          | PeerManager          |
+| TCPTransport         |                          | TCPTransport         |
+| WAL                  |                          | WAL                  |
++--------+-------------+                          +--------+-------------+
+         ^    |                                             ^    |
+         |    | HTTP                                        |    | HTTP
+         |    v                                             |    v
++--------+-------------+                          +--------+-------------+
+| DiscoveryClient      |                          | DiscoveryClient      |
++----------------------+                          +----------------------+
+         |    ^                                             |    ^
+         |    | Register                                    |    | Register
+         |    | Heartbeat                                   |    | Heartbeat
+         |    | GetPeers                                    |    | GetPeers
+         v    |                                             v    |
++--------------------------------------------------------------------------+
+|                                Discovery Server                          |
+|--------------------------------------------------------------------------|
+| - knownPeers: {"node1_addr": {LastSeen}, "node2_addr": {LastSeen}}       |
+| - Endpoints:                                                             |
+|   * POST /register                                                       |
+|   * POST /heartbeat                                                      |
+|   * GET /peers                                                           |
++--------------------------------------------------------------------------+
+```
+
+This will be our final architecture and in each post, we'll work towards that goal.
 
 ---
 
