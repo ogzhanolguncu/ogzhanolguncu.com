@@ -1,5 +1,5 @@
 ---
-pubDatetime: 2025-07-02
+pubDatetime: 2025-04-08
 title: "Implementing Distributed Counter: Part 0 - CRDT"
 slug: implementing-distributed-counter-part-0-crdt
 tags:
@@ -78,32 +78,32 @@ So, how do we ensure our counter value converges correctly across all nodes even
 
 ### Lesson Learned: Why Simple Versioning Isn't Enough (Why CRDTs?)
 
-I initially attempted to build the distributed counter by just replicating the `counter` value along with a basic incrementing `version` number for conflict resolution.
-
-The naive idea was:
-
-1. Each node holds a `(value, version)` pair.
-2. When a node increments, it increases both its local `value` and its `version`.
-3. Nodes exchange these pairs.
-4. If Node A receives `(v, ver)` from Node B, and `ver` is greater than Node A's current version, Node A adopts Node B's `value` and `version`.
-
-Not gonna lie that seemed okay for simple cases or strictly sequential updates. Then, I quickly discovered this approach fundamentally breaks down under concurrent operations across multiple nodes.
-
-**Consider this scenario:**
-
-- We have Node A and Node B, both starting at `(value: 0, version: 0)`.
-- **Concurrently**, a client sends 100 increment requests to Node A, and another client sends 100 increment requests to Node B.
-- Node A diligently processes its requests, ending up in state `(value: 100, version: 100)`.
-- Node B _also_ diligently processes its requests, _also_ ending up in state `(value: 100, version: 100)`.
-- Now, Node A and Node B exchange their states via gossip.
-  - Node A receives `(100, 100)` from B. Since B's version (100) is not greater than A's version (100), A keeps its state.
-  - Node B receives `(100, 100)` from A. Since A's version (100) is not greater than B's version (100), B keeps its state.
-
-Both nodes converge to a final value of 100. But the _actual_ number of increment operations across the system was 200! We completely lost half the operations.
-
-This simple versioning only tells us _which node saw the latest update_ according to its local version counter. It **fails to capture and combine the effects of concurrent operations** that happened independently on different nodes based on the _same_ earlier state. There's no mechanism here to _merge_ the distinct sets of increments performed by A and B; the nodes just overwrite based on a version number that doesn't reflect the combined history.
-
-This realization directly motivated the use of CRDTs, like the PN-Counter, which mathematically guarantee convergence to the correct state by defining how to merge concurrent updates properly.
+> I initially attempted to build the distributed counter by just replicating the `counter` value along with a basic incrementing `version` number for conflict resolution.
+>
+> The naive idea was:
+>
+> 1.  Each node holds a `(value, version)` pair.
+> 2.  When a node increments, it increases both its local `value` and its `version`.
+> 3.  Nodes exchange these pairs.
+> 4.  If Node A receives `(v, ver)` from Node B, and `ver` is greater than Node A's current version, Node A adopts Node B's `value` and `version`.
+>
+> Not gonna lie that seemed okay for simple cases or strictly sequential updates. Then, I quickly discovered this approach fundamentally breaks down under concurrent operations across multiple nodes.
+>
+> **Consider this scenario:**
+>
+> - We have Node A and Node B, both starting at `(value: 0, version: 0)`.
+> - **Concurrently**, a client sends 100 increment requests to Node A, and another client sends 100 increment requests to Node B.
+> - Node A diligently processes its requests, ending up in state `(value: 100, version: 100)`.
+> - Node B _also_ diligently processes its requests, _also_ ending up in state `(value: 100, version: 100)`.
+> - Now, Node A and Node B exchange their states via gossip.
+> - Node A receives `(100, 100)` from B. Since B's version (100) is not greater than A's version (100), A keeps its state.
+> - Node B receives `(100, 100)` from A. Since A's version (100) is not greater than B's version (100), B keeps its state.
+>
+> Both nodes converge to a final value of 100. But the _actual_ number of increment operations across the system was 200! We completely lost half the operations.
+>
+> This simple versioning only tells us _which node saw the latest update_ according to its local version counter. It **fails to capture and combine the effects of concurrent operations** that happened independently on different nodes based on the _same_ earlier state. There's no mechanism here to _merge_ the distinct sets of increments performed by A and B; the nodes just overwrite based on a version number that doesn't reflect the combined history.
+>
+> This realization directly motivated the use of CRDTs, like the PN-Counter, which mathematically guarantee convergence to the correct state by defining how to merge concurrent updates properly.
 
 ---
 
@@ -162,6 +162,8 @@ There are different versions of CRDTs, like G-Counter (Grow-Only), PN-Counter (P
 The key idea is that each node tracks the P (Positive) and N (Negative) counts originating from every node (including itself) that it knows about. When nodes sync their states, the merge operation combines their knowledge by taking the maximum value seen for each specific node's P count and each specific node's N count.
 
 After merging, the current value of the counter is calculated by summing up all the known P counts from all nodes and subtracting the sum of all the known N counts from all nodes. This process ensures all contributions are counted exactly once, leading to the correct final value even with concurrent updates.
+
+## Why Go?
 
 We'll be implementing this distributed counter in Go, which is well-suited for building networked systems due to its excellent concurrency support.
 
@@ -326,13 +328,13 @@ func (p *PNCounter) Decrement(nodeId string) {
 }
 ```
 
-The `Increment` method acquires an exclusive lock `(incMu.Lock())` to safely update the `increments` map for the given `nodeId`, initializing it if necessary before incrementing. `Decrement` follows the identical pattern for the `decrements` map using `decMu`.
+The `Increment` method acquires `(incMu.Lock())` to safely update the `increments` map for the given `nodeId`, initializing it if necessary before incrementing. `Decrement` follows the identical pattern for the `decrements` map using `decMu`.
 
 Crucially, using separate `RWMutexes` for increments and decrements allows these operations to potentially run concurrently without blocking each other, as they lock distinct resources. Operations requiring access to both maps, like `Value()`, will naturally need to acquire both corresponding read locks.
 
 ### Helper for Merging: Counters
 
-This helper function safely retrieves copies of the internal maps, useful when sending state to another node or preparing for a merge.
+This method safely retrieves copies of the internal maps, useful when sending state to another node or preparing for a merge.
 
 ```go
 // Counters returns copies of the increment and decrement counter maps.
@@ -364,12 +366,12 @@ For PN-Counters, merging involves taking the **maximum** count observed for each
 ```sh
     Merge Logic Example (Taking Max):
 
-    Local Map (Current State)     Incoming Map (Other State)      Resulting Merged Map (In Temp Map)
-    +---------+                   +---------+                     +------------------+
-    | NodeA: 5|                   | NodeA: 4|                     | NodeA: max(5, 4) = 5 |
-    | NodeB: 2| <-- Merge Rule -->| NodeB: 6| -------->         | NodeB: max(2, 6) = 6 |
-    | NodeC: 7|                   | NodeC: 7|                     | NodeC: max(7, 7) = 7 |
-    +---------+                   +---------+                     +------------------+
+    Local Map (Current State)     Incoming Map (Other State)  Resulting Merged Map
+    +---------+                   +---------+                 +----------------------+
+    | NodeA: 5|                   | NodeA: 4|                 | NodeA: max(5, 4) = 5 |
+    | NodeB: 2| <-- Merge Rule -->| NodeB: 6| --------------> | NodeB: max(2, 6) = 6 |
+    | NodeC: 7|                   | NodeC: 7|                 | NodeC: max(7, 7) = 7 |
+    +---------+                   +---------+                 +----------------------+
 ```
 
 Let's implement `MergeIncrements` and `MergeDecrements`.
@@ -433,8 +435,6 @@ The main `Merge` function orchestrates this efficiently:
 1.  It first obtains a consistent snapshot of the `other` counter's state by calling `other.Counters()` (which uses read locks on the `other` counter).
 2.  It then calls the local `MergeIncrements` and `MergeDecrements` methods, passing in the copied state. These methods handle acquiring the necessary _write_ locks on the _local_ counter (`p`) to safely integrate the received state.
 
-This ensures read operations on the source counter are separated from write operations on the destination counter during the merge.
-
 The CRDT implementation is finally done. Now, we need to ensure it works as expected, especially under concurrent conditions, by writing a couple of tests.
 
 ### Testing Concurrent Operations
@@ -456,8 +456,7 @@ func TestPNCounter_ConcurrentOperations(t *testing.T) {
 	for i := 0; i < concurrency; i++ {
 		go func(id int) {
 			defer wg.Done()
-			// Error handling omitted for brevity in test
-			_ = counter.Increment("node-inc")
+			counter.Increment("node-inc")
 		}(i)
 	}
 
@@ -465,14 +464,12 @@ func TestPNCounter_ConcurrentOperations(t *testing.T) {
 	for i := 0; i < concurrency; i++ {
 		go func(id int) {
 			defer wg.Done()
-			// Error handling omitted for brevity in test
-			_ = counter.Decrement("node-dec")
+			counter.Decrement("node-dec")
 		}(i)
 	}
 
 	wg.Wait() // Wait for all goroutines to finish
 
-	// --- Assertions ---
 	// Check the final total value: +100 on node-inc, -100 effect from node-dec = 0 total
 	require.Equal(t, int64(0), counter.Value(), "Value should be 0 after equal increments and decrements on different nodes")
 
@@ -507,14 +504,14 @@ func TestPNCounter_ConcurrentMerges(t *testing.T) {
 
 		// Apply i+1 increments for nodeID
 		for j := 0; j < i+1; j++ {
-			_ = sources[i].Increment(nodeID)
+			 sources[i].Increment(nodeID)
 		}
 
 		// Apply i/2 decrements for a different nodeID if i is even
 		if i%2 == 0 {
 			decNodeID := "dec-node-" + nodeIdSuffix
 			for j := 0; j < i/2; j++ {
-				_ = sources[i].Decrement(decNodeID)
+				sources[i].Decrement(decNodeID)
 			}
 		}
 	}
@@ -523,11 +520,11 @@ func TestPNCounter_ConcurrentMerges(t *testing.T) {
 	edgeCase := New("edge-case")
 	largeIncMap := make(PNMap)
 	largeIncMap["large-inc"] = uint64(1 << 32)
-	_ = edgeCase.MergeIncrements(largeIncMap) // Assume Merge returns bool
+	edgeCase.MergeIncrements(largeIncMap)
 
 	largeDecMap := make(PNMap)
 	largeDecMap["large-dec"] = uint64(1 << 31)
-	_ = edgeCase.MergeDecrements(largeDecMap) // Assume Merge returns bool
+	edgeCase.MergeDecrements(largeDecMap)
 
 	sources = append(sources, edgeCase) // Add edge case to the list
 
@@ -539,13 +536,12 @@ func TestPNCounter_ConcurrentMerges(t *testing.T) {
 			defer wg.Done()
 			// Try multiple merges per source to increase contention chances
 			for i := 0; i < 3; i++ {
-				main.Merge(source) // Use the Merge method
+				main.Merge(source)
 			}
 		}(src)
 	}
 	wg.Wait() // Wait for all merges to complete
 
-	// --- Calculate Expected Value ---
 	expectedInc := uint64(0)
 	for i := 0; i < 10; i++ {
 		expectedInc += uint64(i + 1) // Sum increments from sources[0] to sources[9]
