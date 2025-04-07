@@ -20,10 +20,6 @@ This is the first of a series of posts about implementing a distributed counter 
 
 In this series of posts, we are going to build a "Distributed Counter" from scratch using Gossip Protocol. Before going forward, let's discuss the motivation for this series.
 
-## Part 0 Goal
-
-In this first post (Part 0), our goal is twofold: first, to introduce the key concepts like Gossip and CRDTs, and second, to implement the PN-Counter in Go. This counter forms the foundation we'll build upon throughout the series.
-
 ## Why Distributed Counter and Why This Series
 
 I've been trying to understand how Gossip Protocol is used in real-world distributed systems. To scratch that itch, I needed to find a simple problem to solve so I could focus on the Gossip Protocol itself instead of spending countless hours on some other topic I wasn't familiar with.
@@ -171,6 +167,10 @@ We'll be implementing this distributed counter in Go, which is well-suited for b
 
 Its standard library also provides robust networking packages that we'll use throughout this series.
 Even if you're not familiar with Go, the concepts we'll explore apply broadly to distributed systems development in any language.
+
+## Part 0 Goal
+
+Having introduced the key concepts like Gossip and CRDTs, our main goal now for Part 0 is to **implement the PN-Counter in Go**. This counter forms the foundation we'll build upon throughout the series.
 
 Okay, with the concepts in mind, let's dive into the first piece of code.
 
