@@ -1,5 +1,5 @@
 ---
-pubDatetime: 2025-04-08
+pubDatetime: 2025-04-07
 title: "Implementing Distributed Counter: Part 0 - CRDT"
 slug: implementing-distributed-counter-part-0
 tags:
