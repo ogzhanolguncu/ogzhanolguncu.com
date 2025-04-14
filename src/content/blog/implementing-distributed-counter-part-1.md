@@ -18,6 +18,12 @@ This is the second of a series of posts about implementing a distributed counter
 - _Part 4: Adding Persistence - The Write-Ahead Log (WAL) (Not yet published)_
 - _Part 5: Finishing Touches - API Gateway (Not yet published)_
 
+## Part 1 Goal
+
+Our main goal now for Part 1 is to implement the Node in Go. The Node will connect everything from CRDT to network using our own protocol. Part 1's Node will have a static list of peers for the sake of simplicity**,** but later in the series we'll add proper peer discovery. So our goal is to get up and running and see our CRDT in action.
+
+---
+
 Now that we've made sure we have a solid foundation, we can move on to our Node implementation where everything is glued together.
 
 This part involves several components. Here's the directory structure we'll be working with:
@@ -885,3 +891,818 @@ This `eventLoop` acts as the node's central coordinator, running continuously un
 - `<-n.outgoingMsg`: Processes messages that need to be sent to other peers. It takes a `MessageInfo` from the channel, encodes it using `protocol.Encode`, and sends the resulting bytes via `n.transport.Send`, logging any encoding or send errors.
 - `<-n.syncTick`: Triggered periodically based on `config.SyncInterval`. It calls `initiateDigestSync` to start a regular state synchronization process (details to come).
 - `<-n.fullSyncTick`: Triggered less frequently based on `config.FullSyncInterval`. It calls `performFullStateSync` for a more comprehensive state exchange (details to come).
+
+Let's take a look at our helpers before moving on to `handleIncMsg` or any other method in our `eventLoop`.
+
+```go
+// Create a message with the current counter state
+func (n *Node) prepareCounterMessage(msgType uint8) protocol.Message {
+	// Get both increment and decrement counters
+	increments, decrements := n.counter.Counters()
+
+	return protocol.Message{
+		Type:            msgType,
+		NodeID:          n.config.Addr,
+		IncrementValues: increments,
+		DecrementValues: decrements,
+	}
+}
+
+func (n *Node) prepareDigestMessage(msgType uint8, digestValue ...uint64) protocol.Message {
+	// Base message with common fields
+	msg := protocol.Message{
+		Type:   msgType,
+		NodeID: n.config.Addr,
+	}
+
+	// If it's a digest pull or digest ack, set the digest
+	if msgType == protocol.MessageTypeDigestPull || msgType == protocol.MessageTypeDigestAck {
+		// For digest pull, calculate our current digest
+		if msgType == protocol.MessageTypeDigestPull || len(digestValue) == 0 {
+			// Get both increment and decrement counters
+			increments, decrements := n.counter.Counters()
+			data, err := deterministicSerialize(increments, decrements)
+			if err != nil {
+				n.logger.Error("failed to create digest message",
+					"node", n.config.Addr,
+					"message_type", msgType,
+					"error", err)
+				return msg
+			}
+
+			msg.Digest = xxhash.Sum64(data)
+		} else {
+			// For digest ack, use the provided digest value
+			msg.Digest = digestValue[0]
+		}
+	}
+
+	return msg
+}
+
+
+type CounterEntry struct {
+	NodeID string
+	Value  uint64
+}
+
+func deterministicSerialize(increments, decrements crdt.PNMap) ([]byte, error) {
+	// Combine all keys from both maps to get the complete set of node IDs
+	allNodeIDs := make(map[string]struct{})
+	for nodeID := range increments {
+		allNodeIDs[nodeID] = struct{}{}
+	}
+	for nodeID := range decrements {
+		allNodeIDs[nodeID] = struct{}{}
+	}
+
+	// Create a sorted slice of all node IDs
+	sortedNodeIDs := make([]string, 0, len(allNodeIDs))
+	for nodeID := range allNodeIDs {
+		sortedNodeIDs = append(sortedNodeIDs, nodeID)
+	}
+	sort.Strings(sortedNodeIDs)
+
+	orderedIncrements := make([]CounterEntry, len(sortedNodeIDs))
+	orderedDecrements := make([]CounterEntry, len(sortedNodeIDs))
+
+	for i, nodeID := range sortedNodeIDs {
+		// Use the value if it exists, or 0 if it doesn't
+		incValue := increments[nodeID] // Will be 0 if key doesn't exist
+		decValue := decrements[nodeID] // Will be 0 if key doesn't exist
+
+		orderedIncrements[i] = CounterEntry{NodeID: nodeID, Value: incValue}
+		orderedDecrements[i] = CounterEntry{NodeID: nodeID, Value: decValue}
+	}
+
+	return msgpack.Marshal([]any{orderedIncrements, orderedDecrements})
+}
+
+// Helper method to standardize logging of counter state
+func (n *Node) logCounterState(msg string, additionalFields ...any) {
+	increments, decrements := n.counter.Counters()
+	fields := []any{
+		"node", n.config.Addr,
+		"counter_value", n.counter.Value(),
+		"increments", increments,
+		"decrements", decrements,
+	}
+
+	// Append any additional context fields
+	fields = append(fields, additionalFields...)
+
+	n.logger.Info(msg, fields...)
+}
+
+```
+
+- **`prepareCounterMessage`:** Packages the full CRDT state (increments/decrements) into a message, mainly for `MessageTypePush`.
+
+- **`prepareDigestMessage`:** Creates messages for efficient digest-based synchronization (`DigestPull`, `DigestAck`).
+
+  - `DigestPull`: Calculates a state digest (`xxhash`) using a stable representation from `deterministicSerialize` for quick consistency checks.
+  - `DigestAck`: Constructs an acknowledgment, typically confirming synchronization via a digest.
+
+- **`deterministicSerialize`:** Crucial for reliable digests. It overcomes Go's map iteration randomization by ordering elements based on node IDs before serialization.
+
+- **`logCounterState`:** Simple logging helper.
+
+Finally, we add methods that form the public API for interacting with the node locally:
+
+```go
+func (n *Node) Increment() {
+	assertions.AssertNotNil(n.counter, "node counter cannot be nil")
+
+	oldValue := n.counter.Value()
+	n.counter.Increment(n.config.Addr)
+	newValue := n.counter.Value()
+
+	increments, decrements := n.counter.Counters()
+	n.logger.Info("incremented counter",
+		"node", n.config.Addr,
+		"from", oldValue,
+		"to", newValue,
+		"increments", increments,
+		"decrements", decrements,
+	)
+}
+
+func (n *Node) Decrement() {
+	assertions.AssertNotNil(n.counter, "node counter cannot be nil")
+
+	oldValue := n.counter.Value()
+	n.counter.Decrement(n.config.Addr)
+	newValue := n.counter.Value()
+
+	increments, decrements := n.counter.Counters()
+
+	n.logger.Info("decremented counter",
+		"node", n.config.Addr,
+		"from", oldValue,
+		"to", newValue,
+		"increments", increments,
+		"decrements", decrements)
+}
+
+func (n *Node) GetCounter() int64 {
+	assertions.AssertNotNil(n.counter, "node counter cannot be nil")
+	return n.counter.Value()
+}
+
+func (n *Node) GetLocalCounter() int64 {
+	assertions.AssertNotNil(n.counter, "node counter cannot be nil")
+	return n.counter.LocalValue(n.config.Addr)
+}
+
+func (n *Node) GetAddr() string {
+	assertions.Assert(n.config.Addr != "", "node addr cannot be empty")
+	return n.config.Addr
+}
+
+func (n *Node) Close() error {
+	assertions.AssertNotNil(n.cancel, "cancel function cannot be nil")
+	assertions.AssertNotNil(n.transport, "transport cannot be nil")
+
+	n.cancel()
+	return n.transport.Close()
+}
+```
+
+- **`Increment` / `Decrement`:** Modify the node's local contribution to the counter and log the change.
+- **`GetCounter`:** Returns the counter's current globally merged value.
+- **`GetLocalCounter`:** Returns only this node's contribution to the value.
+- **`GetAddr`:** Returns the node's configured address/ID.
+- **`Close`:** Initiates graceful shutdown of the node and its transport.
+
+Here comes the fun part `handleIncMsg`.
+
+```go
+func (n *Node) handleIncMsg(inc MessageInfo) {
+	assertions.Assert(
+		inc.message.Type == protocol.MessageTypePush ||
+			inc.message.Type == protocol.MessageTypeDigestAck ||
+			inc.message.Type == protocol.MessageTypeDigestPull,
+		"invalid message type")
+
+	n.logger.Info("received message",
+		"node", n.config.Addr,
+		"from", inc.addr,
+		"message_type", inc.message.Type,
+		"remote_node_id", inc.message.NodeID)
+
+	switch inc.message.Type {
+	case protocol.MessageTypeDigestPull:
+		// Create our counters hash
+		increments, decrements := n.counter.Counters()
+		data, err := deterministicSerialize(increments, decrements)
+		if err != nil {
+			n.logger.Error("failed to serialize counters",
+				"node", n.config.Addr,
+				"counter_value", n.counter.Value(),
+				"error", err)
+			return
+		}
+
+		countersHash := xxhash.Sum64(data)
+
+		if countersHash == inc.message.Digest {
+			// Digests match - send ack with matching digest
+			ackMsg := n.prepareDigestMessage(protocol.MessageTypeDigestAck, inc.message.Digest)
+
+			n.logger.Info("sending digest acknowledgment (digests match)",
+				"node", n.config.Addr,
+				"target", inc.addr,
+				"digest", countersHash,
+				"counter_value", n.counter.Value())
+
+			n.outgoingMsg <- MessageInfo{
+				addr:    inc.addr,
+				message: ackMsg,
+			}
+		} else {
+			// Digests don't match - send full state
+			responseMsg := n.prepareCounterMessage(protocol.MessageTypePush)
+
+			n.logger.Info("sending full state (digests don't match)",
+				"node", n.config.Addr,
+				"target", inc.addr,
+				"local_digest", countersHash,
+				"remote_digest", inc.message.Digest,
+				"counter_value", n.counter.Value())
+
+			n.outgoingMsg <- MessageInfo{
+				message: responseMsg,
+				addr:    inc.addr,
+			}
+		}
+	case protocol.MessageTypeDigestAck:
+		n.logger.Info("received digest acknowledgment",
+			"node", n.config.Addr,
+			"from", inc.addr,
+			"digest", inc.message.Digest,
+			"counter_value", n.counter.Value())
+		return
+
+	case protocol.MessageTypePush:
+		oldValue := n.counter.Value()
+
+		// For push messages, create a counter and merge it
+		tempCounter := crdt.New(inc.message.NodeID)
+		tempCounter.MergeIncrements(inc.message.IncrementValues)
+		tempCounter.MergeDecrements(inc.message.DecrementValues)
+
+		// Merge with our local counter
+		updated := n.counter.Merge(tempCounter)
+
+		if updated {
+			newValue := n.counter.Value()
+			increments, decrements := n.counter.Counters()
+			n.logger.Info("counter updated after merge",
+				"node", n.config.Addr,
+				"from", oldValue,
+				"to", newValue,
+				"increments", increments,
+				"decrements", decrements,
+				"from_node", inc.message.NodeID)
+		} else {
+			n.logger.Info("received push message (no changes)",
+				"node", n.config.Addr,
+				"from", inc.addr,
+				"counter_value", n.counter.Value())
+		}
+	}
+}
+```
+
+So, the high-level scenario is that we expect 3 message types. If it's `MessageTypeDigestPull`, there are two paths: we either compare the digests and respond with an Ack, or we send the full state. If it's `MessageTypeDigestAck`, we just log it because it's just a confirmation. If it's a `MessageTypePush`, we merge it with our local CRDT state.
+
+Let's move on to sync methods.
+
+```go
+func (n *Node) performFullStateSync() {
+	peers := n.peers.GetPeers()
+	if len(peers) == 0 {
+		n.logger.Info("skipping full state sync - no peers available", "node", n.config.Addr)
+		return
+	}
+
+	// Select a subset of random peers for full state sync
+	numPeers := max(1, min(n.config.MaxSyncPeers/2, len(peers)))
+	selectedPeers := make([]string, len(peers))
+	copy(selectedPeers, peers)
+	rand.Shuffle(len(selectedPeers), func(i, j int) {
+		selectedPeers[i], selectedPeers[j] = selectedPeers[j], selectedPeers[i]
+	})
+
+	// Prepare full state message
+	message := n.prepareCounterMessage(protocol.MessageTypePush)
+
+	n.logCounterState("performing full state sync (anti-entropy)",
+		"peers_count", numPeers,
+		"selected_peers", selectedPeers[:numPeers])
+
+	// Send to selected peers
+	for _, peer := range selectedPeers[:numPeers] {
+		n.outgoingMsg <- MessageInfo{
+			message: message,
+			addr:    peer,
+		}
+	}
+}
+```
+
+For better **convergence** and availability (a form of anti-entropy), we **periodically** send our entire state via `MessageTypePush` to a **random subset of peers**. Selecting peers **randomly** is critical for convergence; if we kept sending only to the same nodes and they went down, it would defeat the purpose of reliably propagating state. We use `rand.Shuffle` within `performFullStateSync` to ensure the peer selection is random for each sync cycle.
+
+There is one more piece left to complete our node, `initiateDigestSync`.
+
+```go
+func (n *Node) initiateDigestSync() {
+	peers := n.peers.GetPeers()
+
+	if len(peers) == 0 {
+		n.logger.Info("skipping digest sync - no peers available", "node", n.config.Addr)
+		return
+	}
+
+	numPeers := min(n.config.MaxSyncPeers, len(peers))
+	assertions.Assert(numPeers > 0, "number of peers to sync with must be positive")
+
+	selectedPeers := make([]string, len(peers))
+	copy(selectedPeers, peers)
+	rand.Shuffle(len(selectedPeers), func(i, j int) {
+		selectedPeers[i], selectedPeers[j] = selectedPeers[j], selectedPeers[i]
+	})
+
+	ctx, cancel := context.WithTimeout(n.ctx, n.config.SyncInterval/2)
+	defer cancel()
+
+	g, ctx := errgroup.WithContext(ctx)
+
+	message := n.prepareDigestMessage(protocol.MessageTypeDigestPull)
+
+	n.logCounterState("initiating digest sync",
+		"selected_peers", selectedPeers[:numPeers],
+		"digest", message.Digest)
+
+	for _, peer := range selectedPeers[:numPeers] {
+		peerAddr := peer // Shadow the variable for goroutine
+		g.Go(func() error {
+			n.logger.Info("sending digest pull",
+				"node", n.config.Addr,
+				"target", peerAddr,
+				"digest", message.Digest)
+
+			select {
+			case n.outgoingMsg <- MessageInfo{
+				message: message,
+				addr:    peerAddr,
+			}:
+				return nil
+			case <-ctx.Done():
+				return ctx.Err()
+			}
+		})
+	}
+
+	if err := g.Wait(); err != nil {
+		n.logger.Error("sync round failed",
+			"node", n.config.Addr,
+			"error", err)
+	}
+}
+```
+
+To complement the less frequent full sync, `initiateDigestSync` performs more frequent, lightweight consistency checks using state digests. Triggered periodically (by `syncTick`), it sends a `MessageTypeDigestPull` message, containing only our current state's digest generated via `prepareDigestMessage`, to a random subset of peers (up to `MaxSyncPeers`).
+
+Random peer selection using `rand.Shuffle` ensures we check against different nodes over time. The function sends these `DigestPull` requests concurrently to the selected peers using an `errgroup.WithContext`. Importantly, this entire sync operation is controlled by a context with a timeout (half of the `SyncInterval`) to prevent the node from getting stuck if peers are unresponsive or the outgoing channel is blocked.
+
+This digest-based approach significantly reduces network bandwidth compared to sending the full state, especially when nodes are already synchronized. As detailed in `handleIncMsg`, a peer receiving this `DigestPull` will either reply with a simple `DigestAck` if its state digest matches, or send back its full state via `MessageTypePush` if the digests differ.
+
+The Node structure and its core event loop managing state, messages, and synchronization are now defined. It's time to put this implementation to the test. We'll create an in-memory Transport that simulates message passing between nodes locally, allowing us to verify state convergence after various operations and sync cycles. Let's dive into the tests.
+
+## Node - Tests
+
+Let's start by defining our helpers for our tests .
+
+```go
+// node/node_test.go
+package node
+
+import (
+	"fmt"
+	"sync"
+	"testing"
+	"time"
+
+	"github.com/stretchr/testify/require"
+)
+
+type MemoryTransport struct {
+	addr            string
+	handler         func(addr string, data []byte) error
+	mu              sync.RWMutex
+	partitionedFrom map[string]bool // Track which nodes this node is partitioned from
+}
+
+func NewMemoryTransport(addr string) *MemoryTransport {
+	return &MemoryTransport{
+		addr:            addr,
+		partitionedFrom: make(map[string]bool),
+	}
+}
+
+func (t *MemoryTransport) Send(addr string, data []byte) error {
+	time.Sleep(10 * time.Millisecond) // Prevent message flood
+
+	// Check if recipient is in our partition list
+	t.mu.RLock()
+	partitioned := t.partitionedFrom[addr]
+	t.mu.RUnlock()
+
+	if partitioned {
+		return fmt.Errorf("network partition: cannot send to %s from %s", addr, t.addr)
+	}
+
+	// Get the transport while holding the global lock
+	tmu.RLock()
+	transport, exists := transports[addr]
+	tmu.RUnlock()
+	if !exists {
+		return fmt.Errorf("transport not found for address: %s", addr)
+	}
+
+	// Check if sender is in recipient's partition list
+	transport.mu.RLock()
+	senderPartitioned := transport.partitionedFrom[t.addr]
+	transport.mu.RUnlock()
+
+	if senderPartitioned {
+		return fmt.Errorf("network partition: cannot receive from %s at %s", t.addr, addr)
+	}
+
+	// Get the handler while holding the transport's lock
+	transport.mu.RLock()
+	handler := transport.handler
+	transport.mu.RUnlock()
+	if handler == nil {
+		return fmt.Errorf("no handler registered for address: %s", addr)
+	}
+
+	// Call the handler outside of any locks
+	return handler(t.addr, data)
+}
+
+// AddPartition simulates a network partition between this node and another
+func (t *MemoryTransport) AddPartition(addr string) {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	t.partitionedFrom[addr] = true
+}
+
+// RemovePartition removes a simulated network partition
+func (t *MemoryTransport) RemovePartition(addr string) {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	delete(t.partitionedFrom, addr)
+}
+
+// CreateBidirectionalPartition creates a partition between two nodes
+func CreateBidirectionalPartition(t *testing.T, addr1, addr2 string) {
+	transport1, exists1 := GetTransport(addr1)
+	transport2, exists2 := GetTransport(addr2)
+
+	require.True(t, exists1, "Transport for %s should exist", addr1)
+	require.True(t, exists2, "Transport for %s should exist", addr2)
+
+	transport1.AddPartition(addr2)
+	transport2.AddPartition(addr1)
+}
+
+// HealBidirectionalPartition heals a partition between two nodes
+func HealBidirectionalPartition(t *testing.T, addr1, addr2 string) {
+	transport1, exists1 := GetTransport(addr1)
+	transport2, exists2 := GetTransport(addr2)
+
+	require.True(t, exists1, "Transport for %s should exist", addr1)
+	require.True(t, exists2, "Transport for %s should exist", addr2)
+
+	transport1.RemovePartition(addr2)
+	transport2.RemovePartition(addr1)
+}
+
+func (t *MemoryTransport) Listen(handler func(addr string, data []byte) error) error {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	t.handler = handler
+	tmu.Lock()
+	transports[t.addr] = t
+	tmu.Unlock()
+	return nil
+}
+
+func (t *MemoryTransport) Close() error {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	tmu.Lock()
+	delete(transports, t.addr)
+	tmu.Unlock()
+	return nil
+}
+
+var (
+	transports = make(map[string]*MemoryTransport)
+	tmu        sync.RWMutex
+)
+
+// waitForConvergence verifies that all nodes converge to the expected counter value
+// within the given timeout
+func waitForConvergence(t *testing.T, nodes []*Node, expectedTotalCounter int64, timeout time.Duration) {
+	deadline := time.Now().Add(timeout)
+	lastLog := time.Now()
+	logInterval := 200 * time.Millisecond
+
+	for time.Now().Before(deadline) {
+		allConverged := true
+		allValues := make(map[string]int64)
+
+		for _, n := range nodes {
+			// Get the total counter value
+			totalCounter := n.GetCounter()
+			allValues[n.GetAddr()] = totalCounter
+
+			if totalCounter != expectedTotalCounter {
+				allConverged = false
+			}
+		}
+
+		// Only log at intervals to reduce spam
+		if !allConverged && time.Since(lastLog) > logInterval {
+			t.Logf("Waiting for convergence: %v (expected %d)", allValues, expectedTotalCounter)
+			lastLog = time.Now()
+		}
+
+		if allConverged {
+			t.Logf("All nodes converged to %d", expectedTotalCounter)
+			return
+		}
+
+		time.Sleep(50 * time.Millisecond)
+	}
+
+	// Log detailed state information for debugging
+	t.Log("Detailed node states at convergence failure:")
+	for _, n := range nodes {
+		increments, decrements := n.counter.Counters()
+		t.Logf("Node %s: total counter = %d, inc=%v, dec=%v",
+			n.GetAddr(), n.GetCounter(), increments, decrements)
+	}
+
+	t.Fatalf("nodes did not converge within timeout. Expected total counter = %d",
+		expectedTotalCounter)
+}
+
+// GetTransport retrieves a transport for testing purposes
+func GetTransport(addr string) (*MemoryTransport, bool) {
+	tmu.RLock()
+	defer tmu.RUnlock()
+	transport, exists := transports[addr]
+	return transport, exists
+}
+
+// createTestNode creates a new node with a memory transport for testing
+func createTestNode(t *testing.T, addr string, syncInterval time.Duration) *Node {
+	transport := NewMemoryTransport(addr)
+	config := Config{
+		Addr:         addr,
+		SyncInterval: syncInterval,
+		MaxSyncPeers: 2,
+	}
+	node, err := NewNode(config, transport)
+	require.NoError(t, err)
+	return node
+}
+
+```
+
+To test our `Node` effectively, we first need several helpers. The most important is `MemoryTransport`, an in-memory implementation of the `protocol.Transport` interface. It uses a shared global map (`transports`, protected by `tmu`) to route messages between test nodes and includes methods (`AddPartition`, `RemovePartition`) to simulate network partitions. Helpers like `Create/HealBidirectionalPartition` simplify setting up these partitions between two specific nodes.
+
+We also need a way to verify consensus. The `waitForConvergence` function handles this by polling a list of nodes until their counters (`GetCounter()`) all match an expected value or a specified `timeout` occurs, logging progress and details on failure.
+
+Finally, `createTestNode` is a simple factory function to instantiate a `Node` using our `MemoryTransport` for easy test setup, and `GetTransport` allows retrieving a specific transport instance during tests (e.g., to manipulate partitions).
+
+### Concurrent Update Test
+
+First, we need to ensure that nodes converge correctly when concurrent events occur. We already covered this specific case for our CRDT in Part 0, but this test confirms that the integration works correctly between our `Node` (handling messages, performing sync) and the underlying `PNCounter`.
+
+```go
+func TestConcurrentIncrement(t *testing.T) {
+	node1 := createTestNode(t, "node1", 100*time.Millisecond)
+	node2 := createTestNode(t, "node2", 100*time.Millisecond)
+	node3 := createTestNode(t, "node3", 100*time.Millisecond)
+
+	node1.peers.SetPeers([]string{"node2", "node3"})
+	node2.peers.SetPeers([]string{"node1", "node3"})
+	node3.peers.SetPeers([]string{"node2", "node1"})
+
+	var wg1 sync.WaitGroup
+	var wg2 sync.WaitGroup
+	var wg3 sync.WaitGroup
+
+	wg1.Add(1)
+	go func() {
+		defer wg1.Done()
+		for range 100 {
+			node1.Increment()
+			// Small sleep to prevent overloading
+			time.Sleep(1 * time.Millisecond)
+		}
+	}()
+
+	wg2.Add(1)
+	go func() {
+		defer wg2.Done()
+		for range 100 {
+			node2.Increment()
+			// Small sleep to prevent overloading
+			time.Sleep(1 * time.Millisecond)
+		}
+	}()
+
+	wg3.Add(1)
+	go func() {
+		defer wg3.Done()
+		for range 100 {
+			node3.Decrement()
+			// Small sleep to prevent overloading
+			time.Sleep(1 * time.Millisecond)
+		}
+	}()
+
+	wg1.Wait()
+	wg2.Wait()
+	wg3.Wait()
+
+	waitForConvergence(t, []*Node{node1, node2, node3}, 100, 5*time.Second)
+
+	node1.Close()
+	node2.Close()
+	node3.Close()
+
+	time.Sleep(500 * time.Millisecond)
+}
+```
+
+### Late Joining Node Test
+
+Now that we've confirmed basic concurrent operations, let's see how our nodes behave when a node joins the cluster later. This is a common scenario; nodes will come and go, but our cluster should remain resilient thanks to the periodic synchronization mechanisms.
+
+```go
+func TestLateJoiningNode(t *testing.T) {
+	node1 := createTestNode(t, "node1", 100*time.Millisecond)
+	node2 := createTestNode(t, "node2", 100*time.Millisecond)
+
+	// Initially, only node1 knows about node2, node2 knows no one
+	node1.peers.SetPeers([]string{"node2"})
+
+	// Node1 performs operations while node2 is effectively unaware/disconnected
+	for range 50 {
+		node1.Increment()
+		time.Sleep(1 * time.Millisecond)
+	}
+
+	// Node2 "joins" by learning about node1
+	node2.peers.SetPeers([]string{"node1"})
+
+	// Nodes should converge to node1's initial state
+	waitForConvergence(t, []*Node{node1, node2}, 50, 2*time.Second)
+
+	// Node2 now performs operations
+	for range 30 {
+		node2.Increment()
+		time.Sleep(1 * time.Millisecond)
+	}
+
+	// Nodes should converge to the combined state
+	waitForConvergence(t, []*Node{node1, node2}, 80, 2*time.Second)
+
+	// Verify internal CRDT state for correctness
+	counters1, _ := node1.counter.Counters()
+	counters2, _ := node2.counter.Counters()
+	require.Equal(t, uint64(50), counters1["node1"], "Node1 map state incorrect for node1")
+	require.Equal(t, uint64(30), counters1["node2"], "Node1 map state incorrect for node2")
+	require.Equal(t, uint64(50), counters2["node1"], "Node2 map state incorrect for node1")
+	require.Equal(t_testing.T, uint64(30), counters2["node2"], "Node2 map state incorrect for node2")
+
+	// Clean up
+	node1.Close()
+	node2.Close()
+
+	// Allow time for graceful shutdown
+	time.Sleep(500 * time.Millisecond)
+}
+```
+
+### Network Partition Test
+
+Now let's test partitioning. This test will isolate one node, allow operations to occur on both sides of the partition, verify the partial states, then heal the partition and check for final convergence.
+
+```go
+func TestNetworkPartition(t *testing.T) {
+	node1 := createTestNode(t, "node1", 100*time.Millisecond)
+	node2 := createTestNode(t, "node2", 100*time.Millisecond)
+	node3 := createTestNode(t, "node3", 100*time.Millisecond)
+
+	// Start fully connected
+	node1.peers.SetPeers([]string{"node2", "node3"})
+	node2.peers.SetPeers([]string{"node1", "node3"})
+	node3.peers.SetPeers([]string{"node1", "node2"})
+
+	// Initial increments and convergence
+	node1.Increment()
+	node2.Increment()
+	node3.Increment()
+	waitForConvergence(t, []*Node{node1, node2, node3}, 3, 2*time.Second)
+
+	// Partition: Isolate node3 from node1 and node2
+	t.Log("Creating partition: (node1 <-> node2) | (node3)")
+	CreateBidirectionalPartition(t, "node1", "node3")
+	CreateBidirectionalPartition(t, "node2", "node3")
+	// Update peers for nodes that can still communicate
+	node1.peers.SetPeers([]string{"node2"})
+	node2.peers.SetPeers([]string{"node1"})
+	// node3's peer list remains unchanged, it doesn't know it's partitioned yet
+
+	t.Log("Incrementing node1 and node2 during partition")
+	for range 10 {
+		node1.Increment() // Should sync with node2
+		node2.Increment() // Should sync with node1
+		time.Sleep(1 * time.Millisecond)
+	}
+
+	t.Log("Incrementing isolated node3 during partition")
+	for range 5 {
+		node3.Increment() // Cannot sync with others
+		time.Sleep(1 * time.Millisecond)
+	}
+
+	// Verify partial convergence (node1 and node2 should agree)
+	// Expected value: 3 (initial) + 10 (node1) + 10 (node2) = 23
+	waitForConvergence(t, []*Node{node1, node2}, 23, 2*time.Second)
+
+	// Verify isolated node3's state
+	// Expected value: 3 (initial) + 5 (node3) = 8
+	require.Equal(t, int64(8), node3.GetCounter(),
+		"Node3 should have 8 total increments during partition")
+
+	t.Log("State before healing partition:")
+	logDetailedState(t, []*Node{node1, node2, node3})
+
+	// Heal the partition
+	t.Log("Healing network partition")
+	HealBidirectionalPartition(t, "node1", "node3")
+	HealBidirectionalPartition(t, "node2", "node3")
+	// Restore full peer lists
+	node1.peers.SetPeers([]string{"node2", "node3"})
+	node2.peers.SetPeers([]string{"node1", "node3"})
+	node3.peers.SetPeers([]string{"node1", "node2"}) // node3 can now potentially sync
+
+	// Nodes should eventually converge to the total state
+	// Expected value: 23 (node1/2 state) + 5 (node3's contribution) = 28
+	// Or: 3 (initial) + 10 (node1) + 10 (node2) + 5 (node3) = 28
+	t.Log("Waiting for convergence after healing...")
+	waitForConvergence(t, []*Node{node1, node2, node3}, 28, 5*time.Second)
+
+	t.Log("Final state after convergence:")
+	logDetailedState(t, []*Node{node1, node2, node3})
+
+	// Clean up
+	node1.Close()
+	node2.Close()
+	node3.Close()
+
+	// Allow time for graceful shutdown
+	time.Sleep(500 * time.Millisecond)
+}
+
+// Helper to log detailed state of nodes
+func logDetailedState(t *testing.T, nodes []*Node) {
+	for _, n := range nodes {
+		increments, decrements := n.counter.Counters()
+		t.Logf("  Node %s: counter=%d, inc=%v, dec=%v",
+			n.GetAddr(), n.GetCounter(), increments, decrements)
+	}
+}
+```
+
+## Conclusion
+
+In this second part of the series, we've built the essential `Node` component that orchestrates our distributed counter. We started by defining a clear communication protocol, including message types (`Push`, `DigestPull`, `DigestAck`), serialization with `msgpack`, and optional `zstd` compression.
+
+We then constructed the `Node` itself, integrating the `PNCounter` CRDT within a core `eventLoop`. This loop handles incoming messages, manages outgoing messages, and triggers periodic synchronization via two distinct mechanisms:
+
+1.  Frequent, lightweight **digest-based syncs** (`initiateDigestSync`) to efficiently check for state differences.
+2.  Less frequent **full state syncs** (`performFullStateSync`) as an anti-entropy measure to guarantee eventual consistency.
+
+Crucially, we introduced the `Transport` interface and implemented an in-memory version (`MemoryTransport`). This allowed us to test the node's logic in isolation from network complexities.
+
+We now have a functioning, testable node implementation with core synchronization logic built upon our CRDT foundation. The next step in **Part 2** will be to replace the in-memory transport with a real TCP-based network layer and begin building more sophisticated peer management. Stay tuned!
