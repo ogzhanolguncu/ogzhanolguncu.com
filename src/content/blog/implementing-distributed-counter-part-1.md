@@ -20,7 +20,7 @@ This is the second of a series of posts about implementing a distributed counter
 
 ## Part 1 Goal
 
-Our main goal now for Part 1 is to implement the Node in Go. The Node will connect everything from CRDT to network using our own protocol. Part 1's Node will have a static list of peers for the sake of simplicity**,** but later in the series we'll add proper peer discovery. So our goal is to get up and running and see our CRDT in action.
+Our main goal now for Part 1 is to implement the Node in Go. The Node will connect everything from CRDT to network using our own protocol. Part 1's Node will have a static list of peers for the sake of simplicity, but later in the series we'll add proper peer discovery. So our goal is to get up and running and see our CRDT in action.
 
 ---
 
@@ -98,9 +98,9 @@ Example would be:
 	assertions.Assert(config.Addr != "", "node address cannot be empty")
 ```
 
-In the future when we initialize our node and if there is no address, we can't proceed so there is no reason to keep running our code after this point. So we'll fail fast and early.
+In the future, when we initialize our node and if there is no address, we can't proceed, so there is no reason to keep running our code after this point. So we'll fail fast and early.
 
-Now that is out of the way let's see how can we structure our protocol.
+Now that that is out of the way, let's see how we can structure our protocol
 
 ## Defining Our Communication Protocol
 
