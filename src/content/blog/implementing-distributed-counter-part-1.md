@@ -9,7 +9,7 @@ tags:
 description: "Learn how to build a distributed counter from scratch using Go and CRDT (Conflict-free Replicated Data Types)."
 ---
 
-This is the second of a series of posts about implementing a distributed counter in Go.
+This is the second in a series of posts about implementing a distributed counter in Go.
 
 - [Part 0: CRDT - Implementing a PNCounter](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-0/)
 - **Part 1: Node - Structure and In-Memory Communication (You are here)**
@@ -28,7 +28,7 @@ Now that we've made sure we have a solid foundation, we can move on to our Node 
 
 This part involves several components. Here's the directory structure we'll be working with:
 
-```sh
+```
 part1/
  ├─ crdt/
  │   ├─ crdt.go
@@ -117,7 +117,7 @@ Having a well-defined protocol is crucial for any distributed application. When 
 └───────────────────────────────────────────┘
 ```
 
-Take RESP (Redis Serialization Protocol), RESP doesn't just define message formats; it specifies the complete interaction model for Redis components. Our goal is similar: create a clear, shared language for our counter nodes. This ensures they understand each other perfectly and communicate with minimal wasted effort (overhead).
+Take RESP (Redis Serialization Protocol), RESP doesn't just define message formats; it specifies the complete interaction model for Redis components. Our goal is similar: create a clear, shared language for our counter nodes. This ensures they understand each other perfectly and communicate with minimal overhead.
 
 Let's see how our protocol works using a LEGO analogy.
 
@@ -242,7 +242,7 @@ type Message struct {
 }
 ```
 
-**Let's define our `validate`.**
+Let's define our `validate`.
 
 ```go
 // Validate checks if the message is valid
@@ -267,7 +267,7 @@ func (m *Message) validate() error {
 }
 ```
 
-**Now that we know we can safely `encode` and `decode` let's see those in action.**
+Now that we know we can safely `encode` and `decode` let's see those in action.
 
 ```go
 // encode validates, marshals, checks size, and optionally compresses the message.
@@ -768,7 +768,7 @@ func NewNode(config Config, transport protocol.Transport) (*Node, error) {
 }
 ```
 
-The `NewNode` constructor initializes the node's core components based on the provided `config` and `transport`. Key responsibilities include setting up the logger, initializing the CRDT counter and peer list, creating the context for graceful shutdown, initializing communication channels and sync tickers. Crucially, it calls `startTransport` to begin listening for incoming messages non-blockingly and launches the main `eventLoop` in a separate goroutine to handle processing. Assertions (DbC) are used throughout to validate configuration and initialization steps.
+The `NewNode` constructor initializes the node's core components based on the provided `config` and `transport`. Key responsibilities include setting up the logger, initializing the CRDT counter and peer list, creating the context for graceful shutdown, initializing communication channels and sync tickers. It calls `startTransport` to begin listening for incoming messages non-blockingly and launches the main `eventLoop` in a separate goroutine to handle processing. Assertions (DbC) are used throughout to validate configuration and initialization steps.
 
 Now let's jump into the `startTransport` method.
 
@@ -805,11 +805,11 @@ func (n *Node) startTransport() error {
 }
 ```
 
-The `startTransport` method sets up the listener via the `Transport` interface. The key pattern here is the callback function passed to `Listen`: it receives raw data from a peer (`addr`, `data`), decodes it using `protocol.Decode`, and then uses a non-blocking send (`select`/`default`) to queue the resulting `MessageInfo` onto the `incomingMsg` channel. This decouples network reads from the main processing logic and prevents the listener goroutine from blocking if the `eventLoop` is temporarily busy processing other events, ensuring network responsiveness. Errors during decoding are logged (but don't stop the listener), and full channel scenarios result in dropped messages with a warning.
+The `startTransport` method sets up the listener via the `Transport` interface. The key pattern here is the callback function passed to `Listen`: it receives raw data from a peer (`addr`, `data`), decodes it using `protocol.Decode`, and then uses a non-blocking send (`select`/`default`) to queue the resulting `MessageInfo` onto the `incomingMsg` channel. This decouples network reads from the main processing logic and prevents the listener goroutine from blocking if the `eventLoop` is temporarily busy processing other events. Errors during decoding are logged (but don't stop the listener), and full channel scenarios result in dropped messages with a warning.
 
 Let's take a closer look at the `eventLoop`, the heart of our node.
 
-```sh
+```
 ┌────────────────── EVENT LOOP ──────────────────┐
 │                                                │
 │   ctx.Done ─────────────► shutdown             │
@@ -1591,7 +1591,7 @@ func TestLateJoiningNode(t *testing.T) {
 	require.Equal(t, uint64(50), counters1["node1"], "Node1 map state incorrect for node1")
 	require.Equal(t, uint64(30), counters1["node2"], "Node1 map state incorrect for node2")
 	require.Equal(t, uint64(50), counters2["node1"], "Node2 map state incorrect for node1")
-	require.Equal(t_testing.T, uint64(30), counters2["node2"], "Node2 map state incorrect for node2")
+	require.Equal(t, uint64(30), counters2["node2"], "Node2 map state incorrect for node2")
 
 	// Clean up
 	node1.Close()
@@ -1703,6 +1703,6 @@ We then constructed the `Node` itself, integrating the `PNCounter` CRDT within a
 1.  Frequent, lightweight **digest-based syncs** (`initiateDigestSync`) to efficiently check for state differences.
 2.  Less frequent **full state syncs** (`performFullStateSync`) as an anti-entropy measure to guarantee eventual consistency.
 
-Crucially, we introduced the `Transport` interface and implemented an in-memory version (`MemoryTransport`). This allowed us to test the node's logic in isolation from network complexities.
+We introduced the `Transport` interface and implemented an in-memory version (`MemoryTransport`). This allowed us to test the node's logic in isolation from network complexities.
 
 We now have a functioning, testable node implementation with core synchronization logic built upon our CRDT foundation. The next step in **Part 2** will be to replace the in-memory transport with a real TCP-based network layer and begin building more sophisticated peer management. Stay tuned!
