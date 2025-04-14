@@ -1,18 +1,18 @@
 ---
-pubDatetime: 2025-04-15
+pubDatetime: 2025-04-14
 title: "Implementing Distributed Counter: Part 1 - Node"
 slug: implementing-distributed-counter-part-1
 tags:
   - go
   - distributed
   - network_programming
-description: "Learn how to build a distributed counter from scratch using Go and CRDT (Conflict-free Replicated Data Types)."
+description: Learn how to implement the core Node component of a distributed counter in Go. This part details the Node structure, defines the communication protocol, integrates the CRDT, and implements synchronization tested via in-memory transport.
 ---
 
 This is the second in a series of posts about implementing a distributed counter in Go.
 
 - [Part 0: CRDT - Implementing a PNCounter](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-0/)
-- **Part 1: Node - Structure and In-Memory Communication (You are here)**
+- [Part 1: Node - Structure and In-Memory Communication](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-1/) **(You are here)**
 - _Part 2: Networking - Peer Management and TCP Transport (Not yet published)_
 - _Part 3: Finding Peers - The Discovery Service (Not yet published)_
 - _Part 4: Adding Persistence - The Write-Ahead Log (WAL) (Not yet published)_
