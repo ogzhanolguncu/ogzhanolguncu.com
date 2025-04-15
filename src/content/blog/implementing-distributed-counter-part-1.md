@@ -272,7 +272,7 @@ Now that we know we can safely `encode` and `decode` let's see those in action.
 ```go
 // encode validates, marshals, checks size, and optionally compresses the message.
 // Returns an error if validation fails, marshalling fails, or message exceeds MaxMessageSize.
-func (m *Message) encode() ([]byte, error) { // <<< Changed signature: returns ([]byte, error)
+func (m *Message) encode() ([]byte, error) {
 	// Validate the message before encoding
 	if err := m.validate(); err != nil {
 		return nil, fmt.Errorf("%w: %v", ErrValidationFailed, err)
@@ -342,7 +342,7 @@ func (m *Message) decode(data []byte) error {
 		return ErrEmptyMessage
 	}
 
-	// Check maximum message size (applied to the raw incoming data)
+	// Check maximum message size
 	if len(data) > MaxMessageSize {
 		// Use existing ErrMessageTooLarge, potentially adding context
 		return fmt.Errorf("%w: received message size %d exceeds limit %d",
@@ -353,7 +353,7 @@ func (m *Message) decode(data []byte) error {
 	var payload []byte
 	isCompressed := data[0] == MessageFlagCompressed
 	if isCompressed {
-		// Ensure there's data *after* the flag
+		// Ensure there's data after the flag
 		if len(data) < 2 {
 			return fmt.Errorf("%w: compressed message has no payload", ErrEmptyMessage)
 		}
@@ -364,7 +364,7 @@ func (m *Message) decode(data []byte) error {
 		}
 		payload = decompressed
 	} else {
-		// Ensure there's data *after* the flag (or it's just the flag byte)
+		// Ensure there's data after the flag (or it's just the flag byte)
 		if len(data) < 2 {
 			// Allow single byte '0x00' if that's a valid (empty) uncompressed message semantic,
 			// otherwise return ErrEmptyMessage or similar if payload is always expected.
@@ -751,7 +751,7 @@ func NewNode(config Config, transport protocol.Transport) (*Node, error) {
 		incomingMsg:  make(chan MessageInfo, defaultChannelBuffer),
 		outgoingMsg:  make(chan MessageInfo, defaultChannelBuffer),
 		syncTick:     time.NewTicker(config.SyncInterval).C,
-		fullSyncTick: time.NewTicker(config.FullSyncInterval).C, // Initialize full sync ticker
+		fullSyncTick: time.NewTicker(config.FullSyncInterval).C,
 	}
 
 	assertions.AssertNotNil(node.counter, "node counter must be initialized")
@@ -768,7 +768,7 @@ func NewNode(config Config, transport protocol.Transport) (*Node, error) {
 }
 ```
 
-The `NewNode` constructor initializes the node's core components based on the provided `config` and `transport`. Key responsibilities include setting up the logger, initializing the CRDT counter and peer list, creating the context for graceful shutdown, initializing communication channels and sync tickers. It calls `startTransport` to begin listening for incoming messages non-blockingly and launches the main `eventLoop` in a separate goroutine to handle processing. Assertions (DbC) are used throughout to validate configuration and initialization steps.
+The `NewNode` constructor initializes the node's core components based on the provided `config` and `transport`. It calls `startTransport` to begin listening for incoming messages non-blockingly and launches the main `eventLoop` in a separate goroutine to handle processing. Assertions (DbC) are used throughout to validate configuration and initialization steps.
 
 Now let's jump into the `startTransport` method.
 
@@ -1174,7 +1174,7 @@ func (n *Node) handleIncMsg(inc MessageInfo) {
 }
 ```
 
-So, the high-level scenario is that we expect 3 message types. If it's `MessageTypeDigestPull`, there are two paths: we either compare the digests and respond with an Ack, or we send the full state. If it's `MessageTypeDigestAck`, we just log it because it's just a confirmation. If it's a `MessageTypePush`, we merge it with our local CRDT state.
+So, the high-level flow is that we expect 3 message types. If it's `MessageTypeDigestPull`, there are two paths: we either compare the digests and respond with an Ack, or we send the full state. If it's `MessageTypeDigestAck`, we just log it because it's just a confirmation. If it's a `MessageTypePush`, we merge it with our local CRDT state.
 
 Let's move on to sync methods.
 
@@ -1694,11 +1694,13 @@ func logDetailedState(t *testing.T, nodes []*Node) {
 }
 ```
 
+---
+
 ## Conclusion
 
-In this second part of the series, we've built the essential `Node` component that orchestrates our distributed counter. We started by defining a clear communication protocol, including message types (`Push`, `DigestPull`, `DigestAck`), serialization with `msgpack`, and optional `zstd` compression.
+In this second part of the series, we've built the essential `Node` component that orchestrates our distributed counter. We started by defining a clear communication protocol, including message types (`Push`, `DigestPull`, `DigestAck`), serialization with and compression.
 
-We then constructed the `Node` itself, integrating the `PNCounter` CRDT within a core `eventLoop`. This loop handles incoming messages, manages outgoing messages, and triggers periodic synchronization via two distinct mechanisms:
+We then constructed the `Node` itself, integrating the CRDT within a core `eventLoop`. This loop handles incoming messages, manages outgoing messages, and triggers periodic synchronization via two distinct mechanisms:
 
 1.  Frequent, lightweight **digest-based syncs** (`initiateDigestSync`) to efficiently check for state differences.
 2.  Less frequent **full state syncs** (`performFullStateSync`) as an anti-entropy measure to guarantee eventual consistency.
