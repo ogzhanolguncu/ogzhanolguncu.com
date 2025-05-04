@@ -9,7 +9,7 @@ tags:
 description: "Learn how to build a distributed counter from scratch using Go and CRDT (Conflict-free Replicated Data Types)."
 ---
 
-This is the first of a series of posts about implementing a distributed counter in Go.
+This is the first in a series of posts about implementing a distributed counter in Go.
 
 - [Part 0: CRDT - Implementing a PNCounter](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-0/) **(You are here)**
 - [Part 1: Node - Structure and In-Memory Communication](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-1/)
@@ -672,4 +672,4 @@ This will be our final architecture and in each post, we'll work towards that go
 7. <a id="ref7"></a>[Copy-on-write - Wikipedia](https://en.wikipedia.org/wiki/Copy-on-write).
    _Explains the CoW optimization technique._
 
-_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter)._
+_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter/part0)._

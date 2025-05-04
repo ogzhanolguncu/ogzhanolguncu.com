@@ -1709,4 +1709,4 @@ We introduced the `Transport` interface and implemented an in-memory version (`M
 
 We now have a functioning, testable node implementation with core synchronization logic built upon our CRDT foundation. The next step in **Part 2** will be to replace the in-memory transport with a real TCP-based network layer and begin building more sophisticated peer management. Stay tuned!
 
-_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter)._
+_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter/part1)._
