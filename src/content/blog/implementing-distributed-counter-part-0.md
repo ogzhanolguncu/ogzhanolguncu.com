@@ -174,6 +174,8 @@ Even if you're not familiar with Go, the concepts we'll explore apply broadly to
 
 Having introduced the key concepts like Gossip and CRDTs, our main goal now for Part 0 is to **implement the PN-Counter in Go**. This counter forms the foundation we'll build upon throughout the series.
 
+---
+
 Okay, with the concepts in mind, let's dive into the first piece of code.
 
 ## PN-Counter Implementation in Go
