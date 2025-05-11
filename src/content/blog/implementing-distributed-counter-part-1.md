@@ -13,7 +13,7 @@ This is the second in a series of posts about implementing a distributed counter
 
 - [Part 0: CRDT - Implementing a PNCounter](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-0/)
 - [Part 1: Node - Structure and In-Memory Communication](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-1/) **(You are here)**
-- _Part 2: Networking - Peer Management and TCP Transport (Not yet published)_
+- [Part 2: Networking - Peer Management and TCP Transport](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-2/)
 - _Part 3: Finding Peers - The Discovery Service (Not yet published)_
 - _Part 4: Adding Persistence - The Write-Ahead Log (WAL) (Not yet published)_
 - _Part 5: Finishing Touches - API Gateway (Not yet published)_

@@ -13,7 +13,7 @@ This is the first in a series of posts about implementing a distributed counter 
 
 - [Part 0: CRDT - Implementing a PNCounter](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-0/) **(You are here)**
 - [Part 1: Node - Structure and In-Memory Communication](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-1/)
-- _Part 2: Networking - Peer Management and TCP Transport (Not yet published)_
+- [Part 2: Networking - Peer Management and TCP Transport](https://ogzhanolguncu.com/blog/implementing-distributed-counter-part-2/)
 - _Part 3: Finding Peers - The Discovery Service (Not yet published)_
 - _Part 4: Adding Persistence - The Write-Ahead Log (WAL) (Not yet published)_
 - _Part 5: Finishing Touches - API Gateway (Not yet published)_
@@ -72,7 +72,7 @@ In our distributed counter we'll mainly focus on **AP** (Availability and Partit
 
 Since the precise operation order isn't critical for a counter - does it really matter if increments and decrements happen in the sequence **4-3-2-1-6**? No. What matters is that all nodes eventually reach the same consistent state.
 
-So, how do we ensure our counter value converges correctly across all nodes even with network partitions and concurrent updates? This is where Conflict-free Replicated Data Types (CRDTs)[<a href="#ref5">5</a>] come in...
+So, how do we ensure our counter value converges correctly across all nodes even with network partitions and concurrent updates? This is where Conflict-free Replicated Data Types [CRDTs](<a href="#ref5">5</a>) come in...
 
 ---
 
@@ -82,10 +82,10 @@ So, how do we ensure our counter value converges correctly across all nodes even
 >
 > The naive idea was:
 >
-> 1.  Each node holds a `(value, version)` pair.
-> 2.  When a node increments, it increases both its local `value` and its `version`.
-> 3.  Nodes exchange these pairs.
-> 4.  If Node A receives `(v, ver)` from Node B, and `ver` is greater than Node A's current version, Node A adopts Node B's `value` and `version`.
+> 1. Each node holds a `(value, version)` pair.
+> 2. When a node increments, it increases both its local `value` and its `version`.
+> 3. Nodes exchange these pairs.
+> 4. If Node A receives `(v, ver)` from Node B, and `ver` is greater than Node A's current version, Node A adopts Node B's `value` and `version`.
 >
 > Not gonna lie that seemed okay for simple cases or strictly sequential updates. Then, I quickly discovered this approach fundamentally breaks down under concurrent operations across multiple nodes.
 >
@@ -113,9 +113,9 @@ So, how do we ensure our counter value converges correctly across all nodes even
 
 Okay, imagine you and your friend are coloring in the _exact same_ picture, but you're in different rooms. You both have a copy of the blank picture.
 
-1.  **You color the sun yellow.** Your picture now has a yellow sun.
-2.  **At the same time, your friend colors the tree green.** Their picture now has a green tree.
-3.  **Later, you magically swap copies of your pictures.**
+1. **You color the sun yellow.** Your picture now has a yellow sun.
+2. **At the same time, your friend colors the tree green.** Their picture now has a green tree.
+3. **Later, you magically swap copies of your pictures.**
 
 Now what?
 
@@ -144,10 +144,10 @@ They are connected but might not talk to each other instantly (like over a slow 
 
 **Naive Synchronization Attempt:** The nodes eventually need to sync up. What if they simply exchange their current counter _values_?
 
-1.  Node A sends its value (1) to Node C. Node C updates to 1.
-2.  Node B sends its value (1) to Node C. Node C sees the value is already 1, so it stays at 1.
-3.  Node A sends its value (1) to Node B. Node B sees its own value is also 1. It might assume no change is needed or simply overwrite its state with the received state (still 1).
-4.  Node B sends its value (1) to Node A. Similarly, Node A sees the value matches its own and remains at 1.
+1. Node A sends its value (1) to Node C. Node C updates to 1.
+2. Node B sends its value (1) to Node C. Node C sees the value is already 1, so it stays at 1.
+3. Node A sends its value (1) to Node B. Node B sees its own value is also 1. It might assume no change is needed or simply overwrite its state with the received state (still 1).
+4. Node B sends its value (1) to Node A. Similarly, Node A sees the value matches its own and remains at 1.
 
 **The Incorrect Result:** All nodes converge to a counter value of 1. But this is wrong! Two distinct increment operations occurred (+1 on A, +1 on B). The correct total should be 0 + 1 + 1 = **2**.
 
@@ -197,23 +197,23 @@ Here's the core structure of our PNCounter. We use two separate `RWMutexes` to p
 package crdt
 
 import (
-	"maps"
-	"sync"
+ "maps"
+ "sync"
 )
 
 type (
-	// PNMap stores node IDs and their corresponding counts.
-	PNMap map[string]uint64
+ // PNMap stores node IDs and their corresponding counts.
+ PNMap map[string]uint64
 
-	// PNCounter (Positive-Negative Counter) using separate RWMutexes
-	// for increments and decrements to potentially increase concurrency
-	// between increment and decrement operations.
-	PNCounter struct {
-		incMu      sync.RWMutex
-		decMu      sync.RWMutex
-		increments PNMap
-		decrements PNMap
-	}
+ // PNCounter (Positive-Negative Counter) using separate RWMutexes
+ // for increments and decrements to potentially increase concurrency
+ // between increment and decrement operations.
+ PNCounter struct {
+  incMu      sync.RWMutex
+  decMu      sync.RWMutex
+  increments PNMap
+  decrements PNMap
+ }
 )
 ```
 
@@ -241,60 +241,60 @@ Now we can define the constructor and the read operations for `PNCounter`.
 // New creates a new PNCounter with the provided node ID,
 // initializing separate maps and mutexes.
 func New(nodeId string) *PNCounter {
-	// Initialize maps directly
-	incMap := make(PNMap)
-	incMap[nodeId] = 0
+ // Initialize maps directly
+ incMap := make(PNMap)
+ incMap[nodeId] = 0
 
-	decMap := make(PNMap)
-	decMap[nodeId] = 0
+ decMap := make(PNMap)
+ decMap[nodeId] = 0
 
-	return &PNCounter{
-		increments: incMap,
-		decrements: decMap,
-	}
+ return &PNCounter{
+  increments: incMap,
+  decrements: decMap,
+ }
 }
 
 // Value returns the current value of the counter (increments - decrements).
 // It acquires read locks on both increment and decrement maps.
 func (p *PNCounter) Value() int64 {
-	// Acquire locks in a consistent order (inc then dec)
-	p.incMu.RLock()
-	defer p.incMu.RUnlock() // Ensure inc unlock happens
+ // Acquire locks in a consistent order (inc then dec)
+ p.incMu.RLock()
+ defer p.incMu.RUnlock() // Ensure inc unlock happens
 
-	p.decMu.RLock()
-	defer p.decMu.RUnlock() // Ensure dec unlock happens
+ p.decMu.RLock()
+ defer p.decMu.RUnlock() // Ensure dec unlock happens
 
-	var incSum, decSum uint64
-	for _, v := range p.increments {
-		incSum += v
-	}
-	for _, v := range p.decrements {
-		decSum += v
-	}
+ var incSum, decSum uint64
+ for _, v := range p.increments {
+  incSum += v
+ }
+ for _, v := range p.decrements {
+  decSum += v
+ }
 
-	return int64(incSum) - int64(decSum)
+ return int64(incSum) - int64(decSum)
 }
 
 // LocalValue returns the net value for a specific node.
 // It acquires read locks on both increment and decrement maps.
 func (p *PNCounter) LocalValue(nodeId string) int64 {
-	// Acquire locks in a consistent order
-	p.incMu.RLock()
-	defer p.incMu.RUnlock()
+ // Acquire locks in a consistent order
+ p.incMu.RLock()
+ defer p.incMu.RUnlock()
 
-	p.decMu.RLock()
-	defer p.decMu.RUnlock()
+ p.decMu.RLock()
+ defer p.decMu.RUnlock()
 
-	var incVal, decVal uint64
-	// Direct access within the locks
-	if val, ok := p.increments[nodeId]; ok {
-		incVal = val
-	}
-	if val, ok := p.decrements[nodeId]; ok {
-		decVal = val
-	}
+ var incVal, decVal uint64
+ // Direct access within the locks
+ if val, ok := p.increments[nodeId]; ok {
+  incVal = val
+ }
+ if val, ok := p.decrements[nodeId]; ok {
+  decVal = val
+ }
 
-	return int64(incVal) - int64(decVal)
+ return int64(incVal) - int64(decVal)
 }
 ```
 
@@ -306,27 +306,27 @@ Now, let's implement `Increment` and `Decrement`.
 // Increment increments the counter for the specified node.
 // It acquires a write lock only on the increments map.
 func (p *PNCounter) Increment(nodeId string) {
-	p.incMu.Lock() // Acquire increments write lock
-	defer p.incMu.Unlock()
+ p.incMu.Lock() // Acquire increments write lock
+ defer p.incMu.Unlock()
 
-	// Direct modification within the lock
-	if _, exists := p.increments[nodeId]; !exists {
-		p.increments[nodeId] = 0 // Initialize if node is new
-	}
-	p.increments[nodeId]++
+ // Direct modification within the lock
+ if _, exists := p.increments[nodeId]; !exists {
+  p.increments[nodeId] = 0 // Initialize if node is new
+ }
+ p.increments[nodeId]++
 }
 
 // Decrement increments the decrement counter for the specified node.
 // It acquires a write lock only on the decrements map.
 func (p *PNCounter) Decrement(nodeId string) {
-	p.decMu.Lock() // Acquire decrements write lock
-	defer p.decMu.Unlock()
+ p.decMu.Lock() // Acquire decrements write lock
+ defer p.decMu.Unlock()
 
-	// Direct modification within the lock
-	if _, exists := p.decrements[nodeId]; !exists {
-		p.decrements[nodeId] = 0 // Initialize if node is new
-	}
-	p.decrements[nodeId]++ // PNCounter increments the *decrement* map
+ // Direct modification within the lock
+ if _, exists := p.decrements[nodeId]; !exists {
+  p.decrements[nodeId] = 0 // Initialize if node is new
+ }
+ p.decrements[nodeId]++ // PNCounter increments the *decrement* map
 }
 ```
 
@@ -342,21 +342,21 @@ This method safely retrieves copies of the internal maps, useful when sending st
 // Counters returns copies of the increment and decrement counter maps.
 // It acquires read locks on both maps.
 func (p *PNCounter) Counters() (PNMap, PNMap) {
-	// Acquire locks in a consistent order
-	p.incMu.RLock()
-	defer p.incMu.RUnlock()
+ // Acquire locks in a consistent order
+ p.incMu.RLock()
+ defer p.incMu.RUnlock()
 
-	p.decMu.RLock()
-	defer p.decMu.RUnlock()
+ p.decMu.RLock()
+ defer p.decMu.RUnlock()
 
-	// Create independent copies while holding the locks
-	incCopy := make(PNMap, len(p.increments))
-	decCopy := make(PNMap, len(p.decrements))
+ // Create independent copies while holding the locks
+ incCopy := make(PNMap, len(p.increments))
+ decCopy := make(PNMap, len(p.decrements))
 
-	maps.Copy(incCopy, p.increments)
-	maps.Copy(decCopy, p.decrements)
+ maps.Copy(incCopy, p.increments)
+ maps.Copy(decCopy, p.decrements)
 
-	return incCopy, decCopy
+ return incCopy, decCopy
 }
 ```
 
@@ -382,51 +382,51 @@ Let's implement `MergeIncrements` and `MergeDecrements`.
 // MergeIncrements merges external increment values with the local counter.
 // It acquires a write lock only on the increments map.
 func (p *PNCounter) MergeIncrements(other PNMap) bool {
-	p.incMu.Lock() // Acquire increments write lock
-	defer p.incMu.Unlock()
+ p.incMu.Lock() // Acquire increments write lock
+ defer p.incMu.Unlock()
 
-	updated := false
-	for nodeID, otherValue := range other {
-		currentValue, exists := p.increments[nodeID]
-		// Merge condition: take the max value
-		if (!exists && otherValue > 0) || otherValue > currentValue {
-			p.increments[nodeID] = otherValue
-			updated = true
-		}
-	}
-	return updated
+ updated := false
+ for nodeID, otherValue := range other {
+  currentValue, exists := p.increments[nodeID]
+  // Merge condition: take the max value
+  if (!exists && otherValue > 0) || otherValue > currentValue {
+   p.increments[nodeID] = otherValue
+   updated = true
+  }
+ }
+ return updated
 }
 
 // MergeDecrements merges external decrement values with the local counter.
 // It acquires a write lock only on the decrements map.
 func (p *PNCounter) MergeDecrements(other PNMap) bool {
-	p.decMu.Lock() // Acquire decrements write lock
-	defer p.decMu.Unlock()
+ p.decMu.Lock() // Acquire decrements write lock
+ defer p.decMu.Unlock()
 
-	updated := false
-	for nodeID, otherValue := range other {
-		currentValue, exists := p.decrements[nodeID]
-		// Merge condition: take the max value
-		if (!exists && otherValue > 0) || otherValue > currentValue {
-			p.decrements[nodeID] = otherValue
-			updated = true
-		}
-	}
-	return updated
+ updated := false
+ for nodeID, otherValue := range other {
+  currentValue, exists := p.decrements[nodeID]
+  // Merge condition: take the max value
+  if (!exists && otherValue > 0) || otherValue > currentValue {
+   p.decrements[nodeID] = otherValue
+   updated = true
+  }
+ }
+ return updated
 }
 
 // Merge combines this counter with another counter's state.
 // It acquires write locks on the local counter via MergeIncrements/MergeDecrements
 // and read locks on the other counter via its Counters() method.
 func (p *PNCounter) Merge(other *PNCounter) bool {
-	// Get copies of the other counter's state (acquires RLock on 'other' maps)
-	otherIncrements, otherDecrements := other.Counters()
+ // Get copies of the other counter's state (acquires RLock on 'other' maps)
+ otherIncrements, otherDecrements := other.Counters()
 
-	// Merge into the local counter (acquires Lock on 'p' maps respectively)
-	incUpdated := p.MergeIncrements(otherIncrements)
-	decUpdated := p.MergeDecrements(otherDecrements)
+ // Merge into the local counter (acquires Lock on 'p' maps respectively)
+ incUpdated := p.MergeIncrements(otherIncrements)
+ decUpdated := p.MergeDecrements(otherDecrements)
 
-	return incUpdated || decUpdated
+ return incUpdated || decUpdated
 }
 ```
 
@@ -434,8 +434,8 @@ The `MergeIncrements` and `MergeDecrements` methods implement this: each acquire
 
 The main `Merge` function orchestrates this efficiently:
 
-1.  It first obtains a consistent snapshot of the `other` counter's state by calling `other.Counters()` (which uses read locks on the `other` counter).
-2.  It then calls the local `MergeIncrements` and `MergeDecrements` methods, passing in the copied state. These methods handle acquiring the necessary _write_ locks on the _local_ counter (`p`) to safely integrate the received state.
+1. It first obtains a consistent snapshot of the `other` counter's state by calling `other.Counters()` (which uses read locks on the `other` counter).
+2. It then calls the local `MergeIncrements` and `MergeDecrements` methods, passing in the copied state. These methods handle acquiring the necessary _write_ locks on the _local_ counter (`p`) to safely integrate the received state.
 
 The CRDT implementation is finally done. Now, we need to ensure it works as expected, especially under concurrent conditions, by writing a couple of tests.
 
@@ -446,46 +446,46 @@ First, let's verify that concurrent operations within a _single_ counter instanc
 ```go
 // /crdt/crdt_test.go
 func TestPNCounter_ConcurrentOperations(t *testing.T) {
-	counter := New("shared")
+ counter := New("shared")
 
-	// Number of concurrent operations
-	concurrency := 100
+ // Number of concurrent operations
+ concurrency := 100
 
-	var wg sync.WaitGroup
-	wg.Add(concurrency * 2) // For both increments and decrements
+ var wg sync.WaitGroup
+ wg.Add(concurrency * 2) // For both increments and decrements
 
-	// Concurrent increments applied to 'node-inc'
-	for i := 0; i < concurrency; i++ {
-		go func(id int) {
-			defer wg.Done()
-			counter.Increment("node-inc")
-		}(i)
-	}
+ // Concurrent increments applied to 'node-inc'
+ for i := 0; i < concurrency; i++ {
+  go func(id int) {
+   defer wg.Done()
+   counter.Increment("node-inc")
+  }(i)
+ }
 
-	// Concurrent decrements applied to 'node-dec'
-	for i := 0; i < concurrency; i++ {
-		go func(id int) {
-			defer wg.Done()
-			counter.Decrement("node-dec")
-		}(i)
-	}
+ // Concurrent decrements applied to 'node-dec'
+ for i := 0; i < concurrency; i++ {
+  go func(id int) {
+   defer wg.Done()
+   counter.Decrement("node-dec")
+  }(i)
+ }
 
-	wg.Wait() // Wait for all goroutines to finish
+ wg.Wait() // Wait for all goroutines to finish
 
-	// Check the final total value: +100 on node-inc, -100 effect from node-dec = 0 total
-	require.Equal(t, int64(0), counter.Value(), "Value should be 0 after equal increments and decrements on different nodes")
+ // Check the final total value: +100 on node-inc, -100 effect from node-dec = 0 total
+ require.Equal(t, int64(0), counter.Value(), "Value should be 0 after equal increments and decrements on different nodes")
 
-	// Check the specific count for the incremented node
-	incMap, _ := counter.Counters() // Helper to get maps
-	require.Equal(t, uint64(concurrency), incMap["node-inc"], "node-inc count should be concurrency")
+ // Check the specific count for the incremented node
+ incMap, _ := counter.Counters() // Helper to get maps
+ require.Equal(t, uint64(concurrency), incMap["node-inc"], "node-inc count should be concurrency")
 
-	// Check the specific count for the decremented node
-	_, decMap := counter.Counters()
-	require.Equal(t, uint64(concurrency), decMap["node-dec"], "node-dec count should be concurrency")
+ // Check the specific count for the decremented node
+ _, decMap := counter.Counters()
+ require.Equal(t, uint64(concurrency), decMap["node-dec"], "node-dec count should be concurrency")
 
-	// Check LocalValue too
-	require.Equal(t, int64(concurrency), counter.LocalValue("node-inc"), "node-inc local value check")
-	require.Equal(t, int64(-concurrency), counter.LocalValue("node-dec"), "node-dec local value check")
+ // Check LocalValue too
+ require.Equal(t, int64(concurrency), counter.LocalValue("node-inc"), "node-inc local value check")
+ require.Equal(t, int64(-concurrency), counter.LocalValue("node-dec"), "node-dec local value check")
 }
 ```
 
@@ -495,74 +495,74 @@ Now, let's test how concurrent **merges** behave when combining state from multi
 
 ```go
 func TestPNCounter_ConcurrentMerges(t *testing.T) {
-	main := New("main") // The counter to merge into
+ main := New("main") // The counter to merge into
 
-	// Create several source counters with different operations
-	sources := make([]*PNCounter, 10)
-	for i := 0; i < 10; i++ {
-		nodeIdSuffix := fmt.Sprintf("%d", i)
-		sources[i] = New("source-" + nodeIdSuffix) // Use defined constructor
-		nodeID := "node-" + nodeIdSuffix // Unique ID for increments per source
+ // Create several source counters with different operations
+ sources := make([]*PNCounter, 10)
+ for i := 0; i < 10; i++ {
+  nodeIdSuffix := fmt.Sprintf("%d", i)
+  sources[i] = New("source-" + nodeIdSuffix) // Use defined constructor
+  nodeID := "node-" + nodeIdSuffix // Unique ID for increments per source
 
-		// Apply i+1 increments for nodeID
-		for j := 0; j < i+1; j++ {
-			 sources[i].Increment(nodeID)
-		}
+  // Apply i+1 increments for nodeID
+  for j := 0; j < i+1; j++ {
+    sources[i].Increment(nodeID)
+  }
 
-		// Apply i/2 decrements for a different nodeID if i is even
-		if i%2 == 0 {
-			decNodeID := "dec-node-" + nodeIdSuffix
-			for j := 0; j < i/2; j++ {
-				sources[i].Decrement(decNodeID)
-			}
-		}
-	}
+  // Apply i/2 decrements for a different nodeID if i is even
+  if i%2 == 0 {
+   decNodeID := "dec-node-" + nodeIdSuffix
+   for j := 0; j < i/2; j++ {
+    sources[i].Decrement(decNodeID)
+   }
+  }
+ }
 
-	// Create an edge case counter with large values
-	edgeCase := New("edge-case")
-	largeIncMap := make(PNMap)
-	largeIncMap["large-inc"] = uint64(1 << 32)
-	edgeCase.MergeIncrements(largeIncMap)
+ // Create an edge case counter with large values
+ edgeCase := New("edge-case")
+ largeIncMap := make(PNMap)
+ largeIncMap["large-inc"] = uint64(1 << 32)
+ edgeCase.MergeIncrements(largeIncMap)
 
-	largeDecMap := make(PNMap)
-	largeDecMap["large-dec"] = uint64(1 << 31)
-	edgeCase.MergeDecrements(largeDecMap)
+ largeDecMap := make(PNMap)
+ largeDecMap["large-dec"] = uint64(1 << 31)
+ edgeCase.MergeDecrements(largeDecMap)
 
-	sources = append(sources, edgeCase) // Add edge case to the list
+ sources = append(sources, edgeCase) // Add edge case to the list
 
-	// Merge all sources into 'main' concurrently
-	var wg sync.WaitGroup
-	wg.Add(len(sources))
-	for _, src := range sources {
-		go func(source *PNCounter) {
-			defer wg.Done()
-			// Try multiple merges per source to increase contention chances
-			for i := 0; i < 3; i++ {
-				main.Merge(source)
-			}
-		}(src)
-	}
-	wg.Wait() // Wait for all merges to complete
+ // Merge all sources into 'main' concurrently
+ var wg sync.WaitGroup
+ wg.Add(len(sources))
+ for _, src := range sources {
+  go func(source *PNCounter) {
+   defer wg.Done()
+   // Try multiple merges per source to increase contention chances
+   for i := 0; i < 3; i++ {
+    main.Merge(source)
+   }
+  }(src)
+ }
+ wg.Wait() // Wait for all merges to complete
 
-	expectedInc := uint64(0)
-	for i := 0; i < 10; i++ {
-		expectedInc += uint64(i + 1) // Sum increments from sources[0] to sources[9]
-	}
-	expectedInc += uint64(1 << 32) // Add large increment from edge case
+ expectedInc := uint64(0)
+ for i := 0; i < 10; i++ {
+  expectedInc += uint64(i + 1) // Sum increments from sources[0] to sources[9]
+ }
+ expectedInc += uint64(1 << 32) // Add large increment from edge case
 
-	expectedDec := uint64(0)
-	for i := 0; i < 10; i += 2 { // Only even sources have decrements
-		expectedDec += uint64(i / 2) // Sum decrements from even sources
-	}
-	expectedDec += uint64(1 << 31) // Add large decrement from edge case
+ expectedDec := uint64(0)
+ for i := 0; i < 10; i += 2 { // Only even sources have decrements
+  expectedDec += uint64(i / 2) // Sum decrements from even sources
+ }
+ expectedDec += uint64(1 << 31) // Add large decrement from edge case
 
-	expectedValue := int64(expectedInc) - int64(expectedDec)
+ expectedValue := int64(expectedInc) - int64(expectedDec)
 
-	require.Equal(t, expectedValue, main.Value(),
-		"Value should reflect all increments and decrements after concurrent merges")
+ require.Equal(t, expectedValue, main.Value(),
+  "Value should reflect all increments and decrements after concurrent merges")
 
-	mainIncMap, mainDecMap := main.Counters()
-	require.Equal(t, uint64(10), mainIncMap["node-9"], "Check node-9 increment count") // Example check
+ mainIncMap, mainDecMap := main.Counters()
+ require.Equal(t, uint64(10), mainIncMap["node-9"], "Check node-9 increment count") // Example check
     require.Equal(t, uint64(1<<32), mainIncMap["large-inc"], "Check large-inc count") // Example check
     require.Equal(t, uint64(4), mainDecMap["dec-node-8"], "Check dec-node-8 count") // Example check
     require.Equal(t, uint64(1<<31), mainDecMap["large-dec"], "Check large-dec count") // Example check
