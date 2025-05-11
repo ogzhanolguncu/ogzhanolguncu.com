@@ -672,4 +672,4 @@ This will be our final architecture and in each post, we'll work towards that go
 7. <a id="ref7"></a>[Copy-on-write - Wikipedia](https://en.wikipedia.org/wiki/Copy-on-write).
    _Explains the CoW optimization technique._
 
-_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter/part0)._
+_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter/tree/master/part0)._

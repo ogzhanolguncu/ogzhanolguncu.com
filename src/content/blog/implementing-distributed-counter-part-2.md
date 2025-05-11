@@ -1,8 +1,7 @@
 ---
-pubDatetime: 2025-05-07
+pubDatetime: 2025-05-11
 title: "Implementing Distributed Counter: Part 2 - Networking"
 slug: implementing-distributed-counter-part-2
-draft: true
 tags:
   - go
   - distributed
@@ -22,7 +21,7 @@ This is the third in a series of posts about implementing a distributed counter 
 ## Part 2 Goal
 
 Our main goal for part 2 is to implement the TCP version of our Transport interface.
-We'll also refactor our `Peer` code to work better with our TCP transport. This part is slimmer than others but serves a crucial role. This marks the first time our nodes will interact with each other over an actual network. In this part, they will communicate directly using static configuration—they'll know each other's addresses. In part 3 we'll have another component in our system to keep track of who's in the network.
+We'll also refactor our `Peer` code to work better with our TCP transport. This part is slimmer than others but serves a crucial role. This marks the first time our nodes will interact with each other over an actual network. In this part, they will communicate directly using static configuration — they'll know each other's addresses. In part 3 we'll have another component in our system to keep track of who's in the network.
 
 ---
 
@@ -38,6 +37,7 @@ part2/
  ├─ node/
  │   ├─ node.go
  │   ├─ node_test.go
+ ├─ peer/
  │   ├─ peer.go -------------------> REFACTORED
  ├─ protocol/
  │   ├─ message.go
@@ -57,7 +57,7 @@ Before we implement the TCP implementation, let's check our framing structure.
 ```
 +---------------+--------------------+----------------+
 | Address Length| Sender Address     | Message Payload|
-| (1 byte)      | (variable length)  | (rest of data) |
+| (1 byte)      |                    | (rest of data) |
 +---------------+--------------------+----------------+
     byte[0]       bytes[1:1+addrLen]  bytes[1+addrLen:]
 ```
@@ -115,7 +115,7 @@ Now that we understand our TCP payload structure, let's define our constants and
 ```go
 // part2/protocol/tcp.go
 const (
-	ReadBufferSize = 16 * 1024 // 16KB buffer for reading
+	ReadBufferSize = 4 << 12 // 16KB buffer for reading
 	ReadTimeout    = 5 * time.Second
 	WriteTimeout   = 5 * time.Second
 	DialTimeout    = 5 * time.Second
@@ -450,9 +450,11 @@ func TestTCPTransport_ConcurrentConnections(t *testing.T) {
 }
 ```
 
+Now that we've completed our TCP transport implementation, we need to address how our nodes will manage their connections with other peers in the network. While our transport layer handles the mechanics of sending and receiving messages, the peer manager is responsible for maintaining the list of available peers and deciding which ones to communicate with. This relationship becomes even more critical with TCP. Let's refactor our peer management implementation to better support this network-based communication model.
+
 ## Peer Manager
 
-For this part, we need to restructure our peer management implementation to better support upcoming functionality. We'll create a dedicated `peer` package instead of including it in the `node` package. We'll modify the `SetPeers` method from part 1 to use `AddPeer` for more granular control.
+For this part, we need to restructure our peer management implementation to better support upcoming functionality for part 3. We'll create a dedicated `peer` package instead of including it in the `node` package. We'll modify the `SetPeers` method from part 1 to use `AddPeer` for more granular control.
 
 ### Adding Peer
 
@@ -767,4 +769,4 @@ In this third part of the series, we've built the TCP version of our transport p
 
 We can now have a functioning Distributed Counter Cluster with static configuration and finally see the nodes communicate through an actual network.
 
-_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter/part2)._
+_If you found this post helpful, feel free to share it and check back for the next part in this series. You can also find the complete code for this implementation on [GitHub](https://github.com/ogzhanolguncu/distributed-counter/tree/master/part2)._
