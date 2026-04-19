@@ -1,0 +1,289 @@
+---
+pubDatetime: 2026-04-19
+title: "Arena Allocator in Go"
+slug: arena-allocator-in-go
+tags:
+  - go
+description: "Learn how memory allocation works by building an arena allocator in Go from scratch. Covers memory addresses, alignment, padding math, and unsafe pointer reads."
+---
+
+import ArenaBumpLoop from "../../components/arena/ArenaBumpLoop";
+import ArenaWalkthrough from "../../components/arena/ArenaWalkthrough";
+import AlignmentAisles from "../../components/arena/AlignmentAisles";
+
+There are many names for it: bump, arena, pool, linear allocators, we'll call ours **Arena**. An arena allocator is a linear buffer that allows us to freely allocate memory as we demand it. We preallocate its size when we first initialize the arena. If we were in C, we could say this is _kinda_ an alternative to `malloc`, it's a slightly different mental model though, we cannot independently allocate and free like `malloc`/`free`. Arena allocators trade flexibility for speed. Since this is not a C blog post I don't wanna keep yapping about C, because we'll write one in Go that accepts any data type. Will you need it in your production code? Probably not. Is it good to learn them? Yeah! Because they teach us how memory lays out, how offset math works, and why memory alignments actually matter.
+
+Our implementation will be dynamic so we can allocate any data type and memory will be aligned properly for us. Before we move on though, we have to learn a bit more about how memory works specifically.
+
+## What we're building
+
+Before we dive into the theory, here's a sneak peek at what we're building.
+
+```go
+// Alloc[T any](a *Arena, val T)
+aa := NewArena(32)
+Alloc(aa, "hello")
+Alloc(aa, "oz")
+Alloc(aa, int64(42))
+aa.Reset()
+```
+
+<ArenaBumpLoop client:visible />
+
+## What is a memory address?
+
+When we store data in RAM, we get an address back so we know where our data lives. If we know the address we can always fetch it.
+
+```go
+x := 42
+fmt.Printf("value=%d address=%p\n", x, &x) // value=42 address=0x1400019c008
+
+ptr := &x
+*ptr = 100
+fmt.Printf("value=%d\n", x) // 100
+```
+
+We never touched `x` directly after the first line. We used the address to find and change it. That's fetching and mutating by address.
+
+## What is alignment and why does hardware care?
+
+Alignment is a constraint on which memory address a value is allowed to start at.
+Without alignment constraints, the CPU either crashes or pays extra to stitch two fetches together.
+The hardware is fundamentally designed around aligned access(CPU reads memory 8 bytes at a time on 64-bit systems), alignment is what makes a single fetch sufficient and atomic at the hardware level.
+
+Picture memory as aisles of 8 bytes. Reading an `int64` that sits inside one aisle is a single atomic fetch; one that spans across two aisles costs two fetches plus a stitch to glue the halves together.
+
+<AlignmentAisles client:visible />
+
+> The rule: a type with alignment N must start at an address that is a multiple of N.
+
+```sh
+ int8  -> align 1 -> can start anywhere (0, 1, 2, 3...)
+ int16 -> align 2 -> must start at even address (0, 2, 4, 6...)
+ int32 -> align 4 -> must start at 0, 4, 8, 12...
+ int64 -> align 8 -> must start at 0, 8, 16, 24...
+```
+
+Structs make this concrete. Given:
+
+```golang
+type Foo struct {
+    a int8
+    b int64
+}
+```
+
+The compiler cannot place b at offset 1 (right after a) because 1 is not a multiple of 8.  
+It inserts padding:
+
+```sh
+offset 0: a (1 byte)
+offset 1-7: padding (7 bytes)
+offset 8: b (8 bytes)
+total: 16 bytes, even though a + b only needs 9
+```
+
+## How do you align an offset to the next multiple of N?
+
+We now know what alignment is and why it matters, so how do we figure out how many padding bytes to insert before the next write?
+
+32-byte arena, we just wrote `"Hello, World!"` (13 bytes). Now we want to write an `int64` (8 bytes). Our current offset is 13, which is not a multiple of 8. The next multiple of 8 is 16, so we need 3 bytes of padding.
+
+```go
+padding      := (align - offset % align) % align
+finalOffset  := offset + padding
+```
+
+The outer `% align` handles the already-aligned case, `(align - 0)` would produce `align` bytes of padding instead of zero.
+
+|                 | offset | align | calculation                      | padding |
+| --------------- | ------ | ----- | -------------------------------- | ------- |
+| unaligned       | 13     | 8     | `(8 - 13 % 8) % 8 = (8 - 5) % 8` | **3**   |
+| already aligned | 16     | 8     | `(8 - 16 % 8) % 8 = (8 - 0) % 8` | **0**   |
+
+`finalOffset = offset + padding`, so 13 + 3 = **16**
+
+## Implementation
+
+Implementation is actually pretty straightforward only tricky part is to get the alignment correct.
+
+```go
+type Arena struct {
+ Buffer []byte
+ Offset int
+}
+
+func NewArena(size int) *Arena {
+ return &Arena{
+  Buffer: make([]byte, size),
+  Offset: 0,
+ }
+}
+```
+
+We need a contiguous memory and a value that tells us where the next insertion will be placed.
+Before we see how alignments work for different data types, let's first nail the easy case.
+
+A couple of things to be aware of:
+
+1- Before any write we have to make sure we have enough space in arena otherwise we `panic` or `error`. Your choice. We'll roll with `panic` here
+2- We shouldn't re-allocate any memory to our buffer or write data to the wrong place
+3- Finally, offset must be incremented accordingly otherwise step 2 will happen.
+
+#### How do we make sure we have enough space?
+
+If buffer size is 10 and we are already at offset 8 which means we have only 2 space left, and if the next insertion is 3 we are already out of boundary.
+So, math is simple
+
+```
+bufferSize - offset < length of val // Which means we have no space left
+```
+
+#### How do we know where to insert data?
+
+If our offset is 0 and data is 3 bytes:
+
+```
+
+before: [· · · · · · · · · ·]
+         ^
+         offset=0
+
+write:  [█ █ █ · · · · · · ·]
+         0 1 2
+               ^
+               offset=3 (0 + 3)
+```
+
+We need to insert data right into this space, and finally bump our offset to `previousOffset+length of val`
+
+And, if we combine all of these we end up with this:
+
+```go
+func (a *Arena) alloc(val []byte) {
+ preventWrite := (len(a.Buffer) - a.Offset) < len(val)
+ if preventWrite {
+  panic("OOM")
+ }
+
+ copy(a.Buffer[a.Offset:a.Offset+len(val)], val)
+ a.Offset = len(val) + a.Offset
+}
+```
+
+That was easy, right? Because strings and bytes are accessed as individual bytes, each with alignment 1, no padding is ever needed.
+
+Now, let's dissect our generic `Alloc[T any]`.
+
+So, what are the gotchas?
+
+1- `string` and `byte` doesn't need special care
+2- We need a way to figure out size of data depending on their type
+3- Then, we need to figure out how much alignment they need
+
+We already covered the first case, and luckily there is a super easy way to solve two and three.
+
+We'll use [unsafe.Sizeof](https://pkg.go.dev/unsafe#Sizeof) and [unsafe.Alignof](https://pkg.go.dev/unsafe#Alignof)
+
+`unsafe.Sizeof` returns the size in bytes a value occupies in memory:
+
+```go
+fmt.Println(unsafe.Sizeof(int64(0)))  // 8
+fmt.Println(unsafe.Sizeof(int32(0)))  // 4
+fmt.Println(unsafe.Sizeof(int8(0)))   // 1
+```
+
+`unsafe.Alignof` returns the alignment requirement for a value:
+
+```go
+fmt.Println(unsafe.Alignof(int64(0)))  // 8
+fmt.Println(unsafe.Alignof(int32(0)))  // 4
+fmt.Println(unsafe.Alignof(int8(0)))   // 1
+```
+
+They look the same for primitives, but for stuff like `struct` they diverge. Okay, now we know how much we have to figure out, let's remember our formula again.
+
+```go
+padding      := (align - offset % align) % align
+finalOffset  := offset + padding
+```
+
+Let's put everything together:
+
+```go
+func Alloc[T any](a *Arena, val T) {
+ switch v := any(val).(type) {
+ case []byte:
+  a.alloc(v)
+ case string:
+  a.alloc([]byte(v))
+ default:
+  sizeof := unsafe.Sizeof(val)
+  alignof := unsafe.Alignof(val)
+
+  start := a.Offset
+  padding := (int(alignof) - start%int(alignof)) % int(alignof)
+  start += padding
+  if len(a.Buffer)-start < int(sizeof) {
+   panic("OOM")
+  }
+
+  ptr := (*byte)(unsafe.Pointer(&val))   // reinterpret val's address as *byte
+  bytes := unsafe.Slice(ptr, sizeof)     // view val's raw memory as []byte
+  copy(a.Buffer[start:start+len(bytes)], bytes)
+  a.Offset = start + len(bytes)          // bump offset past what we just wrote
+ }
+}
+```
+
+Since `val` is a generic `T`, we can't pass it to `copy` directly.
+
+```go
+ptr := (*byte)(unsafe.Pointer(&val))
+bytes := unsafe.Slice(ptr, sizeof)
+```
+
+`&val` gives us the address of `val` in memory. `unsafe.Pointer` strips the type so we can reinterpret it. `(*byte)` says "treat this address as a pointer to a single byte". Then `unsafe.Slice(ptr, sizeof)` says "starting at that byte, give me `sizeof` bytes as a slice"
+
+Now `bytes` is just a `[]byte` pointing at `val`'s raw bytes, and we can `copy` it into the arena the same way we did before.
+
+Since the arena owns the buffer, reset is just moving the offset back to 0, the next write will overwrite whatever was there.
+
+```go
+func (a *Arena) Reset() {
+ a.Offset = 0
+}
+```
+
+If you wanna test the entire thing, here is the test case for you:
+
+```go
+func TestAllocComplex(t *testing.T) {
+ // Layout planning:
+ // "hi"       -> offset 0,  len 2  -> ends at 2
+ // int32(99)  -> align 4, offset 2 -> pad to 4,  ends at 8
+ // "x"        -> offset 8,  len 1  -> ends at 9
+ // int64(7)   -> align 8, offset 9 -> pad to 16, ends at 24
+ // bool(true) -> align 1, offset 24-> no pad,    ends at 25
+ // total: 25 bytes
+ aa := NewArena(25)
+ Alloc(aa, "hi")
+ Alloc(aa, int32(99))
+ Alloc(aa, "x")
+ Alloc(aa, int64(7))
+ Alloc(aa, true)
+
+ assert.Equal(t, 25, aa.Offset)
+ assert.Panics(t, func() {
+  Alloc(aa, int32(1)) // needs 4 bytes, 0 remain
+ })
+}
+```
+
+<ArenaWalkthrough client:visible />
+
+## Wrapping up
+
+We learned how the CPU actually reads memory, how alignment works, and why it matters. Will you ship an arena allocator to production? Probably not.
+
+But hey, on the bright side, you now understand why a struct with one `bool` and one `int64` takes 16 bytes instead of 9. The arena was just the excuse.
