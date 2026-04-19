@@ -1,11 +1,21 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "Oğuzhan Olguncu",
+  "short_name": "ogzhanolguncu",
+  "description": "A developer who likes to hack things up. Dedicated learner, mentor and technical blogger.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#f2f5ec",
+  "background_color": "#f2f5ec",
   "icons": [
     { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
 }
