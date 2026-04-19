@@ -282,8 +282,42 @@ func TestAllocComplex(t *testing.T) {
 
 <ArenaWalkthrough client:visible />
 
+## Reading it back
+
+First, let's have `Alloc` return the start offset so the caller knows where the value landed:
+
+```go
+func Alloc[T any](a *Arena, val T) int {
+ // ...same as before...
+ a.Offset = start + len(bytes)
+ return start
+}
+```
+
+Then reading is the inverse of writing:
+
+```go
+func Get[T any](a *Arena, offset int) T {
+ return *(*T)(unsafe.Pointer(&a.Buffer[offset]))
+}
+```
+
+```go
+aa := NewArena(32)
+off := Alloc(aa, int64(42))
+fmt.Println(Get[int64](aa, off)) // 42
+```
+
+One caveat, this works for fixed-size types, but strings and `[]byte` are different.
+We stored the raw bytes, not the `{ptr, len}` header, so `Get[string]` has no way to know where the data ends.
+To read those back, either store a length prefix alongside the data, or track `(offset, len)` on the side and slice the buffer directly: `string(a.Buffer[off : off+n])`.
+
 ## Wrapping up
 
 We learned how the CPU actually reads memory, how alignment works, and why it matters. Will you ship an arena allocator to production? Probably not.
 
 But hey, on the bright side, you now understand why a struct with one `bool` and one `int64` takes 16 bytes instead of 9. The arena was just the excuse.
+
+## Further reading
+
+If you want to see how far this goes, Miguel Young's [Cheating the Reaper in Go](https://mcyoung.xyz/2025/04/21/go-arenas/) builds a GC-aware arena using `reflect.StructOf`, write barriers.
