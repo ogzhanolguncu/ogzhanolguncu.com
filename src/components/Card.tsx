@@ -22,11 +22,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
         href={href}
         className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
-        {secHeading ? (
-          <h2 {...headerProps}>{title}</h2>
-        ) : (
-          <h3 {...headerProps}>{title}</h3>
-        )}
+        {secHeading ? <h2 {...headerProps}>{title}</h2> : <h3 {...headerProps}>{title}</h3>}
       </a>
       <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
       <p>{description}</p>

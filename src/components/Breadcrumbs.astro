@@ -34,10 +34,7 @@ breadcrumbList[0] === "tags" &&
       breadcrumbList.map((breadcrumb, index) =>
         index + 1 === breadcrumbList.length ? (
           <li>
-            <span
-              class={`${index > 0 ? "lowercase" : "capitalize"}`}
-              aria-current="page"
-            >
+            <span class={`${index > 0 ? "lowercase" : "capitalize"}`} aria-current="page">
               {/* make the last part lowercase in Home > Tags > some-tag */}
               {decodeURIComponent(breadcrumb)}
             </span>

@@ -8,6 +8,7 @@ tags:
   - tutorial
 description: A deep dive into event propagation in React through examples.
 ---
+
 In reality Event Propagation concept is quite easy, but people tend to throw lots of words like, "**Bubbling**", "**Capturing**", "**Delegations**"
 "**Events going up**", "**Events going down**" those terms confuses people, yet they all true in their own terms. Event propagation in React works just like in real DOM, _but events wrapped up in SyntheticEvents_.
 But that doesn't change anything, they still behave as if they are working on DOM. So learning this concept in React pretty much appliable to anywhere where the DOM exists, at least
@@ -58,7 +59,6 @@ Now that we get **Bubbling** out of the way. Proceeding to **Capturing**.
 ## Capturing
 
 [🔗Event Capturing's Github address](https://github.com/ogzhanolguncu/ogzhanolguncu.com/blob/master/components/EventPropagationExample/Capturing.tsx)
-
 
 **Capturing** means events going downwards as oppose to **Bubbling**. This time, if we click on **LEVEL 3** now it starts from the most outer to most inner. Just like bubbling but everything in reverse.
 
