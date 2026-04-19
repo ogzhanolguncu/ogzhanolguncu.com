@@ -21,7 +21,7 @@ const { title, author, description, ogImage, canonicalURL, pubDatetime, modDatet
 const { Content } = await post.render();
 
 const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
-const ogUrl = new URL(ogImageUrl ?? `/blog/${slugifyStr(title)}.png`, Astro.url.origin).href;
+const ogUrl = new URL(ogImageUrl ?? `/blog/${slugifyStr(title)}/index.png`, Astro.url.origin).href;
 
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
