@@ -1,0 +1,155 @@
+---
+pubDatetime: 2026-10-04
+title: "How to keep learning in the age of LLMs"
+slug: "how-to-keep-learning-in-the-age-of-llms"
+tags:
+  - learning
+  - llm
+description: "Notes on how I keep learning programming with LLMs"
+---
+
+I want to talk about how I keep learning new things in the age of LLMs. This is mostly about programming, but I think it applies to anything.
+The main reason I'm writing this is that maybe I can help people keep learning what they pursue, because that became really hard after LLMs/AI/agents, whatever you want to call them.
+They can one-shot stuff and kill the entire joy of getting something wrong. We used to learn new things like frameworks, programming languages, and patterns by doing something wrong first and then taking a lesson out of it. But now everything is so fast that we don't want to spend time doing the wrong things, even though it's more beneficial for us in the long run. That struggle is how your brain actually learns new things.
+
+To be frank, I'm guilty of this myself. I used to grind a lot to learn stuff, but now it feels pointless because an LLM can give you whatever you want. All those thoughts brought me here,
+because I'd hit a plateau, and I needed to learn more stuff, both for professional needs and for fun. Here is how I rediscovered how to learn in the age of LLMs.
+
+I was reading a paper called Bitcask[^1]. If you haven't already, I advise you to read it if you're into programming. It's a super lightweight paper
+that you can read even without being a seasoned programmer, because the concepts are really easy to digest and implement if you are up for it. Anyway, so I started reading that paper and wanted to implement it without
+any assistance from LLMs, which I did, but not entirely without assistance. I got stuck somewhere in the code and wanted to use an LLM, but this time not to code the part where I got stuck,
+but to explain the concept clearly so I could do it myself. Then I realized I could just use the LLM to teach me stuff without giving me all the answers. And it can do all the grunt work, so I don't get bored. Let's say you want to build a chat app to learn something. You need two things, a server and a client, and let's say you just want to practice how the server part works. Why would you
+kill your motivation implementing the client if it doesn't interest you? This is where the LLM comes to our aid. You can let the LLM do the boring parts for you, like tests, tooling, and visualization. I don't mean those are useless in any way. I'm just saying if they don't interest you, don't bother doing them.
+
+So I started looking at how other people do it, and found a skill called "socratic-code-mentor". It doesn't hand you the answer. It asks the right questions, so you reach the
+answer yourself, and that's what makes it stick.
+
+Here's a simplified example:
+
+> **Me:** My sum should be 6, but I get `NaN`:
+>
+> ```js
+> const nums = [1, 2, 3];
+> let sum = 0;
+> for (let i = 0; i <= nums.length; i++) sum += nums[i];
+> console.log(sum); // NaN
+> ```
+>
+> **LLM:** How many items are in `nums`, and what is the last index?
+>
+> **Me:** Three items, so the last index is 2.
+>
+> **LLM:** Which values of `i` does your loop run with?
+>
+> **Me:** 0, 1, 2, 3… oh. `nums[3]` is `undefined`, and `6 + undefined` is `NaN`.
+>
+> **LLM:** Right:
+>
+> ```
+> index:   0  1  2  3
+> nums:   [1, 2, 3]  undefined
+> i:       ▲  ▲  ▲  ▲  ← one step too far
+> ```
+>
+> How would you fix it?
+>
+> **Me:** Use `i < nums.length`.
+
+So the LLM didn't just tell me "your loop runs one step too far". It asked two questions and drew one picture, and I found the bug myself. I won't forget it, because it forced me to think it through on my own.
+
+We learn by working things out, not by accepting every fact we're given. _Make It Stick_ (great book, btw, if you're into the psychology of learning) says it well:
+
+> "When you're asked to struggle with solving a problem before being shown how to solve it, the subsequent solution is better learned and more durably remembered."[^2]
+
+The brain works like a muscle, you have to exercise it if you want things to stick.
+
+Even my beloved friend and CTO plays these mind games with me. When I ask "Why don't we do it like **X**?", he replies "Why do you think we should do **X**?" I explain my reasoning, he asks another question about my answer, and eventually I land on a proper answer myself. And it sticks.
+
+So you have to exercise your brain a bit. That's exactly what this skill does, it makes you question things.
+
+The other critical piece of the puzzle is keeping your spirits up, and that takes discipline. If you're building a non-trivial project to learn something, you won't finish it overnight. So plan what you need to achieve beforehand, and you won't waste time figuring out what to work on next. Otherwise, you'll start your next session by staring at a blank screen for 30 minutes. At least I do. We tend to procrastinate when we're unmotivated or undisciplined.
+
+The goal is that you sit down at your computer, tell your LLM "Let's continue", and it takes you from where you left off. Surprisingly, LLMs are really, really good at making goal lists for you.
+
+Say you want to build a toy LevelDB, or in plain words, an LSM-tree (if you're not a programmer and still reading this, I'm sorry). Ask your LLM to split it into phases with clear goals. Then every time you start a new session, you get to tick a box.
+
+After Bitcask, I wanted something harder and database related, so I started building an LSM-tree and called it tinylsm ( I'll probably keep doing my tiny-xyz projects). Here's a trimmed version of the `PLAN.md` I used for [tinylsm](https://github.com/ogzhanolguncu/tinylsm):
+
+```markdown
+# tinylsm — Build Plan
+
+**Golden rule:** every phase ends with a working system and green tests.
+Never two half-built features at once.
+
+## Phase 2 — WAL (write-ahead log)
+
+**Goal:** survive crashes. Every write hits the log before memory,
+so after a crash we replay the log and lose nothing.
+
+**Steps:**
+
+1. Encode/decode one record.
+2. Append records to a file.
+3. Replay the file on startup; stop cleanly at a half-written last record.
+
+**Done when:** kill the process mid-write, restart, every finished write is back.
+
+**Trap:** a crash can cut the _last_ record in half. That's expected, not corruption.
+
+## Progress
+
+- [x] Phase 1 — Skiplist
+- [x] Phase 2 — WAL
+- [ ] Phase 3 — Memtable
+- [ ] ...
+```
+
+Every phase has the same four parts, a goal, small steps, a "done when" you can actually check, and the trap that will bite you. The checklist at the bottom is the "let's continue" part: the LLM reads it and knows where you are.
+
+That way you don't have to spend any willpower deciding what to do, and kick starting yourself takes more effort than you might think. It's even harder now, with the constant dopamine hits from LLMs, Shorts, and the rest. We want things done, and fast. A plan gives you exactly that, even when you're worn out, you can do a tiny bit and call it a quick win.
+
+And working this way actually teaches you more, because you keep coming back to the same project in short sessions, spread over days and weeks. It's like Zen master Dōgen's image of walking through fog: you don't notice you're getting wet, but you get wet little by little.[^3] Psychologists call this _spaced practice_: a little forgetting between sessions forces your brain to pull things back up, and that effort is what makes them stick.[^2]
+
+So far we've covered how to use an LLM properly for learning instead of one-shotting the solution, and how to plan so we don't procrastinate forever. But one thing is still missing.
+
+Personally, I enjoy what I do much more when I get visual feedback. It can be a half-assed UI, a REPL, whatever. It forces me to stay in the game and stay curious about what comes next. For tinylsm, I had the LLM build a tiny REPL where I could fill the database, watch tables pile up, and benchmark reads:
+
+```
+tinylsm> bench
+  miss latency vs L0 height
+    88 tables ██████████████████████████████ 174.9µs
+     1 table  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   1.7µs
+```
+
+Not gonna lie, seeing my own compaction code make reads 100× faster did fuel my motivation.
+
+I'd advise you to do the same on your next big project. I have a skill that does this, which I'll share at the end of the post, but just use your imagination. With LLMs, you can build whatever motivates you to go further.
+
+Last piece of advice, make your next project an ambitious one. Before LLMs, implementing something like an LSM-tree meant digging through a bunch of GitHub repos and reading specific sections of specific books. Now you can just say "I want to learn how XYZ works", and the LLM will research it and find you whatever you need. So in a sense, things got easier, but we got lazier. I guess that was always the case. We love getting lazy.
+
+## Wrapping Up
+
+Sort of a TLDR for lazy people like me:
+
+- Don't use the LLM to give you answers. Use it as your mentor.
+- Let the LLM do your grunt work: tests, tooling, and so on.
+- Plan beforehand with the LLM, so you stay motivated with the least amount of willpower. We already have so little of it nowadays.
+- Make progress visible: a REPL, a chart, anything that keeps you in the game.
+- Aim for quick wins. Even if you only work 30 minutes a day, it's better to be consistent than to go hard for 2 days and come back 10 days later.
+- Stay curious, and try to learn things beyond your grasp. Even if you're not the brightest one out there, you can tell the LLM "I don't understand" 100 times, and it will explain it again. So don't settle for easy stuff.
+
+Here's the skill I use: [socratic-code-mentor](https://gist.github.com/ogzhanolguncu/274e9974dc02942109ad70200f6d7b25). I found the original, then reshaped it around how I learn. Take it, and change it to fit you.
+
+Let me end with a quote I try to live by
+
+> "When you do something, you should burn yourself completely, like a good bonfire, leaving no trace of yourself."
+>
+> — Shunryu Suzuki[^3]
+
+## References
+
+[^1]: Justin Sheehy and David Smith. [_Bitcask: A Log-Structured Hash Table for Fast Key/Value Data_](https://riak.com/assets/bitcask-intro.pdf). Basho Technologies, 2010.
+
+[^2]: Peter C. Brown, Henry L. Roediger III, and Mark A. McDaniel. _Make It Stick: The Science of Successful Learning_. Harvard University Press, 2014.
+
+[^3]: Shunryu Suzuki. _Zen Mind, Beginner's Mind: Informal Talks on Zen Meditation and Practice_. Weatherhill, 1970. The fog image is Suzuki quoting Dōgen.
